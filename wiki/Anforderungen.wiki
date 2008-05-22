@@ -1,0 +1,13 @@
+==Momentane Aufgaben==
+
+===Alle===
+ # Diagramme anfertigen
+
+===MLP===
+
+===DVV===
+
+===GUI===
+ # GUI-Design anfertigen
+
+===DOK===
