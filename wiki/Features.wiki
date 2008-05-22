@@ -4,3 +4,4 @@
  * Vergleich von Ergebnissen
  * parallele Netze
  * Speicherung der Testdaten (verarbeitet)
+ * verarbeitete Daten einlesen
