@@ -1,5 +1,3 @@
-#summary Main Page
-
 = Introduction =
 
 YAPRNN ist ein unglaublich toller Pattern Recognition Kram
