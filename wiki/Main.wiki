@@ -7,5 +7,5 @@ YAPRNN ist ein unglaublich toller Pattern Recognition Kram
 
 = Details =
 
-1. [Anforderungen] <br>
-2. [Termine] <br>
+* [Anforderungen]
+* [Termine]
