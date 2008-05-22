@@ -1,4 +1,5 @@
 ==Treffen==
+ * 23.5.: Zusammenführung 22.5. und Felix' Dinge (13:00 vor dem FR)
  * 26.5.: Beendigung vom GUI-Design und Diagramme
 
 ==Fristen==
