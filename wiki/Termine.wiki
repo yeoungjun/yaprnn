@@ -1,8 +1,8 @@
 ==Treffen==
-* 26.5.: Beendigung vom GUI-Design und Diagramme
+ * 26.5.: Beendigung vom GUI-Design und Diagramme
 
 ==Fristen==
-* 27.5.: Abgabe GUI-Design und Diagramme (Klassenmodell, Sequenzdiagramme, Use-Cases)
+ * 27.5.: Abgabe GUI-Design und Diagramme (Klassenmodell, Sequenzdiagramme, Use-Cases)
 
 ==Vergangene==
-* 22.5.: weiterbasteln an GUI + Diagrammen
+ * 22.5.: weiterbasteln an GUI + Diagrammen
