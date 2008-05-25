@@ -1,9 +1,9 @@
 ==Treffen==
- * 23.5.: Zusammenführung 22.5. und Felix' Dinge (13:00 vor dem FR)
- * 26.5.: Beendigung vom GUI-Design und Diagramme
+ * 26.5.: Beendigung vom GUI-Design und Diagramme, speziell DVV (wieder 14/16 Uhr vor dem FR/FR6043)
 
 ==Fristen==
  * 27.5.: Abgabe GUI-Design und Diagramme (Klassenmodell, Sequenzdiagramme, Use-Cases)
 
 ==Vergangene==
  * 22.5.: weiterbasteln an GUI + Diagrammen
+ * 23.5.: Zusammenführung 22.5. und Felix' Dinge (13:00 vor dem FR)
