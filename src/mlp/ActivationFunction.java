@@ -1,6 +1,8 @@
 package mlp;
 
-public interface ActivationFunction {
+import java.io.Serializable;
+
+public interface ActivationFunction extends Serializable{
 
 	/**
 	 * Die normale Aktivierungsfunktion

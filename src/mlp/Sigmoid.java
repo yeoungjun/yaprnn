@@ -2,6 +2,8 @@ package mlp;
 
 public class Sigmoid implements ActivationFunction{
 
+	private static final long serialVersionUID = -7520433725747069333L;
+
 	public double compute(double x) {
 		return (1.0 / (1.0 + Math.exp(-x)));
 	}

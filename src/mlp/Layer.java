@@ -1,6 +1,10 @@
 package mlp;
 
-public class Layer {
+import java.io.Serializable;
+
+public class Layer implements Serializable {
+	private static final long serialVersionUID = -4607204450973284028L;
+
 	protected Layer prevLayer;
 
 	protected double[][] weightMatrix;
@@ -199,7 +203,10 @@ public class Layer {
 			
 		return 0.5 * retVal;
 	}
-	
+	/**
+	 * Gibt die Aktivierungsfunktion zurück.
+	 * @return Das ActivationFunction Objekt welches diese Schicht benutzt.
+	 */
 	public ActivationFunction getActivationFunction(){
 		return function;
 	}

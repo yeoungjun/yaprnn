@@ -2,6 +2,8 @@ package mlp;
 
 public class TangensHyperbolicus implements ActivationFunction {
 
+	private static final long serialVersionUID = -7432193650916186201L;
+
 	/**
 	 * Einfache Evaluierung der Funktion Tangens-Hyperbolicus mit dem Parameter x.
 	 * @param x Eingabewert in die Funktion tanh.
