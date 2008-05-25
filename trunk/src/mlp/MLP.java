@@ -1,7 +1,10 @@
 package mlp;
 
-public class MLP {
+import java.io.Serializable;
 
+public class MLP implements Serializable {
+
+	private static final long serialVersionUID = -5212835785366190139L;
 	protected Layer[] layer;
 	double eta;
 	
@@ -10,29 +13,6 @@ public class MLP {
 	 * Variablen.
 	 * 
 	 * @param inputNeurons
-	 *            Die Anzahl der Eingabeneuronen.
-	 * @param outputNeurons
-	 *            Die Anzahl der Ausgabeneuronen
-	 * @param hiddenLayers
-	 *            Die Array, dessen Größe gleich der Anzahl der versteckten
-	 *            Schichten ist. Als jeweiligen Wert ist die Anzahl der Neuronen
-	 *            der betreffenden Schicht anzugeben.
-	 * @param eta
-	 *            Die Lernrate
-	 * @param functions
-	 *            Dieses Array muss die entsprechenden Aktivierungsfunktionen
-	 *            der versteckten Schichten und der Eingabe- sowie
-	 *            Ausgabeschicht enthalten und braucht deshalb die Größe des
-	 *            Array hiddenLayers + 2
-	 * @param bias
-	 *            Ein Array dessen Wert den Bias jeder versteckten Schicht
-	 *            beschreibt. Braucht deshalb die Größe des Array hiddenLayers
-	 * @param autoencoder
-	 *            Gibt an ob das Netz als Autoencoder initialisiert werden soll.
-	 * @throws BadConfigException
-	 *             Wird bei fehlerhafter Konfiguration zurückgeworfen und
-	 *             enthält einen Fehlercode, mit dem der Fehler eindeutig
-	 *             bestimmt werden kann.
 	 */
 	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers,
 										double eta, ActivationFunction[] functions, double[] bias,
@@ -121,7 +101,7 @@ public class MLP {
 	}
 	
 	/**
-	 * Mit dieser Methode kann ein Testlauf gestartet wetden
+	 * Mit dieser Methode kann ein Testlauf gestartet werden.
 	 * 
 	 * @return
 	 */

@@ -2,6 +2,8 @@ package mlp;
 
 public class Linear implements ActivationFunction{
 
+	private static final long serialVersionUID = -7102325169146600623L;
+
 	public double compute(double x) {
 		return x;
 	}
