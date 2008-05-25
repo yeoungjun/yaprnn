@@ -22,7 +22,7 @@ public class TestMain {
 
 			
 			
-			NeuralNetwork testNetwork = new NeuralNetwork(2,2, layers, 0.2, f, bias, false);
+			MLP testNetwork = new MLP(2,2, layers, 0.2, f, bias, false);
 			double[] input = new double[2];
 			double[] target =  new double[2];
 			for(int i = 0; i < 2; i++) {
