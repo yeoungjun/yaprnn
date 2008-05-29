@@ -1,4 +1,4 @@
-package mlp;
+package yaprnn.mlp;
 
 public class TestMain {
 
