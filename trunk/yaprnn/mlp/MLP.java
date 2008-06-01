@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Arrays;
 
-import dvv.Data;
+import yaprnn.dvv.Data;
 
 public class MLP implements Serializable, NeuralNetwork {
 
