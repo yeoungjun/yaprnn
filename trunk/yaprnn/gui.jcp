@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+	<settings>
+		<label>gui</label>
+		<root_path>\</root_path>
+		<output_path>\</output_path>
+		<source_path>\</source_path>
+		<jdkprofile_ref>JDK version 1.6.0_01</jdkprofile_ref>
+		<compiler_ref>&lt;Default&gt;</compiler_ref>
+		<ant_ref/>
+		<virtual_folders>true</virtual_folders>
+	</settings>
+	<ant_events/>
+	<run_items>
+		<item run="GUI"/>
+		<item run="yaprnn.gui.GUI"/>
+		<item run="Test"/>
+	</run_items>
+	<runtimes>
+		<runtime>
+			<label>&lt;Default&gt;</label>
+			<application_ref/>
+			<applet_ref/>
+			<debugger_ref/>
+			<param/>
+			<run>yaprnn.gui.GUI</run>
+		</runtime>
+	</runtimes>
+	<libraries/>
+	<files>
+		<include>
+			<fileitem>
+				<path>Controller.java</path>
+			</fileitem>
+			<fileitem>
+				<path>GUI.java</path>
+			</fileitem>
+			<fileitem>
+				<path>View.java</path>
+			</fileitem>
+		</include>
+	</files>
+	<tasks/>
+</project>
