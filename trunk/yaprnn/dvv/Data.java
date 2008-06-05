@@ -40,7 +40,7 @@ public abstract class Data {
 	/**
 	 * Returns true if this object is part of the training data set, false otherwise.
 	 *
-	 * @Return true if the object is training data; false otherwise.
+	 * @return true if the object is training data; false otherwise.
 	 */
 	public boolean isTraining() {
 		return use == Use.TRAINING;
@@ -49,7 +49,7 @@ public abstract class Data {
 	/**
 	 * Returns true if this object is part of the test data set, false otherwise.
 	 *
-	 * @Return true if the object is test data; false otherwise.
+	 * @return true if the object is test data; false otherwise.
 	 */
 	public boolean isTest() {
 		return use == Use.TEST;
@@ -58,7 +58,7 @@ public abstract class Data {
 	/**
 	 * Returns true if this object is part of the not-used data set, false otherwise.
 	 *
-	 * @Return true if the object is neither test nor training data; false otherwise.
+	 * @return true if the object is neither test nor training data; false otherwise.
 	 */
 	public boolean isNotUsed() {
 		return use == Use.NOT_USED;
