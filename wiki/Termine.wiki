@@ -1,9 +1,11 @@
 ==Treffen==
- * 4.6.: 16:00 vor dem FR/FR 6043
+ * 9.6.: 14:00 vor dem FR/FR 6043; Abstimmung zwischen einzelnen Gruppen
 ==Fristen==
-
+ * 10.6.: 14:00 Fragenstellen in der Vorlesung
 
 ==Vergangene==
+ * 6.6.: 16:00 vor dem FR/FR 6043; Abstimmung zwischen einzelnen Gruppen
+ * 4.6.: 16:00 vor dem FR/FR 6043
  * 22.5.: weiterbasteln an GUI + Diagrammen
  * 23.5.: Zusammenführung 22.5. und Felix' Dinge (13:00 vor dem FR)
  * 26.5.: Beendigung vom GUI-Design und Diagramme, speziell DVV (wieder 14/16 Uhr vor dem FR/FR6043)
