@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="yaprnn" default="compile" basedir=".">
     
-	<property name="src" value="yaprnn"/>
+	<property name="src" value="src"/>
 	<property name="build" value="build"/>
 	      
 	<target name="init">
