@@ -51,6 +51,17 @@ class IdxPicture extends Data {
 		return rawData;
 	}
 
+	public byte[][] previewSubsampledData(int resolution, double overlap) {
+		if(resolution <= 0 || resolution > rawData.length)
+			return null;
+		int[][] subData = subsample(resolution, overlap);
+		byte[][] result = new byte[resolution][resolution];
+		for(int i=0; i<resolution; i++)
+			for(int j=0; j<resolution; j++)
+				result[i][j] = (byte)subData[i][j];
+		return result;
+	}
+
 	/** Performs the subsampling and scaling of the data.
 	 *
 	 *  @param resoltion       the desired resolution
@@ -59,11 +70,13 @@ class IdxPicture extends Data {
 	 */
 	public void subsample(int resolution, double overlap,
 				ActivationFunction scalingFunction) {
-		data = new double[rawData.length * rawData[0].length];
-		for(int i=0; i<rawData.length; i++)
-			for(int j=0; j<rawData[0].length; j++)
-				data[i*rawData[0].length + j] =
-						scalingFunction.compute(rawData[i][j]);
+		if(resolution <= 0 || resolution > rawData.length)
+			return;
+		int[][] subData = subsample(resolution, overlap);
+		data = new double[resolution*resolution];
+		for(int i=0; i<resolution; i++)
+			for(int j=0; j<resolution; j++)
+				data[i*resolution + j] = scalingFunction.compute(subData[i][j]);
 	}
 
 	/** Returns the filename this image was read from.
@@ -159,6 +172,29 @@ class IdxPicture extends Data {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	private int[][] subsample(int resolution, double overlap) {
+		int[][] subData = new int[resolution][resolution];
+		final double scaling = rawData.length / (double)resolution;
+		final int windowSize = (int)Math.round(scaling * (1+overlap));
+		for(int i=0; i<resolution; i++) {
+			for(int j=0; j<resolution; j++) {
+				final int x0 = (int)(j * scaling);
+				final int y0 = (int)(i * scaling);
+				final int xsize = x0 + windowSize < rawData[0].length
+							? windowSize : rawData[0].length - x0;
+				final int ysize = y0 + windowSize < rawData.length
+							? windowSize : rawData.length - y0;
+				final int size = xsize < ysize ? xsize : ysize;
+				subData[i][j] = 0;
+				for(int k=y0; k<y0+size; k++)
+					for(int l=x0; l<x0+size; l++)
+						subData[i][j] += rawData[k][l];
+				subData[i][j] /= size*size;
+			}
+		}
+		return subData;
 	}
 
 }
