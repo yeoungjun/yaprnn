@@ -16,10 +16,13 @@ public class DVV {
 	/** Constructs a DVV for holding {@link IdxPicture} data with the specified filenames.
 	 *
 	 *  @param dataFilename  the name of the file containing the image data
-	 *         labelFilename the name of the file containing the labels/targets
+	 *  @param labelFilename the name of the file containing the labels/targets
+	 *  @throws InvalidFileException if one of the files does not have the required format
+	 *  @throws FileMismatchException if the files do not appear to belong to the same dataset
+	 *  @throws NoSuchFileException if one of the files does not exist
 	 */
-	public DVV(String dataFilename, String labelFilename) throws InvalidFileException {
-		//TODO: error handling
+	public DVV(String dataFilename, String labelFilename)
+				throws InvalidFileException, FileMismatchException, NoSuchFileException {
 		allData = IdxPicture.readFromFile(dataFilename, labelFilename);
 	}
 	
