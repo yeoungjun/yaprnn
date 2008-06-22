@@ -12,6 +12,8 @@ public class DVV {
 	private Collection<Data> allData;
 	private Collection<Data> trainingData;
 	private Collection<Data> testData;
+	private int numInputNeurons;
+	private int numOutputNeurons;
 
 	/** Constructs a DVV for holding {@link IdxPicture} data with the specified filenames.
 	 *
@@ -24,6 +26,7 @@ public class DVV {
 	public DVV(String dataFilename, String labelFilename)
 				throws InvalidFileException, FileMismatchException, NoSuchFileException {
 		allData = IdxPicture.readFromFile(dataFilename, labelFilename);
+		numOutputNeurons = 10;
 	}
 	
 	/** Returns the whole data set.
@@ -62,6 +65,23 @@ public class DVV {
 		//TODO: error handling
 		for(Data data : allData)
 			data.subsample(resolution, overlap, scalingFunction);
+		numInputNeurons = resolution;
+	}
+
+	/** Returns the size of the input vector.
+	 *
+	 *  @return the size of the input vector
+	 */
+	public int getNumInputNeurons() {
+		return numInputNeurons;
+	}
+
+	/** Returns the size of the output vector.
+	 *
+	 *  @return the size of the output vector
+	 */
+	public int getNumOutputNeurons() {
+		return numOutputNeurons;
 	}
 
 	/** Selects training and test data and stores them in the appropriate collections. */
