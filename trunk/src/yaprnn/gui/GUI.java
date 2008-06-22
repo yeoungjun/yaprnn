@@ -13,11 +13,12 @@ public class GUI {
 	 * Main-Method zum testen.
 	 */
 	public static void main(String[] args) {
-		GUI gui = new GUI(new MainView());
+		new GUI(new MainView());
 	}
 
 	/**
 	 * Konstruktor
+	 * 
 	 * @param mv
 	 *            Die zu verwaltende MainView.
 	 */
@@ -34,9 +35,9 @@ public class GUI {
 	 */
 	public void setView(MainView mainView) {
 		if (this.mainView != null)
-			disconnectView();
+			disconnectMainView();
 		this.mainView = mainView;
-		connectView();
+		connectMainView();
 	}
 
 	/**
