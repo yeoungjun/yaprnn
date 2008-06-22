@@ -1,0 +1,443 @@
+\documentclass[a4paper,10pt]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+
+\title{MLP Modellierung}
+\author{Gruppe 3}
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+%\chapter{Datenlexikon}
+\section{Core}
+
+\subsection{Attribute}
+\subsubsection{trainingErrors}
+Trainingsfehler von den Epochen für die GUI.
+\subsubsection{testErrors}
+Testfehler von den Epochen für die GUI.
+
+
+\subsection{Funktionen}
+\subsubsection{classify}
+Klassifiziert Daten mit dem MLP.
+\begin{description}
+ \item[data] Zu klassifizierendes Datum.
+\end{description}
+\subsubsection{openIdxPicture}
+Öffnet Bilddaten.
+\begin{description}
+ \item[DataFilename] Dateiname der Rohdatendatei.
+ \item[LabelFilename] Dateiname der Targetwert-Datei.
+\end{description}
+\subsubsection{openAiffSound}
+Öffnet Audiodaten.
+\begin{description}
+ \item[Filenames] Dateinamen der Rohdatendateien.
+\end{description}
+\subsubsection{newMLP}
+Erzeugt ein neues MLP.
+\begin{description}
+ \item[layer] Anzahl und Größe der einzelnen Layer.
+ \item[activationFunctions] Aktivierungsfunktionen für die einzelnen Layer.
+ \item[autoEncoder] Training als Autoencoder?
+\end{description}
+\subsubsection{loadMLP}
+Lädt ein vorhandenes MLP.
+\begin{description}
+ \item[Filename] Dateiname des MLP-Saves.
+\end{description}
+\subsubsection{saveMLP}
+Speichert das aktuell geladene MLP.
+\begin{description}
+ \item[Filename] Dateiname des MLP-Saves.
+\end{description}
+\subsubsection{trainOnline}
+Trainiert ein MLP mit der Online-Lernmethode und einer gegebenen Lernrate.
+\begin{description}
+ \item[Eta] Lernrate.
+\end{description}
+\subsubsection{trainBatch}
+Trainiert ein MLP mit der Batch-Lernmethode und einer gegebenen Lernrate.
+\begin{description}
+ \item[Eta] Lernrate
+\end{description}
+\subsubsection{preprocess}
+Bereitet geöffnete Daten anhand der Konfiguration auf.
+\begin{description}
+ \item[resolution] Anzahl an Bildpunkten im aufbereiteten Bild.
+ \item[overlap] Gewünschte Überlappung beim Aufbereiten.
+ \item[ActivationFunction] Aktivierungsfunktion für die Skalierung.
+\end{description}
+\subsubsection{getAllActivationFunctions}
+Liefert Pointer auf alle existierenden Aktivierungsfunktionen (für die Anzeige durch die GUI).
+\begin{description}
+ \item[ActivationFunctions] Liste von Aktivierungsfunktionen.
+\end{description}
+
+
+
+\section{Interface NeuralNetwork}
+Dieses Interface wird vom MLP implementiert. Es dient dazu, das MLP von der GUI zu isolieren.
+\subsection{Funktionen}
+\subsubsection{getNumLayers}
+Liefert die Anzahl der Schichten einen NeuronalenNetzes.
+
+
+\subsubsection{getLayerSize}
+Liefert die Größe einer bestimmten Schicht.
+\begin{description}
+ \item[layer] Nummer der Schicht, deren Größe zurückgegeben werden soll.
+\end{description}
+
+
+\subsubsection{getWeights}
+Liefert die Gewichtsmatrix zwischen zwei Schichten.
+\begin{description}
+\item[layer] Nummer der hinteren Schicht der zurückgegebenen Gewichtsmatrix.
+\end{description}
+
+
+\subsubsection{getActivationFunction}
+Liefert die Aktivierungsfunktion einer Schicht.
+\begin{description}
+\item[layer] Nummer der Schicht, deren Aktivierungsfunktion zurückgegeben werden soll.
+\end{description}
+
+
+\subsubsection{getBias}
+Liefert den Bias einer Schicht.
+\begin{description}
+\item[layer] Nummer der Schicht, deren Aktivierungsfunktion zurückgegeben werden soll.
+\end{description}
+
+
+
+\section{Klasse: MLP}
+\subsection{Attribute}
+\begin{description}
+ \item[layer] Ein Array, das alle Schichten des MLP's speichert.
+\end{description}
+
+\subsection{Funktionen}
+\subsubsection{MLP}
+Konstruktor; Erstellt das neuronale Netz und setzt die benötigten Variablen.
+\begin{description}
+\item[inputNeurons] Die Anzahl der Eingabeneuronen.
+\item[outputNeurons] Die Anzahl der Ausgabeneuronen
+\item[hiddenLayers] Die Array, dessen Größe gleich der Anzahl der versteckten Schichten ist. Als jeweiligen Wert ist die Anzahl der Neuronen
+ der betreffenden Schicht anzugeben.
+ \item[functions] Dieses Array muss die entsprechenden Aktivierungsfunktionen der versteckten Schichten und der Eingabe- sowie
+ Ausgabeschicht enthalten und braucht deshalb die Größe des Array hiddenLayers + 2.
+ \item[bias] Ein Array dessen Wert den Bias jeder versteckten Schicht beschreibt. Braucht deshalb die Größe des Array hiddenLayers
+ \item[autoencoder] Gibt an ob das Netz als Autoencoder initialisiert werden soll.
+\end{description}
+
+
+\subsubsection{runOnline}
+Diese Funktion führt eine Berechnung mit dem neuronalen Netz im Online-Lernmmodus durch
+\begin{description}
+\item[in] Eingabedaten
+\item[eta] Die Lernrate
+\end{description}
+
+
+\subsubsection{runBatch}
+Diese Funktion führt eine Berechnung mit dem neuronalen Netz im Batch-Lernmmodus durch.
+\begin{description}
+\item[in] Eingabedaten
+\item[eta] Die Lernrate
+\end{description}
+
+
+\subsubsection{runTest}
+Mit dieser Methode kann ein Testlauf gestartet werden.
+\begin{description}
+\item[in] Eingabedaten
+\end{description}
+
+
+\section{Klasse: Layer}
+\subsection{Attribute}
+\begin{description}
+\item[prevLayer] Die vorhergehende Schicht.
+\item[weightMatrix] Die Gewichtsmatrix zwischen dieser Schicht und der vorhergehenden.
+\item[gradientMatrix] Mit Hilfe dieser Matrix sollen die Gradienten gespeichert und beim ``Update''-Schritt verwendet werden.
+\item[function] Die Aktivierungsfunktion der Schicht.
+\item[output] Speichert die Ausgabe der Schicht
+\item[input] Speichert die Eingabe der vorhergehenden Schicht.
+\item[layerInput] Speichert die Eingabe dieser Schicht.
+\item[bias] Der Bias dieser Schicht.
+\end{description}
+
+\subsection{Funktionen}
+\subsubsection{Layer}
+Konstruktor; wird mit der vorhergehenden Schicht initialisiert, sowie der Aktivierungsfunktion und des Bias
+\begin{description}
+\item[prevLayer] Die vorhergehende Schicht; Null wenn diese Schicht die Eingabeschicht des Netzes ist.
+\item[neurons] Die Neuronen dieser Schicht.
+\item[function] Die Aktivierungsfunktion dieser Schicht
+\item[bias]  Der Bias. Ein Wert der zur Eingabe jedes Neurons eingerechnet wird.
+\end{description}
+
+
+\subsubsection{Layer}
+Diese Funktion wird bei der Eingabeschicht verwendet und setzt die Eingabedaten.
+\begin{description}
+\item[input] Ein Eingabevektor, der die gleiche Dimension wie die Neuronen braucht.
+\end{description}
+
+\subsubsection{getOutput}
+Diese Funktion verwendet den Verweis auf die letzte Schicht um den Ausgabevektor dieser Schicht zu erzeugen. Es wird also Rekursiv bis zur
+Eingabeschicht zurückgegriffen und mit den entsprechenden Gewichten multipliziert und ein Ausgabevektor erzeugt.
+
+\subsubsection{backPropagate}
+Diese Funktion wird bei der Eingabeschicht verwendet und setzt die Eingabedaten.
+\begin{description}
+\item[error]Der Fehler der vorherigen Schicht auf diese Schicht bezogen. Wenn diese Schicht die Augabeschicht ist, wird der Ausgabefehler
+gebraucht. Nach berechnung der nötigen Gewichtsveränderungen und Speicherung dieser, wird der Fehler der vorherigen Schicht errechnet und
+dieser dann an die nächste Schicht weitergegeben.
+\end{description}
+
+\subsubsection{update}
+Passt die Gewichte des Netztes an rekursiv an.
+\begin{description}
+\item[iterations] Die Anzahl der Durchläufe des Netztes seit dem letzten Update.
+\item[eta] Die Lernrate, die verwendet werden soll.
+\end{description}
+
+\subsubsection{getError}
+Berechnet den Fehlerwert proportional zum Sollwert und berechnet den Gesammtfehler.
+\begin{description}
+\item[target] Der Sollwertvektor
+\end{description}
+
+\subsubsection{getActivationFunction}
+Gibt die Aktivierungsfunktion zurück.
+
+
+
+\section{Interface ActivationFunction}
+\subsection{Funktionen}
+\subsubsection{compute}
+Berechnet den Funktionswert. f(x) = ?
+\begin{description}
+\item[layer] Eingabewert der Funktion.
+\end{description}
+
+\subsubsection{derivation}
+Berechnet den Funktionswert der Ableitung. f'(x) = ?
+\begin{description}
+\item[layer] Eingabewert der Funktion.
+\end{description}
+
+\subsubsection{getMinimumValue}
+Liefert den Minimalwert der Funktion - sofern nicht festlegbar
+den Wert Double.MIN\_VALUE
+
+\section{DVV}
+
+\subsection{Attribute}
+
+\begin{description}
+\item[allData] Der gesamte Datensatz.
+\item[testData] Der Testdatensatz.
+\item[trainingData] Der Trainingsdatensatz.
+\end{description}
+
+\subsection{Funktionen}
+
+\subsubsection{DVV}
+Erstellt die DVV für die Verarbeitung von Audiodaten.
+\begin{description}
+\item[filenames] Die Dateinamen der AIFF-Files.
+\end{description}
+
+\subsubsection{DVV}
+Erstellt die DVV für die Verarbeitung von Videodaten.
+\begin{description}
+\item[dataFilename] Die Datei, welche die Rohdaten enthält.
+\item[labelFilename] Die Datei, welche die Target-Werte enthält.
+\end{description}
+
+\subsubsection{getDataSet}
+Liefert die geladenen Rohdaten, damit die GUI sie anzeigen kann.
+
+\subsubsection{getTrainingData}
+Liefert den Trainings-Datensatz.
+
+\subsubsection{getTestData}
+Liefert den Test-Datensatz.
+
+\subsubsection{selectTrainingData}
+Sortiert den Datensatz nach Test- und Trainingsdaten.
+
+\section{Data (abstract)}
+
+\subsection{Attribute}
+
+\begin{description}
+\item[use] Gibt an, ob das Datum zum Test- oder Trainingsdatensatz gehört oder nicht verwendet wird.
+\end{description}
+
+\subsection{Funktionen}
+
+\subsubsection{getData}
+Liefert die fertig verarbeiteten und skalierten Daten.
+
+\subsubsection{getName}
+Liefert den von der GUI anzuzeigenden Namen des Datums.
+
+\subsubsection{getLabel}
+Liefert die String-Repräsentation des Zielwerts.
+
+\subsubsection{getTarget}
+Liefert die Integer-Repräsentation des Zielwerts.
+
+\subsubsection{getFilename}
+Liefert den Dateinamen, aus dem das Datum gelesen wurde.
+
+\subsubsection{getLabelFromTarget}
+Bildet ein Label auf den zugehörigen Integer-Wert ab.
+\begin{description}
+\item[target] Das zu mappende Target.
+\end{description}
+
+\subsubsection{subsample}
+Startet das Subsampling und skaliert die Daten.
+\begin{description}
+\item[resolution] Die Zielauflösung.
+\item[overlap] Die Überlapp des Fensters.
+\item[activationFunction] Die Funktion, die zur Skalierung der Daten verwendet wird.
+\end{description}
+
+\subsubsection{setTraining}
+Markiert das Datum als zum Trainingsdatensatz gehörend.
+
+\subsubsection{setTest}
+Markiert das Datum als zum Testdatensatz gehörend.
+
+\subsubsection{setNotUsed}
+Markiert das Datum als nicht benutzt.
+
+\subsubsection{isTraining}
+Gibt an, ob das Datum zum Trainingsdatensatz gehört.
+
+\subsubsection{isTest}
+Gibt an, ob das Datum zum Testdatensatz gehört.
+
+\subsubsection{isNotUsed}
+Gibt an, ob das Datum nicht benutzt wird.
+
+\section{IdxPicture}
+
+\subsection{Attribute}
+
+\begin{description}
+\item[data] Die verarbeiteten Daten.
+\item[rawData] Die Rohdaten.
+\item[label] Der Zielwert in String-Form.
+\item[target] Der Zielwert in Integer-Form.
+\item[fileIndex] Die Nummer des Datums in der Quelldatei.
+\item[filename] Die Quelldatei des Datums.
+\end{description}
+
+\subsection{Funktionen}
+
+\subsubsection{IdxPicture}
+Erstellt ein Neues IdxPicture-Objekt.
+\begin{description}
+\item[rawData] Die Rohdaten.
+\item[label] Der Zielwert.
+\item[filename] Der Name der Quelldatei.
+\item[fileIndex] Die Nummer des Datums in der Quelldatei.
+\end{description}
+
+\subsubsection{readFromFile}
+Liest eine Quelldatei und erstellt daraus eine Collection von IdxPicture-Objekten.
+\begin{description}
+\item[dataFilename] Der Name der Rohdaten-Datei.
+\item[labelFilename] Der Name der Zielwert-Datei.
+\end{description}
+
+\subsubsection{previewRawData}
+Liefert die Rohdaten, um sie dem Benutzer anzuzeigen.
+
+\subsubsection{previewSubsampledData}
+Liefert die vorverarbeiteten Daten, um sie dem Benutzer anzuzeigen.
+\begin{description}
+\item[resolution] Die Zielauflösung.
+\item[overlap] Der Überlapp.
+\end{description}
+
+\subsubsection{subsample}
+Startet das Subsampling.
+\begin{description}
+\item[resolution] Die Zielauflösung.
+\item[overlap] Der Überlapp.
+\item[activationFunction] Die für die Skalierung verwendete Aktivierungsfunktion.
+\end{description}
+
+
+\section{AiffSound}
+
+\subsection{Attribute}
+
+\begin{description}
+\item[data] Die verarbeiteten Daten.
+\item[rawData] Die Rohdaten.
+\item[label] Der Zielwert in String-Form.
+\item[target] Der Zielwert in Integer-Form.
+\item[filename] Die Quelldatei des Datums.
+\end{description}
+
+\subsection{Funktionen}
+
+\subsubsection{AiffSound}
+Erstellt ein neues AiffSound-Objekt.
+\begin{description}
+\item[rawData] Die Rohdaten.
+\item[label] Der Zielwert.
+\item[filename] Der Name der Quelldatei.
+\end{description}
+
+\subsubsection{readFromFile}
+Liest eine Quelldatei und erstellt daraus eine Collection von AiffSound-Objekten.
+\begin{description}
+\item[filename] Der Name der Quelldatei.
+\end{description}
+
+\subsubsection{subsample}
+Startet das Subsampling.
+\begin{description}
+\item[resolution] Die Zielauflösung.
+\item[overlap] Der Überlapp.
+\item[activationFunction] Die für die Skalierung verwendete Aktivierungsfunktion.
+\end{description}
+
+
+\section{GUI}
+
+\subsection{Funktionen}
+
+\subsubsection{setTrainingError}
+Setzt die Trainingsfehler in der GUI.
+\begin{description}
+\item[errorData] Die Liste der Trainingsfehler.
+\end{description}
+
+\subsubsection{setTestError}
+Setzt die Testfehler in der GUI.
+\begin{description}
+\item[errorData] Die Liste der Testfehler.
+\end{description}
+
+\subsubsection{setDataSet}
+Setzt die Liste der geladenen Daten in der GUI.
+\begin{description}
+\item[dataSet] Die Liste der geladenen Daten.
+\end{description}
+
+
+\end{document}

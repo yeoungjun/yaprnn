@@ -11,6 +11,9 @@ public class GUI {
 
 	/**
 	 * Main-Method zum testen.
+	 * 
+	 * @param args
+	 *            Argumente
 	 */
 	public static void main(String[] args) {
 		new GUI(new MainView());
