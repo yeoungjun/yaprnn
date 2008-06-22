@@ -30,9 +30,8 @@ class ActivationFunctionEditor extends JComboBox implements CellEditor {
 		// editing.
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				if (stopCellEditing()) {
+				if (stopCellEditing())
 					fireEditingStopped();
-				}
 			}
 		});
 	}
@@ -46,9 +45,8 @@ class ActivationFunctionEditor extends JComboBox implements CellEditor {
 		// Stop editing only if the user entered a valid value.
 		try {
 			value = (String) getSelectedItem();
-			if (value == null) {
+			if (value == null)
 				value = (String) getItemAt(0);
-			}
 			return true;
 		} catch (Exception e) {
 			// Something went wrong.
