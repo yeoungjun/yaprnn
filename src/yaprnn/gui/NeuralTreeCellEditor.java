@@ -1,4 +1,4 @@
-package yaprnngui;
+package yaprnn.gui;
 
 import java.awt.Component;
 import javax.swing.tree.TreeCellEditor;
@@ -30,7 +30,7 @@ public class NeuralTreeCellEditor implements TreeCellEditor{
         
         DefaultMutableTreeNode tmp = (DefaultMutableTreeNode)value;
         currentEditor = neuronEditor;
-	if(((String)tmp.getUserObject()).indexOf("Neurons") > -1){
+        if(((String)tmp.getUserObject()).indexOf("Neurons") > -1){
             currentEditor = neuronEditor;
         }else if(((String)tmp.getUserObject()).indexOf("AVF") > -1){
             currentEditor = avfEditor;
