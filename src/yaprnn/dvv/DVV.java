@@ -55,6 +55,37 @@ public class DVV {
 		return testData;
 	}
 
+	/** Randomly selects data for the training or test data set, according to the specified percentages.
+	 *
+	 *  @param trainingDataPercentage the percentage of data to be used for training
+	 *  @param testDataPercentage the percentage of data to be used for testing
+	 */ 
+	public void chooseRandomTrainingData(double trainingDataPercentage, double testDataPercentage) {
+		int numTraining = (int)(allData.size() * trainingDataPercentage);
+		int numTest = (int)(allData.size() * testDataPercentage);
+		int numNotUsed = allData.size() - numTraining - numTest;
+		java.util.Random random = new java.util.Random();
+		for(Data data : allData) {
+			switch(random.nextInt(3)) {
+				case 0: if(numTraining > 0) {
+					--numTraining; data.setTraining(); break;
+				}
+				case 1: if(numTest > 0) {
+					--numTest; data.setTest(); break;
+				}
+				case 2: if(numNotUsed > 0) {
+					--numNotUsed; data.setNotUsed(); break;
+				}
+				case 3: if(numTraining > 0) {
+					--numTraining; data.setTraining(); break;
+				}
+				case 4: if(numTest > 0) {
+					--numTest; data.setTest(); break;
+				}
+			}
+		}
+	}
+
 	/** Preprocesses the whole data set.
 	 *
 	 *  @param resolution      the data is to be sampled to
@@ -65,7 +96,7 @@ public class DVV {
 		//TODO: error handling
 		for(Data data : allData)
 			data.subsample(resolution, overlap, scalingFunction);
-		numInputNeurons = resolution;
+		numInputNeurons = resolution * resolution;
 	}
 
 	/** Returns the size of the input vector.
@@ -76,7 +107,7 @@ public class DVV {
 		return numInputNeurons;
 	}
 
-	/** Returns the size of the output vector.
+	/** Retuns the size of the output vector.
 	 *
 	 *  @return the size of the output vector
 	 */
@@ -86,6 +117,7 @@ public class DVV {
 
 	/** Selects training and test data and stores them in the appropriate collections. */
 	private void selectTrainingData() {
+		System.out.println("selecting training data");
 		trainingData = new LinkedList<Data>();
 		testData = new LinkedList<Data>();
 		for(Data data : allData)
