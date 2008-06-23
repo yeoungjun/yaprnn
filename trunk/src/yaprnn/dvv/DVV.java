@@ -29,6 +29,15 @@ public class DVV {
 		numOutputNeurons = 10;
 	}
 	
+	/** Constructs a DVV for holding {@link AiffSound} data with the specified filenames.
+	 *
+	 *  @param filename the names of the file containing the sound data
+	 */
+	public DVV(Collection<String> filenames) throws InvalidFileException {
+		allData = AiffSound.readFromFile(filenames);
+		numOutputNeurons = 5;
+	}
+
 	/** Returns the whole data set.
 	 *
 	 *  @return the data set
