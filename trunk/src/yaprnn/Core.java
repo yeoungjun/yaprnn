@@ -9,7 +9,7 @@ import yaprnn.mlp.*;
  *  It contains the methods for opening files, preprocessing, training and classifying,
  *  which are called by the GUI.
  */
-class Core {
+public class Core {
 
 	private MLP mlp;
 	private DVV dvv;
