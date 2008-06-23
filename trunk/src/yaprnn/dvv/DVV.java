@@ -117,7 +117,6 @@ public class DVV {
 
 	/** Selects training and test data and stores them in the appropriate collections. */
 	private void selectTrainingData() {
-		System.out.println("selecting training data");
 		trainingData = new LinkedList<Data>();
 		testData = new LinkedList<Data>();
 		for(Data data : allData)
