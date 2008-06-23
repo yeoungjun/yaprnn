@@ -13,13 +13,17 @@ class Core {
 
 	private MLP mlp;
 	private DVV dvv;
+	//private GuiInterface guiInterface;
 	private List<ActivationFunction> activations;
+	private List<Double> trainingErrors;
+	private List<Double> testErrors;
 
 	/** Constructs a new Core Object. */
 	public Core() {
 		activations = new LinkedList<ActivationFunction>();
 		activations.add(new TangensHyperbolicus());
 		activations.add(new Sigmoid());
+		activations.add(new Linear());
 	}
 
 	/** Classifies the given data item. This method returns a vector of percentages,
@@ -44,7 +48,7 @@ class Core {
 
 	/** Opens an IdxPicture data set contained in the specified filenames.
 	 *  
-	 *  @param dataFilename the file containing the image data
+	 *  @param dataFilename  the file containing the image data
 	 *  @param labelFilename the file containing the image labels
 	 */
 	public void openIdxPicture(String dataFilename, String labelFilename) {
@@ -79,7 +83,7 @@ class Core {
 			if(numInputNeurons > 0 && numOutputNeurons > 0) {
 				ActivationFunction[] functions = new ActivationFunction[activationFunction.length];
 				for(int i=0; i<functions.length; i++)
-					functions[i] = activations.get(i);
+					functions[i] = activations.get(activationFunction[i]);
 				//TODO: try-catch block provisorisch, eignetlich ist hier keine Exception nötig
 				try {
 					mlp = new MLP(numInputNeurons, numOutputNeurons, layer,
@@ -131,17 +135,66 @@ class Core {
 		}
 	}
 
+	/** Performs online training with the specified parameters, using the current data set and mlp.
+	 *
+	 *  @param eta           the learning rate
+	 *  @param maxIterations the maximum number of iterations (epochs) to perform
+	 *  @param maxError      training stops if the test error falls below maxError
+	 */
+	public void trainOnline(double eta, int maxIterations, double maxError) {
+		trainingErrors = new LinkedList<Double>();	
+		testErrors = new LinkedList<Double>();	
+		//TODO: Damit das funktioniert, muss das GuiInterface geschrieben werden
+		for(int i=0; i<maxIterations; i++) {
+			try { 
+				final double trainingErr = mlp.runOnline(dvv.getTrainingData(), eta);
+				final double testErr = mlp.runTest(dvv.getTestData());
+				trainingErrors.add(trainingErr);
+				testErrors.add(testErr);
+				//guiInterface.setTrainingError(trainingErrors);
+				//guiInterface.setTestError(testErrors);
+				if(testErr < maxError)
+					break;
+			} catch(BadConfigException e) {
+				System.out.println("BadConfigException in trainOnline");
+				System.out.println(e.getMessage());
+				//TODO: Eine Exception ist hier eigentlich nicht nötig
+				return;
+			}
+		}
+	}
+
+	/** Performs batch training with the specified parameters, using the current data set and mlp.
+	 *
+	 *  @param eta           the learning rate
+	 *  @param maxIterations the maximum number of iterations (epochs) to perform
+	 *  @param maxError      training stops if the test error falls below maxError
+	 */
+	public void trainBatch(double eta, int maxIterations, double maxError) {
+		//TODO
+	}
+
 	/** Preprocesses the currently loaded data set using the specified parameters.
 	 *  If no data set is loaded, this method does nothing.
 	 *
-	 *  @param resolution the desired resolution of the result
-	 *  @param overlap    the window overlap used for subsampling. Must be a value between 0 and 0.95
+	 *  @param resolution      the desired resolution of the result
+	 *  @param overlap         the window overlap used for subsampling. Must be a value between 0 and 0.95
 	 *  @param scalingFunction the function used to scale (e.g. to the range [0, 1]) the subsampled data
 	 */
 	public void preprocess(int resolution, double overlap, ActivationFunction scalingFunction) {
 		//TODO: Was soll hier passieren, falls die Subsampling-Parameter ungültig sind ?
 		if(dvv != null)
 			dvv.preprocess(resolution, overlap, scalingFunction);
+	}
+
+	/** Randomly selects data for the training or test data set, according to the specified percentages.
+	 *
+	 *  @param trainingDataPercentage the percentage of data to be used for training
+	 *  @param testDataPercentage the percentage of data to be used for testing
+	 */ 
+	public void chooseRandomTrainingData(double trainingDataPercentage, double testDataPercentage) {
+		if(dvv != null)
+			dvv.chooseRandomTrainingData(trainingDataPercentage, testDataPercentage);
 	}
 
 	/** Returns a list of all available activation functions.

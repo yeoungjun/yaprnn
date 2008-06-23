@@ -170,6 +170,44 @@ public class MLP implements Serializable, NeuralNetwork {
 		
 	}
 
+	/** Diese Methode fuehrt einen Test mit den uebergebenen Daten durch.
+	 *
+	 *  @param dataCollection die Daten, die fuer den Test verwendet werden sollen
+	 *  @return den Testfehler
+	 */
+	public double runTest(Collection<Data> dataCollection) throws BadConfigException {
+		double err = 0;
+		double[] out;
+		double[] target = new double[layer[layer.length - 1].getSize()];
+		for (Data theData : dataCollection) {
+			// Zielwert erzeugen
+			Arrays.fill(target, 0);
+			target[theData.getTarget()] = 1;
+
+			// Eingabedaten setzen
+			layer[0].setInput(theData.getData());
+
+			// Ausgabe berechnen
+			out = layer[layer.length - 1].getOutput();
+
+			// Fehler bestimmen
+			err += layer[layer.length - 1].getError(target);
+
+			/*
+			// Aktuelle Werte ausgeben
+			for (double value : out)
+				System.out.print(value + " | ");
+			System.out.println("Der Fehler beträgt noch " + err);
+			*/
+
+			// Den Fehler an der Ausgabeschicht berechnen
+			double[] errVec = new double[target.length];
+			for (int h = 0; h < target.length; h++)
+				errVec[h] = out[h] - target[h];
+		}
+		return err / dataCollection.size();
+	}
+
 	/**
 	 * Mit dieser Methode kann ein Testlauf gestartet werden.
 	 * 
