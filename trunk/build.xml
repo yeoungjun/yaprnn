@@ -3,13 +3,18 @@
     
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
+	<property name="lib" value="lib"/>
+
+	<path id="classpath">
+		<fileset dir="${lib}"/>
+	</path>
 	      
 	<target name="init">
 		<mkdir dir="${build}"/>
 	</target>
 			           
 	<target name="compile" depends="init">
-		<javac srcdir="${src}" destdir="${build}"/>
+		<javac srcdir="${src}" destdir="${build}" classpathref="classpath"/>
 	</target>
 
 </project>
