@@ -1,9 +1,11 @@
 ==Treffen==
- * 9.6.: 14:00 vor dem FR/FR 6043; Abstimmung zwischen einzelnen Gruppen
+ * 24.6.: 14:00 HFT-FT 101
+
 ==Fristen==
- * 10.6.: 14:00 Fragenstellen in der Vorlesung
+ * 22.7.: Abgabe!!!
 
 ==Vergangene==
+ * 10.6.: 14:00 Fragenstellen in der Vorlesung
  * 6.6.: 16:00 vor dem FR/FR 6043; Abstimmung zwischen einzelnen Gruppen
  * 4.6.: 16:00 vor dem FR/FR 6043
  * 22.5.: weiterbasteln an GUI + Diagrammen
