@@ -51,6 +51,11 @@ class IdxPicture extends Data {
 		return rawData;
 	}
 
+	/** Returns the data subsampled with the specified parameters (not yet scaled).
+	 *
+	 *  @param resolution      the desired resolution
+	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
+	 */
 	public byte[][] previewSubsampledData(int resolution, double overlap) {
 		if(resolution <= 0 || resolution > rawData.length || overlap < 0.0 || overlap > 0.95)
 			return null;
@@ -132,41 +137,52 @@ class IdxPicture extends Data {
 	 */
 	public static Collection<Data> readFromFile(String dataFilename, String labelFilename)
 				throws NoSuchFileException, InvalidFileException, FileMismatchException {
-		DataInputStream dataInput, labelInput;
+		DataInputStream dataInput = null, labelInput = null;
 		int numImagesData = 0, numImagesLabel = 0;
+		Collection<Data> result = null;
 		try {
-			dataInput = new DataInputStream(new FileInputStream(dataFilename));
-		} catch(FileNotFoundException e) {
-			throw new NoSuchFileException(dataFilename);
-		}
-		try {
-			labelInput = new DataInputStream(new FileInputStream(labelFilename));
-		} catch(FileNotFoundException e) {
-			throw new NoSuchFileException(labelFilename);
-		}
-		try {
-			final int dataMagicNumber = dataInput.readInt();
-			if(dataMagicNumber != DATA_MAGIC_NUMBER)
+			try {
+				dataInput = new DataInputStream(new FileInputStream(dataFilename));
+			} catch(FileNotFoundException e) {
+				throw new NoSuchFileException(dataFilename);
+			}
+			try {
+				labelInput = new DataInputStream(new FileInputStream(labelFilename));
+			} catch(FileNotFoundException e) {
+				throw new NoSuchFileException(labelFilename);
+			}
+			try {
+				final int dataMagicNumber = dataInput.readInt();
+				if(dataMagicNumber != DATA_MAGIC_NUMBER)
+					throw new InvalidFileException(dataFilename);
+				numImagesData = dataInput.readInt();
+			} catch(EOFException e) {
 				throw new InvalidFileException(dataFilename);
-			numImagesData = dataInput.readInt();
-		} catch(EOFException e) {
-			throw new InvalidFileException(dataFilename);
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			final int labelMagicNumber = labelInput.readInt();
-			if(labelMagicNumber != LABEL_MAGIC_NUMBER)
+			}
+			try {
+				final int labelMagicNumber = labelInput.readInt();
+				if(labelMagicNumber != LABEL_MAGIC_NUMBER)
+					throw new InvalidFileException(labelFilename);
+				numImagesLabel = labelInput.readInt();
+			} catch(EOFException e) {
 				throw new InvalidFileException(labelFilename);
-			numImagesLabel = labelInput.readInt();
-		} catch(EOFException e) {
-			throw new InvalidFileException(labelFilename);
+			}
+			if(numImagesData != numImagesLabel)
+				throw new FileMismatchException(dataFilename, labelFilename);
+			result = readDataFromFile(dataInput, labelInput, numImagesData, dataFilename, labelFilename);
 		} catch(IOException e) {
-			e.printStackTrace();
+			e.printStackTrace();	
+		} finally {
+			try {
+				if(dataInput != null)
+					dataInput.close();
+				if(labelInput != null)
+					labelInput.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+			return result;
 		}
-		if(numImagesData != numImagesLabel)
-			throw new FileMismatchException(dataFilename, labelFilename);
-		return readDataFromFile(dataInput, labelInput, numImagesData, dataFilename, labelFilename);
 	}
 
 	private static Collection<Data> readDataFromFile(DataInputStream dataInput, DataInputStream labelInput,

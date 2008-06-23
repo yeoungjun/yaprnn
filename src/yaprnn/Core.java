@@ -26,7 +26,8 @@ class Core {
 		activations.add(new Linear());
 	}
 
-	/** Classifies the given data item. This method returns a vector of percentages,
+	/** Classifies the given data item.
+	 *  This method returns a vector of percentages,
 	 *  the size of which is equal to the number of classes into which the data
 	 *  is classified. An entry   classify(input)[k] == p   means that input has
 	 *  a chance of p to belong to class k.
@@ -50,23 +51,13 @@ class Core {
 	 *  
 	 *  @param dataFilename  the file containing the image data
 	 *  @param labelFilename the file containing the image labels
+	 *  @throws NoSuchFileException if one of the files does not exist or could not be opened
+	 *  @throws InvalidFileException if one of the files does not have the expected format
+	 *  @throws FileMismatchException if the two files appear to belong to distinct data sets
 	 */
-	public void openIdxPicture(String dataFilename, String labelFilename) {
-		//TODO: Hier muss entschieden werden, wie die Fehlerbehandlung abläuft.
-		//	Sollen die Exceptions direkt nach außen an die GUI weitergereicht werden ?
-		//	In den Exceptions sind alle relevanten Daten (die Dateinamen) vorhanden.
-		//
-		//	Oder soll eine Funktion der GUI aufgerufen werden?
-		//	Diese Funktionen könnten dann in dem GUI-Interface sein.
-		try {
-			dvv = new DVV(dataFilename, labelFilename);
-		} catch(NoSuchFileException e) {
-			e.printStackTrace();
-		} catch(InvalidFileException e) {
-			e.printStackTrace();
-		} catch(FileMismatchException e) {
-			e.printStackTrace();
-		}
+	public void openIdxPicture(String dataFilename, String labelFilename)
+				throws NoSuchFileException, InvalidFileException, FileMismatchException {
+		dvv = new DVV(dataFilename, labelFilename);
 	}
 
 	/** Creates a new MLP using the specified parameters.
@@ -146,13 +137,14 @@ class Core {
 		testErrors = new LinkedList<Double>();	
 		//TODO: Damit das funktioniert, muss das GuiInterface geschrieben werden
 		for(int i=0; i<maxIterations; i++) {
-			try { 
+			try {
 				final double trainingErr = mlp.runOnline(dvv.getTrainingData(), eta);
 				final double testErr = mlp.runTest(dvv.getTestData());
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
 				//guiInterface.setTrainingError(trainingErrors);
 				//guiInterface.setTestError(testErrors);
+				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
 				if(testErr < maxError)
 					break;
 			} catch(BadConfigException e) {
