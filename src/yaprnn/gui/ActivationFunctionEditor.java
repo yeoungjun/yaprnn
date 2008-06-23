@@ -10,6 +10,9 @@ import javax.swing.JComboBox;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 
+/**
+ * Editor zur Auswahl der Aktivierungs-Funktion einer Schicht. 
+ */
 class ActivationFunctionEditor extends JComboBox implements CellEditor {
 
 	/**

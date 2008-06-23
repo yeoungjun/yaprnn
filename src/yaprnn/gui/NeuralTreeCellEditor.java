@@ -11,6 +11,9 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.CellEditor;
 
+/**
+ * Editor zur Anpassung der Struktur des Neuralen-Netzwerkes. 
+ */
 class NeuralTreeCellEditor implements TreeCellEditor {
 	private CellEditor currentEditor;
 	private DefaultCellEditor neuronEditor;
