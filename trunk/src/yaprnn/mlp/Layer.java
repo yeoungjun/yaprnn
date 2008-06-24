@@ -201,7 +201,7 @@ public class Layer implements Serializable {
 		
 		double retVal = 0;
 		for(int i = 0; i < output.length; i ++)
-			retVal += (output[i] - target[i]) * (output[i] - target[i]);
+			retVal += Math.pow(output[i] - target[i], 2);
 			
 		return 0.5 * retVal;
 	}
