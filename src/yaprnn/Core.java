@@ -13,7 +13,7 @@ public class Core {
 
 	private MLP mlp;
 	private DVV dvv;
-	//private GuiInterface guiInterface;
+	private GUIInterface gui;
 	private List<ActivationFunction> activations;
 	private List<Double> trainingErrors;
 	private List<Double> testErrors;
@@ -140,8 +140,10 @@ public class Core {
 		
 		for(int i=0; i<maxIterations; i++) {
 			try {
-				final double trainingErr = mlp.runOnline(dvv.getTrainingData(), eta);
-				final double testErr = mlp.runTest(dvv.getTestData());
+				Collection<Data> test = dvv.getTestData();
+				Collection<Data> train = dvv.getTrainingData();
+				final double trainingErr = mlp.runBatch(train, eta);
+				final double testErr = mlp.runTest(test);
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
 				
@@ -228,4 +230,19 @@ public class Core {
 		return activations;
 	}
 
+	/** Returns the GUI for the Core.
+	 *
+	 *  @return the GUI
+	 */
+	public GUIInterface getGUI() {
+		return gui;
+	}
+
+	/** Sets the GUI for the Core.
+	 */
+	public void setGUI(GUIInterface gui) {
+		this.gui = gui;
+	}
+	
+	
 }
