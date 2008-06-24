@@ -89,7 +89,7 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Ausgabe berechnen
 			out = layer[layer.length - 1].getOutput();
-
+			
 			// Fehler bestimmen
 			err += layer[layer.length - 1].getError(target);
 
@@ -107,7 +107,7 @@ public class MLP implements Serializable, NeuralNetwork {
 		}
 		
 		// Mittelwert berechnen  und Fehler zurückgeben
-		return err = err / dataCollection.size();
+		return err / dataCollection.size();
 	}
 
 	/**
@@ -144,9 +144,9 @@ public class MLP implements Serializable, NeuralNetwork {
 			err += layer[layer.length - 1].getError(target);
 
 			// Aktuelle Werte ausgeben
-			for (double value : out)
-				System.out.print(value + " | ");
-			System.out.println("Der Fehler beträgt noch " + err);
+			//for (double value : out)
+				//System.out.print(value + " | ");
+			//System.out.println("Der Fehler beträgt noch " + err);
 
 			// Den Fehler an der Ausgabeschicht berechnen
 			double[] errVec = new double[target.length];
@@ -161,7 +161,7 @@ public class MLP implements Serializable, NeuralNetwork {
 		layer[layer.length - 1].update(dataCollection.size(), eta);
 		
 		// Mittelwert berechnen  und Fehler zurückgeben
-		return err = err / dataCollection.size();
+		return err / dataCollection.size();
 		
 	}
 
@@ -188,17 +188,10 @@ public class MLP implements Serializable, NeuralNetwork {
 			// Fehler bestimmen
 			err += layer[layer.length - 1].getError(target);
 
-			/*
-			// Aktuelle Werte ausgeben
-			for (double value : out)
-				System.out.print(value + " | ");
-			System.out.println("Der Fehler beträgt noch " + err);
-			*/
-
 			// Den Fehler an der Ausgabeschicht berechnen
-			double[] errVec = new double[target.length];
-			for (int h = 0; h < target.length; h++)
-				errVec[h] = out[h] - target[h];
+			//double[] errVec = new double[target.length];
+			//for (int h = 0; h < target.length; h++)
+			//	errVec[h] = out[h] - target[h];
 		}
 		return err / dataCollection.size();
 	}
