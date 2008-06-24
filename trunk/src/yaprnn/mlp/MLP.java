@@ -1,8 +1,8 @@
 package yaprnn.mlp;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Arrays;
+import java.util.Collection;
 
 import yaprnn.dvv.Data;
 
@@ -92,13 +92,6 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Fehler bestimmen
 			err += layer[layer.length - 1].getError(target);
-
-			/*
-			// Aktuelle Werte ausgeben
-			for (double value : out)
-				System.out.print(value + " | ");
-			System.out.println("Der Fehler beträgt noch " + err);
-			*/
 
 			// Den Fehler an der Ausgabeschicht berechnen
 			double[] errVec = new double[target.length];

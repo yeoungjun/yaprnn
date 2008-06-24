@@ -135,21 +135,26 @@ public class Core {
 	public void trainOnline(double eta, int maxIterations, double maxError) {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();	
+		
 		//TODO: Damit das funktioniert, muss das GuiInterface geschrieben werden
+		
 		for(int i=0; i<maxIterations; i++) {
 			try {
 				final double trainingErr = mlp.runOnline(dvv.getTrainingData(), eta);
 				final double testErr = mlp.runTest(dvv.getTestData());
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
+				
 				//guiInterface.setTrainingError(trainingErrors);
 				//guiInterface.setTestError(testErrors);
+				
 				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
 				if(testErr < maxError)
 					break;
 			} catch(BadConfigException e) {
 				System.out.println("BadConfigException in trainOnline");
 				System.out.println(e.getMessage());
+				
 				//TODO: Eine Exception ist hier eigentlich nicht nötig
 				return;
 			}
@@ -163,7 +168,33 @@ public class Core {
 	 *  @param maxError      training stops if the test error falls below maxError
 	 */
 	public void trainBatch(double eta, int maxIterations, double maxError) {
-		//TODO
+		trainingErrors = new LinkedList<Double>();	
+		testErrors = new LinkedList<Double>();	
+		
+		//TODO: Damit das funktioniert, muss das GuiInterface geschrieben werden
+		
+		for(int i=0; i<maxIterations; i++) {
+			try {
+				final double trainingErr = mlp.runBatch(dvv.getTrainingData(), eta);
+				final double testErr = mlp.runTest(dvv.getTestData());
+				trainingErrors.add(trainingErr);
+				testErrors.add(testErr);
+				
+				//guiInterface.setTrainingError(trainingErrors);
+				//guiInterface.setTestError(testErrors);
+				
+				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
+				
+				if(testErr < maxError)
+					break;
+			} catch(BadConfigException e) {
+				System.out.println("BadConfigException in trainOnline");
+				System.out.println(e.getMessage());
+				
+				//TODO: Eine Exception ist hier eigentlich nicht nötig
+				return;
+			}
+		}
 	}
 
 	/** Preprocesses the currently loaded data set using the specified parameters.
