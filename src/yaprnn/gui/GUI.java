@@ -13,7 +13,7 @@ import yaprnn.gui.view.MainView;
 public class GUI implements GUIInterface {
 
 	private Core core;
-	private MainView mainView;
+	private MainView mainView = new MainView();
 
 	/**
 	 * Constructor
@@ -21,11 +21,11 @@ public class GUI implements GUIInterface {
 	 * @param mv
 	 *            the main view to be used
 	 */
-	public GUI(Core core, MainView mv) {
-		mainView = mv;
+	public GUI(Core core) {
+		this.core = core;
 		connectMainView();
 		mainView.setVisible(true);
-		core.setGUI(this);
+		this.core.setGUI(this);
 	}
 
 	/**
@@ -42,10 +42,10 @@ public class GUI implements GUIInterface {
 	 */
 	private void connectMainView() {
 		// Add menu listeners
-		new MenuExitActionListener(mainView);
+		new MenuExitActionListener(this);
 
 		// Add button listeners
-		new ToolImportActionListener(mainView);
+		new ToolImportActionListener(this);
 
 	}
 

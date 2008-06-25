@@ -1,7 +1,6 @@
 package yaprnn;
 
 import yaprnn.gui.GUI;
-import yaprnn.gui.view.MainView;
 
 public class Main {
 
@@ -10,7 +9,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		Core core = new Core();
-		new GUI(core, new MainView());
+		new GUI(core);
 	}
 
 }

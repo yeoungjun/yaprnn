@@ -12,7 +12,7 @@ import javax.swing.JTree;
 import javax.swing.CellEditor;
 
 /**
- * Editor zur Anpassung der Struktur des Neuralen-Netzwerkes. 
+ * TreeCell editor to customize the structure of a neural network. 
  */
 class NeuralTreeCellEditor implements TreeCellEditor {
 	private CellEditor currentEditor;
