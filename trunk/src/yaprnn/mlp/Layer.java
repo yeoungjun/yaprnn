@@ -193,18 +193,16 @@ public class Layer implements Serializable {
 	 * Berechnet den Fehlerwert proportional zum Sollwert und berechnet den Gesammtfehler. 
 	 * @param target Der Sollwert.
 	 * @return Gesammtfehler
-	 * @throws BadConfigException
 	 */
-	public double getError(double[] target) throws BadConfigException {
-		if(target == null) return 0;
-		if (target.length != output.length) throw new BadConfigException("Zielvektor hat eine falsche Dimension!", BadConfigException.INVALID_TARGET_VECTOR);
-		
-		double retVal = 0;
-		for(int i = 0; i < output.length; i ++)
-			retVal += Math.pow(output[i] - target[i], 2);
-			
-		return 0.5 * retVal;
-	}
+//	public double getError(double[] target) {
+//		if(target == null) return 0;
+//		
+//		double retVal = 0;
+//		for(int i = 0; i < output.length; i ++)
+//			retVal += Math.pow(output[i] - target[i], 2);
+//			
+//		return 0.5 * retVal;
+//	}
 	/**
 	 * Gibt die Aktivierungsfunktion zurück.
 	 * @return Das ActivationFunction Objekt welches diese Schicht benutzt.

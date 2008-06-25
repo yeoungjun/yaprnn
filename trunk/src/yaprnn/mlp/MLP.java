@@ -69,8 +69,8 @@ public class MLP implements Serializable, NeuralNetwork {
 	 * @throws BadConfigException
 	 */
 	public double runOnline(Collection<Data> dataCollection, double eta) throws BadConfigException {
-		if (layer == null)
-			return 0;
+		if (layer == null) return 0;
+		
 		if (eta < 0) throw new BadConfigException("Eta is negative!", BadConfigException.INVALID_ETA);
 
 		double err = 0;
@@ -90,9 +90,6 @@ public class MLP implements Serializable, NeuralNetwork {
 			// Ausgabe berechnen
 			out = layer[layer.length - 1].getOutput();
 			
-			// Fehler bestimmen
-			err += layer[layer.length - 1].getError(target);
-
 			// Den Fehler an der Ausgabeschicht berechnen
 			double[] errVec = new double[target.length];
 			for (int h = 0; h < target.length; h++)
@@ -103,6 +100,11 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Gewichte anpassen
 			layer[layer.length - 1].update(1, eta);
+			
+			// Fehler bestimmen und hinzuaddieren
+			double overallError = 0;
+			for(double e : errVec) overallError += Math.pow(e,2);
+			err += 0.5 * overallError;
 
 		}
 		
@@ -140,14 +142,6 @@ public class MLP implements Serializable, NeuralNetwork {
 			// Ausgabe berechnen
 			out = layer[layer.length - 1].getOutput();
 
-			// Fehler bestimmen
-			err += layer[layer.length - 1].getError(target);
-
-			// Aktuelle Werte ausgeben
-			//for (double value : out)
-				//System.out.print(value + " | ");
-			//System.out.println("Der Fehler beträgt noch " + err);
-
 			// Den Fehler an der Ausgabeschicht berechnen
 			double[] errVec = new double[target.length];
 			for (int h = 0; h < target.length; h++)
@@ -155,6 +149,12 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Fehler zurückpropagieren
 			layer[layer.length - 1].backPropagate(errVec);
+			
+			// Fehler bestimmen und hinzuaddieren
+			double overallError = 0;
+			for(double e : errVec) overallError += Math.pow(e,2);
+			err += 0.5 * overallError;
+
 		}
 
 		// Gewichte anpassen
@@ -184,14 +184,16 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Ausgabe berechnen
 			out = layer[layer.length - 1].getOutput();
-
-			// Fehler bestimmen
-			err += layer[layer.length - 1].getError(target);
-
+			
 			// Den Fehler an der Ausgabeschicht berechnen
-			//double[] errVec = new double[target.length];
-			//for (int h = 0; h < target.length; h++)
-			//	errVec[h] = out[h] - target[h];
+			double[] errVec = new double[target.length];
+			for (int h = 0; h < target.length; h++)
+				errVec[h] = out[h] - target[h];
+
+			// Fehler bestimmen und hinzuaddieren
+			double overallError = 0;
+			for(double e : errVec) overallError += Math.pow(e,2);
+			err += 0.5 * overallError;
 		}
 		return err / dataCollection.size();
 	}
@@ -208,9 +210,8 @@ public class MLP implements Serializable, NeuralNetwork {
 		double G = 0;
 
 		for (double g : netOutput)
-			G += g
-					- layer[layer.length - 1].getActivationFunction()
-							.getMinimumValue();
+			G += g - layer[layer.length - 1].getActivationFunction().getMinimumValue();
+		
 		if (G == 0) {
 			double val = 100 / retVal.length;
 			for (int i = 0; i < retVal.length; i++)
@@ -218,11 +219,8 @@ public class MLP implements Serializable, NeuralNetwork {
 			return retVal;
 		}
 
-		for (int i = 0; i < retVal.length; i++) {
-			retVal[i] = (netOutput[i] - layer[layer.length - 1]
-					.getActivationFunction().getMinimumValue())
-					* 100 / G;
-		}
+		for (int i = 0; i < retVal.length; i++)
+			retVal[i] = (netOutput[i] - layer[layer.length - 1].getActivationFunction().getMinimumValue()) * 100 / G;
 
 		return retVal;
 	}
