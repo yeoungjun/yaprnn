@@ -106,7 +106,7 @@ class AiffSound extends Data {
 		/*for (int i = 0; i < 40; i++)
 			System.out.print(data[i] + "|");
 		System.out.println();*/
-		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
+		DoubleFFT_1D fft = new DoubleFFT_1D(data.length/2);
 		fft.realForwardFull(data);
 		/*for (int i = 0; i < 40; i++)
 			System.out.print(data[i] + "|");
@@ -206,7 +206,7 @@ class AiffSound extends Data {
 	private void calcAbsolutValue(){
 		double[] newdata = new double[data.length/2];
 		for (int i = 0; i < data.length; i +=2)
-			newdata[i/2] = java.lang.Math.sqrt(data[i]*data[i] + data[i+1]*data[i+1]);
+			newdata[i/2] = Math.sqrt(data[i]*data[i] + data[i+1]*data[i+1]);
 		data = newdata;
 	}
 	

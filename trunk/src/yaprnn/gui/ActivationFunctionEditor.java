@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.CellEditor;
 import javax.swing.JComboBox;
@@ -11,7 +12,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 
 /**
- * Editor zur Auswahl der Aktivierungs-Funktion einer Schicht. 
+ * Cell editor to select an activation function for a layer. 
  */
 class ActivationFunctionEditor extends JComboBox implements CellEditor {
 
@@ -21,7 +22,7 @@ class ActivationFunctionEditor extends JComboBox implements CellEditor {
 	private static final long serialVersionUID = -5652112631704780039L;
 
 	private String value;
-	private Vector<CellEditorListener> listeners = new Vector<CellEditorListener>();
+	private List<CellEditorListener> listeners = new Vector<CellEditorListener>();
 
 	// Mimic all the constructors people expect with ComboBoxes.
 	public ActivationFunctionEditor(Object[] list) {
@@ -78,12 +79,12 @@ class ActivationFunctionEditor extends JComboBox implements CellEditor {
 
 	@Override
 	public void addCellEditorListener(CellEditorListener cel) {
-		listeners.addElement(cel);
+		listeners.add(cel);
 	}
 
 	@Override
 	public void removeCellEditorListener(CellEditorListener cel) {
-		listeners.removeElement(cel);
+		listeners.remove(cel);
 	}
 
 	protected void fireEditingStopped() {

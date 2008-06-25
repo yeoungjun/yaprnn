@@ -178,7 +178,7 @@ class IdxPicture extends Data {
 					dataInput.close();
 				if(labelInput != null)
 					labelInput.close();
-			} catch(IOException e) {
+			} catch(final IOException e) {
 				e.printStackTrace();
 			}
 			return result;
