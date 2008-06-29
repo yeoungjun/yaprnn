@@ -2,6 +2,7 @@ package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 
 class ToolImportActionListener implements ActionListener {
 
@@ -14,8 +15,9 @@ class ToolImportActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		gui.getView().getPopupImport().show(gui.getView().getToolImport(), 0,
-				gui.getView().getToolImport().getHeight());
+		JButton toolImport = gui.getView().getToolImport();
+		gui.getView().getPopupImport().show(toolImport, 0,
+				toolImport.getHeight());
 	}
 
 }

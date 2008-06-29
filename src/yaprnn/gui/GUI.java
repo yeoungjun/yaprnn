@@ -3,6 +3,9 @@ package yaprnn.gui;
 import java.util.Collection;
 import java.util.List;
 import java.awt.EventQueue;
+
+import javax.swing.UIManager;
+
 import yaprnn.Core;
 import yaprnn.GUIInterface;
 import yaprnn.dvv.Data;
@@ -22,12 +25,21 @@ public class GUI implements GUIInterface {
 		this.core = core;
 		this.core.setGUI(this);
 
+		// Look and Feel anpassen
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			// Nichts zu tun hier.
+		}
+
 		// TreeModel einsetzen
 		mainView.getTreeNeuralNetwork().setModel(treeModel);
 		mainView.getTreeNeuralNetwork()
 				.setCellRenderer(treeModel.getRenderer());
 
 		// EventHandler hinzufügen
+		new NewMLPActionListener(this);
+		new LoadMLPActionListener(this);
 		new MenuExitActionListener(this);
 		new ToolImportActionListener(this);
 
@@ -40,11 +52,16 @@ public class GUI implements GUIInterface {
 
 	}
 
-	/**
-	 * @return the MainView
-	 */
 	MainView getView() {
 		return mainView;
+	}
+
+	NetworkTreeModel getTreeModel() {
+		return treeModel;
+	}
+
+	Core getCore() {
+		return core;
 	}
 
 	@Override
