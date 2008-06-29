@@ -60,14 +60,15 @@ public class Core {
 		dvv = new DVV(dataFilename, labelFilename);
 	}
 
-	/** Creates a new MLP using the specified parameters.
+	/** Creates a new MLP using the specified parameters and returns an interface to it.
 	 *
 	 *  @param layer              an array holding the number of neurons per layer
 	 *  @param activationFunction an array holding the activation function to use for each layer
 	 *  @param bias	              an array holding the bias for each layer
 	 *  @param autoEncoder        true if the MLP is to be initialized with autoencoding, false otherwise
+	 *  @return an interface to the new mlp
 	 */
-	public void newMLP(int[] layer, int[] activationFunction, double[] bias, boolean autoEncoder) {
+	public NeuralNetwork newMLP(int[] layer, int[] activationFunction, double[] bias, boolean autoEncoder) {
 		if(activationFunction.length == layer.length+2 && layer.length == bias.length && dvv != null) {
 			final int numInputNeurons = dvv.getNumInputNeurons();
 			final int numOutputNeurons = dvv.getNumOutputNeurons();
@@ -79,9 +80,11 @@ public class Core {
 				try {
 					mlp = new MLP(numInputNeurons, numOutputNeurons, layer,
 							functions, bias, autoEncoder);
+					return mlp;
 				} catch(BadConfigException e) { }
 			}
 		}
+		return null;
 	}
 
 	/** Loads a MLP from the specified file.
