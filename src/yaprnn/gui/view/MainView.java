@@ -25,10 +25,6 @@ public class MainView extends javax.swing.JFrame {
         return labelFilename;
     }
 
-    public javax.swing.JLabel getLabelNeuralNetworkEditable() {
-        return labelNeuralNetworkEditable;
-    }
-
     public javax.swing.JLabel getLabelSampleLabel() {
         return labelSampleLabel;
     }
@@ -105,10 +101,6 @@ public class MainView extends javax.swing.JFrame {
         return menuTraining;
     }
 
-    public javax.swing.JComboBox getOptionWeightInit() {
-        return optionWeightInit;
-    }
-
     public javax.swing.JPopupMenu getPopupImport() {
         return popupImport;
     }
@@ -179,9 +171,6 @@ public class MainView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         treeNeuralNetwork = new javax.swing.JTree();
-        optionWeightInit = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        labelNeuralNetworkEditable = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -299,33 +288,15 @@ public class MainView extends javax.swing.JFrame {
         treeNeuralNetwork.setShowsRootHandles(true);
         jScrollPane1.setViewportView(treeNeuralNetwork);
 
-        optionWeightInit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Autoencoder", "Random" }));
-        optionWeightInit.setEnabled(false);
-
-        jLabel1.setText("Weight initialization:");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(labelNeuralNetworkEditable)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionWeightInit, 0, 177, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(optionWeightInit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(labelNeuralNetworkEditable))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
         );
 
         jSplitPane1.setLeftComponent(jPanel1);
@@ -556,7 +527,6 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -585,7 +555,6 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel labelFilename;
-    private javax.swing.JLabel labelNeuralNetworkEditable;
     private javax.swing.JLabel labelSampleLabel;
     private javax.swing.JLabel labelSubsamplingAfter;
     private javax.swing.JLabel labelSubsamplingBefore;
@@ -605,7 +574,6 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSaveMLP;
     private javax.swing.JMenuItem menuSubsampling;
     private javax.swing.JMenuItem menuTraining;
-    private javax.swing.JComboBox optionWeightInit;
     private javax.swing.JPopupMenu popupImport;
     private javax.swing.JPopupMenu popupNeuralNetwork;
     private javax.swing.JTable tableWeights;
