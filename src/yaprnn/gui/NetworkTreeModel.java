@@ -6,6 +6,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelListener;
@@ -51,6 +52,36 @@ import yaprnn.mlp.NeuralNetwork;
  */
 class NetworkTreeModel implements TreeModel {
 
+	private enum NetTrainingTestLookupKeys {
+		TRAINING_SET, TEST_SET
+	}
+
+	private final static ImageIcon iconMLP = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconMLP.png"));
+	private final static ImageIcon iconNeuron = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconNeuron.png"));
+	private final static ImageIcon iconLayer = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconLayer.png"));
+	private final static ImageIcon iconAVF = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconAVF.png"));
+	private final static ImageIcon iconProcessed = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconProcessed.png"));
+	private final static ImageIcon iconUnProcessed = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconUnProcessed.png"));
+	private final static ImageIcon iconTrainingSet = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconFolderTraining.png"));
+	private final static ImageIcon iconTestSet = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconFolderTest.png"));
+	private final static ImageIcon iconFolderDatasets = new ImageIcon(
+			Class.class.getResource("/yaprnn/gui/view/iconFolderDataSet.png"));
+	private final static ImageIcon iconFolderOpened = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconFolderWhite.png"));
+	private final static ImageIcon iconFolderClosed = new ImageIcon(Class.class
+			.getResource("/yaprnn/gui/view/iconFolderGrey.png"));
+
+	// private final static ImageIcon iconNotUsed = new ImageIcon(Class.class
+	// .getResource("/yaprnn/gui/view/iconFolderNotUsed.png"));
+
 	/**
 	 * LabeledNode is used internally for giving a container of data a readable
 	 * label.
@@ -60,10 +91,12 @@ class NetworkTreeModel implements TreeModel {
 	 */
 	private class LabeledNode<D> {
 
+		private ImageIcon icon;
 		private String label;
 		private D value;
 
-		LabeledNode(String label, D value) {
+		LabeledNode(ImageIcon icon, String label, D value) {
+			this.icon = icon;
 			this.label = label;
 			this.value = value;
 		}
@@ -72,11 +105,44 @@ class NetworkTreeModel implements TreeModel {
 			return value;
 		}
 
+		ImageIcon getIcon() {
+			return icon;
+		}
+
 		@Override
 		public String toString() {
 			return label;
 		}
 
+	}
+
+	/**
+	 * NetTrainingTestLabeledNode is used internally for displaying training and
+	 * test sets for one NeuralNetwork in treeNeuralNetwork.
+	 */
+	private class NetTrainingTestLabeledNode
+			extends
+			LabeledNode<Dictionary<NetTrainingTestLookupKeys, LabeledNode<List<Data>>>> {
+		NetTrainingTestLabeledNode(NeuralNetwork net, List<Data> trainingSet,
+				List<Data> testSet) {
+			super(
+					null,
+					net.toString(),
+					new Hashtable<NetTrainingTestLookupKeys, LabeledNode<List<Data>>>());
+			getValue().put(
+					NetTrainingTestLookupKeys.TRAINING_SET,
+					new LabeledNode<List<Data>>(iconTrainingSet,
+							"Training set", trainingSet));
+			getValue().put(
+					NetTrainingTestLookupKeys.TEST_SET,
+					new LabeledNode<List<Data>>(iconTestSet, "Test set",
+							testSet));
+		}
+
+		@Override
+		public String toString() {
+			return "for " + super.toString();
+		}
 	}
 
 	/**
@@ -90,71 +156,66 @@ class NetworkTreeModel implements TreeModel {
 		 */
 		private static final long serialVersionUID = -4438149908755280690L;
 
-		private ImageIcon iconMLP = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconMLP.png"));
-		private ImageIcon iconNeuron = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconNeuron.png"));
-		private ImageIcon iconLayer = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconLayer.png"));
-		private ImageIcon iconAVF = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconAVF.png"));
-		private ImageIcon iconProcessed = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconProcessed.png"));
-		private ImageIcon iconUnProcessed = new ImageIcon(getClass()
-				.getResource("/yaprnn/gui/view/iconUnProcessed.png"));
-		private ImageIcon iconTrainingData = new ImageIcon(getClass()
-				.getResource("/yaprnn/gui/view/iconFolderTraining.png"));
-		private ImageIcon iconTestData = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconFolderTest.png"));
-		private ImageIcon iconDataSet = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconFolderDataSet.png"));
-		private ImageIcon iconNotUsed = new ImageIcon(getClass().getResource(
-				"/yaprnn/gui/view/iconFolderNotUsed.png"));
-
 		NetworkTreeRenderer() {
-			setClosedIcon(iconLayer);
-			setOpenIcon(iconLayer);
+			setClosedIcon(iconFolderClosed);
+			setOpenIcon(iconFolderOpened);
 		}
 
+		@SuppressWarnings("unchecked")
+		// Raw-type für value ist erwünscht!
 		public Component getTreeCellRendererComponent(JTree tree, Object value,
 				boolean sel, boolean expanded, boolean leaf, int row,
 				boolean hasFocus) {
 
-			// This is needed to get the node text to be displayed.
+			// Das ist nötig um die Knoten-Labels anzeigen zu lassen!
 			super.getTreeCellRendererComponent(tree, value, sel, expanded,
 					leaf, row, hasFocus);
 
-			// TODO : Selecting the right icon
+			Icon icon = null;
 
-			setIcon(iconNotUsed);
+			// Nimm das Icon des LabeledNode.
+			if (value instanceof LabeledNode)
+				icon = ((LabeledNode) value).getIcon();
+
+			if (icon != null)
+				setIcon(icon);
+			else {
+				if (expanded)
+					setIcon(iconFolderOpened);
+				else
+					setIcon(iconFolderClosed);
+			}
 
 			return this;
 		}
-
 	}
 
-	// Listeners attached to this model.
+	// Listeners
 	private Collection<TreeModelListener> listeners = new Vector<TreeModelListener>();
 
-	// Storage for our networks and datasets
+	// Speicher für die eigentlichen Models, Netzwerke und Daten
 	private List<NeuralNetwork> nets = new Vector<NeuralNetwork>();
 	private List<Data> loadedData = new Vector<Data>();
 	private Dictionary<NeuralNetwork, List<Data>> trainingSets = new Hashtable<NeuralNetwork, List<Data>>();
 	private Dictionary<NeuralNetwork, List<Data>> testSets = new Hashtable<NeuralNetwork, List<Data>>();
 
-	// The static nodes of the tree
+	// Statische Knoten
 	@SuppressWarnings("unchecked")
-	// A raw type is wanted here!
+	// Raw-type ist hier erwünscht!
 	private LabeledNode<List<LabeledNode>> rootNode = new LabeledNode<List<LabeledNode>>(
-			"root", new Vector<LabeledNode>());
+			null, null, new Vector<LabeledNode>());
 	private LabeledNode<List<NeuralNetwork>> netsNode = new LabeledNode<List<NeuralNetwork>>(
-			"Networks", nets);
+			null, "Networks", nets);
 	@SuppressWarnings("unchecked")
-	// A raw type is wanted here!
+	// Raw-type ist hier erwünscht!
 	private LabeledNode<List<LabeledNode>> datasetsNode = new LabeledNode<List<LabeledNode>>(
-			"Datasets", new Vector<LabeledNode>());
+			null, "Datasets", new Vector<LabeledNode>());
 	private LabeledNode<List<Data>> loadedDataNode = new LabeledNode<List<Data>>(
-			"Loaded", loadedData);
+			iconFolderDatasets, "Loaded", loadedData);
+
+	// Dynamische Knoten
+	// Knoten-Lookup für die Netzwerke unter Datasets
+	private Dictionary<NeuralNetwork, NetTrainingTestLabeledNode> netsDataNodes = new Hashtable<NeuralNetwork, NetTrainingTestLabeledNode>();
 
 	NetworkTreeModel() {
 		rootNode.getValue().add(netsNode);
@@ -162,6 +223,16 @@ class NetworkTreeModel implements TreeModel {
 		datasetsNode.getValue().add(loadedDataNode);
 	}
 
+	/**
+	 * Updates a tree and its nodes as needed.
+	 */
+	private void updateTree() {
+		// TODO
+		// Vielleicht überhaupt gar nicht nötig?!
+	}
+
+	@SuppressWarnings("unchecked")
+	// Raw-Types sind hier erwünscht!
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent == null)
@@ -174,10 +245,19 @@ class NetworkTreeModel implements TreeModel {
 			return datasetsNode.getValue().size();
 		if (parent == loadedDataNode)
 			return loadedDataNode.getValue().size();
+		if (parent instanceof NetTrainingTestLabeledNode)
+			return ((NetTrainingTestLabeledNode) parent).getValue().size();
+		if (parent instanceof LabeledNode) {
+			LabeledNode n = (LabeledNode) parent;
+			if (n.getValue() instanceof List)
+				return ((List) n.getValue()).size();
+		}
 		// ...
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
+	// Raw-Types sind hier erwünscht!
 	@Override
 	public Object getChild(Object parent, int index) {
 		if (parent == null)
@@ -190,10 +270,23 @@ class NetworkTreeModel implements TreeModel {
 			return datasetsNode.getValue().get(index);
 		if (parent == loadedDataNode)
 			return loadedDataNode.getValue().get(index);
+		if (parent instanceof NetTrainingTestLabeledNode) {
+			NetTrainingTestLabeledNode p = (NetTrainingTestLabeledNode) parent;
+			if (index == 0)
+				return p.getValue().get(NetTrainingTestLookupKeys.TRAINING_SET);
+			return p.getValue().get(NetTrainingTestLookupKeys.TEST_SET);
+		}
+		if (parent instanceof LabeledNode) {
+			LabeledNode p = (LabeledNode) parent;
+			if (p.getValue() instanceof List)
+				return ((List) p.getValue()).get(index);
+		}
 		// ...
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	// Raw-Types sind hier erwünscht!
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
 		if (parent == null)
@@ -206,29 +299,39 @@ class NetworkTreeModel implements TreeModel {
 			return datasetsNode.getValue().indexOf(child);
 		if (parent == loadedDataNode)
 			return loadedDataNode.getValue().indexOf(child);
+		if (parent instanceof NetTrainingTestLabeledNode) {
+			NetTrainingTestLabeledNode p = (NetTrainingTestLabeledNode) parent;
+			if (p.getValue().get(NetTrainingTestLookupKeys.TRAINING_SET) == child)
+				return 0;
+			return 1;
+		}
+		if (parent instanceof LabeledNode) {
+			LabeledNode p = (LabeledNode) parent;
+			if (p.getValue() instanceof List)
+				return ((List) p.getValue()).indexOf(child);
+		}
 		// ...
 		return -1;
 	}
 
 	@Override
-	public Object getRoot() {
-		return rootNode;
-	}
-
-	@Override
 	public boolean isLeaf(Object node) {
-		if (node == null)
+		if (node == null || node == rootNode || node == netsNode
+				|| node == datasetsNode || node == loadedDataNode
+				|| node instanceof NetTrainingTestLabeledNode
+				|| node instanceof LabeledNode)
 			return false;
-		if (node == rootNode || node == netsNode || node == datasetsNode
-				|| node == loadedDataNode)
-			return false;
-		// ...
-		return false;
+		return true;
 	}
 
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Object getRoot() {
+		return rootNode;
 	}
 
 	@Override
@@ -248,6 +351,108 @@ class NetworkTreeModel implements TreeModel {
 	 */
 	public DefaultTreeCellRenderer getRenderer() {
 		return new NetworkTreeRenderer();
+	}
+
+	/**
+	 * Adds a NeuralNetwork to the tree model.
+	 * 
+	 * @param toAdd
+	 *            the network to add
+	 */
+	public void add(NeuralNetwork toAdd) {
+		if (!nets.contains(toAdd)) {
+			// Netzwerk einfügen
+			nets.add(toAdd);
+
+			// Training- und Test-Listen anlegen
+			Vector<Data> trainingSet = new Vector<Data>();
+			Vector<Data> testSet = new Vector<Data>();
+			trainingSets.put(toAdd, trainingSet);
+			testSets.put(toAdd, testSet);
+
+			// NetTrainingTestLabeledNode unter datasetsNode anlegen
+			NetTrainingTestLabeledNode n = new NetTrainingTestLabeledNode(
+					toAdd, trainingSet, testSet);
+			datasetsNode.getValue().add(n);
+			// Und für einfacheres Abrufen...
+			netsDataNodes.put(toAdd, n);
+
+			updateTree();
+		}
+	}
+
+	/**
+	 * Removes a NeuralNetwork from the tree model.
+	 * 
+	 * @param toRemove
+	 *            the network to remove
+	 */
+	public void remove(NeuralNetwork toRemove) {
+		if (nets.contains(toRemove)) {
+			// Als erstes entfernen wir die Einträge in datasetsNode
+			NetTrainingTestLabeledNode n = netsDataNodes.get(toRemove);
+			netsDataNodes.remove(n);
+			datasetsNode.getValue().remove(n);
+
+			// Training- und Test-Listen entfernen
+			trainingSets.remove(n);
+			testSets.remove(n);
+
+			// Netzwerk entfernen
+			nets.remove(toRemove);
+
+			updateTree();
+		}
+	}
+
+	/**
+	 * Adds a Data-Object to the tree model.
+	 * 
+	 * @param toAdd
+	 *            the data to add
+	 */
+	public void add(Data toAdd) {
+		if (!loadedData.contains(toAdd)) {
+			// Data einfügen
+			loadedData.add(toAdd);
+
+			updateTree();
+		}
+	}
+
+	/**
+	 * Removes a Data-Object from the tree model.
+	 * 
+	 * @param toRemove
+	 *            the data to remove
+	 */
+	// Rawtype für n ist hier erwünscht!
+	@SuppressWarnings("unchecked")
+	public void remove(Data toRemove) {
+		if (loadedData.contains(toRemove)) {
+			/*
+			 * Wenn das Data-Object noch irgendwo anders in einem trainingSet
+			 * oder testSet eingesetzt wird, muss es auch dort entfernt werden.
+			 */
+			for (LabeledNode n : datasetsNode.getValue()) {
+				if (n instanceof NetTrainingTestLabeledNode) {
+					NetTrainingTestLabeledNode nt = (NetTrainingTestLabeledNode) n;
+					List<Data> set = nt.getValue().get(
+							NetTrainingTestLookupKeys.TRAINING_SET).getValue();
+					if (set.contains(toRemove))
+						set.remove(toRemove);
+					set = nt.getValue().get(NetTrainingTestLookupKeys.TEST_SET)
+							.getValue();
+					if (set.contains(toRemove))
+						set.remove(toRemove);
+				}
+			}
+
+			// Data entfernen
+			loadedData.remove(toRemove);
+
+			updateTree();
+		}
 	}
 
 }
