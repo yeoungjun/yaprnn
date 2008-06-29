@@ -1,22 +1,22 @@
 package yaprnn.gui;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 class MenuExitActionListener implements ActionListener {
 
-	private GUI gui;
-
 	MenuExitActionListener(GUI gui) {
-		this.gui = gui;
 		gui.getView().getMenuExit().addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		gui.getView().setVisible(false);
-		gui.getView().dispose();
-		// TODO : Need a safer shutdown method here!
+		if (JOptionPane.showConfirmDialog((Component) e.getSource(),
+				"Do you really want to exit?", "Exit",
+				JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+			System.exit(0);
 	}
 
 }
