@@ -170,8 +170,10 @@ public class MainView extends javax.swing.JFrame {
         toolNewMLP = new javax.swing.JButton();
         toolLoadMLP = new javax.swing.JButton();
         toolSaveMLP = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
         toolLoadDataSet = new javax.swing.JButton();
         toolSaveDataSet = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
         toolImport = new javax.swing.JButton();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
@@ -234,54 +236,62 @@ public class MainView extends javax.swing.JFrame {
         menuResetNetwork.setEnabled(false);
         popupNeuralNetwork.add(menuResetNetwork);
 
-        menuImportImage2.setText("Import Image Data");
+        menuImportImage2.setText("Image data");
         popupImport.add(menuImportImage2);
 
-        menuImportAudio2.setText("Import Audio Data");
+        menuImportAudio2.setText("Audio data");
         popupImport.add(menuImportAudio2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("YAPRNN");
         setBounds(new java.awt.Rectangle(0, 0, 600, 400));
 
+        toolNewMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconNewMLP.png"))); // NOI18N
         toolNewMLP.setText("New MLP");
         toolNewMLP.setToolTipText("New MLP");
-        toolNewMLP.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolNewMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolNewMLP.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolNewMLP);
 
+        toolLoadMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadMLP.png"))); // NOI18N
         toolLoadMLP.setText("Load MLP");
         toolLoadMLP.setToolTipText("Load MLP");
-        toolLoadMLP.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolLoadMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jToolBar1.add(toolLoadMLP);
 
+        toolSaveMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveMLP.png"))); // NOI18N
         toolSaveMLP.setText("Save MLP");
         toolSaveMLP.setToolTipText("Save MLP");
-        toolSaveMLP.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolSaveMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolSaveMLP.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolSaveMLP);
+        jToolBar1.add(jSeparator1);
 
+        toolLoadDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadDataSet.png"))); // NOI18N
         toolLoadDataSet.setText("Load dataset");
         toolLoadDataSet.setToolTipText("Load Data Set");
-        toolLoadDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolLoadDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jToolBar1.add(toolLoadDataSet);
 
-        toolSaveDataSet.setText("Save Dataset");
+        toolSaveDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveDataSet.png"))); // NOI18N
+        toolSaveDataSet.setText("Save dataset");
         toolSaveDataSet.setToolTipText("Save Data Set");
-        toolSaveDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolSaveDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolSaveDataSet.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolSaveDataSet);
+        jToolBar1.add(jSeparator3);
 
+        toolImport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadAudioImage.png"))); // NOI18N
         toolImport.setText("Import");
         toolImport.setToolTipText("Import Audio / Image Data");
         toolImport.setFocusable(false);
-        toolImport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolImport.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolImport.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolImport);
 
         jSplitPane1.setDividerLocation(300);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Neural Network"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Neural network"));
 
         treeNeuralNetwork.setComponentPopupMenu(popupNeuralNetwork);
         treeNeuralNetwork.setModel(null);
@@ -292,7 +302,7 @@ public class MainView extends javax.swing.JFrame {
         optionWeightInit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Autoencoder", "Random" }));
         optionWeightInit.setEnabled(false);
 
-        jLabel1.setText("Weight Initialization:");
+        jLabel1.setText("Weight initialization:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,7 +313,7 @@ public class MainView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionWeightInit, 0, 175, Short.MAX_VALUE))
+                .addComponent(optionWeightInit, 0, 177, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -322,7 +332,7 @@ public class MainView extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional Information"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional information"));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -339,9 +349,7 @@ public class MainView extends javax.swing.JFrame {
 
         tableWeights.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {}
+
             },
             new String [] {
 
@@ -376,11 +384,13 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Layer Details", jPanel2);
+        jTabbedPane1.addTab("Layer details", jPanel2);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Sample details"));
+
+        jSplitPane2.setDividerLocation(225);
 
         jScrollPane3.setViewportView(labelSubsamplingBefore);
 
@@ -462,45 +472,54 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Data Sample Details", jPanel5);
+        jTabbedPane1.addTab("Data sample details", jPanel5);
 
         jSplitPane1.setRightComponent(jTabbedPane1);
 
         jMenu1.setText("File");
 
+        menuNewMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconNewMLP.png"))); // NOI18N
         menuNewMLP.setMnemonic('N');
         menuNewMLP.setText("New MLP");
         jMenu1.add(menuNewMLP);
 
+        menuLoadMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadMLP.png"))); // NOI18N
         menuLoadMLP.setMnemonic('L');
         menuLoadMLP.setText("Load MLP");
         jMenu1.add(menuLoadMLP);
 
+        menuSaveMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveMLP.png"))); // NOI18N
         menuSaveMLP.setMnemonic('S');
         menuSaveMLP.setText("Save MLP");
         jMenu1.add(menuSaveMLP);
         jMenu1.add(jSeperator1);
 
+        menuLoadDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadDataSet.png"))); // NOI18N
         menuLoadDataSet.setMnemonic('D');
-        menuLoadDataSet.setText("Load Data Set");
+        menuLoadDataSet.setText("Load data set");
         jMenu1.add(menuLoadDataSet);
 
+        menuSaveDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveDataSet.png"))); // NOI18N
         menuSaveDataSet.setMnemonic('V');
-        menuSaveDataSet.setText("Save Data Set");
+        menuSaveDataSet.setText("Save data set");
         jMenu1.add(menuSaveDataSet);
         jMenu1.add(jSeparator2);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadAudioImage.png"))); // NOI18N
         jMenu2.setText("Import");
 
-        menuImportImage.setText("Image Data");
+        menuImportImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadImage.png"))); // NOI18N
+        menuImportImage.setText("Image data");
         jMenu2.add(menuImportImage);
 
-        menuImportAudio.setText("Audio Data");
+        menuImportAudio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadAudio.png"))); // NOI18N
+        menuImportAudio.setText("Audio data");
         jMenu2.add(menuImportAudio);
 
         jMenu1.add(jMenu2);
         jMenu1.add(jSeperator3);
 
+        menuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconExit.png"))); // NOI18N
         menuExit.setMnemonic('x');
         menuExit.setText("Exit");
         jMenu1.add(menuExit);
@@ -556,7 +575,9 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JSeparator jSeperator1;
     private javax.swing.JSeparator jSeperator3;
     private javax.swing.JSplitPane jSplitPane1;

@@ -81,7 +81,11 @@ public class SubsamplingView extends javax.swing.JFrame {
 
         jLabel1.setText("Resolution:");
 
+        optionResolution.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(200), Integer.valueOf(0), null, Integer.valueOf(1)));
+
         jLabel2.setText("Overlap %:");
+
+        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(10, 0, 100, 1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,6 +110,7 @@ public class SubsamplingView extends javax.swing.JFrame {
                 .addComponent(optionResolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        buttonProcess.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconProcessAll.png"))); // NOI18N
         buttonProcess.setText("Process");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -129,7 +134,7 @@ public class SubsamplingView extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonProcess)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

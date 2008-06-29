@@ -14,12 +14,12 @@ import javax.swing.CellEditor;
 /**
  * TreeCell editor to customize the structure of a neural network. 
  */
-class NeuralTreeCellEditor implements TreeCellEditor {
+class NetworkTreeCellEditor implements TreeCellEditor {
 	private CellEditor currentEditor;
 	private DefaultCellEditor neuronEditor;
 	private ActivationFunctionEditor avfEditor;
 
-	public NeuralTreeCellEditor() {
+	public NetworkTreeCellEditor() {
 		neuronEditor = new DefaultCellEditor(new JTextField());
 		avfEditor = new ActivationFunctionEditor(new String[] { "tanh",
 				"sigmoid", "linear" });

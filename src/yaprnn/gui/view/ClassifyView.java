@@ -73,16 +73,7 @@ public class ClassifyView extends javax.swing.JFrame {
 
         tableClassification.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
 
@@ -101,6 +92,7 @@ public class ClassifyView extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
         );
 
+        buttonClassify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconClassify.png"))); // NOI18N
         buttonClassify.setMnemonic('C');
         buttonClassify.setText("Classify");
 
@@ -127,7 +119,7 @@ public class ClassifyView extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonClassify)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
