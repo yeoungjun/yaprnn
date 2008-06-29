@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,22 +33,25 @@ class NewMLPActionListener implements ActionListener {
 		boolean notSatisfied;
 
 		// Input Dialog vorbereiten.
-		JLabel messageText = new JLabel();
-		JTextField textField = new JTextField("2");
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if (!Character.isDigit(e.getKeyChar()))
-					e.consume();
-			}
-		});
-		JPanel panel = new JPanel(new GridLayout(2, 1));
-		panel.add(messageText);
-		panel.add(textField);
+		JTextField optionNumLayers = new JTextField("1");
+		optionNumLayers.addKeyListener(new OnlyNumbersKeyAdapter());
+		JTextField optionNumNeurons = new JTextField("2");
+		optionNumLayers.addKeyListener(new OnlyNumbersKeyAdapter());
+		JCheckBox optionAutoEncoding = new JCheckBox(
+				"Use auto encoding initialization");
+		optionAutoEncoding.setSelected(false);
 
-		// Anzahl der Schichten?
-		messageText
-				.setText("How many layers do you want? (please input a value greater then 0)");
+		JPanel panel = new JPanel(new GridLayout(5, 1));
+		panel.add(new JLabel(
+				"How many layers do you want? (value must be greater then 0)"));
+		panel.add(optionNumLayers);
+		panel
+				.add(new JLabel(
+						"How many neurons per Layer do you want? (value must be greater then 0)"));
+		panel.add(optionNumNeurons);
+		panel.add(optionAutoEncoding);
+
+		// Parameter anfragen
 		notSatisfied = true;
 		while (notSatisfied) {
 			int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
@@ -54,37 +59,13 @@ class NewMLPActionListener implements ActionListener {
 			if (ret == JOptionPane.CANCEL_OPTION)
 				return;
 			try {
-				numLayers = Integer.parseInt(textField.getText());
-				if (numLayers > 0)
+				numLayers = Integer.parseInt(optionNumLayers.getText());
+				numNeurons = Integer.parseInt(optionNumNeurons.getText());
+				if (numLayers > 0 && numNeurons > 0)
 					notSatisfied = false;
 			} catch (Exception ex) {
 			}
 		}
-
-		// Anzahl der Neuronen pro Schicht?
-		messageText
-				.setText("How many neurons per layer do you want? (please input a value greater then 0)");
-		notSatisfied = true;
-		while (notSatisfied) {
-			int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
-					"New MLP", JOptionPane.OK_CANCEL_OPTION);
-			if (ret == JOptionPane.CANCEL_OPTION)
-				return;
-			try {
-				numNeurons = Integer.parseInt(textField.getText());
-				if (numNeurons > 0)
-					notSatisfied = false;
-			} catch (Exception ex) {
-			}
-		}
-
-		// AutoEncoder?
-		int ret = JOptionPane.showConfirmDialog(gui.getView(),
-				"Do you want to apply auto encoding initialization?",
-				"New MLP", JOptionPane.YES_NO_CANCEL_OPTION);
-		if (ret == JOptionPane.CANCEL_OPTION)
-			return;
-		autoEncoder = (ret == JOptionPane.YES_OPTION);
 
 		// Parameter ausfüllen
 		int[] layer = new int[numLayers];
@@ -100,7 +81,8 @@ class NewMLPActionListener implements ActionListener {
 		avf[numLayers + 1] = 0;
 
 		// MLP erstellen
-		NeuralNetwork mlp = gui.getCore().newMLP(layer, avf, bias, autoEncoder);
+		NeuralNetwork mlp = gui.getCore().newMLP(layer, avf, bias,
+				optionAutoEncoding.isSelected());
 		if (mlp == null)
 			// TODO : Eine genauere Fehlerbeschreibung wäre toll hier
 			JOptionPane.showMessageDialog(gui.getView(),
