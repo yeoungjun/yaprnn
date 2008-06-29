@@ -32,7 +32,7 @@ class NewMLPActionListener implements ActionListener {
 
 		// Input Dialog vorbereiten.
 		JLabel messageText = new JLabel();
-		JTextField textField = new JTextField();
+		JTextField textField = new JTextField("2");
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -46,7 +46,7 @@ class NewMLPActionListener implements ActionListener {
 
 		// Anzahl der Schichten?
 		messageText
-				.setText("How many layers do you want?\n(please input a value greater then 0)");
+				.setText("How many layers do you want? (please input a value greater then 0)");
 		notSatisfied = true;
 		while (notSatisfied) {
 			int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
@@ -63,7 +63,7 @@ class NewMLPActionListener implements ActionListener {
 
 		// Anzahl der Neuronen pro Schicht?
 		messageText
-				.setText("How many neurons per layer do you want?\n(please input a value greater then 0)");
+				.setText("How many neurons per layer do you want? (please input a value greater then 0)");
 		notSatisfied = true;
 		while (notSatisfied) {
 			int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
@@ -88,7 +88,7 @@ class NewMLPActionListener implements ActionListener {
 
 		// Parameter ausfüllen
 		int[] layer = new int[numLayers];
-		int[] avf = new int[numLayers];
+		int[] avf = new int[numLayers + 2];
 		double[] bias = new double[numLayers];
 		for (int i = 0; i < numLayers; i++) {
 			// Annahme von Standardwerten
@@ -96,10 +96,18 @@ class NewMLPActionListener implements ActionListener {
 			avf[i] = 0;
 			bias[i] = 0.2;
 		}
+		avf[numLayers] = 0;
+		avf[numLayers + 1] = 0;
 
-		// TODO : MLP erstellen
-		// NeuralNetwork mlp = gui.getCore().newMLP(layer, avf, bias,
-		// autoEncoder);
-		// gui.getTreeModel().add(mlp);
+		// MLP erstellen
+		NeuralNetwork mlp = gui.getCore().newMLP(layer, avf, bias, autoEncoder);
+		if (mlp == null)
+			// TODO : Eine genauere Fehlerbeschreibung wäre toll hier
+			JOptionPane.showMessageDialog(gui.getView(),
+					"NewMLP: Error occured",
+					"Something went wrong while creating the new mlp!",
+					JOptionPane.ERROR_MESSAGE);
+		else
+			gui.getTreeModel().add(mlp);
 	}
 }
