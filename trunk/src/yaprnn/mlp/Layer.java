@@ -1,21 +1,22 @@
 package yaprnn.mlp;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Layer implements Serializable {
 	private static final long serialVersionUID = -4607204450973284028L;
 
-	protected Layer prevLayer;
+	private Layer prevLayer;
 
-	protected double[][] weightMatrix;
-	protected double[][] gradientMatrix;
+	private double[][] weightMatrix;
+	private double[][] gradientMatrix;
 
-	protected ActivationFunction function;
+	private ActivationFunction function;
 
-	protected double[] output;
-	protected double[] input; // TODO unnecessary
-	protected double[] layerInput;
-	protected double bias;
+	private double[] output;
+	private double[] input; // TODO unnecessary
+	private double[] layerInput;
+	private double bias;
 
 	/**
 	 * Konstruktor; wird mit der vorhergehenden Schicht initialisiert, sowie der Aktivierungsfunktion und des Bias
@@ -64,8 +65,7 @@ public class Layer implements Serializable {
 	 */
 	public void setInput(double[] input) throws BadConfigException {
 		if (output.length != input.length)
-			throw new BadConfigException("Falsche Dimension der Eingabedaten!",
-					BadConfigException.INVALID_INPUT_DIMENSION);
+			throw new BadConfigException("Falsche Dimension der Eingabedaten: " + input.length + " statt " + output.length, 	BadConfigException.INVALID_INPUT_DIMENSION);
 		output = input;
 	}
 
@@ -138,7 +138,7 @@ public class Layer implements Serializable {
 					preLayerError[i] += weightMatrix[h][i] * localError[h];
 				
 		}
-		
+
 		prevLayer.backPropagate(preLayerError);
 	}
 
@@ -190,20 +190,6 @@ public class Layer implements Serializable {
 	}
 	
 	/**
-	 * Berechnet den Fehlerwert proportional zum Sollwert und berechnet den Gesammtfehler. 
-	 * @param target Der Sollwert.
-	 * @return Gesammtfehler
-	 */
-//	public double getError(double[] target) {
-//		if(target == null) return 0;
-//		
-//		double retVal = 0;
-//		for(int i = 0; i < output.length; i ++)
-//			retVal += Math.pow(output[i] - target[i], 2);
-//			
-//		return 0.5 * retVal;
-//	}
-	/**
 	 * Gibt die Aktivierungsfunktion zurück.
 	 * @return Das ActivationFunction Objekt welches diese Schicht benutzt.
 	 */
@@ -213,5 +199,73 @@ public class Layer implements Serializable {
 
 	public double[][] getWeightMatrix() {
 		return this.weightMatrix;
+	}
+	
+	public double[] makeAutoencoder(double value, double maxIterations, double upperBound, double eta) throws BadConfigException{
+		
+		double[] trainingValues = new double[this.getSize()];
+//		Arrays.fill(trainingValues, 0);
+		trainingValues[0] = value;
+		if(prevLayer == null)	return trainingValues;
+
+		// Eingabedaten holen
+		double[] lastLayerOutput = prevLayer.makeAutoencoder(value, maxIterations, upperBound, eta);
+		//System.out.println("##################################nextLayer################");
+		// Layer herausnehmen
+		Layer prevLayer = this.prevLayer.prevLayer;
+		this.prevLayer.prevLayer = null;
+		
+		// neuen Layer hinzufügen
+		Layer additionalLayer = new Layer(this, this.prevLayer.getSize(), this.prevLayer.getActivationFunction(), this.prevLayer.getBias());		
+		
+		// Ausgabe als neue Eingabe verwenden
+		this.prevLayer.setInput(lastLayerOutput);
+		//System.out.println("\n INPUT: ");
+		//for(double o : lastLayerOutput) 	System.out.print("\t" + o + "\n");
+		
+//		System.out.println("\n OUTPUT: ");
+//		double[] outVal = getOutput();
+//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
+//
+//		System.out.println("\n OUTPUT(ADD): ");
+//		outVal = additionalLayer.getOutput();
+//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
+
+		// train Online
+		double out[] = null;
+		           
+		// Ausgabe berechnen
+		for(int i = 0; i < maxIterations; i++) {
+			out = additionalLayer.getOutput();
+			
+			// Den Fehler an der Ausgabeschicht berechnen
+			double[] errVec = new double[additionalLayer.getSize()];
+			for (int h = 0; h < errVec.length; h++)
+				errVec[h] = out[h] - lastLayerOutput[h];
+	
+			double overallError = 0;
+			for(double e : errVec) overallError += Math.pow(e,2);
+			if(overallError < (2 * upperBound)) break;
+//			else System.out.println("OverallError: " + 0.5 * overallError);
+			
+			// Fehler zurückpropagieren
+			additionalLayer.backPropagate(errVec);
+	
+			// Gewichte anpassen
+			additionalLayer.update(1, eta);
+			
+		}
+
+		// Layer wieder integrieren
+		this.prevLayer.prevLayer = prevLayer;
+//		System.out.println("\n später OUTPUT: ");
+//		outVal = getOutput();
+//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
+//
+//		System.out.println("\n OUTPUT(ADD): ");
+//		outVal = additionalLayer.getOutput();
+//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
+		
+		return getOutput();
 	}
 }
