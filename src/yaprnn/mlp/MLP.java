@@ -9,7 +9,7 @@ import yaprnn.dvv.Data;
 public class MLP implements Serializable, NeuralNetwork {
 
 	private static final long serialVersionUID = -5212835785366190139L;
-	protected Layer[] layer;
+	private Layer[] layer;
 
 	/**
 	 * Konstruktor; Erstellt das neuronale Netz und setzt die benötigten
@@ -17,10 +17,9 @@ public class MLP implements Serializable, NeuralNetwork {
 	 * 
 	 * @param inputNeurons
 	 */
-	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers,
-			ActivationFunction[] functions, double[] bias, boolean autoencoder)
+	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers, ActivationFunction[] functions, double[] bias, boolean autoencoder)
 			throws BadConfigException {
-
+	
 		// Konfiguration überprüfen
 		if (inputNeurons < 1)
 			throw new BadConfigException(
@@ -45,19 +44,18 @@ public class MLP implements Serializable, NeuralNetwork {
 
 		// hiddenLayer erzeugen
 		for (int i = 0; i < hiddenLayers.length; i++) {
-			layer[i + 1] = new Layer(layer[i], hiddenLayers[i], functions[i],
-					bias[i]);
+			layer[i + 1] = new Layer(layer[i], hiddenLayers[i], functions[i], bias[i]);
 		}
 
+
 		// outputLayer erzeugen
-		layer[layer.length - 1] = new Layer(layer[layer.length - 2],
-				outputNeurons, functions[functions.length - 1], 0);
+		layer[layer.length - 1] = new Layer(layer[layer.length - 2], outputNeurons, functions[functions.length - 1], 0);
 
 		if (!autoencoder)
 			return;
 
 		// Als Autoencoder trainieren
-		// TODO Autencoder training implementieren
+		layer[layer.length - 1].makeAutoencoder(0.5, 1000, 0.001, 0.2);
 	}
 
 	/**
@@ -73,7 +71,6 @@ public class MLP implements Serializable, NeuralNetwork {
 		
 		if (eta < 0) throw new BadConfigException("Eta is negative!", BadConfigException.INVALID_ETA);
 
-		double err = 0;
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
 		
@@ -101,15 +98,9 @@ public class MLP implements Serializable, NeuralNetwork {
 			// Gewichte anpassen
 			layer[layer.length - 1].update(1, eta);
 			
-			// Fehler bestimmen und hinzuaddieren
-			double overallError = 0;
-			for(double e : errVec) overallError += Math.pow(e,2);
-			err += 0.5 * overallError;
-
 		}
 		
-		// Mittelwert berechnen  und Fehler zurückgeben
-		return err / dataCollection.size();
+		return runTest(dataCollection);
 	}
 
 	/**
@@ -125,7 +116,6 @@ public class MLP implements Serializable, NeuralNetwork {
 			return 0;
 		if (eta < 0) throw new BadConfigException("Eta is negative!", BadConfigException.INVALID_ETA);
 
-		double err = 0;
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
 		
@@ -150,18 +140,12 @@ public class MLP implements Serializable, NeuralNetwork {
 			// Fehler zurückpropagieren
 			layer[layer.length - 1].backPropagate(errVec);
 			
-			// Fehler bestimmen und hinzuaddieren
-			double overallError = 0;
-			for(double e : errVec) overallError += Math.pow(e,2);
-			err += 0.5 * overallError;
-
 		}
 
 		// Gewichte anpassen
 		layer[layer.length - 1].update(dataCollection.size(), eta);
 		
-		// Mittelwert berechnen  und Fehler zurückgeben
-		return err / dataCollection.size();
+		return runTest(dataCollection);
 		
 	}
 
