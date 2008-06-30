@@ -4,7 +4,8 @@ import java.util.*;
 import java.io.*;
 import javax.sound.sampled.*;
 import yaprnn.mlp.ActivationFunction;
-import edu.emory.mathcs.jtransforms.fft.*;
+
+
 
 /** AiffMSound is the class for holding a single soundfile.
  *  It provides funcionality for previewing raw and subsampled data and for
@@ -28,7 +29,11 @@ class AiffSound extends Data {
 		this.rawData = rawData;
 		this.label = label;
 		this.filename = filename;
-		//TODO: Target erstellen (was ist gewünscht?)
+		if (label == "a") this.target = 1;
+		if (label == "e") this.target = 2;
+		if (label == "i") this.target = 3;
+		if (label == "o") this.target = 4;
+		if (label == "u") this.target = 5;
 	}
 
 	/** Returns the completely preprocessed data of this sound.
@@ -98,23 +103,71 @@ class AiffSound extends Data {
 	 */
 	public void subsample(int resolution, double overlap,
 				ActivationFunction scalingFunction) {
+		final double LAMBDA = 1.02;
 		convertByteToDouble();
-		/*for (int i = 0; i < 40; i++)
-			System.out.print(data[i] + "|");
-		System.out.println(); */
+		/*writeFile("/home/fisch/Uni/mpgi3/vokale/wave_fft/" + this.filename + "-wave.csv");*/
 		oneMorePowerOfTwo();
-		/*for (int i = 0; i < 40; i++)
-			System.out.print(data[i] + "|");
-		System.out.println();*/
-		DoubleFFT_1D fft = new DoubleFFT_1D(data.length/2);
+		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
 		fft.realForwardFull(data);
-		/*for (int i = 0; i < 40; i++)
-			System.out.print(data[i] + "|");
-		System.out.println();*/
 		calcAbsolutValue();
-		/*for (int i = 0; i < 40; i++)
-			System.out.print(data[i] + "|");*/
+		/*writeFile("/home/fisch/Uni/mpgi3/vokale/wave_fft/" + this.filename + "-fft.csv");*/
+		double[] newData = new double[resolution];
+		double width = getFirstWidth(resolution, overlap, LAMBDA);
+		double[] wArray = new double[resolution];
+		double[] iArray = new double[resolution];
+		double index=0.0;
+		for (int i = 0; i < resolution; i++){
+			wArray[i] = width;
+			width = LAMBDA*width;
 		}
+		for (int i = 0; i< resolution; i++){
+			iArray[i] = (index);
+			index += (1-overlap)*wArray[i];
+		}
+		/*System.out.println(this.data.length);*/
+		for (int i = 0; i<resolution; i++){
+			newData[i] = middle(wArray[i], iArray[i], overlap); 
+		}
+		for (int i = 0; i < resolution; i++ )
+			newData[i] = scalingFunction.compute(newData[i]/500000);
+		this.data = newData;
+		/*for (double data : this.data)
+			System.out.println(data);*/
+		writeFile("/home/fisch/Uni/mpgi3/vokale/wave_fft/" + this.filename + "-fft.csv");
+		}
+	
+	
+	/** Calculates the average of a stated sequence from data
+	 * 
+	 * @param index the first element
+	 * @param widht the width of the sequence
+	 * @return the average 
+	 */
+	
+	private double middle(double width, double index, double overlap){
+		double average = 0;
+		int leftIndex = (int)Math.round(index-(width*overlap));
+		int rightIndex = (int)Math.round(leftIndex+width);
+		/*System.out.println("w: " + width);
+		System.out.println("i: " + index);
+		System.out.println("l: " + leftIndex);
+		System.out.println("r: " + rightIndex);*/
+		if (leftIndex<0){
+			for(int i = 0; i <= rightIndex;i++){
+				average += this.data[i];
+			}
+			average = average/ (rightIndex-leftIndex);
+			return average;
+		}
+		for(int i = leftIndex; i <= rightIndex;i++){
+			average += this.data[i];
+		}
+		if (rightIndex-leftIndex == 0){
+			return average;
+		}
+		average = average/ (rightIndex-leftIndex);
+		return average;
+	}
 
 	/** Reads several Sounds from the specified files and returns them as a collection.
 	 *
@@ -124,7 +177,6 @@ class AiffSound extends Data {
 	 
 	 public static Collection<Data> readFromFile(Collection<String> filenames)
 			throws InvalidFileException {
-				//TODO: error handling
 				try {
 			Collection<Data> result = new ArrayList<Data>(filenames.size());
 			for (String name : filenames){
@@ -204,10 +256,55 @@ class AiffSound extends Data {
 	 */
 	
 	private void calcAbsolutValue(){
-		double[] newdata = new double[data.length/2];
-		for (int i = 0; i < data.length; i +=2)
-			newdata[i/2] = Math.sqrt(data[i]*data[i] + data[i+1]*data[i+1]);
+		double[] newdata = new double[data.length/4];
+		for (int i = 0; i < data.length/2; i +=2)
+			newdata[i/2] = java.lang.Math.sqrt(data[i]*data[i] + data[i+1]*data[i+1]);
 		data = newdata;
 	}
+
+	
+	/** Write File in UTF-Format. Only used to plot a graph with 'veusz'
+	 * 
+	 * @param path The path, where the file will be saved.
+	 */
+	
+	public void writeFile(String path){
+		try {
+			FileOutputStream fileout = new FileOutputStream(path);
+			BufferedOutputStream buffout = new BufferedOutputStream(fileout);
+			DataOutputStream dataout = new DataOutputStream(buffout);
+			String str = "";
+			for (int i = 0; i<this.data.length; i++){
+				double d = this.data[i];
+				str += Double.toString(d) + ",";
+			}
+			dataout.writeUTF(str + ", ");
+			dataout.flush();
+			fileout.close();
+	      	}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		}
+	
+	/** Calculates the first window width 
+	 * 
+	 * @param resolution the new resolution of data
+	 * @param overlap the overlap of the windows
+	 * @param lambda the increase of the window width
+	 * @return the first window width
+	 */
+	private double getFirstWidth(int resolution, double overlap, double lambda){
+		double temp=0;
+		for (int i = 0; i<=resolution-2; i++)
+			temp += Math.pow(lambda,i);
+		double width = (this.data.length) / ((1-overlap)*temp + Math.pow(lambda,resolution-1));
+		return width;
+	}
+	
+	
 	
 }
