@@ -27,7 +27,6 @@ class NewMLPActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		int numLayers = 0;
 		int numNeurons = 0;
-		boolean autoEncoder = false;
 
 		// Für die Eingabe-Schleife.
 		boolean notSatisfied;
