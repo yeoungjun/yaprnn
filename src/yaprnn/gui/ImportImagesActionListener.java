@@ -1,11 +1,12 @@
 package yaprnn.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,12 +32,12 @@ class ImportImagesActionListener implements ActionListener {
 
 		// Input Dialog vorbereiten.
 		JTextField optionLabelsPKG = new JTextField();
-		JButton toolSearchLabelsPKG = new JButton();
+		JButton toolSearchLabelsPKG = new JButton("...");
 		toolSearchLabelsPKG
 				.addActionListener(new ToolSearchForFileActionListener(gui
 						.getView(), optionLabelsPKG, GUI.FILEFILTER_IMGPKG));
 		JTextField optionImagesPKG = new JTextField();
-		JButton toolSearchImagesPKG = new JButton();
+		JButton toolSearchImagesPKG = new JButton("...");
 		toolSearchImagesPKG
 				.addActionListener(new ToolSearchForFileActionListener(gui
 						.getView(), optionImagesPKG, GUI.FILEFILTER_IMGPKG));
@@ -60,13 +61,20 @@ class ImportImagesActionListener implements ActionListener {
 			if (ret == JOptionPane.CANCEL_OPTION)
 				return;
 			try {
-				
 				labelsPKG = optionLabelsPKG.getText();
 				imagesPKG = optionImagesPKG.getText();
-				if (new File(labelsPKG).exists()
-						&& new File(imagesPKG).exists())
+				File labelsFile = new File(labelsPKG);
+				File imagesFile = new File(imagesPKG);
+				if (labelsFile.exists() && imagesFile.exists())
 					notSatisfied = false;
-				if
+				if (labelsFile.exists())
+					optionLabelsPKG.setBackground(new Color(255, 128, 128));
+				else
+					optionLabelsPKG.setBackground(SystemColor.text);
+				if (labelsFile.exists())
+					optionImagesPKG.setBackground(new Color(255, 128, 128));
+				else
+					optionImagesPKG.setBackground(SystemColor.text);
 			} catch (Exception ex) {
 			}
 		}
@@ -81,5 +89,4 @@ class ImportImagesActionListener implements ActionListener {
 		}
 
 	}
-
 }

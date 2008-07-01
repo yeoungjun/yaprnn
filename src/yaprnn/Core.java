@@ -58,6 +58,7 @@ public class Core {
 	public void openIdxPicture(String dataFilename, String labelFilename)
 				throws NoSuchFileException, InvalidFileException, FileMismatchException {
 		dvv = new DVV(dataFilename, labelFilename);
+		gui.setDataSet(dvv.getDataSet());
 	}
 
 	
@@ -70,6 +71,7 @@ public class Core {
 	public void openAiffSound(Collection<String> filenames)
 			throws InvalidFileException, NoSuchFileException{
 		dvv = new DVV(filenames);
+		gui.setDataSet(dvv.getDataSet());
 	}
 	
 	/** Creates a new MLP using the specified parameters and returns an interface to it.
@@ -128,7 +130,7 @@ public class Core {
 	 *
 	 *  @param filename the name of the file where the MLP is to be stored
 	 */
-	public void SaveMLP(String filename) throws NoSuchFileException {
+	public void saveMLP(String filename) throws NoSuchFileException {
 		ObjectOutputStream out;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(filename));
@@ -151,8 +153,6 @@ public class Core {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();	
 		
-		//TODO: Damit das funktioniert, muss das GuiInterface geschrieben werden
-		
 		for(int i=0; i<maxIterations; i++) {
 			try {
 				Collection<Data> test = dvv.getTestData();
@@ -162,8 +162,8 @@ public class Core {
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
 				
-				//guiInterface.setTrainingError(trainingErrors);
-				//guiInterface.setTestError(testErrors);
+				gui.setTrainingError(trainingErrors);
+				gui.setTestError(testErrors);
 				
 				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
 				if(testErr < maxError)
@@ -188,8 +188,6 @@ public class Core {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();	
 		
-		//TODO: Damit das funktioniert, muss das GuiInterface geschrieben werden
-		
 		for(int i=0; i<maxIterations; i++) {
 			try {
 				final double trainingErr = mlp.runBatch(dvv.getTrainingData(), eta);
@@ -197,8 +195,8 @@ public class Core {
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
 				
-				//guiInterface.setTrainingError(trainingErrors);
-				//guiInterface.setTestError(testErrors);
+				gui.setTrainingError(trainingErrors);
+				gui.setTestError(testErrors);
 				
 				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
 				

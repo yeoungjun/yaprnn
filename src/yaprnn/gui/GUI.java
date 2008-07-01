@@ -3,10 +3,7 @@ package yaprnn.gui;
 import java.util.Collection;
 import java.util.List;
 import java.awt.EventQueue;
-
-import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import yaprnn.Core;
 import yaprnn.GUIInterface;
 import yaprnn.dvv.Data;
@@ -39,11 +36,7 @@ public class GUI implements GUIInterface {
 		this.core.setGUI(this);
 
 		// Look and Feel anpassen
-		try {
-			UIManager
-					.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());
-		} catch (Exception e) {
-		}
+		// try { UIManager.setLookAndFeel(...); } catch (Exception e) {}
 
 		// TreeModel einsetzen
 		mainView.getTreeNeuralNetwork().setModel(treeModel);
@@ -84,7 +77,8 @@ public class GUI implements GUIInterface {
 
 	@Override
 	public void setDataSet(Collection<Data> dataset) {
-		// TODO Auto-generated method stub
+		for (Data d : dataset)
+			treeModel.add(d);
 	}
 
 	@Override

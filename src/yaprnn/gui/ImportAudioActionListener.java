@@ -18,7 +18,7 @@ class ImportAudioActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser chooser = new JFileChooser();
-		chooser.setFileFilter(GUI.FILEFILTER_IMGPKG);
+		chooser.setFileFilter(GUI.FILEFILTER_AIFF);
 		chooser.setMultiSelectionEnabled(true);
 		if (chooser.showOpenDialog(gui.getView()) == JFileChooser.APPROVE_OPTION)
 			for(File f : chooser.getSelectedFiles())
