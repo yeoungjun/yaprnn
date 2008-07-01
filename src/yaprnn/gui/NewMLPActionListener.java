@@ -1,5 +1,6 @@
 package yaprnn.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,6 +60,14 @@ class NewMLPActionListener implements ActionListener {
 				numNeurons = Integer.parseInt(optionNumNeurons.getText());
 				if (numLayers > 0 && numNeurons > 0)
 					notSatisfied = false;
+				else {
+					// Die Felder mit ungültigen eingaben werden mit hellem rot
+					// unterlegt.
+					if (numLayers <= 0)
+						optionNumLayers.setBackground(new Color(255, 128, 128));
+					if (numNeurons <= 0)
+						optionNumNeurons.setBackground(new Color(255, 128, 128));
+				}
 			} catch (Exception ex) {
 			}
 		}
