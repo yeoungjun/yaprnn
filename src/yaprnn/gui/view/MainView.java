@@ -208,8 +208,6 @@ public class MainView extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         menuManual = new javax.swing.JMenuItem();
 
-        jToolBar1.setFloatable(false);
-        
         menuClassify.setText("Classify Data");
         menuClassify.setActionCommand("Set Layer #");
         menuClassify.setEnabled(false);
@@ -236,6 +234,8 @@ public class MainView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("YAPRNN");
         setBounds(new java.awt.Rectangle(0, 0, 600, 400));
+
+        jToolBar1.setFloatable(false);
 
         toolNewMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconNewMLP.png"))); // NOI18N
         toolNewMLP.setText("New MLP");
