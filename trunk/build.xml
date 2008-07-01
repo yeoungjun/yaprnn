@@ -3,11 +3,16 @@
     
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
+	<property name="lib" value="lib"/>
 	      
 	<target name="init">
 		<mkdir dir="${build}"/>
 	</target>
-		
+	
+	<path id="classpath">
+		<fileset dir="${lib}"/>
+	</path>
+	
 	<target name="resources">
 	    <copy todir="${build}/yaprnn/gui/view">
 	      <fileset dir="${src}/yaprnn/gui/view">
@@ -17,7 +22,7 @@
 	</target>
 	
 	<target name="compile" depends="init, resources">
-		<javac srcdir="${src}" destdir="${build}"/>
+		<javac srcdir="${src}" destdir="${build}" classpathref="classpath"/>
 	</target>
 
     <jar jarfile="yaprnn.jar" basedir="${build}"
