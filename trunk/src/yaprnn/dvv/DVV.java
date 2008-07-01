@@ -105,7 +105,11 @@ public class DVV {
 		//TODO: error handling
 		for(Data data : allData)
 			data.subsample(resolution, overlap, scalingFunction);
-		numInputNeurons = resolution * resolution;
+		String proof = allData.toString().substring(1, 21); //Sound oder Image
+		if (proof.matches("yaprnn.dvv.AiffSound")) //Nicht grad elegante Lösung.
+			numInputNeurons = resolution;
+		else 
+			numInputNeurons = resolution * resolution;
 	}
 
 	/** Returns the size of the input vector.

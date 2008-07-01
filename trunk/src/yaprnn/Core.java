@@ -60,6 +60,17 @@ public class Core {
 		dvv = new DVV(dataFilename, labelFilename);
 	}
 
+	
+	/** Opens an AiffSound data set contained in the stated filenames.
+	 * 
+	 * @param filenames the collection containing the sound data
+	 * @throws InvalidFileException if one of the files does not have a supported format
+	 */	
+	public void openAiffSound(Collection<String> filenames)
+			throws InvalidFileException{
+		dvv = new DVV(filenames);
+	}
+	
 	/** Creates a new MLP using the specified parameters and returns an interface to it.
 	 *
 	 *  @param layer              an array holding the number of neurons per layer
