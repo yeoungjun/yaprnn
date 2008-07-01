@@ -2,6 +2,7 @@ package yaprnn.dvv;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import yaprnn.mlp.ActivationFunction;
 
 /** DVV is the main data managment and preprocessing class.
@@ -32,8 +33,10 @@ public class DVV {
 	/** Constructs a DVV for holding {@link AiffSound} data with the specified filenames.
 	 *
 	 *  @param filename the names of the file containing the sound data
+	 *  @throws InvalideFileException if one of the files does not have the required format
+	 *  @throws NoSuchFileException if one of the files does not exist
 	 */
-	public DVV(Collection<String> filenames) throws InvalidFileException {
+	public DVV(Collection<String> filenames) throws InvalidFileException, NoSuchFileException {
 		allData = AiffSound.readFromFile(filenames);
 		numOutputNeurons = 5;
 	}
@@ -105,8 +108,8 @@ public class DVV {
 		//TODO: error handling
 		for(Data data : allData)
 			data.subsample(resolution, overlap, scalingFunction);
-		String proof = allData.toString().substring(1, 21); //Sound oder Image
-		if (proof.matches("yaprnn.dvv.AiffSound")) //Nicht grad elegante Lösung.
+		Collection t = new ArrayList<AiffSound>(); 
+		if (allData.getClass().isInstance(t))
 			numInputNeurons = resolution;
 		else 
 			numInputNeurons = resolution * resolution;
