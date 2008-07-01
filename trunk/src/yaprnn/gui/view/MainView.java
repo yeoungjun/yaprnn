@@ -57,12 +57,12 @@ public class MainView extends javax.swing.JFrame {
         return menuImportAudio2;
     }
 
-    public javax.swing.JMenuItem getMenuImportImage() {
-        return menuImportImage;
+    public javax.swing.JMenuItem getMenuImportImages() {
+        return menuImportImages;
     }
 
-    public javax.swing.JMenuItem getMenuImportImage2() {
-        return menuImportImage2;
+    public javax.swing.JMenuItem getMenuImportImages2() {
+        return menuImportImages2;
     }
 
     public javax.swing.JMenuItem getMenuLoadDataSet() {
@@ -156,7 +156,7 @@ public class MainView extends javax.swing.JFrame {
         menuSubsampling = new javax.swing.JMenuItem();
         menuResetNetwork = new javax.swing.JMenuItem();
         popupImport = new javax.swing.JPopupMenu();
-        menuImportImage2 = new javax.swing.JMenuItem();
+        menuImportImages2 = new javax.swing.JMenuItem();
         menuImportAudio2 = new javax.swing.JMenuItem();
         jToolBar1 = new javax.swing.JToolBar();
         toolNewMLP = new javax.swing.JButton();
@@ -201,13 +201,15 @@ public class MainView extends javax.swing.JFrame {
         menuSaveDataSet = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
         jMenu2 = new javax.swing.JMenu();
-        menuImportImage = new javax.swing.JMenuItem();
+        menuImportImages = new javax.swing.JMenuItem();
         menuImportAudio = new javax.swing.JMenuItem();
         jSeperator3 = new javax.swing.JSeparator();
         menuExit = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         menuManual = new javax.swing.JMenuItem();
 
+        jToolBar1.setFloatable(false);
+        
         menuClassify.setText("Classify Data");
         menuClassify.setActionCommand("Set Layer #");
         menuClassify.setEnabled(false);
@@ -225,8 +227,8 @@ public class MainView extends javax.swing.JFrame {
         menuResetNetwork.setEnabled(false);
         popupNeuralNetwork.add(menuResetNetwork);
 
-        menuImportImage2.setText("Image data");
-        popupImport.add(menuImportImage2);
+        menuImportImages2.setText("Image data");
+        popupImport.add(menuImportImages2);
 
         menuImportAudio2.setText("Audio data");
         popupImport.add(menuImportAudio2);
@@ -479,9 +481,9 @@ public class MainView extends javax.swing.JFrame {
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadAudioImage.png"))); // NOI18N
         jMenu2.setText("Import");
 
-        menuImportImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadImage.png"))); // NOI18N
-        menuImportImage.setText("Image data");
-        jMenu2.add(menuImportImage);
+        menuImportImages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadImage.png"))); // NOI18N
+        menuImportImages.setText("Image data");
+        jMenu2.add(menuImportImages);
 
         menuImportAudio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadAudio.png"))); // NOI18N
         menuImportAudio.setText("Audio data");
@@ -563,8 +565,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenuItem menuImportAudio;
     private javax.swing.JMenuItem menuImportAudio2;
-    private javax.swing.JMenuItem menuImportImage;
-    private javax.swing.JMenuItem menuImportImage2;
+    private javax.swing.JMenuItem menuImportImages;
+    private javax.swing.JMenuItem menuImportImages2;
     private javax.swing.JMenuItem menuLoadDataSet;
     private javax.swing.JMenuItem menuLoadMLP;
     private javax.swing.JMenuItem menuManual;
