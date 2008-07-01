@@ -2,7 +2,7 @@
 == Wie starte ich yaprnn mit GUI? ==
 Über die Main-Klasse in /yaprnn.
 
-~~== Ich bekomme eine NullPointerException. Was soll ich machen? ==~~
+== ~~Ich bekomme eine NullPointerException. Was soll ich machen?~~ ==
 ~~Die GUI lädt noch bevor die MainView sichtbar wird die Icons aus den .png Dateien. Sie liegen im src/yaprnn/gui/view Verzeichnis und müssen leider manuell in build/yaprnn/gui/view kopiert werden. Danach sollte es laufen. Falls nicht, eMail!~~
 
 == Was funktioniert schon von der GUI? ==
