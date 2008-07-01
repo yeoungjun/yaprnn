@@ -227,7 +227,7 @@ class NetworkTreeModel implements TreeModel {
 	 * Updates a tree and its nodes as needed.
 	 */
 	private void updateTree() {
-		// TODO
+		// TODO : update vom tree model erzwingen
 		// Vielleicht überhaupt gar nicht nötig?!
 	}
 

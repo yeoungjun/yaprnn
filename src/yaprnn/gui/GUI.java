@@ -5,6 +5,7 @@ import java.util.List;
 import java.awt.EventQueue;
 
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import yaprnn.Core;
 import yaprnn.GUIInterface;
@@ -12,6 +13,18 @@ import yaprnn.dvv.Data;
 import yaprnn.gui.view.MainView;
 
 public class GUI implements GUIInterface {
+
+	// Package Globs
+	final static double DEFAULT_BIAS = 0.2;
+	final static int DEFAULT_ACTIVATION_FUNCTION = 0;
+	final static FileNameExtensionFilter FILEFILTER_YDS = new FileNameExtensionFilter(
+			"YAPRNN DataSet", "yds");
+	final static FileNameExtensionFilter FILEFILTER_MLP = new FileNameExtensionFilter(
+			"Neural Network", "mlp");
+	final static FileNameExtensionFilter FILEFILTER_AIFF = new FileNameExtensionFilter(
+			"Audio files", "aiff");
+	final static FileNameExtensionFilter FILEFILTER_IMGPKG = new FileNameExtensionFilter(
+			"Image package", "gz");
 
 	private Core core;
 	private MainView mainView = new MainView();
@@ -27,9 +40,9 @@ public class GUI implements GUIInterface {
 
 		// Look and Feel anpassen
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager
+					.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());
 		} catch (Exception e) {
-			// Nichts zu tun hier.
 		}
 
 		// TreeModel einsetzen
@@ -40,6 +53,11 @@ public class GUI implements GUIInterface {
 		// EventHandler hinzufügen
 		new NewMLPActionListener(this);
 		new LoadMLPActionListener(this);
+		new SaveMLPActionListener(this);
+		new LoadDataSetActionListener(this);
+		new SaveDataSetActionListener(this);
+		new ImportAudioActionListener(this);
+		new ImportImagesActionListener(this);
 		new MenuExitActionListener(this);
 		new ToolImportActionListener(this);
 
