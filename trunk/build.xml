@@ -20,8 +20,9 @@
 		<javac srcdir="${src}" destdir="${build}"/>
 	</target>
 
-    <jar jarfile="${build}/yaprnn.jar" manifest="${src}/MANIFEST.txt" depends="compile">
-      <fileset dir="${build}"/>
+    <jar jarfile="yaprnn.jar" basedir="${build}"
+    	manifest="${src}/MANIFEST.txt">
+    	<fileset dir="${build}"/>
     </jar>
 	
 </project>
