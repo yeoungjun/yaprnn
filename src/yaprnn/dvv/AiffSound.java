@@ -133,7 +133,6 @@ class AiffSound extends Data {
 		this.data = newData;
 		/*for (double data : this.data)
 			System.out.println(data);*/
-		writeFile("/home/fisch/Uni/mpgi3/vokale/wave_fft/" + this.filename + "-fft.csv");
 		}
 	
 	
