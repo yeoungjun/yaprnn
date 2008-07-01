@@ -93,6 +93,38 @@ class AiffSound extends Data {
 		return "" + target;
 	}
 
+	/** Returns the data subsampled with the specified parameters (not yet scaled).
+	 *
+	 *  @param resolution      the desired resolution
+	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
+	 */
+	public double[] previewSubsampledData(int resolution, double overlap) {
+		final double LAMBDA = 1.02;
+		convertByteToDouble();
+		oneMorePowerOfTwo();
+		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
+		fft.realForwardFull(data);
+		calcAbsolutValue();
+		double[] newData = new double[resolution];
+		double width = getFirstWidth(resolution, overlap, LAMBDA);
+		double[] wArray = new double[resolution];
+		double[] iArray = new double[resolution];
+		double index=0.0;
+		for (int i = 0; i < resolution; i++){
+			wArray[i] = width;
+			width = LAMBDA*width;
+		}
+		for (int i = 0; i< resolution; i++){
+			iArray[i] = (index);
+			index += (1-overlap)*wArray[i];
+		}
+		for (int i = 0; i<resolution; i++){
+			newData[i] = middle(wArray[i], iArray[i], overlap); 
+		}
+		return newData;
+	}
+
+	
 	
 	
 	/** Performs the subsampling and scaling of the data.
@@ -202,14 +234,6 @@ class AiffSound extends Data {
 			}
 			return result;
 	 }
-/*			} catch(IOException e) {
-				e.printStackTrace();
-			}
-			  catch(UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			  }
-				return null;
-		}*/
 	
 	/** Converts a bytearray into a doublearray
 	 *
