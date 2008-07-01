@@ -64,10 +64,11 @@ public class Core {
 	/** Opens an AiffSound data set contained in the stated filenames.
 	 * 
 	 * @param filenames the collection containing the sound data
-	 * @throws InvalidFileException if one of the files does not have a supported format
+	 * @throws InvalidFileException if one of the files is not a supported format
+	 * @throws NoSuchFileException if one of the files does not exist
 	 */	
 	public void openAiffSound(Collection<String> filenames)
-			throws InvalidFileException{
+			throws InvalidFileException, NoSuchFileException{
 		dvv = new DVV(filenames);
 	}
 	

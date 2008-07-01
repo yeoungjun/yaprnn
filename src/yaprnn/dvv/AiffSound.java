@@ -175,27 +175,41 @@ class AiffSound extends Data {
 	 */
 	 
 	 public static Collection<Data> readFromFile(Collection<String> filenames)
-			throws InvalidFileException {
-				try {
+			throws InvalidFileException, NoSuchFileException {
+		 		AudioInputStream audioInput = null;
+		 		File file = null;
 			Collection<Data> result = new ArrayList<Data>(filenames.size());
 			for (String name : filenames){
-				AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File(name));
+				file = new File(name);
+				try {
+					audioInput = AudioSystem.getAudioInputStream(file);
+				}	catch(UnsupportedAudioFileException e) {
+					throw new InvalidFileException(name);
+				}   catch (IOException e) {
+					throw new NoSuchFileException(name);
+				}
 				int frameSize = audioInput.getFormat().getFrameSize();
 				long frameLenght = audioInput.getFrameLength();
 				byte[] data = new byte[frameSize * (int)frameLenght];
-				int read = audioInput.read(data); //read wird nicht gebraucht, aber verlangt.
+				try {
+					int read = audioInput.read(data); //read wird nicht gebraucht, aber verlangt.
+				}	catch (IOException e) {
+					e.printStackTrace();
+				}
 				String filename = name.substring(name.lastIndexOf("/")+1); //es handelt sich hierbei um eine Pfadangabe z.B. /home/bla/a3-08.aiff
 				String label = filename.substring(0, 1); //label ist der erste Buchstabe von filename
 				result.add(new AiffSound(data, label, filename));
-			}	return result;
-			} catch(IOException e) {
+			}
+			return result;
+	 }
+/*			} catch(IOException e) {
 				e.printStackTrace();
 			}
 			  catch(UnsupportedAudioFileException e) {
 				e.printStackTrace();
 			  }
 				return null;
-		}
+		}*/
 	
 	/** Converts a bytearray into a doublearray
 	 *

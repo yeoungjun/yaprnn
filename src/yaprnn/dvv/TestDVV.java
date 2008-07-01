@@ -1,6 +1,7 @@
 package yaprnn.dvv;
 
 import java.util.*;
+
 import yaprnn.mlp.*;
 
 class TestDVV {
@@ -13,6 +14,7 @@ class TestDVV {
 		TestDVV.test03();
 		TestDVV.test04();
 		TestDVV.test05();
+		TestDVV.testSound01();
 		//TestDVV.test();
 	}
 
@@ -102,6 +104,28 @@ class TestDVV {
 				System.out.println("");
 			}
 			System.out.println("");
+		}
+	}
+	
+	public static void testSound01(){
+		try {
+		Collection<String> incomming  = new ArrayList<String>(2);
+		incomming.add("/home/fisch/Uni/mpgi3/vokale/data/a1-1.aiff");
+		incomming.add("/home/fisch/Uni/mpgi3/vokale/data/dummy.aiff");
+		incomming.add("/home/fisch/Uni/mpgi3/vokale/data/a9-30.aiff");
+		DVV dvv = new DVV(incomming);
+		Collection<? extends Data> allData = dvv.getDataSet();;
+		for(Data data : allData) {
+			System.out.println(((AiffSound)data).getFilename());
+			System.out.println(((AiffSound)data).getLabel());
+			data.subsample(0, 0, new yaprnn.mlp.TangensHyperbolicus());
+		}  
+		}
+		catch (InvalidFileException e) {
+			System.out.println(e.getFilename() + " hat kein gültiges Format.");
+		}
+		catch (NoSuchFileException e) {
+			System.out.println(e.getFilename() + " ist nicht vorhanden.");
 		}
 	}
 
