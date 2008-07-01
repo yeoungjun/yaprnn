@@ -2,6 +2,7 @@ package yaprnn.gui;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
@@ -34,17 +35,12 @@ class NewMLPActionListener implements ActionListener {
 		optionNumLayers.addKeyListener(new OnlyNumbersKeyAdapter());
 		JTextField optionNumNeurons = new JTextField("2");
 		optionNumLayers.addKeyListener(new OnlyNumbersKeyAdapter());
-		JCheckBox optionAutoEncoding = new JCheckBox(
-				"Use auto encoding initialization");
+		JCheckBox optionAutoEncoding = new JCheckBox("Use auto encoding initialization");
 		optionAutoEncoding.setSelected(false);
-
 		JPanel panel = new JPanel(new GridLayout(5, 1));
-		panel.add(new JLabel(
-				"How many layers do you want? (value must be greater then 0)"));
+		panel.add(new JLabel("How many layers do you want? (value must be greater then 0)"));
 		panel.add(optionNumLayers);
-		panel
-				.add(new JLabel(
-						"How many neurons per Layer do you want? (value must be greater then 0)"));
+		panel.add(new JLabel("How many neurons per Layer do you want? (value must be greater then 0)"));
 		panel.add(optionNumNeurons);
 		panel.add(optionAutoEncoding);
 
@@ -65,8 +61,12 @@ class NewMLPActionListener implements ActionListener {
 					// unterlegt.
 					if (numLayers <= 0)
 						optionNumLayers.setBackground(new Color(255, 128, 128));
+					else
+						optionNumLayers.setBackground(SystemColor.text);
 					if (numNeurons <= 0)
 						optionNumNeurons.setBackground(new Color(255, 128, 128));
+					else
+						optionNumNeurons.setBackground(SystemColor.text);
 				}
 			} catch (Exception ex) {
 			}
