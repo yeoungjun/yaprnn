@@ -7,7 +7,7 @@ import yaprnn.mlp.ActivationFunction;
 
 
 
-/** AiffMSound is the class for holding a single soundfile.
+/** AiffSound is the class for holding a single soundfile.
  *  It provides funcionality for previewing raw and subsampled data and for
  *  subsampling and scaling the data.
  */
