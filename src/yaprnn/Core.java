@@ -51,7 +51,7 @@ public class Core {
 	 *  @throws InvalidFileException if one of the files does not have the expected format
 	 *  @throws FileMismatchException if the two files appear to belong to distinct data sets
 	 */
-	public void openIdxPicture(String dataFilename, String labelFilename) throws NoSuchFileException, InvalidFileException, FileMismatchException {
+	public void openIdxPicture(String dataFilename, String labelFilename) throws NoSuchFileException, InvalidFileException, FileMismatchException, IOException {
 		dvv = new DVV(dataFilename, labelFilename);
 		gui.setDataSet(dvv.getDataSet());
 	}
