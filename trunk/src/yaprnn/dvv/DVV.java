@@ -33,7 +33,7 @@ public class DVV {
 	
 	/** Constructs a DVV for holding {@link AiffSound} data with the specified filenames.
 	 *
-	 *  @param filename the names of the file containing the sound data
+	 *  @param filenames the names of the file containing the sound data
 	 *  @throws InvalideFileException if one of the files does not have the required format
 	 *  @throws NoSuchFileException if one of the files does not exist
 	 */
