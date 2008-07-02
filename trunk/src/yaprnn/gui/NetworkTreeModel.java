@@ -9,6 +9,7 @@ import java.util.Vector;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
+import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
@@ -56,65 +57,18 @@ class NetworkTreeModel implements TreeModel {
 		TRAINING_SET, TEST_SET
 	}
 
-	private final static ImageIcon iconMLP = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconMLP.png"));
-	private final static ImageIcon iconNeuron = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconNeuron.png"));
-	private final static ImageIcon iconLayer = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconLayer.png"));
-	private final static ImageIcon iconAVF = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconAVF.png"));
-	private final static ImageIcon iconProcessed = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconProcessed.png"));
-	private final static ImageIcon iconUnProcessed = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconUnProcessed.png"));
-	private final static ImageIcon iconTrainingSet = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconFolderTraining.png"));
-	private final static ImageIcon iconTestSet = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconFolderTest.png"));
-	private final static ImageIcon iconFolderDatasets = new ImageIcon(
-			Class.class.getResource("/yaprnn/gui/view/iconFolderDataSet.png"));
-	private final static ImageIcon iconFolderOpened = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconFolderWhite.png"));
-	private final static ImageIcon iconFolderClosed = new ImageIcon(Class.class
-			.getResource("/yaprnn/gui/view/iconFolderGrey.png"));
-
-	// private final static ImageIcon iconNotUsed = new ImageIcon(Class.class
-	// .getResource("/yaprnn/gui/view/iconFolderNotUsed.png"));
-
-	/**
-	 * LabeledNode is used internally for giving a container of data a readable
-	 * label.
-	 * 
-	 * @param <D>
-	 *            Type of the value contained in this node.
-	 */
-	private class LabeledNode<D> {
-
-		private ImageIcon icon;
-		private String label;
-		private D value;
-
-		LabeledNode(ImageIcon icon, String label, D value) {
-			this.icon = icon;
-			this.label = label;
-			this.value = value;
-		}
-
-		D getValue() {
-			return value;
-		}
-
-		ImageIcon getIcon() {
-			return icon;
-		}
-
-		@Override
-		public String toString() {
-			return label;
-		}
-
-	}
+	private final static ImageIcon iconMLP = loadIcon("/yaprnn/gui/view/iconMLP.png");
+	private final static ImageIcon iconNeuron = loadIcon("/yaprnn/gui/view/iconNeuron.png");
+	private final static ImageIcon iconLayer = loadIcon("/yaprnn/gui/view/iconLayer.png");
+	private final static ImageIcon iconAVF = loadIcon("/yaprnn/gui/view/iconAVF.png");
+	private final static ImageIcon iconProcessed = loadIcon("/yaprnn/gui/view/iconProcessed.png");
+	private final static ImageIcon iconUnProcessed = loadIcon("/yaprnn/gui/view/iconUnProcessed.png");
+	private final static ImageIcon iconTrainingSet = loadIcon("/yaprnn/gui/view/iconFolderTraining.png");
+	private final static ImageIcon iconTestSet = loadIcon("/yaprnn/gui/view/iconFolderTest.png");
+	private final static ImageIcon iconFolderDatasets = loadIcon("/yaprnn/gui/view/iconFolderDataSet.png");
+	private final static ImageIcon iconFolderOpened = loadIcon("/yaprnn/gui/view/iconFolderWhite.png");
+	private final static ImageIcon iconFolderClosed = loadIcon("/yaprnn/gui/view/iconFolderGrey.png");
+	private final static ImageIcon iconNotUsed = loadIcon("/yaprnn/gui/view/iconFolderNotUsed.png");
 
 	/**
 	 * NetTrainingTestLabeledNode is used internally for displaying training and
@@ -123,6 +77,7 @@ class NetworkTreeModel implements TreeModel {
 	private class NetTrainingTestLabeledNode
 			extends
 			LabeledNode<Dictionary<NetTrainingTestLookupKeys, LabeledNode<List<Data>>>> {
+
 		NetTrainingTestLabeledNode(NeuralNetwork net, List<Data> trainingSet,
 				List<Data> testSet) {
 			super(
@@ -226,9 +181,10 @@ class NetworkTreeModel implements TreeModel {
 	/**
 	 * Updates a tree and its nodes as needed.
 	 */
-	private void updateTree() {
-		// TODO : update vom tree model erzwingen
-		// Vielleicht überhaupt gar nicht nötig?!
+	private void updateSubTree(Object node) {
+		TreeModelEvent e = new TreeModelEvent(this, new Object[] { node });
+		for (TreeModelListener tml : listeners)
+			tml.treeStructureChanged(e);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -377,7 +333,8 @@ class NetworkTreeModel implements TreeModel {
 			// Und für einfacheres Abrufen...
 			netsDataNodes.put(toAdd, n);
 
-			updateTree();
+			updateSubTree(netsNode);
+			updateSubTree(datasetsNode);
 		}
 	}
 
@@ -401,7 +358,8 @@ class NetworkTreeModel implements TreeModel {
 			// Netzwerk entfernen
 			nets.remove(toRemove);
 
-			updateTree();
+			updateSubTree(netsNode);
+			updateSubTree(datasetsNode);
 		}
 	}
 
@@ -416,7 +374,7 @@ class NetworkTreeModel implements TreeModel {
 			// Data einfügen
 			loadedData.add(toAdd);
 
-			updateTree();
+			updateSubTree(loadedDataNode);
 		}
 	}
 
@@ -451,8 +409,21 @@ class NetworkTreeModel implements TreeModel {
 			// Data entfernen
 			loadedData.remove(toRemove);
 
-			updateTree();
+			updateSubTree(datasetsNode);
 		}
+	}
+
+	/**
+	 * Loads an icon from a location and resizes it to a default size to fit the
+	 * tree optic.
+	 * 
+	 * @param location
+	 *            location to load from
+	 * @return the icon
+	 */
+	private static ImageIcon loadIcon(String location) {
+		return new ImageIcon(GUI.resizeImage(new ImageIcon(Class.class
+				.getResource(location)).getImage(), 22, 22));
 	}
 
 }

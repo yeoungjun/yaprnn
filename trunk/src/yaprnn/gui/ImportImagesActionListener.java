@@ -35,7 +35,7 @@ class ImportImagesActionListener implements ActionListener {
 		JButton toolSearchLabelsPKG = new JButton("...");
 		toolSearchLabelsPKG
 				.addActionListener(new ToolSearchForFileActionListener(gui
-						.getView(), optionLabelsPKG, GUI.FILEFILTER_IMGPKG));
+						.getView(), optionLabelsPKG, GUI.FILEFILTER_LBLPKG));
 		JTextField optionImagesPKG = new JTextField();
 		JButton toolSearchImagesPKG = new JButton("...");
 		toolSearchImagesPKG
@@ -84,8 +84,8 @@ class ImportImagesActionListener implements ActionListener {
 			gui.getCore().openIdxPicture(imagesPKG, labelsPKG);
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
-					+ ex.getMessage(), "An error occured",
-					JOptionPane.ERROR_MESSAGE);
+					+ ex.toString() + "\n" + ex.getStackTrace(),
+					"An error occured", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

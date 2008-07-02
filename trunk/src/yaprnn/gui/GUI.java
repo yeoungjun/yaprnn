@@ -3,6 +3,10 @@ package yaprnn.gui;
 import java.util.Collection;
 import java.util.List;
 import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import yaprnn.Core;
 import yaprnn.GUIInterface;
@@ -21,7 +25,9 @@ public class GUI implements GUIInterface {
 	final static FileNameExtensionFilter FILEFILTER_AIFF = new FileNameExtensionFilter(
 			"Audio files", "aiff");
 	final static FileNameExtensionFilter FILEFILTER_IMGPKG = new FileNameExtensionFilter(
-			"Image package", "gz");
+			"Image package", "idx3-ubyte");
+	final static FileNameExtensionFilter FILEFILTER_LBLPKG = new FileNameExtensionFilter(
+			"Label package", "idx1-ubyte");
 
 	private Core core;
 	private MainView mainView = new MainView();
@@ -89,6 +95,29 @@ public class GUI implements GUIInterface {
 	@Override
 	public void setTrainingError(List<Double> errorData) {
 		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Resizes an image.
+	 * 
+	 * @param image
+	 * @param width
+	 * @param height
+	 * @return the resized image
+	 */
+	static Image resizeImage(Image image, int width, int height) {
+		if (image == null)
+			return null;
+		int ow = image.getWidth(null);
+		int oh = image.getHeight(null);
+		// Transform wird zur skalierung benötigt.
+		BufferedImage bi = new BufferedImage(ow, oh,
+				BufferedImage.TYPE_INT_ARGB);
+		bi.getGraphics().drawImage(image, 0, 0, ow, oh, null);
+		AffineTransform tx = new AffineTransform();
+		tx.scale(width / (double) ow, height / (double) oh);
+		return new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC)
+				.filter(bi, null);
 	}
 
 }
