@@ -14,8 +14,8 @@ class TestDVV {
 		TestDVV.test03();
 		TestDVV.test04();
 		TestDVV.test05();
-		TestDVV.testSound01();
-		//TestDVV.test();
+		//TestDVV.testSound01();
+		TestDVV.test();
 	}
 
 	public static void test01() {

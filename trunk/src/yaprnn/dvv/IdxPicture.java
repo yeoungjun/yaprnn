@@ -136,10 +136,9 @@ class IdxPicture extends Data {
 	 *  @throws NoSuchFileException if one of the files does not exist
 	 */
 	public static Collection<Data> readFromFile(String dataFilename, String labelFilename)
-				throws NoSuchFileException, InvalidFileException, FileMismatchException {
+				throws NoSuchFileException, InvalidFileException, FileMismatchException, IOException {
 		DataInputStream dataInput = null, labelInput = null;
 		int numImagesData = 0, numImagesLabel = 0;
-		Collection<Data> result = null;
 		try {
 			try {
 				dataInput = new DataInputStream(new FileInputStream(dataFilename));
@@ -169,25 +168,18 @@ class IdxPicture extends Data {
 			}
 			if(numImagesData != numImagesLabel)
 				throw new FileMismatchException(dataFilename, labelFilename);
-			result = readDataFromFile(dataInput, labelInput, numImagesData, dataFilename, labelFilename);
-		} catch(IOException e) {
-			e.printStackTrace();	
+			return readDataFromFile(dataInput, labelInput, numImagesData, dataFilename, labelFilename);
 		} finally {
-			try {
-				if(dataInput != null)
-					dataInput.close();
-				if(labelInput != null)
-					labelInput.close();
-			} catch(final IOException e) {
-				e.printStackTrace();
-			}
-			return result;
+			if(dataInput != null)
+				dataInput.close();
+			if(labelInput != null)
+				labelInput.close();
 		}
 	}
 
 	private static Collection<Data> readDataFromFile(DataInputStream dataInput, DataInputStream labelInput,
 				int numImages, String dataFilename, String labelFilename)
-				throws InvalidFileException {
+				throws InvalidFileException, IOException {
 		Collection<Data> result = new ArrayList<Data>(numImages);
 		try {
 			final int numRows = dataInput.readInt();
@@ -208,8 +200,6 @@ class IdxPicture extends Data {
 			}
 		} catch(EOFException e) {
 			throw new InvalidFileException(labelFilename);
-		} catch(IOException e) {
-			e.printStackTrace();
 		}
 		return result;
 	}

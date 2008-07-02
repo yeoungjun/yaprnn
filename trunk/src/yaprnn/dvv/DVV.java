@@ -3,6 +3,7 @@ package yaprnn.dvv;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.io.IOException;
 import yaprnn.mlp.ActivationFunction;
 
 /** DVV is the main data managment and preprocessing class.
@@ -25,7 +26,7 @@ public class DVV {
 	 *  @throws NoSuchFileException if one of the files does not exist
 	 */
 	public DVV(String dataFilename, String labelFilename)
-				throws InvalidFileException, FileMismatchException, NoSuchFileException {
+				throws InvalidFileException, FileMismatchException, NoSuchFileException, IOException {
 		allData = IdxPicture.readFromFile(dataFilename, labelFilename);
 		numOutputNeurons = 10;
 	}
