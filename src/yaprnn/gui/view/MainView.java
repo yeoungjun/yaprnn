@@ -1,7 +1,5 @@
 package yaprnn.gui.view;
 
-import java.awt.event.ActionListener;
-
 public class MainView extends javax.swing.JFrame {
   
     /**

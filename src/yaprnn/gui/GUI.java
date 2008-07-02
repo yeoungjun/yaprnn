@@ -32,8 +32,8 @@ public class GUI implements GUIInterface {
 	private NetworkTreeModel treeModel = new NetworkTreeModel();
 
 	/**
-	 * @param mv
-	 *            the main view to be used
+	 * @param core
+	 *            the core controller
 	 */
 	public GUI(Core core) {
 		this.core = core;
@@ -41,8 +41,8 @@ public class GUI implements GUIInterface {
 
 		// TreeModel einsetzen
 		mainView.getTreeNeuralNetwork().setModel(treeModel);
-		mainView.getTreeNeuralNetwork()
-				.setCellRenderer(treeModel.getRenderer());
+		mainView.getTreeNeuralNetwork().setCellRenderer(
+				new NetworkTreeRenderer());
 
 		// EventHandler hinzufügen
 		new NewMLPAction(this);
