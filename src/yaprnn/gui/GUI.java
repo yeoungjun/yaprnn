@@ -16,8 +16,6 @@ import yaprnn.gui.view.MainView;
 public class GUI implements GUIInterface {
 
 	// Package Globs
-	final static double DEFAULT_BIAS = 0.2;
-	final static int DEFAULT_ACTIVATION_FUNCTION = 0;
 	final static FileNameExtensionFilter FILEFILTER_YDS = new FileNameExtensionFilter(
 			"YAPRNN DataSet", "yds");
 	final static FileNameExtensionFilter FILEFILTER_MLP = new FileNameExtensionFilter(
@@ -41,24 +39,20 @@ public class GUI implements GUIInterface {
 		this.core = core;
 		this.core.setGUI(this);
 
-		// Look and Feel anpassen
-		// try { UIManager.setLookAndFeel(...); } catch (Exception e) {}
-
 		// TreeModel einsetzen
 		mainView.getTreeNeuralNetwork().setModel(treeModel);
 		mainView.getTreeNeuralNetwork()
 				.setCellRenderer(treeModel.getRenderer());
 
 		// EventHandler hinzufügen
-		new NewMLPActionListener(this);
-		new LoadMLPActionListener(this);
-		new SaveMLPActionListener(this);
-		new LoadDataSetActionListener(this);
-		new SaveDataSetActionListener(this);
-		new ImportAudioActionListener(this);
-		new ImportImagesActionListener(this);
-		new MenuExitActionListener(this);
-		new ToolImportActionListener(this);
+		new NewMLPAction(this);
+		new LoadMLPAction(this);
+		new SaveMLPAction(this);
+		new LoadDataSetAction(this);
+		new SaveDataSetAction(this);
+		new ImportAudioAction(this);
+		new ImportImagesAction(this);
+		new MenuExitAction(this);
 
 		// Das Anzeigen der View sollte verzögert geschehen.
 		EventQueue.invokeLater(new Runnable() {

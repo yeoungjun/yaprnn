@@ -1,22 +1,23 @@
 package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Collection;
 import java.util.Vector;
-
+import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-class ImportAudioActionListener implements ActionListener {
+class ImportAudioAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1988236914859516756L;
 
 	private GUI gui;
 
-	ImportAudioActionListener(GUI gui) {
+	ImportAudioAction(GUI gui) {
 		this.gui = gui;
 		gui.getView().getMenuImportAudio().addActionListener(this);
-		gui.getView().getMenuImportAudio2().addActionListener(this);
+		gui.getView().getToolImportAudio().addActionListener(this);
 	}
 
 	@Override

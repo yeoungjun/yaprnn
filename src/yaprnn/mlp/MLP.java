@@ -224,9 +224,9 @@ public class MLP implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Liefert die Anzahl der Schichten eines neuronalen Netzes.
+	 * Liefert die Aktivierungsfunktion einer Schicht.
 	 * 
-	 * @return Anzahl der Schichten.
+	 * @return Die Aktivierungsfunktion dieser Schicht.
 	 */
 	public ActivationFunction getActivationFunction(int layer) {
 		if (layer > (this.layer.length - 1))
@@ -236,17 +236,40 @@ public class MLP implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Liefert die Größe einer Schicht.
+	 * Liefert den Bias einer Schicht.
 	 * 
 	 * @param layer
 	 *            Die Schicht (Startet mit 0).
-	 * @return Anzahl der Neuronen dieser Schicht.
+	 * @return Der Bias.
 	 */
 	public double getBias(int layer) {
 		if (layer > (this.layer.length - 1))
 			return 0;
 		
 		return this.layer[layer].getBias();
+	}
+
+	/**
+	 * Liefert die Größe einer Schicht.
+	 * 
+	 * @param layer
+	 *            Die Schicht (Startet mit 0).
+	 * @return Anzahl der Neuronen dieser Schicht.
+	 */
+	public int getLayerSize(int layer) {
+		if (layer > (this.layer.length - 1))
+			return -1;
+		
+		return this.layer[layer].getSize();
+	}
+
+	/**
+	 * Liefert die Anzahl der Schichten eines neuronalen Netzes.
+	 * 
+	 * @return Anzahl der Schichten.
+	 */
+	public int getNumLayers() {
+		return this.layer.length;
 	}
 
 	/**
@@ -257,29 +280,6 @@ public class MLP implements Serializable, NeuralNetwork {
 	 * @return Eine Gewichtsmatrix der Form double[][], wobei die erste
 	 *         Dimension die Neuronen der hinteren Schicht ist und die zweite
 	 *         die Neuronen der vorhergehenden Schicht.
-	 */
-	public int getLayerSize(int layer) {
-		if (layer > (this.layer.length - 1))
-			return -1;
-		
-		return this.layer[layer].getSize();
-	}
-
-	/**
-	 * Liefert die Aktivierungsfunktion einer Schicht.
-	 * 
-	 * @return Die Aktivierungsfunktion dieser Schicht.
-	 */
-	public int getNumLayers() {
-		return this.layer.length;
-	}
-
-	/**
-	 * Liefert den Bias einer Schicht.
-	 * 
-	 * @param layer
-	 *            Die Schicht (Startet mit 0).
-	 * @return Der Bias.
 	 */
 	public double[][] getWeights(int layer) {
 		if (layer > (this.layer.length - 1))
