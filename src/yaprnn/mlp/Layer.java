@@ -62,10 +62,12 @@ public class Layer implements Serializable {
 	 * @param input Ein Eingabevektor, der die gleiche Dimension wie die Neuronen braucht
 	 * @throws BadConfigException Wird bei falscher Konfiguration zurückgeworfen
 	 */
-	public void setInput(double[] input) throws BadConfigException {
+	public boolean setInput(double[] input) {
 		if (output.length != input.length)
-			throw new BadConfigException("Falsche Dimension der Eingabedaten: " + input.length + " statt " + output.length, 	BadConfigException.INVALID_INPUT_DIMENSION);
+			return false;
+		
 		output = input;
+		return true;
 	}
 
 	/**
@@ -113,10 +115,10 @@ public class Layer implements Serializable {
 	 * der nötigen Gewichtsveränderungen und Speicherung dieser, wird der Fehler der vorherigen Schicht errechnet und dieser dann an die nächste Schicht weitergegeben.
 	 * @throws BadConfigException Bei falschem Fehlervektor.
 	 */
-	public void backPropagate(double[] error) throws BadConfigException {
+	public void backPropagate(double[] error) {
 		if(prevLayer == null) return;
 		
-		if(error.length != output.length) throw new BadConfigException("Flascher Fehler-Vektor übergeben!", BadConfigException.INVALID_ERROR_VECTOR);
+//		if(error.length != output.length) throw new BadConfigException("Flascher Fehler-Vektor übergeben!", BadConfigException.INVALID_ERROR_VECTOR);
 		
 		
 		double[] localError = new double[output.length];

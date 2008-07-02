@@ -14,6 +14,7 @@ public class Core {
 	private MLP mlp;
 	private DVV dvv;
 	private GUIInterface gui;
+
 	private List<ActivationFunction> activations;
 	private List<Double> trainingErrors;
 	private List<Double> testErrors;
@@ -36,15 +37,10 @@ public class Core {
 	 *  @return the vector of percentages
 	 */
 	public double[] classify(Data input) {
-		if(mlp != null)
-			//TODO: try-catch block provisorisch, eigentlich nicht nötig
-			try {
-				return mlp.classify(input.getData());
-			} catch(BadConfigException e) {
-				return null;
-			}
-		else
+		if(mlp == null)
 			return null;
+		
+		return mlp.classify(input.getData());
 	}
 
 	/** Opens an IdxPicture data set contained in the specified filenames.
@@ -55,8 +51,7 @@ public class Core {
 	 *  @throws InvalidFileException if one of the files does not have the expected format
 	 *  @throws FileMismatchException if the two files appear to belong to distinct data sets
 	 */
-	public void openIdxPicture(String dataFilename, String labelFilename)
-				throws NoSuchFileException, InvalidFileException, FileMismatchException {
+	public void openIdxPicture(String dataFilename, String labelFilename) throws NoSuchFileException, InvalidFileException, FileMismatchException {
 		dvv = new DVV(dataFilename, labelFilename);
 		gui.setDataSet(dvv.getDataSet());
 	}
@@ -82,23 +77,37 @@ public class Core {
 	 *  @param autoEncoder        true if the MLP is to be initialized with autoencoding, false otherwise
 	 *  @return an interface to the new mlp
 	 */
-	public NeuralNetwork newMLP(int[] layer, int[] activationFunction, double[] bias, boolean autoEncoder) {
-		if(activationFunction.length == layer.length+2 && layer.length == bias.length && dvv != null) {
-			final int numInputNeurons = dvv.getNumInputNeurons();
-			final int numOutputNeurons = dvv.getNumOutputNeurons();
-			if(numInputNeurons > 0 && numOutputNeurons > 0) {
-				ActivationFunction[] functions = new ActivationFunction[activationFunction.length];
-				for(int i=0; i<functions.length; i++)
-					functions[i] = activations.get(activationFunction[i]);
-				//TODO: try-catch block provisorisch, eignetlich ist hier keine Exception nötig
-				try {
-					mlp = new MLP(numInputNeurons, numOutputNeurons, layer,
-							functions, bias, autoEncoder);
-					return mlp;
-				} catch(BadConfigException e) { }
-			}
-		}
-		return null;
+	public NeuralNetwork newMLP(int[] layer, int[] activationFunction, double[] bias, boolean autoEncoder) throws BadConfigException {
+		
+		if(dvv == null) throw new BadConfigException( "Datenvorverarbeitung nicht verfügbar!", BadConfigException.DVV_NOT_LOADED);
+		
+		ActivationFunction[] functions = new ActivationFunction[activationFunction.length];
+		for(int i=0; i<functions.length; i++)
+			functions[i] = activations.get(activationFunction[i]);
+		
+		return new MLP(dvv.getNumInputNeurons(), dvv.getNumOutputNeurons(), layer, functions, bias, autoEncoder);
+		
+//		if(activationFunction.length == layer.length+2 && layer.length == bias.length && dvv != null) {
+//			
+//			final int numInputNeurons = dvv.getNumInputNeurons();
+//			final int numOutputNeurons = dvv.getNumOutputNeurons();
+//			
+//			if(numInputNeurons > 0 && numOutputNeurons > 0) {
+//				
+//				ActivationFunction[] functions = new ActivationFunction[activationFunction.length];
+//				for(int i=0; i<functions.length; i++)
+//					functions[i] = activations.get(activationFunction[i]);
+//				//TODO: try-catch block provisorisch, eignetlich ist hier keine Exception nötig
+//				try {
+//					mlp = new MLP(numInputNeurons, numOutputNeurons, layer,
+//							functions, bias, autoEncoder);
+//					return mlp;
+//				} catch(BadConfigException e) { }
+//				
+//			}
+//			
+//		}
+//		return null;
 	}
 
 	/** Loads a MLP from the specified file.
@@ -154,10 +163,9 @@ public class Core {
 		testErrors = new LinkedList<Double>();	
 		
 		for(int i=0; i<maxIterations; i++) {
-			try {
 				Collection<Data> test = dvv.getTestData();
 				Collection<Data> train = dvv.getTrainingData();
-				final double trainingErr = mlp.runBatch(train, eta);
+				final double trainingErr = mlp.runOnline(train, eta);
 				final double testErr = mlp.runTest(test);
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
@@ -166,15 +174,7 @@ public class Core {
 				gui.setTestError(testErrors);
 				
 				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
-				if(testErr < maxError)
-					break;
-			} catch(BadConfigException e) {
-				System.out.println("BadConfigException in trainOnline");
-				System.out.println(e.getMessage());
-				
-				//TODO: Eine Exception ist hier eigentlich nicht nötig
-				return;
-			}
+				if(testErr <= maxError) break;
 		}
 	}
 
@@ -189,7 +189,6 @@ public class Core {
 		testErrors = new LinkedList<Double>();	
 		
 		for(int i=0; i<maxIterations; i++) {
-			try {
 				final double trainingErr = mlp.runBatch(dvv.getTrainingData(), eta);
 				final double testErr = mlp.runTest(dvv.getTestData());
 				trainingErrors.add(trainingErr);
@@ -200,15 +199,7 @@ public class Core {
 				
 				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
 				
-				if(testErr < maxError)
-					break;
-			} catch(BadConfigException e) {
-				System.out.println("BadConfigException in trainOnline");
-				System.out.println(e.getMessage());
-				
-				//TODO: Eine Exception ist hier eigentlich nicht nötig
-				return;
-			}
+				if(testErr <= maxError) break;
 		}
 	}
 

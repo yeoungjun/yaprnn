@@ -14,6 +14,7 @@ public class BadConfigException extends Exception {
 	public static int INVALID_NUMBER_OF_FUNCTIONS = 8;
 	public static int INVALID_TARGET_VECTOR = 9;
 	public static int INVALID_ERROR_VECTOR = 10;
+	public static int DVV_NOT_LOADED = 11;
 	
 	public BadConfigException(String message) {
 		super(message);
