@@ -181,10 +181,10 @@ class NetworkTreeModel implements TreeModel {
 	/**
 	 * Updates a tree and its nodes as needed.
 	 */
-	private void updateSubTree(Object node) {
-		TreeModelEvent e = new TreeModelEvent(this, new Object[] { node });
+	private void updateSubTree(Object[] nodes) {
+		TreeModelEvent e = new TreeModelEvent(this, nodes);
 		for (TreeModelListener tml : listeners)
-			tml.treeStructureChanged(e);
+			tml.treeNodesChanged(e);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -333,8 +333,7 @@ class NetworkTreeModel implements TreeModel {
 			// Und für einfacheres Abrufen...
 			netsDataNodes.put(toAdd, n);
 
-			updateSubTree(netsNode);
-			updateSubTree(datasetsNode);
+			updateSubTree(new Object[]{ netsNode, datasetsNode });
 		}
 	}
 
@@ -358,8 +357,7 @@ class NetworkTreeModel implements TreeModel {
 			// Netzwerk entfernen
 			nets.remove(toRemove);
 
-			updateSubTree(netsNode);
-			updateSubTree(datasetsNode);
+			updateSubTree(new Object[]{ netsNode, datasetsNode });
 		}
 	}
 
@@ -374,7 +372,7 @@ class NetworkTreeModel implements TreeModel {
 			// Data einfügen
 			loadedData.add(toAdd);
 
-			updateSubTree(loadedDataNode);
+			updateSubTree(new Object[]{ loadedDataNode });
 		}
 	}
 
@@ -409,7 +407,7 @@ class NetworkTreeModel implements TreeModel {
 			// Data entfernen
 			loadedData.remove(toRemove);
 
-			updateSubTree(datasetsNode);
+			updateSubTree(new Object[]{ datasetsNode });
 		}
 	}
 

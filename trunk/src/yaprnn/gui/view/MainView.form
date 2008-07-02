@@ -10,6 +10,9 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="menuClassify">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/yaprnn/gui/view/iconClassify.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Classify Data"/>
             <Property name="actionCommand" type="java.lang.String" value="Set Layer #"/>
             <Property name="enabled" type="boolean" value="false"/>
@@ -17,38 +20,29 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuTraining">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/yaprnn/gui/view/iconTraining.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Train MLP"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuSubsampling">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/yaprnn/gui/view/iconProcessAll.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Subsampling"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuResetNetwork">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/yaprnn/gui/view/iconReset.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Reset Network"/>
             <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-        </MenuItem>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPopupMenu" name="popupImport">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-        <Property name="useNullLayout" type="boolean" value="true"/>
-      </Layout>
-      <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="menuImportImages2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Image data"/>
-          </Properties>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="menuImportAudio2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Audio data"/>
           </Properties>
         </MenuItem>
       </SubComponents>
@@ -276,18 +270,24 @@
         </Component>
         <Component class="javax.swing.JToolBar$Separator" name="jSeparator3">
         </Component>
-        <Component class="javax.swing.JButton" name="toolImport">
+        <Component class="javax.swing.JButton" name="toolImportImages">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/yaprnn/gui/view/iconLoadAudioImage.png"/>
+              <Image iconType="3" name="/yaprnn/gui/view/iconLoadImage.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Import"/>
-            <Property name="toolTipText" type="java.lang.String" value="Import Audio / Image Data"/>
+            <Property name="text" type="java.lang.String" value="Import images"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="4"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[45, 45]"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="toolImportAudio">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/yaprnn/gui/view/iconLoadAudio.png"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Import audio"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="4"/>
           </Properties>
         </Component>
       </SubComponents>

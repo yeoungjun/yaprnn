@@ -1,25 +1,28 @@
 package yaprnn.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-class ImportImagesActionListener implements ActionListener {
+class ImportImagesAction extends AbstractAction {
+
+	private static final long serialVersionUID = -3195936972260965601L;
 
 	private GUI gui;
 
-	ImportImagesActionListener(GUI gui) {
+	ImportImagesAction(GUI gui) {
 		this.gui = gui;
 		gui.getView().getMenuImportImages().addActionListener(this);
-		gui.getView().getMenuImportImages2().addActionListener(this);
+		gui.getView().getToolImportImages().addActionListener(this);
 	}
 
 	@Override
@@ -31,23 +34,21 @@ class ImportImagesActionListener implements ActionListener {
 		boolean notSatisfied;
 
 		// Input Dialog vorbereiten.
+		JPanel panel = new JPanel(new GridLayout(4, 1));
+		JPanel innerPanel1 = new JPanel(new BorderLayout());
+		JPanel innerPanel2 = new JPanel(new BorderLayout());
 		JTextField optionLabelsPKG = new JTextField();
 		JButton toolSearchLabelsPKG = new JButton("...");
-		toolSearchLabelsPKG
-				.addActionListener(new ToolSearchForFileActionListener(gui
-						.getView(), optionLabelsPKG, GUI.FILEFILTER_LBLPKG));
 		JTextField optionImagesPKG = new JTextField();
 		JButton toolSearchImagesPKG = new JButton("...");
-		toolSearchImagesPKG
-				.addActionListener(new ToolSearchForFileActionListener(gui
-						.getView(), optionImagesPKG, GUI.FILEFILTER_IMGPKG));
-		JPanel innerPanel1 = new JPanel(new GridLayout(1, 2));
+		toolSearchLabelsPKG.addActionListener(new ToolSearchForFileAction(gui
+				.getView(), optionLabelsPKG, GUI.FILEFILTER_LBLPKG));
+		toolSearchImagesPKG.addActionListener(new ToolSearchForFileAction(gui
+				.getView(), optionImagesPKG, GUI.FILEFILTER_IMGPKG));
+		innerPanel1.add(toolSearchLabelsPKG, BorderLayout.EAST);
 		innerPanel1.add(optionLabelsPKG);
-		innerPanel1.add(toolSearchLabelsPKG);
-		JPanel innerPanel2 = new JPanel(new GridLayout(1, 2));
+		innerPanel2.add(toolSearchImagesPKG, BorderLayout.EAST);
 		innerPanel2.add(optionImagesPKG);
-		innerPanel2.add(toolSearchImagesPKG);
-		JPanel panel = new JPanel(new GridLayout(4, 1));
 		panel.add(new JLabel("Please select the labels package:"));
 		panel.add(innerPanel1);
 		panel.add(new JLabel("Please select the images package:"));
@@ -60,22 +61,30 @@ class ImportImagesActionListener implements ActionListener {
 					"Import images", JOptionPane.OK_CANCEL_OPTION);
 			if (ret == JOptionPane.CANCEL_OPTION)
 				return;
+			labelsPKG = optionLabelsPKG.getText();
+			imagesPKG = optionImagesPKG.getText();
+			boolean labelsExists = false, imagesExists = false;
 			try {
-				labelsPKG = optionLabelsPKG.getText();
-				imagesPKG = optionImagesPKG.getText();
-				File labelsFile = new File(labelsPKG);
-				File imagesFile = new File(imagesPKG);
-				if (labelsFile.exists() && imagesFile.exists())
-					notSatisfied = false;
-				if (labelsFile.exists())
+				labelsExists = new File(labelsPKG).exists();
+				imagesExists = new File(imagesPKG).exists();
+			} catch (SecurityException ex) {
+				JOptionPane
+						.showMessageDialog(
+								gui.getView(),
+								"You don't have granted access to the parent directory.",
+								"Access error", JOptionPane.ERROR_MESSAGE);
+			}
+			if (labelsExists && imagesExists)
+				notSatisfied = false;
+			else {
+				if (!labelsExists)
 					optionLabelsPKG.setBackground(new Color(255, 128, 128));
 				else
 					optionLabelsPKG.setBackground(SystemColor.text);
-				if (labelsFile.exists())
+				if (!imagesExists)
 					optionImagesPKG.setBackground(new Color(255, 128, 128));
 				else
 					optionImagesPKG.setBackground(SystemColor.text);
-			} catch (Exception ex) {
 			}
 		}
 

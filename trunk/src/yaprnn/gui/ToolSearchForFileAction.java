@@ -2,18 +2,20 @@ package yaprnn.gui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
-class ToolSearchForFileActionListener implements ActionListener {
+class ToolSearchForFileAction extends AbstractAction {
+
+	private static final long serialVersionUID = -2116642543143779305L;
 
 	private Component parent;
 	private JTextField target;
 	private FileFilter filter;
 
-	ToolSearchForFileActionListener(Component parent, JTextField target,
+	ToolSearchForFileAction(Component parent, JTextField target,
 			FileFilter filter) {
 		this.parent = parent;
 		this.target = target;

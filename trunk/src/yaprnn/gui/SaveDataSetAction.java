@@ -1,18 +1,20 @@
 package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-class LoadDataSetActionListener implements ActionListener {
+class SaveDataSetAction extends AbstractAction {
+
+	private static final long serialVersionUID = -7257714413392063849L;
 
 	private GUI gui;
 
-	LoadDataSetActionListener(GUI gui) {
+	SaveDataSetAction(GUI gui) {
 		this.gui = gui;
-		gui.getView().getMenuLoadDataSet().addActionListener(this);
-		gui.getView().getToolLoadDataSet().addActionListener(this);
+		gui.getView().getMenuSaveDataSet().addActionListener(this);
+		gui.getView().getToolSaveDataSet().addActionListener(this);
 	}
 
 	@Override
@@ -20,10 +22,11 @@ class LoadDataSetActionListener implements ActionListener {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setMultiSelectionEnabled(false);
 		chooser.setFileFilter(GUI.FILEFILTER_YDS);
-		if (chooser.showOpenDialog(gui.getView()) == JFileChooser.APPROVE_OPTION)
-			// TODO : Laderoutine für DataSets
+		if (chooser.showSaveDialog(gui.getView()) == JFileChooser.APPROVE_OPTION) {
+			// TODO : Speicherroutine für DataSets
 			JOptionPane.showMessageDialog(null, chooser.getSelectedFile()
 					.getPath());
+		}
 	}
 
 }
