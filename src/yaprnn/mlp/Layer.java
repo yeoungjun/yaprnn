@@ -88,12 +88,12 @@ public class Layer implements Serializable {
 			// Resetten und Bias einrechnen
 			output[h] = bias;
 
-			for (int i = 0; i < input.length; i++) {
-				// Jede Ausgabe des letzten Layers mit der verbindenden Matrix multiplizieren und addieren
+			// Jede Ausgabe des letzten Layers mit der verbindenden Matrix multiplizieren und addieren
+			for (int i = 0; i < input.length; i++)
 				output[h] += input[i] * weightMatrix[h][i];
-			}
 
 			layerInput[h] = output[h] - bias;
+			
 			// Akativierungsfunktion auf die Summe anwenden
 			output[h] = function.compute(output[h]);
 		}
@@ -125,9 +125,7 @@ public class Layer implements Serializable {
 		double preLayerError[] = new double[prevLayer.getSize()];
 
 		for(int i = 0; i <localError.length; i++) {
-			
 			localError[i] = function.derivation(layerInput[i]);
-			
 			localError[i] = localError[i] * error[i];
 			for(int h = 0; h < preLayerError.length; h++)
 				gradientMatrix[i][h] += localError[i] * input[h]; 
@@ -137,7 +135,6 @@ public class Layer implements Serializable {
 			preLayerError[i] =  0;
 				for(int h = 0; h < output.length; h++)
 					preLayerError[i] += weightMatrix[h][i] * localError[h];
-				
 		}
 
 		prevLayer.backPropagate(preLayerError);
@@ -186,7 +183,6 @@ public class Layer implements Serializable {
 				buffer.append("\t" + weightMatrix[i][h]);
 			}
 		}
-		
 		return buffer.toString();
 	}
 	
@@ -205,13 +201,12 @@ public class Layer implements Serializable {
 	public double[] makeAutoencoder(double value, double maxIterations, double upperBound, double eta) throws BadConfigException{
 		
 		double[] trainingValues = new double[this.getSize()];
-//		Arrays.fill(trainingValues, 0);
 		trainingValues[0] = value;
 		if(prevLayer == null)	return trainingValues;
 
 		// Eingabedaten holen
 		double[] lastLayerOutput = prevLayer.makeAutoencoder(value, maxIterations, upperBound, eta);
-		//System.out.println("##################################nextLayer################");
+
 		// Layer herausnehmen
 		Layer prevLayer = this.prevLayer.prevLayer;
 		this.prevLayer.prevLayer = null;
@@ -221,52 +216,33 @@ public class Layer implements Serializable {
 		
 		// Ausgabe als neue Eingabe verwenden
 		this.prevLayer.setInput(lastLayerOutput);
-		//System.out.println("\n INPUT: ");
-		//for(double o : lastLayerOutput) 	System.out.print("\t" + o + "\n");
 		
-//		System.out.println("\n OUTPUT: ");
-//		double[] outVal = getOutput();
-//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
-//
-//		System.out.println("\n OUTPUT(ADD): ");
-//		outVal = additionalLayer.getOutput();
-//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
-
 		// train Online
 		double out[] = null;
-		           
-		// Ausgabe berechnen
+		double[] errVec = new double[additionalLayer.getSize()];
+		double overallError;
+		
 		for(int i = 0; i < maxIterations; i++) {
 			out = additionalLayer.getOutput();
 			
 			// Den Fehler an der Ausgabeschicht berechnen
-			double[] errVec = new double[additionalLayer.getSize()];
 			for (int h = 0; h < errVec.length; h++)
 				errVec[h] = out[h] - lastLayerOutput[h];
 	
-			double overallError = 0;
+			overallError = 0;
 			for(double e : errVec) overallError += Math.pow(e,2);
 			if(overallError < (2 * upperBound)) break;
-//			else System.out.println("OverallError: " + 0.5 * overallError);
 			
 			// Fehler zurückpropagieren
 			additionalLayer.backPropagate(errVec);
 	
 			// Gewichte anpassen
 			additionalLayer.update(1, eta);
-			
 		}
 
 		// Layer wieder integrieren
 		this.prevLayer.prevLayer = prevLayer;
-//		System.out.println("\n später OUTPUT: ");
-//		outVal = getOutput();
-//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
-//
-//		System.out.println("\n OUTPUT(ADD): ");
-//		outVal = additionalLayer.getOutput();
-//		for(double o : outVal) 	System.out.print("\t" + o + "\n");
-		
+
 		return getOutput();
 	}
 }
