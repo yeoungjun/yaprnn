@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import yaprnn.mlp.BadConfigException;
 import yaprnn.mlp.NeuralNetwork;
 
 class NewMLPActionListener implements ActionListener {
@@ -27,7 +29,7 @@ class NewMLPActionListener implements ActionListener {
 		int numLayers = 0;
 		int numNeurons = 0;
 
-		// Für die Eingabe-Schleife.
+		// Fï¿½r die Eingabe-Schleife.
 		boolean notSatisfied;
 
 		// Input Dialog vorbereiten.
@@ -57,7 +59,7 @@ class NewMLPActionListener implements ActionListener {
 				if (numLayers > 0 && numNeurons > 0)
 					notSatisfied = false;
 				else {
-					// Die Felder mit ungültigen eingaben werden mit hellem rot
+					// Die Felder mit ungueltigen eingaben werden mit hellem rot
 					// unterlegt.
 					if (numLayers <= 0)
 						optionNumLayers.setBackground(new Color(255, 128, 128));
@@ -72,7 +74,7 @@ class NewMLPActionListener implements ActionListener {
 			}
 		}
 
-		// Parameter ausfüllen
+		// Parameter ausfuellen
 		int[] layer = new int[numLayers];
 		int[] avf = new int[numLayers + 2];
 		double[] bias = new double[numLayers];
@@ -86,15 +88,14 @@ class NewMLPActionListener implements ActionListener {
 		avf[numLayers + 1] = 0;
 
 		// MLP erstellen
-		NeuralNetwork mlp = gui.getCore().newMLP(layer, avf, bias,
-				optionAutoEncoding.isSelected());
-		if (mlp == null)
-			// TODO : Eine genauere Fehlerbeschreibung wäre toll hier
-			JOptionPane.showMessageDialog(gui.getView(),
-					"NewMLP: Error occured",
-					"Something went wrong while creating the new mlp!",
-					JOptionPane.ERROR_MESSAGE);
-		else
+		try {
+			NeuralNetwork mlp = gui.getCore().newMLP(layer, avf, bias, 	optionAutoEncoding.isSelected());
 			gui.getTreeModel().add(mlp);
+		} catch (BadConfigException err) {
+			JOptionPane.showMessageDialog(gui.getView(),
+					err.getMessage(),
+					"NewMLP: Error occured",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
