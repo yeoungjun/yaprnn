@@ -13,7 +13,7 @@
 		<fileset dir="${lib}"/>
 	</path>
 	
-	<target name="resources">
+	<target name="resources" depends="init">
 	    <copy todir="${build}/yaprnn/gui/view">
 	      <fileset dir="${src}/yaprnn/gui/view">
 	        <include name="*.png" />
@@ -25,9 +25,11 @@
 		<javac srcdir="${src}" destdir="${build}" classpathref="classpath"/>
 	</target>
 
-    <jar jarfile="yaprnn.jar" basedir="${build}"
-    	manifest="${src}/MANIFEST.txt">
-    	<fileset dir="${build}"/>
-    </jar>
+	<target name="jar" depends="compile">
+	    <jar jarfile="yaprnn.jar" basedir="${build}"
+    		manifest="${src}/MANIFEST.txt">
+    		<fileset dir="${build}"/>
+    	</jar>
+	</target>
 	
 </project>
