@@ -68,8 +68,7 @@ class ImagesMacros {
 				BufferedImage.TYPE_BYTE_GRAY);
 		for (int y = 0; y < height; y++)
 			for (int x = 0; x < width; x++) {
-				// TODO : Graufarbenes Bild erstellen
-				// Blau gefärbtes Bild
+				// Graufarbenes Bild erstellen
 				image.setRGB(x, y, data[y][x]);
 			}
 
