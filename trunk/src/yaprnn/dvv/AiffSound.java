@@ -14,7 +14,7 @@ import yaprnn.mlp.ActivationFunction;
 public class AiffSound extends Data {
 
 	private double[] data;
-	private byte[] rawData;
+	private short[] rawData;
 	private String label;
 	private int target;
 	private String filename;
@@ -25,7 +25,7 @@ public class AiffSound extends Data {
 	 *  @param label   the classifying label
 	 *  @param filename the file this object was loaded from
 	 */
-	public AiffSound(byte[] rawData, String label, String filename) {
+	public AiffSound(short[] rawData, String label, String filename) {
 		this.rawData = rawData;
 		this.label = label;
 		this.filename = filename;
@@ -34,6 +34,9 @@ public class AiffSound extends Data {
 		if (label == "i") this.target = 3;
 		if (label == "o") this.target = 4;
 		if (label == "u") this.target = 5;
+		this.data = new double[this.rawData.length];
+		for (int i = 0; i < this.rawData.length; i++)
+			this.data[i] = this.rawData[i];
 	}
 
 	/** Returns the completely preprocessed data of this sound.
@@ -100,7 +103,6 @@ public class AiffSound extends Data {
 	 */
 	public Object previewSubsampledData(int resolution, double overlap) {
 		final double LAMBDA = 1.02;
-		convertByteToDouble();
 		oneMorePowerOfTwo();
 		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
 		fft.realForwardFull(data);
@@ -136,7 +138,6 @@ public class AiffSound extends Data {
 	public void subsample(int resolution, double overlap,
 				ActivationFunction scalingFunction) {
 		final double LAMBDA = 1.02;
-		convertByteToDouble();
 		/*writeFile("/home/fisch/Uni/mpgi3/vokale/wave_fft/" + this.filename + "-wave.csv");*/
 		oneMorePowerOfTwo();
 		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
@@ -230,7 +231,7 @@ public class AiffSound extends Data {
 				}
 				String filename = name.substring(name.lastIndexOf("/")+1); //es handelt sich hierbei um eine Pfadangabe z.B. /home/bla/a3-08.aiff
 				String label = filename.substring(0, 1); //label ist der erste Buchstabe von filename
-				result.add(new AiffSound(data, label, filename));
+				result.add(new AiffSound(convertByteToShort(data), label, filename));
 			}
 			return result;
 	 }
@@ -241,8 +242,8 @@ public class AiffSound extends Data {
 	 *  @return doubledata doublearray
 	 */
 	  
-	 private void convertByteToDouble(){
-		 data = new double[rawData.length/2];
+	 private static short[] convertByteToShort(byte[] rawData){
+		 short[] newData = new short[rawData.length/2];
 		 int accumulator1;
 		 int accumulator2;
 		 for (int i=0; i<rawData.length; i = i+2){
@@ -252,8 +253,9 @@ public class AiffSound extends Data {
 			 accumulator1 = (accumulator1 << 8);
 			 accumulator2 = (rawData[i+1] & 0xff);
 			 accumulator1 = (accumulator1 | accumulator2);
-			 data[i/2] = accumulator1;
+			 newData[i/2] = (short)accumulator1;
 		 }
+		 return newData;
 	 }
 
 
