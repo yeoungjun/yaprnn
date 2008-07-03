@@ -35,6 +35,8 @@ public class GUI implements GUIInterface {
 
 	// Den benutzen wir zum auslesen des Zoom-Wertes
 	private double zoom = 1.0;
+	private int resolution = 16;
+	private double overlap = 0.5;
 
 	/**
 	 * @param core
@@ -63,6 +65,8 @@ public class GUI implements GUIInterface {
 		new MenuResetNetworkAction(this);
 		new TreeNeuralNetworkSelection(this);
 		new OptionZoomAction(this);
+		new OptionResolutionChange(this);
+		new OptionOverlapChange(this);
 
 		// Das Anzeigen der View sollte verzögert geschehen.
 		EventQueue.invokeLater(new Runnable() {
@@ -103,6 +107,24 @@ public class GUI implements GUIInterface {
 		updateOnSelectedNode();
 	}
 
+	int getResolution() {
+		return resolution;
+	}
+
+	void setResolution(int resolution) {
+		this.resolution = resolution;
+		updateOnSelectedNode();
+	}
+
+	double getOverlap() {
+		return overlap;
+	}
+
+	void setOverlap(double overlap) {
+		this.overlap = overlap;
+		updateOnSelectedNode();
+	}
+
 	/**
 	 * Takes the appropriate action due to a change or update on a selected
 	 * node.
@@ -115,6 +137,10 @@ public class GUI implements GUIInterface {
 			mainView.getLabelPreview().setIcon(
 					new ImageIcon(ImagesMacros.createImagePreview(
 							(byte[][]) data.previewRawData(), zoom)));
+			mainView.getLabelPreviewSubsampled().setIcon(
+					new ImageIcon(ImagesMacros.createImagePreview(
+							(byte[][]) data.previewSubsampledData(resolution,
+									overlap), zoom)));
 		}
 	}
 

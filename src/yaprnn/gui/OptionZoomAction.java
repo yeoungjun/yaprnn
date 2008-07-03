@@ -9,17 +9,12 @@ class OptionZoomAction extends AbstractAction {
 	private static final long serialVersionUID = -6562436206434168269L;
 
 	private GUI gui;
-	private double zoom = 1.0;
 
 	OptionZoomAction(GUI gui) {
 		this.gui = gui;
 		gui.getView().getOptionZoom().addActionListener(this);
 		gui.getView().getOptionZoom().addKeyListener(
 				new OnlyNumbersKeyAdapter());
-	}
-
-	double getZoom() {
-		return zoom;
 	}
 
 	@Override

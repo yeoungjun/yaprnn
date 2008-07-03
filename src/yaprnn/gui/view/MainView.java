@@ -432,7 +432,7 @@ public class MainView extends javax.swing.JFrame {
 
         jLabel6.setText("Overlap %:");
 
-        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(10, 0, 99, 1));
+        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 1.0d, 0.1d));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
