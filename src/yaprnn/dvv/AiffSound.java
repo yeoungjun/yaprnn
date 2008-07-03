@@ -98,7 +98,7 @@ public class AiffSound extends Data {
 	 *  @param resolution      the desired resolution
 	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
 	 */
-	public double[] previewSubsampledData(int resolution, double overlap) {
+	public Object previewSubsampledData(int resolution, double overlap) {
 		final double LAMBDA = 1.02;
 		convertByteToDouble();
 		oneMorePowerOfTwo();
@@ -318,14 +318,22 @@ public class AiffSound extends Data {
 			dataout.writeUTF(str + ", ");
 			dataout.flush();
 			fileout.close();
-	      	}
+		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		catch(IOException e) {
 			e.printStackTrace();
 		}
-		}
+	}
+
+	public boolean isPicture() {
+		return false;
+	}
+
+	public boolean isAudio() {
+		return true;
+	}
 	
 	/** Calculates the first window width 
 	 * 
