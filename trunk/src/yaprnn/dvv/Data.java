@@ -15,6 +15,9 @@ public abstract class Data {
 	public abstract String getFilename();
 	public abstract String getLabelFromTarget(int target);;
 	public abstract void subsample(int resolution, double overlap, ActivationFunction function);
+	public abstract boolean isAudio();
+	public abstract boolean isPicture();
+	public abstract Object previewSubsampledData(int resolution, double overlap);
 
 	/**
 	 * Marks this Data object as a part of the training data set.

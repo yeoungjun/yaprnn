@@ -39,7 +39,7 @@ class TestDVV {
 				img[i][j] = 50;
 		IdxPicture pic = new IdxPicture(img, "0", "file", 0);
 		for(int k=0; k<=95; k++) {
-			byte[][] data = pic.previewSubsampledData(23, k/100.0);
+			byte[][] data = (byte[][])pic.previewSubsampledData(23, k/100.0);
 			for(int i=0; i<data.length; i++)
 				for(int j=0; j<data.length; j++)
 					if(data[i][j] != 50)
@@ -55,7 +55,7 @@ class TestDVV {
 		for(int i=0; i<img.length; i++)
 			img[i][i] = 10;
 		IdxPicture pic = new IdxPicture(img, "0", "file", 0);
-		byte[][] data = pic.previewSubsampledData(5, 0.0);
+		byte[][] data = (byte[][])pic.previewSubsampledData(5, 0.0);
 		for(int i=0; i<data.length; i++)
 			for(int j=0; j<data.length; j++) {
 				if(i==j && data[i][j] != 5)
@@ -68,7 +68,7 @@ class TestDVV {
 	public static void test04() {
 		byte[][] img = { {1, -1, 1, -1}, {1, -1, 1, -1}, {1, -1, 1, -1}, {1, -1, 1, -1} };
 		IdxPicture pic = new IdxPicture(img, "0", "file", 0);
-		byte[][] data = pic.previewSubsampledData(2, 0.0);
+		byte[][] data = (byte[][])pic.previewSubsampledData(2, 0.0);
 		int r = 128;
 		for(int i=0; i<data.length; i++)
 			for(int j=0; j<data.length; j++)
@@ -79,7 +79,7 @@ class TestDVV {
 	public static void test05() {
 		byte[][] img = { {-128, 127}, {127, -128} };
 		IdxPicture pic = new IdxPicture(img, "0", "file", 0);
-		byte[][] data = pic.previewSubsampledData(1, 0.95);
+		byte[][] data = (byte[][])pic.previewSubsampledData(1, 0.95);
 		int r = 510/4;
 		for(int i=0; i<data.length; i++)
 			for(int j=0; j<data.length; j++)
@@ -96,7 +96,7 @@ class TestDVV {
 		}
 		Collection<? extends Data> allData = dvv.getDataSet();
 		for(Data data : allData) {
-			byte[][] image = ((IdxPicture)data).previewSubsampledData(10, 0);
+			byte[][] image = (byte[][])((IdxPicture)data).previewSubsampledData(10, 0);
 			System.out.println(data.getLabel());
 			for(int i=0; i<image.length; i++) {
 				for(int j=0; j<image[0].length; j++)

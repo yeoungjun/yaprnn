@@ -56,7 +56,7 @@ public class IdxPicture extends Data {
 	 *  @param resolution      the desired resolution
 	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
 	 */
-	public byte[][] previewSubsampledData(int resolution, double overlap) {
+	public Object previewSubsampledData(int resolution, double overlap) {
 		if(resolution <= 0 || resolution > rawData.length || overlap < 0.0 || overlap > 0.95)
 			return null;
 		final int[][] subData = subsample(resolution, overlap);
@@ -124,6 +124,14 @@ public class IdxPicture extends Data {
 	 */
 	public String getLabelFromTarget(int target) {
 		return "" + target;
+	}
+
+	public boolean isPicture() {
+		return true;
+	}
+
+	public boolean isAudio() {
+		return false;
 	}
 
 	/** Reads several images from the specified files and returns them as a collection.
