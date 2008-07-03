@@ -5,6 +5,8 @@ import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import yaprnn.gui.NetworkTreeModel.ModelNode;
+
 /**
  * NetworkTreeRenderer is used to display the correct icons for the nodes in
  * treeNeuralNetwork.
