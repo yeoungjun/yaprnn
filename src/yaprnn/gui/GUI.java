@@ -3,8 +3,6 @@ package yaprnn.gui;
 import java.util.Collection;
 import java.util.List;
 import java.awt.EventQueue;
-
-import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import yaprnn.Core;
 import yaprnn.GUIInterface;
@@ -134,13 +132,12 @@ public class GUI implements GUIInterface {
 			// Preview erzeugen
 			DataNode dataNode = (DataNode) selected;
 			Data data = dataNode.getData();
-			mainView.getLabelPreview().setIcon(
-					new ImageIcon(ImagesMacros.createImagePreview(
-							(byte[][]) data.previewRawData(), zoom)));
-			mainView.getLabelPreviewSubsampled().setIcon(
-					new ImageIcon(ImagesMacros.createImagePreview(
-							(byte[][]) data.previewSubsampledData(resolution,
-									overlap), zoom)));
+			mainView.getLabelPreview().setImage(
+					ImagesMacros.createImagePreview((byte[][]) data
+							.previewRawData(), zoom));
+			mainView.getLabelPreviewSubsampled().setImage(
+					ImagesMacros.createImagePreview((byte[][]) data
+							.previewSubsampledData(resolution, overlap), zoom));
 		}
 	}
 

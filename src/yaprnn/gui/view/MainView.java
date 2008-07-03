@@ -28,11 +28,11 @@ public class MainView extends javax.swing.JFrame {
         return labelSampleLabel;
     }
 
-    public javax.swing.JLabel getLabelPreviewSubsampled() {
+    public yaprnn.gui.ImagePanel getLabelPreviewSubsampled() {
         return labelPreviewSubsampled;
     }
 
-    public javax.swing.JLabel getLabelPreview() {
+    public yaprnn.gui.ImagePanel getLabelPreview() {
         return labelPreview;
     }
 
@@ -177,9 +177,9 @@ public class MainView extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane3 = new javax.swing.JScrollPane();
-        labelPreview = new javax.swing.JLabel();
+        labelPreview = new yaprnn.gui.ImagePanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        labelPreviewSubsampled = new javax.swing.JLabel();
+        labelPreviewSubsampled = new yaprnn.gui.ImagePanel();
         jLabel4 = new javax.swing.JLabel();
         optionZoom = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
@@ -409,14 +409,32 @@ public class MainView extends javax.swing.JFrame {
 
         jSplitPane2.setDividerLocation(225);
 
-        labelPreview.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelPreview.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        javax.swing.GroupLayout labelPreviewLayout = new javax.swing.GroupLayout(labelPreview);
+        labelPreview.setLayout(labelPreviewLayout);
+        labelPreviewLayout.setHorizontalGroup(
+            labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 222, Short.MAX_VALUE)
+        );
+        labelPreviewLayout.setVerticalGroup(
+            labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 339, Short.MAX_VALUE)
+        );
+
         jScrollPane3.setViewportView(labelPreview);
 
         jSplitPane2.setLeftComponent(jScrollPane3);
 
-        labelPreviewSubsampled.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelPreviewSubsampled.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        javax.swing.GroupLayout labelPreviewSubsampledLayout = new javax.swing.GroupLayout(labelPreviewSubsampled);
+        labelPreviewSubsampled.setLayout(labelPreviewSubsampledLayout);
+        labelPreviewSubsampledLayout.setHorizontalGroup(
+            labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 222, Short.MAX_VALUE)
+        );
+        labelPreviewSubsampledLayout.setVerticalGroup(
+            labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 339, Short.MAX_VALUE)
+        );
+
         jScrollPane4.setViewportView(labelPreviewSubsampled);
 
         jSplitPane2.setRightComponent(jScrollPane4);
@@ -597,8 +615,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel labelFilename;
-    private javax.swing.JLabel labelPreview;
-    private javax.swing.JLabel labelPreviewSubsampled;
+    private yaprnn.gui.ImagePanel labelPreview;
+    private yaprnn.gui.ImagePanel labelPreviewSubsampled;
     private javax.swing.JLabel labelSampleLabel;
     private javax.swing.JLabel labelUsedSubsamplingOptions;
     private javax.swing.JMenuItem menuClassify;
