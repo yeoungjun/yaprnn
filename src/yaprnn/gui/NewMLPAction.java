@@ -63,7 +63,7 @@ class NewMLPAction extends AbstractAction {
 				.add(new JLabel(
 						"How many neurons per Layer do you want? (value must be greater then 0)"));
 		panel.add(optionNumNeurons);
-		panel.add(new JLabel("Bias (value must be greater then 0)"));
+		panel.add(new JLabel("Bias (recommended value between -1 and 1)"));
 		panel.add(optionBias);
 		panel.add(optionAutoEncoding);
 
