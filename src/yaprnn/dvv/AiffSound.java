@@ -299,38 +299,16 @@ public class AiffSound extends Data {
 		data = newdata;
 	}
 
-	
-	/** Write File in UTF-Format. Only used to plot a graph with 'veusz'
-	 * 
-	 * @param path The path, where the file will be saved.
+	/** Is it a picture?
+	 * @return Returns false.
 	 */
-	
-	public void writeFile(String path){
-		try {
-			FileOutputStream fileout = new FileOutputStream(path);
-			BufferedOutputStream buffout = new BufferedOutputStream(fileout);
-			DataOutputStream dataout = new DataOutputStream(buffout);
-			String str = "";
-			for (int i = 0; i<this.data.length; i++){
-				double d = this.data[i];
-				str += Double.toString(d) + ",";
-			}
-			dataout.writeUTF(str + ", ");
-			dataout.flush();
-			fileout.close();
-		}
-		catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public boolean isPicture() {
 		return false;
 	}
 
+	/** Is it an audio?
+	 * @return Returns true.
+	 */
 	public boolean isAudio() {
 		return true;
 	}
