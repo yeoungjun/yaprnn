@@ -3,10 +3,6 @@ package yaprnn.gui;
 import java.util.Collection;
 import java.util.List;
 import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import yaprnn.Core;
 import yaprnn.GUIInterface;
@@ -29,7 +25,8 @@ public class GUI implements GUIInterface {
 
 	private Core core;
 	private MainView mainView = new MainView();
-	private NetworkTreeModel treeModel = new NetworkTreeModel();
+	private NetworkTreeModel treeModel = new NetworkTreeModel(mainView
+			.getTreeNeuralNetwork());
 
 	/**
 	 * @param core
@@ -39,12 +36,10 @@ public class GUI implements GUIInterface {
 		this.core = core;
 		this.core.setGUI(this);
 
-		// TreeModel einsetzen
-		mainView.getTreeNeuralNetwork().setModel(treeModel);
 		mainView.getTreeNeuralNetwork().setCellRenderer(
 				new NetworkTreeRenderer());
 
-		// EventHandler hinzufügen
+		// EventHandler erstellen
 		new NewMLPAction(this);
 		new LoadMLPAction(this);
 		new SaveMLPAction(this);
@@ -54,6 +49,9 @@ public class GUI implements GUIInterface {
 		new ImportImagesAction(this);
 		new MenuExitAction(this);
 		new MenuClassifyAction(this);
+		new MenuTrainAction(this);
+		new MenuSubsamplingAction(this);
+		new MenuResetNetworkAction(this);
 
 		// Das Anzeigen der View sollte verzögert geschehen.
 		EventQueue.invokeLater(new Runnable() {
@@ -90,29 +88,6 @@ public class GUI implements GUIInterface {
 	@Override
 	public void setTrainingError(List<Double> errorData) {
 		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * Resizes an image.
-	 * 
-	 * @param image
-	 * @param width
-	 * @param height
-	 * @return the resized image
-	 */
-	static Image resizeImage(Image image, int width, int height) {
-		if (image == null)
-			return null;
-		int ow = image.getWidth(null);
-		int oh = image.getHeight(null);
-		// Transform wird zur skalierung benötigt.
-		BufferedImage bi = new BufferedImage(ow, oh,
-				BufferedImage.TYPE_INT_ARGB);
-		bi.getGraphics().drawImage(image, 0, 0, ow, oh, null);
-		AffineTransform tx = new AffineTransform();
-		tx.scale(width / (double) ow, height / (double) oh);
-		return new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC)
-				.filter(bi, null);
 	}
 
 }

@@ -6,10 +6,15 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.ImageIcon;
+import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
 import yaprnn.dvv.Data;
 import yaprnn.mlp.NeuralNetwork;
 
@@ -60,6 +65,24 @@ class NetworkTreeModel implements TreeModel {
 	final static ImageIcon ICON_DATASETS = loadIcon("/yaprnn/gui/view/iconFolderDataSet.png");
 	final static ImageIcon ICON_OPENED = loadIcon("/yaprnn/gui/view/iconFolderWhite.png");
 	final static ImageIcon ICON_CLOSED = loadIcon("/yaprnn/gui/view/iconFolderGrey.png");
+
+	/**
+	 * This listener reacts to selection events on the tree.
+	 */
+	private class ModelNodeSelectionListener implements TreeSelectionListener {
+
+		private NetworkTreeModel treeModel;
+
+		ModelNodeSelectionListener(NetworkTreeModel treeModel) {
+			this.treeModel = treeModel;
+		}
+
+		@Override
+		public void valueChanged(TreeSelectionEvent e) {
+			treeModel.selectNodes(e.getPaths());
+		}
+
+	}
 
 	/**
 	 * RootNode is the root node containing a NetworkListNode and DatasetsNode.
@@ -498,6 +521,31 @@ class NetworkTreeModel implements TreeModel {
 	private NetworksNode netsNode = new NetworksNode(nets, netsNodes);
 	private RootNode rootNode = new RootNode(netsNode, datasetsNode);
 
+	// Select-Informationen
+	private List<ModelNode> selectedNodes = new Vector<ModelNode>();
+
+	NetworkTreeModel(JTree tree) {
+		tree.setModel(this);
+		tree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.addTreeSelectionListener(new ModelNodeSelectionListener(this));
+	}
+
+	/**
+	 * Changes the selection state to the givin nodes being selected.
+	 * 
+	 * @param paths
+	 *            tree paths to the nodes to select
+	 */
+	private void selectNodes(TreePath[] paths) {
+		selectedNodes.clear();
+		for (TreePath tp : paths) {
+			Object lastInPath = tp.getLastPathComponent();
+			if (lastInPath instanceof ModelNode)
+				selectedNodes.add((ModelNode) lastInPath);
+		}
+	}
+
 	/**
 	 * Fires event to all listeners that the tree structure has changed.
 	 */
@@ -653,7 +701,7 @@ class NetworkTreeModel implements TreeModel {
 	 * @return the icon
 	 */
 	private static ImageIcon loadIcon(String location) {
-		return new ImageIcon(GUI.resizeImage(new ImageIcon(Class.class
+		return new ImageIcon(ImagesMacros.resizeImage(new ImageIcon(Class.class
 				.getResource(location)).getImage(), 22, 22));
 	}
 
