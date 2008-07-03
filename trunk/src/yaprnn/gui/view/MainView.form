@@ -643,12 +643,21 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="labelPreview">
-                              <Properties>
-                                <Property name="horizontalAlignment" type="int" value="0"/>
-                                <Property name="horizontalTextPosition" type="int" value="4"/>
-                              </Properties>
-                            </Component>
+                            <Container class="yaprnn.gui.ImagePanel" name="labelPreview">
+
+                              <Layout>
+                                <DimensionLayout dim="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <EmptySpace min="0" pref="222" max="32767" attributes="0"/>
+                                  </Group>
+                                </DimensionLayout>
+                                <DimensionLayout dim="1">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <EmptySpace min="0" pref="339" max="32767" attributes="0"/>
+                                  </Group>
+                                </DimensionLayout>
+                              </Layout>
+                            </Container>
                           </SubComponents>
                         </Container>
                         <Container class="javax.swing.JScrollPane" name="jScrollPane4">
@@ -660,12 +669,21 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="labelPreviewSubsampled">
-                              <Properties>
-                                <Property name="horizontalAlignment" type="int" value="0"/>
-                                <Property name="horizontalTextPosition" type="int" value="4"/>
-                              </Properties>
-                            </Component>
+                            <Container class="yaprnn.gui.ImagePanel" name="labelPreviewSubsampled">
+
+                              <Layout>
+                                <DimensionLayout dim="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <EmptySpace min="0" pref="222" max="32767" attributes="0"/>
+                                  </Group>
+                                </DimensionLayout>
+                                <DimensionLayout dim="1">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <EmptySpace min="0" pref="339" max="32767" attributes="0"/>
+                                  </Group>
+                                </DimensionLayout>
+                              </Layout>
+                            </Container>
                           </SubComponents>
                         </Container>
                       </SubComponents>

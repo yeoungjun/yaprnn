@@ -16,11 +16,11 @@ public class SubsamplingView extends javax.swing.JFrame {
         return buttonProcess;
     }
 
-    public javax.swing.JLabel getLabelSubsamplingAfter() {
+    public yaprnn.gui.ImagePanel getLabelSubsamplingAfter() {
         return labelPreviewSubsampled;
     }
 
-    public javax.swing.JLabel getLabelSubsamplingBefore() {
+    public yaprnn.gui.ImagePanel getLabelSubsamplingBefore() {
         return labelPreview;
     }
 
@@ -43,9 +43,9 @@ public class SubsamplingView extends javax.swing.JFrame {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        labelPreview = new javax.swing.JLabel();
+        labelPreview = new yaprnn.gui.ImagePanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        labelPreviewSubsampled = new javax.swing.JLabel();
+        labelPreviewSubsampled = new yaprnn.gui.ImagePanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         optionResolution = new javax.swing.JSpinner();
@@ -62,9 +62,31 @@ public class SubsamplingView extends javax.swing.JFrame {
         jSplitPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
         jSplitPane1.setDividerLocation(220);
 
+        javax.swing.GroupLayout labelPreviewLayout = new javax.swing.GroupLayout(labelPreview);
+        labelPreview.setLayout(labelPreviewLayout);
+        labelPreviewLayout.setHorizontalGroup(
+            labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 210, Short.MAX_VALUE)
+        );
+        labelPreviewLayout.setVerticalGroup(
+            labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 184, Short.MAX_VALUE)
+        );
+
         jScrollPane1.setViewportView(labelPreview);
 
         jSplitPane1.setLeftComponent(jScrollPane1);
+
+        javax.swing.GroupLayout labelPreviewSubsampledLayout = new javax.swing.GroupLayout(labelPreviewSubsampled);
+        labelPreviewSubsampled.setLayout(labelPreviewSubsampledLayout);
+        labelPreviewSubsampledLayout.setHorizontalGroup(
+            labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 224, Short.MAX_VALUE)
+        );
+        labelPreviewSubsampledLayout.setVerticalGroup(
+            labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 184, Short.MAX_VALUE)
+        );
 
         jScrollPane2.setViewportView(labelPreviewSubsampled);
 
@@ -153,8 +175,8 @@ public class SubsamplingView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JLabel labelPreview;
-    private javax.swing.JLabel labelPreviewSubsampled;
+    private yaprnn.gui.ImagePanel labelPreview;
+    private yaprnn.gui.ImagePanel labelPreviewSubsampled;
     private javax.swing.JSpinner optionOverlap;
     private javax.swing.JSpinner optionResolution;
     private javax.swing.JComboBox optionZoom;

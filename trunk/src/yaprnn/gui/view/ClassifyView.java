@@ -12,7 +12,7 @@ public class ClassifyView extends javax.swing.JFrame {
         return optionZoom;
     }
 
-    public javax.swing.JLabel getLabelPreview() {
+    public yaprnn.gui.ImagePanel getLabelPreview() {
         return labelPreview;
     }
 
@@ -35,7 +35,7 @@ public class ClassifyView extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        labelPreview = new javax.swing.JLabel();
+        labelPreview = new yaprnn.gui.ImagePanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableClassification = new javax.swing.JTable();
@@ -48,6 +48,17 @@ public class ClassifyView extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
+
+        javax.swing.GroupLayout labelPreviewLayout = new javax.swing.GroupLayout(labelPreview);
+        labelPreview.setLayout(labelPreviewLayout);
+        labelPreviewLayout.setHorizontalGroup(
+            labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 393, Short.MAX_VALUE)
+        );
+        labelPreviewLayout.setVerticalGroup(
+            labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 165, Short.MAX_VALUE)
+        );
 
         jScrollPane1.setViewportView(labelPreview);
 
@@ -137,7 +148,7 @@ public class ClassifyView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel labelPreview;
+    private yaprnn.gui.ImagePanel labelPreview;
     private javax.swing.JComboBox optionZoom;
     private javax.swing.JTable tableClassification;
     // End of variables declaration//GEN-END:variables
