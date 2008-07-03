@@ -18,16 +18,16 @@ public class Layer implements Serializable {
 	private double bias;
 
 	/**
-	 * Konstruktor; wird mit der vorhergehenden Schicht initialisiert, sowie der Aktivierungsfunktion und des Bias
-	 * @param prevLayer Die vorhergehende Schicht; Null wenn diese Schicht die Eingabeschicht des Netzes ist. 
-	 * @param neurons Die Neuronen dieser Schicht.
-	 * @param function Die Aktivierungsfunktion dieser Schicht
-	 * @param bias Der Bias. Ein Wert der zur Eingabe jedes Neurons eingerechnet wird
-	 * @throws BadConfigException Wird bei ungültiger Konfiguration zurückgeworfen.
+	 * Constructor; Is  initialized with the previuos layer, activation function  number of neurons and the bias
+	 * @param prevLayer The previous layer; Null if this layer is the first one. 
+	 * @param neurons Number of neurons.
+	 * @param function Activation function of this layer
+	 * @param bias The bias
+	 * @throws BadConfigException Is thrown in case of incorrect configuration
 	 */
 	public Layer(Layer prevLayer, int neurons, ActivationFunction function, double bias) throws BadConfigException {
 		
-		// Konfiguration überprüfen
+		// Tests  configuration
 		if (neurons <= 0)
 			throw new BadConfigException("Unglültige Anzahl für Neuronen: "
 					+ neurons, BadConfigException.INVALID_NEURON_NUMBER);
@@ -35,7 +35,7 @@ public class Layer implements Serializable {
 			throw new BadConfigException("Keine ActivationFunction übergeben!",
 					BadConfigException.INVALID_ACTIVATION_FUNCTION);
 
-		// Variablen initialisieren
+		// Initializing variables
 		this.function = function;
 		this.bias = bias;
 		this.output = new double[neurons];
@@ -47,7 +47,7 @@ public class Layer implements Serializable {
 		this.weightMatrix = new double[neurons][prevLayer.getSize()];
 		this.gradientMatrix = new double[neurons][prevLayer.getSize()];
 		
-		// Werte der Matritzen und Arrays setzen
+		// Setting values of matrices and arrays
 		for (int h = 0; h < neurons; h++) {
 			output[h] = 0;
 			for (int i = 0; i < prevLayer.getSize(); i++) {
@@ -71,30 +71,30 @@ public class Layer implements Serializable {
 	}
 
 	/**
-	 *  Diese Funktion verwendet den Verweis auf die letzte Schicht um den Ausgabevektor dieser Schicht zu erzeugen. Es wird also Rekursiv bis zur Eingabeschicht
-	 *  zurückgegriffen und mit den entsprechenden Gewichten multipliziert und ein Ausgabevektor erzeugt.
-	 * @return Der Ausgabevektor dieser Schicht. Wenn diese Schicht die Ausgabeschicht ist, ist dieser Vektor das Ergebnis des Netztes.
+	 *  This function uses the reference on the last Layer to calculate the output vector of this Layer . It is recursive reverted  to the first Layer
+	 *   and multiplied  with the 	corresponding  weights  to create the output vector.
+	 * @return The output vector of this layer.  if this layer is the output layer, this vector is the output of the network
 	 */
 	public double[] getOutput() {
-		// Rekursion abbrechen
+		// Recursion cancell
 		if (prevLayer == null)
 			return output;
 
 		// Speicherung wg. backPropagation
 		 input = prevLayer.getOutput();
 
-		// Den Output generieren
+		// Generate the output
 		for (int h = 0; h < output.length; h++) {
-			// Resetten und Bias einrechnen
+			// Reset and add a bias
 			output[h] = bias;
 
-			// Jede Ausgabe des letzten Layers mit der verbindenden Matrix multiplizieren und addieren
+			//  Multiply every output of the last Layer with the corresponding  matrix  and add it.
 			for (int i = 0; i < input.length; i++)
 				output[h] += input[i] * weightMatrix[h][i];
 
 			layerInput[h] = output[h] - bias;
 			
-			// Akativierungsfunktion auf die Summe anwenden
+			// Use the activation function on the sum.
 			output[h] = function.compute(output[h]);
 		}
 
@@ -102,8 +102,8 @@ public class Layer implements Serializable {
 	}
 
 	/**
-	 * Die Anzahl der Neuronen dieser Schicht.
-	 * @return Anzahl der Neuronen
+	 * The number on neurons  in the current layer.
+	 * @return Number of neurons
 	 */
 	public int getSize() {
 		return output.length;
@@ -111,9 +111,9 @@ public class Layer implements Serializable {
 
 	/**
 	 * 
-	 * @param error Der Fehler der vorherigen Schicht auf diese Schicht bezogen. Wenn diese Schicht die Augabeschicht ist, wird der Ausgabefehler gebraucht. Nach berechnung
-	 * der nötigen Gewichtsveränderungen und Speicherung dieser, wird der Fehler der vorherigen Schicht errechnet und dieser dann an die nächste Schicht weitergegeben.
-	 * @throws BadConfigException Bei falschem Fehlervektor.
+	 * @param error  Applies the Error of the previuos layer of the current layer .  If this layer the last one is, the output error will be used. After calculating and saving
+	 * of the nescesary weight modifications , the error of the previous  layer will be calculated  and  passed to the next layer.
+	 * @throws BadConfigException if the error vector wrong is.
 	 */
 	public void backPropagate(double[] error) {
 		if(prevLayer == null) return;
@@ -141,9 +141,9 @@ public class Layer implements Serializable {
 	}
 
 	/**
-	 * Passt die Gewichte des Netztes an rekursiv an.
-	 * @param iterations Die Anzahl der Durchläufe des Netztes seit dem letzten Update
-	 * @param eta Die Lernrate, die verwendet werden soll. 
+	 * Ajusts recursively the weights of the net.
+	 * @param iterations the number of iteration since the last update.
+	 * @param eta The learning rate to be used. 
 	 */
 	public void update(int iterations, double eta) {
 		if(prevLayer == null) return;
@@ -158,15 +158,15 @@ public class Layer implements Serializable {
 	}
 
 	/**
-	 * Der aktuelle Biaswert. [unnecessary]
-	 * @return Der aktuelle Bias.
+	 *  Returns the current Bias. [unnecessary]
+	 * @return The current bias.
 	 */
 	public double getBias() {
 		return bias;
 	}
 
 	/**
-	 * String-repräsentation der aktuellen Neuronen und Gewichte.
+	 * String-representation of the current weights and neurons.
 	 */
 	public String toString() {
 		if (weightMatrix == null) return "";
@@ -187,8 +187,8 @@ public class Layer implements Serializable {
 	}
 	
 	/**
-	 * Gibt die Aktivierungsfunktion zurück.
-	 * @return Das ActivationFunction Objekt welches diese Schicht benutzt.
+	 * Returns the activation function.
+	 * @return The activation function, that is used in this layer.
 	 */
 	public ActivationFunction getActivationFunction(){
 		return function;
@@ -204,17 +204,17 @@ public class Layer implements Serializable {
 		trainingValues[0] = value;
 		if(prevLayer == null)	return trainingValues;
 
-		// Eingabedaten holen
+		// Input Data
 		double[] lastLayerOutput = prevLayer.makeAutoencoder(value, maxIterations, upperBound, eta);
 
-		// Layer herausnehmen
+		// Remove tha layer
 		Layer prevLayer = this.prevLayer.prevLayer;
 		this.prevLayer.prevLayer = null;
 		
-		// neuen Layer hinzufügen
+		// Add the new layer
 		Layer additionalLayer = new Layer(this, this.prevLayer.getSize(), this.prevLayer.getActivationFunction(), this.prevLayer.getBias());		
 		
-		// Ausgabe als neue Eingabe verwenden
+		// use output ans new input
 		this.prevLayer.setInput(lastLayerOutput);
 		
 		// train Online
@@ -225,7 +225,7 @@ public class Layer implements Serializable {
 		for(int i = 0; i < maxIterations; i++) {
 			out = additionalLayer.getOutput();
 			
-			// Den Fehler an der Ausgabeschicht berechnen
+			// calculate the arror at the output layer
 			for (int h = 0; h < errVec.length; h++)
 				errVec[h] = out[h] - lastLayerOutput[h];
 	
@@ -233,14 +233,14 @@ public class Layer implements Serializable {
 			for(double e : errVec) overallError += Math.pow(e,2);
 			if(overallError < (2 * upperBound)) break;
 			
-			// Fehler zurückpropagieren
+			// Backpropagate the error
 			additionalLayer.backPropagate(errVec);
 	
-			// Gewichte anpassen
+			// Adjust the weights
 			additionalLayer.update(1, eta);
 		}
 
-		// Layer wieder integrieren
+		// Restore the layer
 		this.prevLayer.prevLayer = prevLayer;
 
 		return getOutput();
