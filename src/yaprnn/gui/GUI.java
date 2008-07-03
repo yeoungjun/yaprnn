@@ -3,10 +3,14 @@ package yaprnn.gui;
 import java.util.Collection;
 import java.util.List;
 import java.awt.EventQueue;
+
+import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import yaprnn.Core;
 import yaprnn.GUIInterface;
 import yaprnn.dvv.Data;
+import yaprnn.gui.NetworkTreeModel.DataNode;
+import yaprnn.gui.NetworkTreeModel.ModelNode;
 import yaprnn.gui.view.MainView;
 
 public class GUI implements GUIInterface {
@@ -25,8 +29,12 @@ public class GUI implements GUIInterface {
 
 	private Core core;
 	private MainView mainView = new MainView();
-	private NetworkTreeModel treeModel = new NetworkTreeModel(mainView
-			.getTreeNeuralNetwork());
+	private NetworkTreeModel treeModel = new NetworkTreeModel();
+
+	private ModelNode selected = null;
+
+	// Den benutzen wir zum auslesen des Zoom-Wertes
+	private double zoom = 1.0;
 
 	/**
 	 * @param core
@@ -36,6 +44,7 @@ public class GUI implements GUIInterface {
 		this.core = core;
 		this.core.setGUI(this);
 
+		mainView.getTreeNeuralNetwork().setModel(treeModel);
 		mainView.getTreeNeuralNetwork().setCellRenderer(
 				new NetworkTreeRenderer());
 
@@ -52,6 +61,8 @@ public class GUI implements GUIInterface {
 		new MenuTrainAction(this);
 		new MenuSubsamplingAction(this);
 		new MenuResetNetworkAction(this);
+		new TreeNeuralNetworkSelection(this);
+		new OptionZoomAction(this);
 
 		// Das Anzeigen der View sollte verzögert geschehen.
 		EventQueue.invokeLater(new Runnable() {
@@ -72,6 +83,39 @@ public class GUI implements GUIInterface {
 
 	Core getCore() {
 		return core;
+	}
+
+	ModelNode getSelected() {
+		return selected;
+	}
+
+	void setSelected(ModelNode selected) {
+		this.selected = selected;
+		updateOnSelectedNode();
+	}
+
+	double getZoom() {
+		return zoom;
+	}
+
+	void setZoom(double zoom) {
+		this.zoom = zoom;
+		updateOnSelectedNode();
+	}
+
+	/**
+	 * Takes the appropriate action due to a change or update on a selected
+	 * node.
+	 */
+	void updateOnSelectedNode() {
+		if (selected instanceof DataNode) {
+			// Preview erzeugen
+			DataNode dataNode = (DataNode) selected;
+			Data data = dataNode.getData();
+			mainView.getLabelPreview().setIcon(
+					new ImageIcon(ImagesMacros.createImagePreview(
+							(byte[][]) data.previewRawData(), zoom)));
+		}
 	}
 
 	@Override

@@ -12,6 +12,10 @@ public class MainView extends javax.swing.JFrame {
         new MainView().setVisible(true);
     }
 	
+    public javax.swing.JComboBox getOptionZoom() {
+        return optionZoom;
+    }
+
     public javax.swing.JLabel getLabelFilename() {
         return labelFilename;
     }
@@ -20,12 +24,12 @@ public class MainView extends javax.swing.JFrame {
         return labelSampleLabel;
     }
 
-    public javax.swing.JLabel getLabelSubsamplingAfter() {
-        return labelSubsamplingAfter;
+    public javax.swing.JLabel getLabelPreviewSubsampled() {
+        return labelPreviewSubsampled;
     }
 
-    public javax.swing.JLabel getLabelSubsamplingBefore() {
-        return labelSubsamplingBefore;
+    public javax.swing.JLabel getLabelPreview() {
+        return labelPreview;
     }
 
     public javax.swing.JLabel getLabelUsedSubsamplingOptions() {
@@ -160,18 +164,20 @@ public class MainView extends javax.swing.JFrame {
         tableWeights = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jSplitPane2 = new javax.swing.JSplitPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        labelSubsamplingBefore = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        labelSubsamplingAfter = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         labelFilename = new javax.swing.JLabel();
         labelSampleLabel = new javax.swing.JLabel();
         labelUsedSubsamplingOptions = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jSplitPane2 = new javax.swing.JSplitPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        labelPreview = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        labelPreviewSubsampled = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        optionZoom = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuNewMLP = new javax.swing.JMenuItem();
@@ -340,36 +346,13 @@ public class MainView extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Sample details"));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional informations"));
 
-        jSplitPane2.setDividerLocation(225);
+        jLabel1.setText("Filename:");
 
-        jScrollPane3.setViewportView(labelSubsamplingBefore);
+        jLabel2.setText("Sample label:");
 
-        jSplitPane2.setLeftComponent(jScrollPane3);
-
-        jScrollPane4.setViewportView(labelSubsamplingAfter);
-
-        jSplitPane2.setRightComponent(jScrollPane4);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
-        );
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional informations"));
-
-        jLabel2.setText("Filename:");
-
-        jLabel3.setText("Sample label:");
-
-        jLabel4.setText("Used subsampling options:");
+        jLabel3.setText("Used subsampling options:");
 
         labelFilename.setText("...");
 
@@ -377,51 +360,92 @@ public class MainView extends javax.swing.JFrame {
 
         labelUsedSubsamplingOptions.setText("...");
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelSampleLabel)
                     .addComponent(labelUsedSubsamplingOptions)
                     .addComponent(labelFilename))
                 .addContainerGap(310, Short.MAX_VALUE))
         );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(labelFilename))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(labelSampleLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(labelUsedSubsamplingOptions)))
+        );
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Sample details"));
+
+        jSplitPane2.setDividerLocation(225);
+
+        labelPreview.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelPreview.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jScrollPane3.setViewportView(labelPreview);
+
+        jSplitPane2.setLeftComponent(jScrollPane3);
+
+        labelPreviewSubsampled.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelPreviewSubsampled.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jScrollPane4.setViewportView(labelPreviewSubsampled);
+
+        jSplitPane2.setRightComponent(jScrollPane4);
+
+        jLabel4.setText("Zoom:");
+
+        optionZoom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(354, 354, 354))
+            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+        );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(labelFilename))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(labelSampleLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(labelUsedSubsamplingOptions)))
+                    .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Data sample details", jPanel5);
@@ -508,6 +532,7 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -536,9 +561,9 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel labelFilename;
+    private javax.swing.JLabel labelPreview;
+    private javax.swing.JLabel labelPreviewSubsampled;
     private javax.swing.JLabel labelSampleLabel;
-    private javax.swing.JLabel labelSubsamplingAfter;
-    private javax.swing.JLabel labelSubsamplingBefore;
     private javax.swing.JLabel labelUsedSubsamplingOptions;
     private javax.swing.JMenuItem menuClassify;
     private javax.swing.JMenuItem menuExit;
@@ -553,6 +578,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSaveMLP;
     private javax.swing.JMenuItem menuSubsampling;
     private javax.swing.JMenuItem menuTrain;
+    private javax.swing.JComboBox optionZoom;
     private javax.swing.JPopupMenu popupNeuralNetwork;
     private javax.swing.JTable tableWeights;
     private javax.swing.JButton toolImportAudio;

@@ -83,7 +83,7 @@ class NewMLPAction extends AbstractAction {
 						"Please enter valid values only.", "Parsing error",
 						JOptionPane.ERROR_MESSAGE);
 			}
-			if (numLayers > 0 && numNeurons > 0 && bias > 0)
+			if (numLayers > 0 && numNeurons > 0)
 				notSatisfied = false;
 			else {
 				// Die Felder mit ungueltigen Eingaben werden mit hellem rot
@@ -96,10 +96,6 @@ class NewMLPAction extends AbstractAction {
 					optionNumNeurons.setBackground(new Color(255, 128, 128));
 				else
 					optionNumNeurons.setBackground(SystemColor.text);
-				if (bias <= 0)
-					optionBias.setBackground(new Color(255, 128, 128));
-				else
-					optionBias.setBackground(SystemColor.text);
 			}
 		}
 

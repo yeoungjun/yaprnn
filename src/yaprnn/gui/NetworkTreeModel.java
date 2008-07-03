@@ -5,16 +5,12 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
 import yaprnn.dvv.Data;
 import yaprnn.mlp.NeuralNetwork;
 
@@ -52,34 +48,78 @@ import yaprnn.mlp.NeuralNetwork;
  * NetworkTreeModel is used to store and reflect NeuralNetworks and datasets in
  * a JTree.
  */
-class NetworkTreeModel implements TreeModel {
+public class NetworkTreeModel implements TreeModel {
 
-	final static ImageIcon ICON_MLP = loadIcon("/yaprnn/gui/view/iconMLP.png");
-	final static ImageIcon ICON_NEURON = loadIcon("/yaprnn/gui/view/iconNeuron.png");
-	final static ImageIcon ICON_LAYER = loadIcon("/yaprnn/gui/view/iconLayer.png");
-	final static ImageIcon ICON_AVF = loadIcon("/yaprnn/gui/view/iconAVF.png");
-	final static ImageIcon ICON_PROCESSED = loadIcon("/yaprnn/gui/view/iconProcessed.png");
-	final static ImageIcon ICON_UNPROCESSED = loadIcon("/yaprnn/gui/view/iconUnProcessed.png");
-	final static ImageIcon ICON_TRAININGSET = loadIcon("/yaprnn/gui/view/iconFolderTraining.png");
-	final static ImageIcon ICON_TESTSET = loadIcon("/yaprnn/gui/view/iconFolderTest.png");
-	final static ImageIcon ICON_DATASETS = loadIcon("/yaprnn/gui/view/iconFolderDataSet.png");
-	final static ImageIcon ICON_OPENED = loadIcon("/yaprnn/gui/view/iconFolderWhite.png");
-	final static ImageIcon ICON_CLOSED = loadIcon("/yaprnn/gui/view/iconFolderGrey.png");
+	final static ImageIcon ICON_MLP = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconMLP.png");
+	final static ImageIcon ICON_NEURON = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconNeuron.png");
+	final static ImageIcon ICON_LAYER = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconLayer.png");
+	final static ImageIcon ICON_AVF = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconAVF.png");
+	final static ImageIcon ICON_PROCESSED = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconProcessed.png");
+	final static ImageIcon ICON_UNPROCESSED = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconUnProcessed.png");
+	final static ImageIcon ICON_TRAININGSET = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconFolderTraining.png");
+	final static ImageIcon ICON_TESTSET = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconFolderTest.png");
+	final static ImageIcon ICON_DATASETS = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconFolderDataSet.png");
+	final static ImageIcon ICON_AUDIO = ImagesMacros.loadIcon(22, 22,
+	"/yaprnn/gui/view/iconLoadAudio.png");
+	final static ImageIcon ICON_IMAGE = ImagesMacros.loadIcon(22, 22,
+	"/yaprnn/gui/view/iconLoadImage.png");
+	final static ImageIcon ICON_OPENED = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconFolderWhite.png");
+	final static ImageIcon ICON_CLOSED = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconFolderGrey.png");
 
 	/**
-	 * This listener reacts to selection events on the tree.
+	 * Base node class for all nodes in NetworkTreeModel
 	 */
-	private class ModelNodeSelectionListener implements TreeSelectionListener {
+	class ModelNode {
 
-		private NetworkTreeModel treeModel;
+		private Icon icon;
+		private String label;
 
-		ModelNodeSelectionListener(NetworkTreeModel treeModel) {
-			this.treeModel = treeModel;
+		ModelNode(Icon icon, String label) {
+			this.icon = icon;
+			this.label = label;
+		}
+
+		int getIndexOf(ModelNode child) {
+			return -1;
+		}
+
+		ModelNode getChild(int index) {
+			return null;
+		}
+
+		int getChildsCount() {
+			return 0;
+		}
+
+		/**
+		 * Returns false when this node can have childs, else true.
+		 */
+		boolean isLeaf() {
+			return false;
+		}
+
+		final Icon getIcon() {
+			return icon;
+		}
+
+		final void setIcon(Icon icon) {
+			this.icon = icon;
 		}
 
 		@Override
-		public void valueChanged(TreeSelectionEvent e) {
-			treeModel.selectNodes(e.getPaths());
+		public String toString() {
+			return label;
 		}
 
 	}
@@ -87,7 +127,7 @@ class NetworkTreeModel implements TreeModel {
 	/**
 	 * RootNode is the root node containing a NetworkListNode and DatasetsNode.
 	 */
-	private class RootNode extends ModelNode {
+	class RootNode extends ModelNode {
 
 		private NetworksNode nln;
 		private DatasetsNode dn;
@@ -123,7 +163,7 @@ class NetworkTreeModel implements TreeModel {
 	 * NetworkListNode is a node that displays the list of all loaded networks
 	 * in the tree model.
 	 */
-	private class NetworksNode extends ModelNode {
+	class NetworksNode extends ModelNode {
 
 		private List<NeuralNetwork> nets;
 		private Dictionary<NeuralNetwork, NetworkNode> netsNodes;
@@ -158,7 +198,7 @@ class NetworkTreeModel implements TreeModel {
 	 * NetworkNode is a node that displays the structure of NeuralNetwork in the
 	 * tree model.
 	 */
-	private class NetworkNode extends ModelNode {
+	class NetworkNode extends ModelNode {
 
 		private NeuralNetwork network;
 		private List<LayerNode> layerNodes = new Vector<LayerNode>();
@@ -201,7 +241,7 @@ class NetworkTreeModel implements TreeModel {
 	/**
 	 * LayerNode is a node that displays one layer of a NeuralNetwork.
 	 */
-	private class LayerNode extends ModelNode {
+	class LayerNode extends ModelNode {
 
 		private NeuralNetwork network;
 		private int layerIndex;
@@ -255,7 +295,7 @@ class NetworkTreeModel implements TreeModel {
 	 * NeuronsNode is a node that represents the count of neurons in one layer
 	 * of a NeuralNetwork.
 	 */
-	private class NeuronsNode extends ModelNode {
+	class NeuronsNode extends ModelNode {
 
 		private NeuralNetwork network;
 		private int layerIndex;
@@ -286,7 +326,7 @@ class NetworkTreeModel implements TreeModel {
 	 * AVFNode is a node that represents the activation function of one layer of
 	 * a NeuralNetwork.
 	 */
-	private class AVFNode extends ModelNode {
+	class AVFNode extends ModelNode {
 
 		private NeuralNetwork network;
 		private int layerIndex;
@@ -316,7 +356,7 @@ class NetworkTreeModel implements TreeModel {
 	 * BiasNode is a node that represents the bias of one layer of a
 	 * NeuralNetwork.
 	 */
-	private class BiasNode extends ModelNode {
+	class BiasNode extends ModelNode {
 
 		private NeuralNetwork network;
 		private int layerIndex;
@@ -347,7 +387,7 @@ class NetworkTreeModel implements TreeModel {
 	 * NetTrainingTestSetsNodes linked with all loaded networks in the tree
 	 * model.
 	 */
-	private class DatasetsNode extends ModelNode {
+	class DatasetsNode extends ModelNode {
 
 		private DataSetNode ldn;
 
@@ -388,7 +428,7 @@ class NetworkTreeModel implements TreeModel {
 	 * DataSetNode is a node that displays a set og data objects in the tree
 	 * model.
 	 */
-	private class DataSetNode extends ModelNode {
+	class DataSetNode extends ModelNode {
 
 		private List<Data> dataset;
 		private Dictionary<Data, DataNode> dataNodes = new Hashtable<Data, DataNode>();
@@ -428,12 +468,12 @@ class NetworkTreeModel implements TreeModel {
 	/**
 	 * DataNode is a node that displays a data object in the tree model.
 	 */
-	private class DataNode extends ModelNode {
+	class DataNode extends ModelNode {
 
 		private Data data;
 
 		public DataNode(Data data) {
-			super(null, data.getName());
+			super(data.isAudio() ? ICON_AUDIO : ICON_IMAGE, data.getName());
 			this.data = data;
 		}
 
@@ -452,7 +492,7 @@ class NetworkTreeModel implements TreeModel {
 	 * NetworkSetsNode is a node that displays training and test sets of
 	 * NeuralNetwork.
 	 */
-	private class NetworkSetsNode extends ModelNode {
+	class NetworkSetsNode extends ModelNode {
 
 		private NeuralNetwork network;
 		private DataSetNode trainingSetNode;
@@ -521,35 +561,10 @@ class NetworkTreeModel implements TreeModel {
 	private NetworksNode netsNode = new NetworksNode(nets, netsNodes);
 	private RootNode rootNode = new RootNode(netsNode, datasetsNode);
 
-	// Select-Informationen
-	private List<ModelNode> selectedNodes = new Vector<ModelNode>();
-
-	NetworkTreeModel(JTree tree) {
-		tree.setModel(this);
-		tree.getSelectionModel().setSelectionMode(
-				TreeSelectionModel.SINGLE_TREE_SELECTION);
-		tree.addTreeSelectionListener(new ModelNodeSelectionListener(this));
-	}
-
-	/**
-	 * Changes the selection state to the givin nodes being selected.
-	 * 
-	 * @param paths
-	 *            tree paths to the nodes to select
-	 */
-	private void selectNodes(TreePath[] paths) {
-		selectedNodes.clear();
-		for (TreePath tp : paths) {
-			Object lastInPath = tp.getLastPathComponent();
-			if (lastInPath instanceof ModelNode)
-				selectedNodes.add((ModelNode) lastInPath);
-		}
-	}
-
 	/**
 	 * Fires event to all listeners that the tree structure has changed.
 	 */
-	private void updateSubTree(Object[] nodes) {
+	private void fireStructureChanged(Object[] nodes) {
 		TreeModelEvent e = new TreeModelEvent(this, nodes);
 		for (TreeModelListener tml : listeners)
 			tml.treeStructureChanged(e);
@@ -561,7 +576,7 @@ class NetworkTreeModel implements TreeModel {
 	 * @param n
 	 *            the network to add
 	 */
-	public void add(NeuralNetwork n) {
+	void add(NeuralNetwork n) {
 		if (!nets.contains(n)) {
 			nets.add(n);
 
@@ -575,7 +590,7 @@ class NetworkTreeModel implements TreeModel {
 			netsNodes.put(n, new NetworkNode(n));
 			setsNodes.put(n, new NetworkSetsNode(n, trainingSet, testSet));
 
-			updateSubTree(new Object[] { netsNode, datasetsNode });
+			fireStructureChanged(new Object[] { netsNode, datasetsNode });
 		}
 	}
 
@@ -585,7 +600,7 @@ class NetworkTreeModel implements TreeModel {
 	 * @param n
 	 *            the network to remove
 	 */
-	public void remove(NeuralNetwork n) {
+	void remove(NeuralNetwork n) {
 		if (nets.contains(n)) {
 			nets.remove(n);
 
@@ -597,7 +612,7 @@ class NetworkTreeModel implements TreeModel {
 			netsNodes.remove(n);
 			setsNodes.remove(n);
 
-			updateSubTree(new Object[] { netsNode, datasetsNode });
+			fireStructureChanged(new Object[] { netsNode, datasetsNode });
 		}
 	}
 
@@ -607,14 +622,14 @@ class NetworkTreeModel implements TreeModel {
 	 * @param d
 	 *            the data to add
 	 */
-	public void add(Data d) {
+	void add(Data d) {
 		if (!loadedData.contains(d)) {
 			loadedData.add(d);
 
 			// Dynamische Knoten erstellen
 			loadedNode.add(d);
 
-			updateSubTree(new Object[] { loadedNode });
+			fireStructureChanged(new Object[] { loadedNode });
 		}
 	}
 
@@ -624,7 +639,7 @@ class NetworkTreeModel implements TreeModel {
 	 * @param d
 	 *            the data to remove
 	 */
-	public void remove(Data d) {
+	void remove(Data d) {
 		if (loadedData.contains(d)) {
 			loadedData.remove(d);
 
@@ -639,7 +654,7 @@ class NetworkTreeModel implements TreeModel {
 				nsn.getTestSetNode().remove(d);
 			}
 
-			updateSubTree(new Object[] { datasetsNode });
+			fireStructureChanged(new Object[] { datasetsNode });
 		}
 	}
 
@@ -690,19 +705,6 @@ class NetworkTreeModel implements TreeModel {
 	public void removeTreeModelListener(TreeModelListener l) {
 		if (listeners.contains(l))
 			listeners.remove(l);
-	}
-
-	/**
-	 * Loads an icon from a location and resizes it to a default size to fit the
-	 * tree optic.
-	 * 
-	 * @param location
-	 *            location to load from
-	 * @return the icon
-	 */
-	private static ImageIcon loadIcon(String location) {
-		return new ImageIcon(ImagesMacros.resizeImage(new ImageIcon(Class.class
-				.getResource(location)).getImage(), 22, 22));
 	}
 
 }
