@@ -296,4 +296,9 @@ public class MLP implements Serializable, NeuralNetwork {
 		return name;
 	}
 
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

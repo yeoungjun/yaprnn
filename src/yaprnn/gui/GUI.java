@@ -53,6 +53,7 @@ public class GUI implements GUIInterface {
 		new ImportAudioAction(this);
 		new ImportImagesAction(this);
 		new MenuExitAction(this);
+		new MenuClassifyAction(this);
 
 		// Das Anzeigen der View sollte verzögert geschehen.
 		EventQueue.invokeLater(new Runnable() {

@@ -138,17 +138,184 @@ class NetworkTreeModel implements TreeModel {
 	private class NetworkNode extends ModelNode {
 
 		private NeuralNetwork network;
+		private List<LayerNode> layerNodes = new Vector<LayerNode>();
 
 		NetworkNode(NeuralNetwork network) {
 			super(ICON_MLP, network.getName());
 			this.network = network;
+			for (int i = 0; i < network.getNumLayers(); i++)
+				layerNodes.add(new LayerNode(network, i));
 		}
 
 		NeuralNetwork getNetwork() {
 			return network;
 		}
 
-		// TODO : methods
+		/**
+		 * Updates the sub nodes due to a change to the NeuralNetwork.
+		 */
+		void update() {
+			// TODO : Update sub nodes
+		}
+
+		@Override
+		ModelNode getChild(int index) {
+			return layerNodes.get(index);
+		}
+
+		@Override
+		int getChildsCount() {
+			return layerNodes.size();
+		}
+
+		@Override
+		int getIndexOf(ModelNode child) {
+			return layerNodes.indexOf(child);
+		}
+
+	}
+
+	/**
+	 * LayerNode is a node that displays one layer of a NeuralNetwork.
+	 */
+	private class LayerNode extends ModelNode {
+
+		private NeuralNetwork network;
+		private int layerIndex;
+		private NeuronsNode neuronsNode;
+		private AVFNode avfNode;
+		private BiasNode biasNode;
+
+		LayerNode(NeuralNetwork network, int layerIndex) {
+			super(ICON_LAYER, "Layer " + layerIndex);
+			this.network = network;
+			this.layerIndex = layerIndex;
+			neuronsNode = new NeuronsNode(network, layerIndex);
+			avfNode = new AVFNode(network, layerIndex);
+			biasNode = new BiasNode(network, layerIndex);
+		}
+
+		NeuralNetwork getNetwork() {
+			return network;
+		}
+
+		int getLayerIndex() {
+			return layerIndex;
+		}
+
+		@Override
+		ModelNode getChild(int index) {
+			if (index == 0)
+				return neuronsNode;
+			if (index == 1)
+				return avfNode;
+			return (index == 2) ? biasNode : null;
+		}
+
+		@Override
+		int getChildsCount() {
+			return 3;
+		}
+
+		@Override
+		int getIndexOf(ModelNode child) {
+			if (child == neuronsNode)
+				return 0;
+			if (child == avfNode)
+				return 1;
+			return (child == biasNode) ? 2 : -1;
+		}
+
+	}
+
+	/**
+	 * NeuronsNode is a node that represents the count of neurons in one layer
+	 * of a NeuralNetwork.
+	 */
+	private class NeuronsNode extends ModelNode {
+
+		private NeuralNetwork network;
+		private int layerIndex;
+
+		NeuronsNode(NeuralNetwork network, int layerIndex) {
+			super(ICON_NEURON, "Neuron count: "
+					+ network.getLayerSize(layerIndex));
+			this.network = network;
+			this.layerIndex = layerIndex;
+		}
+
+		NeuralNetwork getNetwork() {
+			return network;
+		}
+
+		int getLayerIndex() {
+			return layerIndex;
+		}
+
+		@Override
+		boolean isLeaf() {
+			return true;
+		}
+
+	}
+
+	/**
+	 * AVFNode is a node that represents the activation function of one layer of
+	 * a NeuralNetwork.
+	 */
+	private class AVFNode extends ModelNode {
+
+		private NeuralNetwork network;
+		private int layerIndex;
+
+		AVFNode(NeuralNetwork network, int layerIndex) {
+			super(ICON_AVF, "AVF: " + network.getActivationFunction(layerIndex));
+			this.network = network;
+			this.layerIndex = layerIndex;
+		}
+
+		NeuralNetwork getNetwork() {
+			return network;
+		}
+
+		int getLayerIndex() {
+			return layerIndex;
+		}
+
+		@Override
+		boolean isLeaf() {
+			return true;
+		}
+
+	}
+
+	/**
+	 * BiasNode is a node that represents the bias of one layer of a
+	 * NeuralNetwork.
+	 */
+	private class BiasNode extends ModelNode {
+
+		private NeuralNetwork network;
+		private int layerIndex;
+
+		BiasNode(NeuralNetwork network, int layerIndex) {
+			super(ICON_AVF, "AVF: " + network.getBias(layerIndex));
+			this.network = network;
+			this.layerIndex = layerIndex;
+		}
+
+		NeuralNetwork getNetwork() {
+			return network;
+		}
+
+		int getLayerIndex() {
+			return layerIndex;
+		}
+
+		@Override
+		boolean isLeaf() {
+			return true;
+		}
 
 	}
 
