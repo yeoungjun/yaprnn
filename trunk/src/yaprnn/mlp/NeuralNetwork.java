@@ -48,8 +48,18 @@ public interface NeuralNetwork {
 	public double getBias(int layer);
 
 	/**
-	 * @return name of the MLP
+	 * Returns a readable name of NeuralNetwork
+	 * 
+	 * @return name name of the NeuralNetwork
 	 */
 	public String getName();
+
+	/**
+	 * Sets a readable name for the NeuralNetwork
+	 * 
+	 * @param name
+	 *            new name of the NeuralNetwork
+	 */
+	public void setName(String name);
 
 }

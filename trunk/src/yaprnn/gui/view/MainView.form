@@ -15,7 +15,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Classify Data"/>
             <Property name="actionCommand" type="java.lang.String" value="Set Layer #"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuTraining">
@@ -24,7 +23,6 @@
               <Image iconType="3" name="/yaprnn/gui/view/iconTraining.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Train MLP"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuSubsampling">
@@ -33,7 +31,6 @@
               <Image iconType="3" name="/yaprnn/gui/view/iconProcessAll.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Subsampling"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuResetNetwork">
@@ -42,7 +39,6 @@
               <Image iconType="3" name="/yaprnn/gui/view/iconReset.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Reset Network"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
       </SubComponents>
