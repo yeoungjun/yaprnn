@@ -11,11 +11,11 @@ import yaprnn.mlp.ActivationFunction;
  */
 public class DVV {
 
-	private Collection<Data> allData;
+	private final Collection<Data> allData;
 	private Collection<Data> trainingData;
 	private Collection<Data> testData;
 	private int numInputNeurons;
-	private int numOutputNeurons;
+	private final int numOutputNeurons;
 
 	/** Constructs a DVV for holding {@link IdxPicture} data with the specified filenames.
 	 *
