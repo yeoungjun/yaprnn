@@ -48,7 +48,7 @@ public class AiffSound extends Data {
 	 *
 	 *  @return the raw data
 	 */
-	public byte[] previewRawData() {
+	public Object previewRawData() {
 		return rawData;
 	}
 
