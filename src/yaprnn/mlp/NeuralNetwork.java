@@ -3,47 +3,47 @@ package yaprnn.mlp;
 public interface NeuralNetwork {
 
 	/**
-	 * Liefert die Anzahl der Schichten eines neuronalen Netzes.
+	 * Returns the number of layers in the neuronal network.
 	 * 
-	 * @return Anzahl der Schichten.
+	 * @return Number of layers.
 	 */
 	public int getNumLayers();
 
 	/**
-	 * Liefert die Größe einer Schicht.
+	 * Returns the size of the layer.
 	 * 
 	 * @param layer
-	 *            Die Schicht (Startet mit 0).
-	 * @return Anzahl der Neuronen dieser Schicht.
+	 *            The layer (starts with 0).
+	 * @return Number of neurons in this layes.
 	 */
 	public int getLayerSize(int layer);
 
 	/**
-	 * Liefert die Gewichtsmatrix zwischen zwei Schichten.
+	 * returns the weight matrix between two layers.
 	 * 
 	 * @param layer
-	 *            Die Hintere dieser beiden Schichten (Startet mit 1).
-	 * @return Eine Gewichtsmatrix der Form double[][], wobei die erste
-	 *         Dimension die Neuronen der hinteren Schicht ist und die zweite
-	 *         die Neuronen der vorhergehenden Schicht.
+	 *            The second layer(starts with  1).
+	 * @return The weight matrix of type double[][], where the first dimension represents
+	 *         the number of neurons in the second layer and the second- in the first one.
+	 *         
 	 */
 	public double[][] getWeights(int layer);
 
 	/**
-	 * Liefert die Aktivierungsfunktion einer Schicht.
+	 * Returns the activation function of the layer.
 	 * 
 	 * @param layer
-	 *            Die Schicht (Startet mit 0).
-	 * @return Die Aktivierungsfunktion dieser Schicht.
+	 *            The layer(starts with 0).
+	 * @return The activation function of the layer.
 	 */
 	public ActivationFunction getActivationFunction(int layer);
 
 	/**
-	 * Liefert den Bias einer Schicht.
+	 * Returns the bias.
 	 * 
 	 * @param layer
-	 *            Die Schicht (Startet mit 0).
-	 * @return Der Bias.
+	 *            The layer(starts with 0).
+	 * @return The bias.
 	 */
 	public double getBias(int layer);
 
