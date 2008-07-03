@@ -126,10 +126,17 @@ public class IdxPicture extends Data {
 		return "" + target;
 	}
 
+	/** Is it a picture?
+	 * @return Returns true.
+	 */
+	
 	public boolean isPicture() {
 		return true;
 	}
 
+	/** Is it an audio?
+	 * @return Returns false.
+	 */
 	public boolean isAudio() {
 		return false;
 	}
