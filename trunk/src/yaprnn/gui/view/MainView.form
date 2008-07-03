@@ -17,12 +17,12 @@
             <Property name="actionCommand" type="java.lang.String" value="Set Layer #"/>
           </Properties>
         </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="menuTraining">
+        <MenuItem class="javax.swing.JMenuItem" name="menuTrain">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/yaprnn/gui/view/iconTraining.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Train MLP"/>
+            <Property name="text" type="java.lang.String" value="Train"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuSubsampling">

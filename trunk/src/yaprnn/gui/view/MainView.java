@@ -88,8 +88,8 @@ public class MainView extends javax.swing.JFrame {
         return menuSubsampling;
     }
 
-    public javax.swing.JMenuItem getMenuTraining() {
-        return menuTraining;
+    public javax.swing.JMenuItem getMenuTrain() {
+        return menuTrain;
     }
 
     public javax.swing.JPopupMenu getPopupNeuralNetwork() {
@@ -135,7 +135,7 @@ public class MainView extends javax.swing.JFrame {
 
         popupNeuralNetwork = new javax.swing.JPopupMenu();
         menuClassify = new javax.swing.JMenuItem();
-        menuTraining = new javax.swing.JMenuItem();
+        menuTrain = new javax.swing.JMenuItem();
         menuSubsampling = new javax.swing.JMenuItem();
         menuResetNetwork = new javax.swing.JMenuItem();
         jToolBar1 = new javax.swing.JToolBar();
@@ -194,9 +194,9 @@ public class MainView extends javax.swing.JFrame {
         menuClassify.setActionCommand("Set Layer #");
         popupNeuralNetwork.add(menuClassify);
 
-        menuTraining.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconTraining.png"))); // NOI18N
-        menuTraining.setText("Train MLP");
-        popupNeuralNetwork.add(menuTraining);
+        menuTrain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconTraining.png"))); // NOI18N
+        menuTrain.setText("Train");
+        popupNeuralNetwork.add(menuTrain);
 
         menuSubsampling.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconProcessAll.png"))); // NOI18N
         menuSubsampling.setText("Subsampling");
@@ -552,7 +552,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSaveDataSet;
     private javax.swing.JMenuItem menuSaveMLP;
     private javax.swing.JMenuItem menuSubsampling;
-    private javax.swing.JMenuItem menuTraining;
+    private javax.swing.JMenuItem menuTrain;
     private javax.swing.JPopupMenu popupNeuralNetwork;
     private javax.swing.JTable tableWeights;
     private javax.swing.JButton toolImportAudio;
