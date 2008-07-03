@@ -20,23 +20,28 @@ public class MLP implements Serializable, NeuralNetwork {
 	private Layer[] layer;
 
 	/**
-	 * Konstruktor; Erstellt das neuronale Netz und setzt die benötigten
-	 * Variablen.
+	 * Constructor; Builds the Network and sets all the variables
+	 * 
 	 * 
 	 * @param inputNeurons
+	 * @param outputNeurons
+       * @param hiddenLayers ,array with hidden layers
+       * @param functions, array with activation functions
+       * @param bias, array with biases
+	 * @param autoencoder 
 	 */
 	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers,
 			ActivationFunction[] functions, double[] bias, boolean autoencoder)
 			throws BadConfigException {
 
-		// Konfiguration überprüfen
+		// Tests the configuration
 		if (inputNeurons < 1)
 			throw new BadConfigException(
-					"Ungültige Anzahl für Neuronen in der Eingabeschicht!",
+					"Ungueltige Anzahl fuer Neuronen in der Eingabeschicht!",
 					BadConfigException.INVALID_INPUT_LAYER_DIMENSION);
 		if (outputNeurons < 1)
 			throw new BadConfigException(
-					"Ungültige Anzahl für Neuronen in der Ausgabeschicht!",
+					"Ungueltige Anzahl fuer Neuronen in der Ausgabeschicht!",
 					BadConfigException.INVALID_OUTPUT_LAYER_DIMENSION);
 		if (functions.length != hiddenLayers.length + 2)
 			throw new BadConfigException(
@@ -44,39 +49,39 @@ public class MLP implements Serializable, NeuralNetwork {
 					BadConfigException.INVALID_NUMBER_OF_FUNCTIONS);
 		if (bias.length != hiddenLayers.length)
 			throw new BadConfigException(
-					"Anzahl der Bias(se?) stimmt nicht mit den Layern überein!",
+					"Anzahl der Bias(se?) stimmt nicht mit den Layern Ueberein!",
 					BadConfigException.INVALID_NUMBER_OF_BIAS);
 
-		// inputLayer erzeugen
+		// Creates the input layer
 		layer = new Layer[hiddenLayers.length + 2];
 		layer[0] = new Layer(null, inputNeurons, functions[0], 0);
 
-		// hiddenLayer erzeugen
+		// creates  hidden layers
 		for (int i = 0; i < hiddenLayers.length; i++) {
 			layer[i + 1] = new Layer(layer[i], hiddenLayers[i], functions[i],
 					bias[i]);
 		}
 
-		// outputLayer erzeugen
+		// creates the outputlayer
 		layer[layer.length - 1] = new Layer(layer[layer.length - 2],
 				outputNeurons, functions[functions.length - 1], 0);
 
 		if (!autoencoder)
 			return;
 
-		// Als Autoencoder trainieren
+		// Trains as Autoencoder 
 		layer[layer.length - 1].makeAutoencoder(0.5, 1000, 0.001, 0.2);
 	}
 
 	/**
-	 * Diese Funktion führt eine Berechnung mit dem neuronalen Netz im
-	 * Online-Lernmmodus durch
+	 * This function performs the online calculation with the the Network
+	 * 
 	 * 
 	 * @param dataCollection
-	 *            Eine Collection vom Typ dvv.Data mit Eingabewerten und
-	 *            Zielwerten
+	 *            A collection of the type  dvv.Data with input- and targetvalues
+	 *            
 	 * @param eta
-	 *            Die Lernrate die verwendet werden soll.
+	 *            The learning rate to be used.
 	 * @throws BadConfigException
 	 */
 	public double runOnline(Collection<Data> dataCollection, double eta) {
@@ -91,43 +96,43 @@ public class MLP implements Serializable, NeuralNetwork {
 		double[] errVec = new double[target.length];
 
 		for (Data theData : dataCollection) {
-			// Zielwert erzeugen
+			// creates target values
 			Arrays.fill(target, 0);
 			// if(theData.getTarget() > target.length) throw new
 			// BadConfigException("Invalid Target: " + theData.getTarget(),
 			// BadConfigException.INVALID_TARGET_VECTOR);
 			target[theData.getTarget()] = 1;
 
-			// Eingabedaten setzen
+			// Sets the input data
 			layer[0].setInput(theData.getData());
 
-			// Ausgabe berechnen
+			// Calculate the output
 			out = layer[layer.length - 1].getOutput();
 
-			// Den Fehler an der Ausgabeschicht berechnen
+			// Calculates the error of the output layer
 			for (int h = 0; h < target.length; h++)
 				errVec[h] = out[h] - target[h];
 
-			// Fehler zurückpropagieren
+			// Error backpropagation 
 			layer[layer.length - 1].backPropagate(errVec);
 
-			// Gewichte anpassen
+			// Adjust thw weights
 			layer[layer.length - 1].update(1, eta);
 		}
 
 		return runTest(dataCollection);
 	}
 
-	/**
-	 * Diese Funktion führt eine Berechnung mit dem neuronalen Netz im
-	 * Batch-Lernmmodus durch
+	/**This function performs the batch calculation  with the the Network
+	 * 
+	 * 
 	 * 
 	 * @param dataCollection
-	 *            Eine Collection vom Typ dvv.Data mit Eingabewerten und
-	 *            Zielwerten
+	 *            A collection of the type  dvv.Data with input- and targetvalues
+	 *            
 	 * @param eta
-	 *            Die Lernrate die verwendet werden soll.
-	 * @return den Testfehler. Bei einem Fehler wird der Wert 0 zurückgegeben.
+	 *            The learning rate to be used.
+	 * @return den Testfehler. In case of an  error returns 0.
 	 */
 	public double runBatch(Collection<Data> dataCollection, double eta) {
 		if (layer == null)
@@ -141,29 +146,29 @@ public class MLP implements Serializable, NeuralNetwork {
 
 		for (Data theData : dataCollection) {
 
-			// Zielwert erzeugen
+			// Creates target values
 			Arrays.fill(target, 0);
 			// if(theData.getTarget() > target.length) throw new
 			// BadConfigException("Invalid Target: " + theData.getTarget(),
 			// BadConfigException.INVALID_TARGET_VECTOR);
 			target[theData.getTarget()] = 1;
 
-			// Eingabedaten setzen
+			// Sets the input data
 			if (!layer[0].setInput(theData.getData()))
 				return 0;
 
-			// Ausgabe berechnen
+			//Calculate the output
 			out = layer[layer.length - 1].getOutput();
 
-			// Den Fehler an der Ausgabeschicht berechnen
+			// Calculates the error of the output layer
 			for (int h = 0; h < target.length; h++)
 				errVec[h] = out[h] - target[h];
 
-			// Fehler zurückpropagieren
+			// Error backpropagation 
 			layer[layer.length - 1].backPropagate(errVec);
 		}
 
-		// Gewichte anpassen
+		// Adjust thw weights
 		layer[layer.length - 1].update(dataCollection.size(), eta);
 
 		return runTest(dataCollection);
@@ -171,11 +176,11 @@ public class MLP implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Diese Methode fuehrt einen Test mit den uebergebenen Daten durch.
+	 * This mathod performs the test using delivered data.
 	 * 
 	 * @param dataCollection
-	 *            die Daten, die fuer den Test verwendet werden sollen
-	 * @return den Testfehler. Bei einem Fehler wird der Wert 0 zurückgegeben.
+	 *            The data, tu be used for the test
+	 * @return The test error. If an error occurse, returns 0.
 	 */
 	public double runTest(Collection<Data> dataCollection) {
 		double err = 0;
@@ -185,22 +190,22 @@ public class MLP implements Serializable, NeuralNetwork {
 		double overallError;
 
 		for (Data theData : dataCollection) {
-			// Zielwert erzeugen
+			// Creates target values
 			Arrays.fill(target, 0);
 			target[theData.getTarget()] = 1;
 
-			// Eingabedaten setzen
+			// Sets the input data
 			if (!layer[0].setInput(theData.getData()))
 				return 0;
 
-			// Ausgabe berechnen
+			// Calculate the output
 			out = layer[layer.length - 1].getOutput();
 
-			// Den Fehler an der Ausgabeschicht berechnen
+			// Calculates the error of the output layer
 			for (int h = 0; h < target.length; h++)
 				errVec[h] = out[h] - target[h];
 
-			// Fehler bestimmen und hinzuaddieren
+			// Assess and add the error
 			overallError = 0;
 			for (double e : errVec)
 				overallError += Math.pow(e, 2);
@@ -212,9 +217,9 @@ public class MLP implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Mit dieser Methode kann ein Testlauf gestartet werden.
+	 * This mathos starts a testrun.
 	 * 
-	 * @return Die Ausgabe der Neuronen in einem prozentualen Verhältnis.
+	 * @return the output of neurons in  percents.
 	 */
 	public double[] classify(double[] input) {
 		layer[0].setInput(input);
@@ -243,7 +248,7 @@ public class MLP implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Erzeugt eine String-Repersenation des neuronalen Netzes
+	 * String-representation of the neuronal network
 	 */
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
