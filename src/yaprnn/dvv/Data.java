@@ -17,6 +17,7 @@ public abstract class Data {
 	public abstract void subsample(int resolution, double overlap, ActivationFunction function);
 	public abstract boolean isAudio();
 	public abstract boolean isPicture();
+	public abstract Object previewRawData();
 	public abstract Object previewSubsampledData(int resolution, double overlap);
 
 	/**
