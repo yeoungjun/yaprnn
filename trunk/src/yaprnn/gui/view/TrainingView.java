@@ -8,10 +8,6 @@ public class TrainingView extends javax.swing.JFrame {
         initComponents();
     }
 
-    public static void main(String[] args) {
-        new TrainingView().setVisible(true);
-    }
-	
     public javax.swing.JButton getButtonReset() {
         return buttonReset;
     }
