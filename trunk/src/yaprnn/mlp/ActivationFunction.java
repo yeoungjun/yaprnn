@@ -5,16 +5,16 @@ import java.io.Serializable;
 public interface ActivationFunction extends Serializable{
 
 	/**
-	 * Die normale Aktivierungsfunktion
-	 * @param x Parameter der Aktivierungsfunktion. 
-	 * @return Funktionswert der Aktivierungsfunktion an der Stelle x
+	 * The regular activation function
+	 * @param x  The parameter of activation function. 
+	 * @return Value of activation function at x
 	 */
 	public double compute(double x);
 	
 	/**
-	 * Die abgeleitete Aktivierungsfunktion
-	 * @param x Parameter der abgeleiteten Aktivierungsfunktion
-	 * @return Funktionswert der abgeleiteten Aktivierungsfunktion an der Stelle x
+	 * The derivative of  the activation function
+	 * @param x  The parameter of the derivative of  the activation function
+	 * @return Value of the derivative of  the activation function at x
 	 */
 	public double derivation(double x);
 
