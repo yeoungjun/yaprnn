@@ -10,15 +10,15 @@ import yaprnn.mlp.ActivationFunction;
  */
 class IdxPicture extends Data {
 
-	private static int DATA_MAGIC_NUMBER = 2051;
-	private static int LABEL_MAGIC_NUMBER = 2049;
+	private final static int DATA_MAGIC_NUMBER = 2051;
+	private final static int LABEL_MAGIC_NUMBER = 2049;
 
 	private double[] data;
-	private byte[][] rawData;
-	private String label;
-	private int target;
-	private String filename;
-	private int fileIndex;
+	private final byte[][] rawData;
+	private final String label;
+	private final int target;
+	private final String filename;
+	private final int fileIndex;
 
 	/** Constructs an IdxPicture object from the specified data.
 	 *
@@ -59,8 +59,8 @@ class IdxPicture extends Data {
 	public byte[][] previewSubsampledData(int resolution, double overlap) {
 		if(resolution <= 0 || resolution > rawData.length || overlap < 0.0 || overlap > 0.95)
 			return null;
-		int[][] subData = subsample(resolution, overlap);
-		byte[][] result = new byte[resolution][resolution];
+		final int[][] subData = subsample(resolution, overlap);
+		final byte[][] result = new byte[resolution][resolution];
 		for(int i=0; i<resolution; i++)
 			for(int j=0; j<resolution; j++)
 				result[i][j] = (byte)subData[i][j];
@@ -77,7 +77,7 @@ class IdxPicture extends Data {
 				ActivationFunction scalingFunction) {
 		if(resolution <= 0 || resolution > rawData.length || overlap <= 0.0 || overlap > 0.95)
 			return;
-		int[][] subData = subsample(resolution, overlap);
+		final int[][] subData = subsample(resolution, overlap);
 		data = new double[resolution*resolution];
 		for(int i=0; i<resolution; i++)
 			for(int j=0; j<resolution; j++)
@@ -195,8 +195,10 @@ class IdxPicture extends Data {
 						bytesRead += read;
 					}
 				}
-				String label = "" + labelInput.readByte();
-				result.add(new IdxPicture(image, label, dataFilename, i));
+				final byte target = labelInput.readByte();
+				if(target < 0 || target > 9)
+					throw new InvalidFileException(labelFilename);
+				result.add(new IdxPicture(image, "" + target, dataFilename, i));
 			}
 		} catch(EOFException e) {
 			throw new InvalidFileException(labelFilename);
@@ -205,7 +207,7 @@ class IdxPicture extends Data {
 	}
 
 	private int[][] subsample(int resolution, double overlap) {
-		int[][] subData = new int[resolution][resolution];
+		final int[][] subData = new int[resolution][resolution];
 		final double scaling = rawData.length / (double)resolution;
 		final int windowSize = (int)Math.round(scaling * (1+overlap));
 		for(int i=0; i<resolution; i++) {
