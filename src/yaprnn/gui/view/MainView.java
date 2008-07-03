@@ -8,10 +8,14 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
-    public static void main(String[] args) {
-        new MainView().setVisible(true);
+    public javax.swing.JSpinner getOptionOverlap() {
+        return optionOverlap;
     }
-	
+
+    public javax.swing.JSpinner getOptionResolution() {
+        return optionResolution;
+    }
+
     public javax.swing.JComboBox getOptionZoom() {
         return optionZoom;
     }
@@ -178,6 +182,10 @@ public class MainView extends javax.swing.JFrame {
         labelPreviewSubsampled = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         optionZoom = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
+        optionResolution = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
+        optionOverlap = new javax.swing.JSpinner();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuNewMLP = new javax.swing.JMenuItem();
@@ -221,6 +229,7 @@ public class MainView extends javax.swing.JFrame {
         toolNewMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconNewMLP.png"))); // NOI18N
         toolNewMLP.setText("New MLP");
         toolNewMLP.setToolTipText("New MLP");
+        toolNewMLP.setFocusable(false);
         toolNewMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolNewMLP.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolNewMLP);
@@ -228,12 +237,14 @@ public class MainView extends javax.swing.JFrame {
         toolLoadMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadMLP.png"))); // NOI18N
         toolLoadMLP.setText("Load MLP");
         toolLoadMLP.setToolTipText("Load MLP");
+        toolLoadMLP.setFocusable(false);
         toolLoadMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jToolBar1.add(toolLoadMLP);
 
         toolSaveMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveMLP.png"))); // NOI18N
         toolSaveMLP.setText("Save MLP");
         toolSaveMLP.setToolTipText("Save MLP");
+        toolSaveMLP.setFocusable(false);
         toolSaveMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolSaveMLP.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolSaveMLP);
@@ -242,12 +253,14 @@ public class MainView extends javax.swing.JFrame {
         toolLoadDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadDataSet.png"))); // NOI18N
         toolLoadDataSet.setText("Load dataset");
         toolLoadDataSet.setToolTipText("Load Data Set");
+        toolLoadDataSet.setFocusable(false);
         toolLoadDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jToolBar1.add(toolLoadDataSet);
 
         toolSaveDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveDataSet.png"))); // NOI18N
         toolSaveDataSet.setText("Save dataset");
         toolSaveDataSet.setToolTipText("Save Data Set");
+        toolSaveDataSet.setFocusable(false);
         toolSaveDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolSaveDataSet.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolSaveDataSet);
@@ -410,17 +423,34 @@ public class MainView extends javax.swing.JFrame {
 
         jLabel4.setText("Zoom:");
 
+        optionZoom.setEditable(true);
         optionZoom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+
+        jLabel5.setText("Resolution:");
+
+        optionResolution.setModel(new javax.swing.SpinnerNumberModel(16, 1, 256, 1));
+
+        jLabel6.setText("Overlap %:");
+
+        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(10, 0, 99, 1));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(354, 354, 354))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(2, 2, 2)
+                .addComponent(optionResolution, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionOverlap, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                .addGap(96, 96, 96))
             .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
@@ -428,7 +458,11 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(optionResolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
         );
@@ -536,6 +570,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -578,6 +614,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSaveMLP;
     private javax.swing.JMenuItem menuSubsampling;
     private javax.swing.JMenuItem menuTrain;
+    private javax.swing.JSpinner optionOverlap;
+    private javax.swing.JSpinner optionResolution;
     private javax.swing.JComboBox optionZoom;
     private javax.swing.JPopupMenu popupNeuralNetwork;
     private javax.swing.JTable tableWeights;

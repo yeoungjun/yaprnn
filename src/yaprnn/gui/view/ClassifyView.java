@@ -8,12 +8,12 @@ public class ClassifyView extends javax.swing.JFrame {
         initComponents();
     }
 	
-    public static void main(String[] args) {
-        new ClassifyView().setVisible(true);
+    public javax.swing.JComboBox getOptionZoom() {
+        return optionZoom;
     }
 
-    public javax.swing.JLabel getLabelDataPreview() {
-        return labelDataPreview;
+    public javax.swing.JLabel getLabelPreview() {
+        return labelPreview;
     }
 
     public javax.swing.JTable getTableClassification() {
@@ -35,11 +35,13 @@ public class ClassifyView extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        labelDataPreview = new javax.swing.JLabel();
+        labelPreview = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableClassification = new javax.swing.JTable();
         buttonClassify = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        optionZoom = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Classification");
@@ -47,7 +49,7 @@ public class ClassifyView extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
 
-        jScrollPane1.setViewportView(labelDataPreview);
+        jScrollPane1.setViewportView(labelPreview);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,6 +89,11 @@ public class ClassifyView extends javax.swing.JFrame {
         buttonClassify.setMnemonic('C');
         buttonClassify.setText("Classify");
 
+        jLabel2.setText("Zoom:");
+
+        optionZoom.setEditable(true);
+        optionZoom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,7 +104,10 @@ public class ClassifyView extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(310, 310, 310)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(209, 209, 209)
                         .addComponent(buttonClassify)))
                 .addContainerGap())
         );
@@ -109,7 +119,11 @@ public class ClassifyView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonClassify)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonClassify)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -118,11 +132,13 @@ public class ClassifyView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonClassify;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel labelDataPreview;
+    private javax.swing.JLabel labelPreview;
+    private javax.swing.JComboBox optionZoom;
     private javax.swing.JTable tableClassification;
     // End of variables declaration//GEN-END:variables
 
