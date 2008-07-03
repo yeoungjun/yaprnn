@@ -8,7 +8,7 @@ import yaprnn.mlp.ActivationFunction;
  *  It provides funcionality for previewing raw and subsampled data and for
  *  subsampling and scaling the data.
  */
-class IdxPicture extends Data {
+public class IdxPicture extends Data {
 
 	private final static int DATA_MAGIC_NUMBER = 2051;
 	private final static int LABEL_MAGIC_NUMBER = 2049;

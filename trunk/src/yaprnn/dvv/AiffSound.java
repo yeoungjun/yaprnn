@@ -11,7 +11,7 @@ import yaprnn.mlp.ActivationFunction;
  *  It provides funcionality for previewing raw and subsampled data and for
  *  subsampling and scaling the data.
  */
-class AiffSound extends Data {
+public class AiffSound extends Data {
 
 	private double[] data;
 	private byte[] rawData;
