@@ -79,10 +79,10 @@ class ImagesMacros {
 	}
 
 	/**
-	 * Creates an preview image from raw byte data.
+	 * Creates an preview image from audio data.
 	 * 
 	 * @param data
-	 *            raw image data
+	 *            raw audio data
 	 * @param zoom
 	 *            magnification zoom value
 	 * @return a BufferedImage of the raw data
@@ -91,7 +91,7 @@ class ImagesMacros {
 		// Zu starke Verkleinerung/größerung ist nicht erlaubt
 		double zoomVal = limit(zoom, 0.5, 2);
 
-		// TODO : createImage
+		// TODO
 		return null;
 	}
 
