@@ -62,6 +62,8 @@ class NewMLPAction implements ActionListener {
 		optionNumNeurons.addKeyListener(onlyDigits);
 		optionBias.addKeyListener(onlyDigits);
 		optionAutoEncoding.setSelected(false);
+		panel.add(new JLabel("Name"));
+		panel.add(optionName);
 		panel.add(new JLabel(
 				"How many layers do you want? (value must be greater then 0)"));
 		panel.add(optionNumLayers);
