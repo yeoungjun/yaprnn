@@ -116,13 +116,16 @@ class MenuSubsamplingAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			si.sv.setVisible(false);
 			si.sv.dispose();
-			System.out.println("starten " + System.nanoTime());
+			long st = System.nanoTime();
+			System.out.println("subsampling starten " + st);
 			si.gui.getCore().preprocess(
 					si.resolution,
 					si.overlap,
 					(ActivationFunction) si.sv.getOptionScaleFun()
 							.getSelectedItem());
-			System.out.println("fertig " + System.nanoTime());
+			System.out
+					.println("subsampling fertig " + (System.nanoTime() - st));
+			si.gui.getNewMLPAction().setEnabled(true);
 		}
 
 	}
@@ -191,4 +194,5 @@ class MenuSubsamplingAction implements ActionListener {
 			// ImagesMacros.createAudioPreview(, si.zoom));
 		}
 	}
+
 }
