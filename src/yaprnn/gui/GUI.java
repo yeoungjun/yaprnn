@@ -207,11 +207,10 @@ public class GUI implements GUIInterface {
 		boolean isData = selected instanceof DataNode;
 		subsamplingAction.setEnabled(isData);
 		classifyAction.setEnabled(isData);
-		trainAction.setEnabled(isNetwork);
+		trainAction.setEnabled(isNetwork || isNetworkSetsNode);
 		resetAction.setEnabled(isNetwork);
 		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode);
-		removeAction.setEnabled(isNetwork || selected instanceof LayerNode
-				|| isData);
+		removeAction.setEnabled(isNetwork || isData);
 	}
 
 	@Override
