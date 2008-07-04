@@ -4,9 +4,11 @@
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
 	<property name="lib" value="lib"/>
+	<property name="dist" value="dist"/>
 	      
 	<target name="init">
 		<mkdir dir="${build}"/>
+		<mkdir dir="${dist}"/>
 	</target>
 	
 	<path id="classpath">
@@ -26,7 +28,7 @@
 	</target>
 
 	<target name="jar" depends="compile">
-	    <jar jarfile="yaprnn.jar" basedir="${build}"
+	    <jar jarfile="${dist}/yaprnn.jar" basedir="${build}"
     		manifest="${src}/MANIFEST.txt">
     		<fileset dir="${build}"/>
     	</jar>
