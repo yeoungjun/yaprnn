@@ -250,7 +250,9 @@ public class NetworkTreeModel implements TreeModel {
 		private BiasNode biasNode;
 
 		LayerNode(NeuralNetwork network, int layerIndex) {
-			super(ICON_LAYER, "Layer " + layerIndex);
+			super(ICON_LAYER, (layerIndex == 0 || layerIndex + 1 == network
+					.getNumLayers()) ? (layerIndex == 0 ? "Input layer"
+					: "Output layer") : "Layer " + layerIndex);
 			this.network = network;
 			this.layerIndex = layerIndex;
 			neuronsNode = new NeuronsNode(network, layerIndex);
@@ -399,11 +401,12 @@ public class NetworkTreeModel implements TreeModel {
 			super(null, "Datasets");
 			this.ldn = ldn;
 			this.nets = nets;
+			this.setsNodes = setsNodes;
 		}
 
 		@Override
 		ModelNode getChild(int index) {
-			return (index == 0) ? ldn : setsNodes.get(nets.get(index));
+			return (index == 0) ? ldn : setsNodes.get(nets.get(index - 1));
 		}
 
 		@Override
@@ -503,9 +506,9 @@ public class NetworkTreeModel implements TreeModel {
 			super(ICON_MLP, "for " + network.getName());
 			this.network = network;
 			trainingSetNode = new DataSetNode("Training set", trainingSet);
-			testSetNode = new DataSetNode("Test set", testSet);
 			trainingSetNode.setIcon(ICON_TRAININGSET);
-			trainingSetNode.setIcon(ICON_TESTSET);
+			testSetNode = new DataSetNode("Test set", testSet);
+			testSetNode.setIcon(ICON_TESTSET);
 		}
 
 		NeuralNetwork getNetwork() {
@@ -590,7 +593,8 @@ public class NetworkTreeModel implements TreeModel {
 			netsNodes.put(n, new NetworkNode(n));
 			setsNodes.put(n, new NetworkSetsNode(n, trainingSet, testSet));
 
-			fireStructureChanged(new Object[] { netsNode, datasetsNode });
+			fireStructureChanged(new Object[] { netsNode });
+			fireStructureChanged(new Object[] { datasetsNode });
 		}
 	}
 
