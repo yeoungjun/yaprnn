@@ -27,6 +27,10 @@ class ImportAudioAction implements ActionListener {
 			Collection<String> filenames = new Vector<String>();
 			for (File f : chooser.getSelectedFiles())
 				filenames.add(f.getPath());
+			
+			// Vorher versuchen etwas Speicher frei zu machen
+			GUI.tryFreeMemory();
+			
 			try {
 				gui.getCore().openAiffSound(filenames);
 			} catch (Exception ex) {

@@ -86,6 +86,9 @@ class ImportImagesAction implements ActionListener {
 			}
 		}
 
+		// Vorher versuchen etwas Speicher frei zu machen
+		GUI.tryFreeMemory();
+		
 		// Importieren
 		try {
 			gui.getCore().openIdxPicture(imagesPKG, labelsPKG);

@@ -8,6 +8,10 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public javax.swing.JTabbedPane getTabs() {
+        return tabs;
+    }
+
     public javax.swing.JMenuItem getMenuChooseRandomTrainingTestData() {
         return menuChooseRandomTrainingTestData;
     }
@@ -28,7 +32,7 @@ public class MainView extends javax.swing.JFrame {
         return optionZoom;
     }
 
-    public javax.swing.JLabel getLabelFilename() {
+    public javax.swing.JTextField getLabelFilename() {
         return labelFilename;
     }
 
@@ -44,7 +48,7 @@ public class MainView extends javax.swing.JFrame {
         return labelPreview;
     }
 
-    public javax.swing.JLabel getLabelUsedSubsamplingOptions() {
+    public javax.swing.JTextField getLabelUsedSubsamplingOptions() {
         return labelUsedSubsamplingOptions;
     }
 
@@ -173,9 +177,8 @@ public class MainView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         treeNeuralNetwork = new javax.swing.JTree();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableWeights = new javax.swing.JTable();
@@ -184,9 +187,9 @@ public class MainView extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        labelFilename = new javax.swing.JLabel();
+        labelFilename = new javax.swing.JTextField();
         labelSampleLabel = new javax.swing.JLabel();
-        labelUsedSubsamplingOptions = new javax.swing.JLabel();
+        labelUsedSubsamplingOptions = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -316,19 +319,6 @@ public class MainView extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional information"));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 455, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Weights"));
 
         tableWeights.setModel(new javax.swing.table.DefaultTableModel(
@@ -350,25 +340,21 @@ public class MainView extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Layer details", jPanel2);
+        tabs.addTab("Layer details", jPanel2);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -380,11 +366,15 @@ public class MainView extends javax.swing.JFrame {
 
         jLabel3.setText("Used subsampling options:");
 
+        labelFilename.setEditable(false);
         labelFilename.setText("...");
+        labelFilename.setBorder(null);
 
         labelSampleLabel.setText("...");
 
+        labelUsedSubsamplingOptions.setEditable(false);
         labelUsedSubsamplingOptions.setText("...");
+        labelUsedSubsamplingOptions.setBorder(null);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -397,17 +387,17 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelSampleLabel)
-                    .addComponent(labelUsedSubsamplingOptions)
-                    .addComponent(labelFilename))
-                .addContainerGap(310, Short.MAX_VALUE))
+                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(labelFilename, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(labelSampleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(labelFilename))
+                    .addComponent(labelFilename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -415,7 +405,7 @@ public class MainView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(labelUsedSubsamplingOptions)))
+                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Sample details"));
@@ -513,9 +503,9 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Data sample details", jPanel5);
+        tabs.addTab("Data sample details", jPanel5);
 
-        jSplitPane1.setRightComponent(jTabbedPane1);
+        jSplitPane1.setRightComponent(tabs);
 
         jMenu1.setText("File");
 
@@ -609,7 +599,6 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -628,13 +617,12 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeperator3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JLabel labelFilename;
+    private javax.swing.JTextField labelFilename;
     private yaprnn.gui.ImagePanel labelPreview;
     private yaprnn.gui.ImagePanel labelPreviewSubsampled;
     private javax.swing.JLabel labelSampleLabel;
-    private javax.swing.JLabel labelUsedSubsamplingOptions;
+    private javax.swing.JTextField labelUsedSubsamplingOptions;
     private javax.swing.JMenuItem menuChooseRandomTrainingTestData;
     private javax.swing.JMenuItem menuClassify;
     private javax.swing.JMenuItem menuExit;
@@ -655,6 +643,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JComboBox optionZoom;
     private javax.swing.JPopupMenu popupNeuralNetwork;
     private javax.swing.JTable tableWeights;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JButton toolImportAudio;
     private javax.swing.JButton toolImportImages;
     private javax.swing.JButton toolLoadDataSet;
