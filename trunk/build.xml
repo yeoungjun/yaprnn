@@ -29,6 +29,7 @@
 
 	<target name="jar" depends="compile">
 	    <jar jarfile="${dist}/yaprnn.jar" basedir="${build}"
+	    	compress="true" level="9" 
     		manifest="${src}/MANIFEST.txt">
     		<fileset dir="${build}"/>
     	</jar>
