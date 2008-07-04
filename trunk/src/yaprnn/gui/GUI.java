@@ -13,6 +13,7 @@ import yaprnn.gui.NetworkTreeModel.DataNode;
 import yaprnn.gui.NetworkTreeModel.LayerNode;
 import yaprnn.gui.NetworkTreeModel.ModelNode;
 import yaprnn.gui.NetworkTreeModel.NetworkNode;
+import yaprnn.gui.NetworkTreeModel.NetworkSetsNode;
 import yaprnn.gui.view.MainView;
 import yaprnn.mlp.NeuralNetwork;
 
@@ -202,13 +203,15 @@ public class GUI implements GUIInterface {
 	 */
 	void changePopmenuStates() {
 		boolean isNetwork = selected instanceof NetworkNode;
+		boolean isNetworkSetsNode = selected instanceof NetworkSetsNode;
 		boolean isData = selected instanceof DataNode;
 		subsamplingAction.setEnabled(isData);
 		classifyAction.setEnabled(isData);
 		trainAction.setEnabled(isNetwork);
 		resetAction.setEnabled(isNetwork);
-		// chooseRandomTrainingTestSetAction();
-		removeAction.setEnabled(isNetwork || isData);
+		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode);
+		removeAction.setEnabled(isNetwork || selected instanceof LayerNode
+				|| isData);
 	}
 
 	@Override

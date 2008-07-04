@@ -699,6 +699,22 @@ public class NetworkTreeModel implements TreeModel {
 		return new Vector<Data>(testSets.get(ofNetwork));
 	}
 
+	DataSetNode getLoadedNode() {
+		return loadedNode;
+	}
+
+	DatasetsNode getDatasetsNode() {
+		return datasetsNode;
+	}
+
+	NetworksNode getNetsNode() {
+		return netsNode;
+	}
+
+	RootNode getRootNode() {
+		return rootNode;
+	}
+
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof ModelNode)
