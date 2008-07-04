@@ -16,4 +16,9 @@ public class Linear implements ActivationFunction{
 		return Double.MIN_VALUE;
 	}
 
+	@Override
+	public String toString() {
+		return "Linear";
+	}
+
 }

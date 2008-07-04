@@ -567,8 +567,8 @@ public class NetworkTreeModel implements TreeModel {
 	/**
 	 * Fires event to all listeners that the tree structure has changed.
 	 */
-	private void fireStructureChanged(Object[] nodes) {
-		TreeModelEvent e = new TreeModelEvent(this, nodes);
+	private void fireStructureChanged(Object node) {
+		TreeModelEvent e = new TreeModelEvent(this, new Object[] { node });
 		for (TreeModelListener tml : listeners)
 			tml.treeStructureChanged(e);
 	}
@@ -593,8 +593,8 @@ public class NetworkTreeModel implements TreeModel {
 			netsNodes.put(n, new NetworkNode(n));
 			setsNodes.put(n, new NetworkSetsNode(n, trainingSet, testSet));
 
-			fireStructureChanged(new Object[] { netsNode });
-			fireStructureChanged(new Object[] { datasetsNode });
+			fireStructureChanged(netsNode);
+			fireStructureChanged(datasetsNode);
 		}
 	}
 
@@ -616,7 +616,8 @@ public class NetworkTreeModel implements TreeModel {
 			netsNodes.remove(n);
 			setsNodes.remove(n);
 
-			fireStructureChanged(new Object[] { netsNode, datasetsNode });
+			fireStructureChanged(netsNode);
+			fireStructureChanged(datasetsNode);
 		}
 	}
 
@@ -633,7 +634,7 @@ public class NetworkTreeModel implements TreeModel {
 			// Dynamische Knoten erstellen
 			loadedNode.add(d);
 
-			fireStructureChanged(new Object[] { loadedNode });
+			fireStructureChanged(loadedNode);
 		}
 	}
 
@@ -658,7 +659,7 @@ public class NetworkTreeModel implements TreeModel {
 				nsn.getTestSetNode().remove(d);
 			}
 
-			fireStructureChanged(new Object[] { datasetsNode });
+			fireStructureChanged(datasetsNode);
 		}
 	}
 

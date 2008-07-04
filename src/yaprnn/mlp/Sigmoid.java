@@ -16,4 +16,10 @@ public class Sigmoid implements ActivationFunction{
 	public double getMinimumValue() {
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		return "Sigmoid";
+	}
+	
 }
