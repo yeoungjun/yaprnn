@@ -69,7 +69,9 @@ class ImagesMacros {
 		for (int y = 0; y < height; y++)
 			for (int x = 0; x < width; x++) {
 				// Graufarbenes Bild erstellen
-				image.setRGB(x, y, data[y][x]);
+				int pixelValue = uByteToInt(data[y][x]);
+				pixelValue = pixelValue | (pixelValue << 8) | (pixelValue << 16);
+				image.setRGB(x, y, pixelValue);
 			}
 
 		return resizeImage(image, (int) (width * zoomVal),
@@ -106,6 +108,11 @@ class ImagesMacros {
 	 */
 	private static double limit(double value, double min, double max) {
 		return ((value > min ? value : min) < max) ? value : max;
+	}
+
+	private static int uByteToInt(byte b) {
+		final int i = (int)b;
+		return i >= 0 ? i : 128 + (i & 0x7F);
 	}
 
 }
