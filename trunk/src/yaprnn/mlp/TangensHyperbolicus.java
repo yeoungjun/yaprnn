@@ -4,20 +4,10 @@ public class TangensHyperbolicus implements ActivationFunction {
 
 	private static final long serialVersionUID = -7432193650916186201L;
 
-	/**
-	 * Einfache Evaluierung der Funktion Tangens-Hyperbolicus mit dem Parameter x.
-	 * @param x Eingabewert in die Funktion tanh.
-	 * @return Der Funktionswert der Funktion tanh mit dem Parameter x.
-	 */
 	public double compute(double x) {
 		return Math.tanh(x);
 	}
 
-	/**
-	 * Evaluiert die Ableitung der Funktion tanh mit dem Pararmeter x.
-	 * @param x Eingabewert in die Ableitung der Funktion tanh.
-	 * @return Der Funktionswert der Ableitung der Funktion tanh mit dem Parameter x.
-	 */
 	public double derivation(double x) {
 		double v = Math.tanh(x);
 		return 1 - v * v;
@@ -25,6 +15,11 @@ public class TangensHyperbolicus implements ActivationFunction {
 
 	public double getMinimumValue() {
 		return -1;
+	}
+
+	@Override
+	public String toString() {
+		return "Tangens hyperbolicus";
 	}
 
 }
