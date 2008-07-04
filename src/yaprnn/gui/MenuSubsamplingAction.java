@@ -126,6 +126,7 @@ class MenuSubsamplingAction implements ActionListener {
 					(ActivationFunction) si.sv.getOptionScaleFun()
 							.getSelectedItem());
 			si.gui.getNewMLPAction().setEnabled(true);
+			si.gui.getLoadMLPAction().setEnabled(true);
 		}
 
 	}
