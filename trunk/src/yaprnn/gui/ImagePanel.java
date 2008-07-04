@@ -39,8 +39,8 @@ public class ImagePanel extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		g.clearRect(0, 0, getWidth(), getHeight());
 		if (image != null) {
-			g.clearRect(0, 0, getWidth(), getHeight());
 			int x = (getWidth() - size.width) / 2;
 			int y = (getHeight() - size.height) / 2;
 			g.drawImage(image, x, y, this);
