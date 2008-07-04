@@ -461,9 +461,9 @@ public class MainView extends javax.swing.JFrame {
 
         optionResolution.setModel(new javax.swing.SpinnerNumberModel(16, 1, 256, 1));
 
-        jLabel6.setText("Overlap %:");
+        jLabel6.setText("Overlap:");
 
-        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 1.0d, 0.1d));
+        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 0.95d, 0.05d));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -476,12 +476,12 @@ public class MainView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addGap(2, 2, 2)
-                .addComponent(optionResolution, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                .addComponent(optionResolution, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionOverlap, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-                .addGap(96, 96, 96))
+                .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(117, 117, 117))
             .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(

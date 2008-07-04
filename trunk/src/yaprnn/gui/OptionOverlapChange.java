@@ -16,10 +16,6 @@ class OptionOverlapChange implements ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		JSpinner spinner = gui.getView().getOptionOverlap();
-		// TODO : Keine Ahnung ob ein commitEdit notwendig ist
-		/*
-		 * try { spinner.commitEdit(); } catch (ParseException pe) { }
-		 */
 		gui.setOverlap(((Double) spinner.getValue()).doubleValue());
 	}
 

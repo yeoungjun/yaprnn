@@ -69,9 +69,9 @@ public class NetworkTreeModel implements TreeModel {
 	final static ImageIcon ICON_DATASETS = ImagesMacros.loadIcon(22, 22,
 			"/yaprnn/gui/view/iconFolderDataSet.png");
 	final static ImageIcon ICON_AUDIO = ImagesMacros.loadIcon(22, 22,
-	"/yaprnn/gui/view/iconLoadAudio.png");
+			"/yaprnn/gui/view/iconLoadAudio.png");
 	final static ImageIcon ICON_IMAGE = ImagesMacros.loadIcon(22, 22,
-	"/yaprnn/gui/view/iconLoadImage.png");
+			"/yaprnn/gui/view/iconLoadImage.png");
 	final static ImageIcon ICON_OPENED = ImagesMacros.loadIcon(22, 22,
 			"/yaprnn/gui/view/iconFolderWhite.png");
 	final static ImageIcon ICON_CLOSED = ImagesMacros.loadIcon(22, 22,
@@ -656,6 +656,42 @@ public class NetworkTreeModel implements TreeModel {
 
 			fireStructureChanged(new Object[] { datasetsNode });
 		}
+	}
+
+	/**
+	 * Returns a copy of the list of networks loaded
+	 * 
+	 * @return copy of the list nets
+	 */
+	List<NeuralNetwork> getNetworks() {
+		return new Vector<NeuralNetwork>(nets);
+	}
+
+	/**
+	 * Returns a copy of the list of data loaded
+	 * 
+	 * @return copy of the list
+	 */
+	List<Data> getDatasets() {
+		return new Vector<Data>(loadedData);
+	}
+
+	/**
+	 * Returns a copy of the training set of a network
+	 * 
+	 * @return copy of a training set
+	 */
+	List<Data> getTrainingset(NeuralNetwork ofNetwork) {
+		return new Vector<Data>(trainingSets.get(ofNetwork));
+	}
+
+	/**
+	 * Returns a copy of the test set of a network
+	 * 
+	 * @return copy of a test set
+	 */
+	List<Data> getTestset(NeuralNetwork ofNetwork) {
+		return new Vector<Data>(testSets.get(ofNetwork));
 	}
 
 	@Override

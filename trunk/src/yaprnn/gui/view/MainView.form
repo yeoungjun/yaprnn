@@ -598,12 +598,12 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                              <Component id="optionResolution" pref="67" max="32767" attributes="1"/>
+                              <Component id="optionResolution" pref="62" max="32767" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="optionOverlap" pref="67" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
+                              <Component id="optionOverlap" min="-2" pref="65" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jSplitPane2" alignment="0" pref="455" max="32767" attributes="0"/>
                       </Group>
@@ -721,13 +721,13 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel6">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Overlap %:"/>
+                        <Property name="text" type="java.lang.String" value="Overlap:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="optionOverlap">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.5" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.1" type="number"/>
+                          <SpinnerModel initial="0.5" maximum="0.95" minimum="0.0" numberType="java.lang.Double" stepSize="0.05" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
