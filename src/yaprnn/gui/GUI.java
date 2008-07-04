@@ -132,7 +132,11 @@ public class GUI implements GUIInterface {
 
 	void setSelectedPath(TreePath selectedPath) {
 		this.selectedPath = selectedPath;
-		this.selected = (ModelNode) selectedPath.getLastPathComponent();
+		if (selectedPath != null) {
+			Object last = selectedPath.getLastPathComponent();
+			this.selected = (last instanceof ModelNode) ? (ModelNode) last
+					: null;
+		}
 		updateOnSelectedNode();
 	}
 
@@ -188,6 +192,7 @@ public class GUI implements GUIInterface {
 								.previewSubsampledData(resolution, overlap),
 								zoom));
 			} else if (data.isAudio()) {
+				// TODO : Audio preview
 				// mainView.getLabelPreview().setImage(
 				// ImagesMacros.createAudioPreview(, zoom));
 				// mainView.getLabelPreviewSubsampled().setImage(
