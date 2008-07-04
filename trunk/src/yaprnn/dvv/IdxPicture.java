@@ -98,7 +98,7 @@ public class IdxPicture extends Data {
 	 *  @return the name of this image
 	 */
 	public String getName() {
-		return filename + "_" + fileIndex;
+		return (new File(filename)).getName() + "_" + fileIndex;
 	}
 
 	/** Returns the target for this image.

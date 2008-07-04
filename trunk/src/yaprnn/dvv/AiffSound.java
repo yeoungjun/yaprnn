@@ -68,7 +68,7 @@ public class AiffSound extends Data {
 	 *  @return the name of this object
 	 */
 	public String getName() {
-		return filename;
+		return new File(filename).getName();
 	}
 	
 	/** Returns the target for this sound.

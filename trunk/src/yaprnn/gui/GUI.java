@@ -1,8 +1,6 @@
 package yaprnn.gui;
 
 import java.util.Collection;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
 import java.awt.EventQueue;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -15,8 +13,6 @@ import yaprnn.gui.NetworkTreeModel.LayerNode;
 import yaprnn.gui.NetworkTreeModel.ModelNode;
 import yaprnn.gui.NetworkTreeModel.NetworkNode;
 import yaprnn.gui.view.MainView;
-import yaprnn.gui.view.TrainingView;
-import yaprnn.mlp.NeuralNetwork;
 
 public class GUI implements GUIInterface {
 
@@ -60,9 +56,6 @@ public class GUI implements GUIInterface {
 	private MenuResetAction resetAction;
 	private MenuChooseRandomTrainingTestSetAction chooseRandomTrainingTestSetAction;
 	private MenuRemoveAction removeAction;
-
-	// Trainingfenster
-	private Dictionary<NeuralNetwork, TrainingView> trainingViews = new Hashtable<NeuralNetwork, TrainingView>();
 
 	/**
 	 * @param core
@@ -108,63 +101,6 @@ public class GUI implements GUIInterface {
 			}
 		});
 
-	}
-
-	MainView getView() {
-		return mainView;
-	}
-
-	NetworkTreeModel getTreeModel() {
-		return treeModel;
-	}
-
-	Core getCore() {
-		return core;
-	}
-
-	ModelNode getSelected() {
-		return selected;
-	}
-
-	TreePath getSelectedPath() {
-		return selectedPath;
-	}
-
-	void setSelectedPath(TreePath selectedPath) {
-		this.selectedPath = selectedPath;
-		if (selectedPath != null) {
-			Object last = selectedPath.getLastPathComponent();
-			this.selected = (last instanceof ModelNode) ? (ModelNode) last
-					: null;
-		}
-		updateOnSelectedNode();
-	}
-
-	double getZoom() {
-		return zoom;
-	}
-
-	void setZoom(double zoom) {
-		this.zoom = zoom;
-		updateOnSelectedNode();
-	}
-
-	int getResolution() {
-		return resolution;
-	}
-
-	void setResolution(int resolution) {
-		this.resolution = resolution;
-		updateOnSelectedNode();
-	}
-
-	double getOverlap() {
-		return overlap;
-	}
-
-	void setOverlap(double overlap) {
-		this.overlap = overlap;
-		updateOnSelectedNode();
 	}
 
 	/**
@@ -229,20 +165,6 @@ public class GUI implements GUIInterface {
 		removeAction.setEnabled(isNetwork || isData);
 	}
 
-	TrainingView getTrainingView(NeuralNetwork network) {
-		TrainingView v = trainingViews.get(network);
-		if (v == null) {
-			v = new TrainingView();
-			trainingViews.put(network, v);
-			// TODO : Trainingview initialisieren
-		}
-		return v;
-	}
-
-	void removeTrainingView(NeuralNetwork network) {
-		trainingViews.remove(network);
-	}
-
 	@Override
 	public void setDataSet(Collection<Data> dataset) {
 		for (Data d : dataset)
@@ -259,4 +181,105 @@ public class GUI implements GUIInterface {
 		// TODO Auto-generated method stub
 	}
 
+	TreePath getSelectedPath() {
+		return selectedPath;
+	}
+
+	void setSelectedPath(TreePath selectedPath) {
+		this.selectedPath = selectedPath;
+		if (selectedPath != null) {
+			Object last = selectedPath.getLastPathComponent();
+			this.selected = (last instanceof ModelNode) ? (ModelNode) last
+					: null;
+		}
+		updateOnSelectedNode();
+	}
+
+	double getZoom() {
+		return zoom;
+	}
+
+	void setZoom(double zoom) {
+		this.zoom = zoom;
+		updateOnSelectedNode();
+	}
+
+	int getResolution() {
+		return resolution;
+	}
+
+	void setResolution(int resolution) {
+		this.resolution = resolution;
+		updateOnSelectedNode();
+	}
+
+	double getOverlap() {
+		return overlap;
+	}
+
+	void setOverlap(double overlap) {
+		this.overlap = overlap;
+		updateOnSelectedNode();
+	}
+
+	MainView getView() {
+		return mainView;
+	}
+
+	NetworkTreeModel getTreeModel() {
+		return treeModel;
+	}
+
+	Core getCore() {
+		return core;
+	}
+
+	ModelNode getSelected() {
+		return selected;
+	}
+
+	NewMLPAction getNewMLPAction() {
+		return newMLPAction;
+	}
+
+	LoadMLPAction getLoadMLPAction() {
+		return loadMLPAction;
+	}
+
+	SaveMLPAction getSaveMLPAction() {
+		return saveMLPAction;
+	}
+
+	LoadDataSetAction getLoadDataSetAction() {
+		return loadDataSetAction;
+	}
+
+	SaveDataSetAction getSaveDataSetAction() {
+		return saveDataSetAction;
+	}
+
+	MenuSubsamplingAction getSubsamplingAction() {
+		return subsamplingAction;
+	}
+
+	MenuClassifyAction getClassifyAction() {
+		return classifyAction;
+	}
+
+	MenuTrainAction getTrainAction() {
+		return trainAction;
+	}
+
+	MenuResetAction getResetAction() {
+		return resetAction;
+	}
+
+	MenuChooseRandomTrainingTestSetAction getChooseRandomTrainingTestSetAction() {
+		return chooseRandomTrainingTestSetAction;
+	}
+
+	MenuRemoveAction getRemoveAction() {
+		return removeAction;
+	}	
+	
 }
