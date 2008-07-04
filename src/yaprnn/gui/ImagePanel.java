@@ -28,7 +28,10 @@ public class ImagePanel extends JPanel {
 	public void setImage(Image image) {
 		Dimension old = new Dimension(size);
 		this.image = image;
-		size.setSize(image.getWidth(this), image.getHeight(this));
+		if (image != null)
+			size.setSize(image.getWidth(this), image.getHeight(this));
+		else
+			size.setSize(0, 0);
 		firePropertyChange("preferredSize", old, size);
 		revalidate();
 		repaint();
