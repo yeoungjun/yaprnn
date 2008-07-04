@@ -77,7 +77,7 @@ public class Core {
 	 *  @param autoEncoder        true if the MLP is to be initialized with autoencoding, false otherwise
 	 *  @return an interface to the new mlp
 	 */
-	public NeuralNetwork newMLP(int[] layer, int[] activationFunction, double[] bias, boolean autoEncoder) throws BadConfigException {
+	public NeuralNetwork newMLP(String name, int[] layer, int[] activationFunction, double[] bias, boolean autoEncoder) throws BadConfigException {
 		
 		if(dvv == null) throw new BadConfigException( "Datenvorverarbeitung nicht verfügbar!", BadConfigException.DVV_NOT_LOADED);
 		
@@ -85,7 +85,8 @@ public class Core {
 		for(int i=0; i<functions.length; i++)
 			functions[i] = activations.get(activationFunction[i]);
 		
-		return new MLP(dvv.getNumInputNeurons(), dvv.getNumOutputNeurons(), layer, functions, bias, autoEncoder);
+		mlp = new MLP(name, dvv.getNumInputNeurons(), dvv.getNumOutputNeurons(), layer, functions, bias, autoEncoder);
+		return mlp;
 		
 //		if(activationFunction.length == layer.length+2 && layer.length == bias.length && dvv != null) {
 //			
