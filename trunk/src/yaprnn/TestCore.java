@@ -17,7 +17,7 @@ class TestCore {
 		int[] layers = { 20, 20, 20 };
 		int[] func = { 0, 0, 0, 0, 0 };
 		double[] bias = { 0, 0, 0 };
-		core.newMLP(layers, func, bias, false);
+		core.newMLP("test", layers, func, bias, false);
 		core.trainOnline(0.2, 1000, 0.1);
 	}
 
@@ -39,7 +39,7 @@ class TestCore {
 		int[] layers = { 20, 20, 20 };
 		int[] func = { 0, 0, 0, 0, 0 };
 		double[] bias = { 0, 0, 0 };
-		core.newMLP(layers, func, bias, false);
+		core.newMLP("test", layers, func, bias, false);
 		core.trainOnline(0.2, 1000, 0.1);
 	}
 	

@@ -22,6 +22,7 @@ class NewMLPAction implements ActionListener {
 	private final static double DEFAULT_BIAS = 0.2;
 	private final static int DEFAULT_ACTIVATIONFUNCTION = 0;
 	private final static boolean DEFAULT_AUTOENCODING = false;
+	private static int counter = 1;
 
 	private GUI gui;
 
@@ -39,6 +40,7 @@ class NewMLPAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String name = "Network " + counter++;
 		int numLayers = 0, numNeurons = 0;
 		double bias = 0;
 
@@ -46,7 +48,8 @@ class NewMLPAction implements ActionListener {
 		boolean notSatisfied;
 
 		// Input Dialog vorbereiten.
-		JPanel panel = new JPanel(new GridLayout(7, 1));
+		JPanel panel = new JPanel(new GridLayout(9, 1));
+		JTextField optionName = new JTextField(name);
 		JTextField optionNumLayers = new JTextField(Integer
 				.toString(DEFAULT_NUMLAYERS));
 		JTextField optionNumNeurons = new JTextField(Integer
@@ -78,6 +81,7 @@ class NewMLPAction implements ActionListener {
 			if (ret == JOptionPane.CANCEL_OPTION)
 				return;
 			try {
+				name = optionName.getText();
 				numLayers = Integer.parseInt(optionNumLayers.getText());
 				numNeurons = Integer.parseInt(optionNumNeurons.getText());
 				bias = Double.parseDouble(optionBias.getText());
@@ -86,7 +90,7 @@ class NewMLPAction implements ActionListener {
 						"Please enter valid values only.", "Parsing error",
 						JOptionPane.ERROR_MESSAGE);
 			}
-			if (numLayers > 0 && numNeurons > 0)
+			if (numLayers > 0 && numNeurons > 0 && name.length() > 0)
 				notSatisfied = false;
 			else {
 				// Die Felder mit ungueltigen Eingaben werden mit hellem rot
@@ -99,6 +103,10 @@ class NewMLPAction implements ActionListener {
 					optionNumNeurons.setBackground(new Color(255, 128, 128));
 				else
 					optionNumNeurons.setBackground(SystemColor.text);
+				if (name == null || name.length() == 0)
+					optionName.setBackground(new Color(255, 128, 128));
+				else
+					optionName.setBackground(SystemColor.text);
 			}
 		}
 
@@ -117,7 +125,7 @@ class NewMLPAction implements ActionListener {
 
 		// MLP erstellen
 		try {
-			NeuralNetwork mlp = gui.getCore().newMLP(layer, avf, biases,
+			NeuralNetwork mlp = gui.getCore().newMLP(name, layer, avf, biases,
 					optionAutoEncoding.isSelected());
 			gui.getTreeModel().add(mlp);
 		} catch (BadConfigException err) {

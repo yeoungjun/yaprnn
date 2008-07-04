@@ -30,7 +30,7 @@ public class MLP implements Serializable, NeuralNetwork {
        * @param bias, array with biases
 	 * @param autoencoder 
 	 */
-	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers,
+	public MLP(String name, int inputNeurons, int outputNeurons, int[] hiddenLayers,
 			ActivationFunction[] functions, double[] bias, boolean autoencoder)
 			throws BadConfigException {
 
@@ -52,6 +52,8 @@ public class MLP implements Serializable, NeuralNetwork {
 					"Anzahl der Bias(se?) stimmt nicht mit den Layern Ueberein!",
 					BadConfigException.INVALID_NUMBER_OF_BIAS);
 
+		this.name = name;
+		
 		// Creates the input layer
 		layer = new Layer[hiddenLayers.length + 2];
 		layer[0] = new Layer(null, inputNeurons, functions[0], 0);
