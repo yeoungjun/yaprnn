@@ -1,21 +1,25 @@
 package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
+import java.awt.event.ActionListener;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import yaprnn.dvv.NoSuchFileException;
 
-class SaveMLPAction extends AbstractAction {
-
-	private static final long serialVersionUID = -8667106085248179171L;
+class SaveMLPAction implements ActionListener {
 
 	private GUI gui;
 
 	SaveMLPAction(GUI gui) {
 		this.gui = gui;
+		setEnabled(false);
 		gui.getView().getMenuSaveMLP().addActionListener(this);
 		gui.getView().getToolSaveMLP().addActionListener(this);
+	}
+
+	void setEnabled(boolean enabled) {
+		gui.getView().getMenuSaveMLP().setEnabled(enabled);
+		gui.getView().getToolSaveMLP().setEnabled(enabled);
 	}
 
 	@Override

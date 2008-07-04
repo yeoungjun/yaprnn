@@ -1,12 +1,10 @@
 package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
-class MenuExitAction extends AbstractAction {
-
-	private static final long serialVersionUID = -8618057821584995843L;
+class MenuExitAction implements ActionListener {
 
 	private GUI gui;
 

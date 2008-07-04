@@ -4,9 +4,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-
-import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,9 +15,7 @@ import javax.swing.JTextField;
 import yaprnn.mlp.BadConfigException;
 import yaprnn.mlp.NeuralNetwork;
 
-class NewMLPAction extends AbstractAction {
-
-	private static final long serialVersionUID = -3290748515408373993L;
+class NewMLPAction implements ActionListener {
 
 	private final static int DEFAULT_NUMLAYERS = 1;
 	private final static int DEFAULT_NUMNEURONS = 2;
@@ -30,8 +27,14 @@ class NewMLPAction extends AbstractAction {
 
 	NewMLPAction(GUI gui) {
 		this.gui = gui;
+		setEnabled(false);
 		gui.getView().getMenuNewMLP().addActionListener(this);
 		gui.getView().getToolNewMLP().addActionListener(this);
+	}
+
+	void setEnabled(boolean enabled) {
+		gui.getView().getMenuNewMLP().setEnabled(enabled);
+		gui.getView().getToolNewMLP().setEnabled(enabled);
 	}
 
 	@Override
