@@ -1,20 +1,24 @@
 package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
+import java.awt.event.ActionListener;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-class LoadDataSetAction extends AbstractAction {
-
-	private static final long serialVersionUID = 8703727693067607283L;
+class LoadDataSetAction implements ActionListener {
 
 	private GUI gui;
 
 	LoadDataSetAction(GUI gui) {
 		this.gui = gui;
+		setEnabled(false);
 		gui.getView().getMenuLoadDataSet().addActionListener(this);
 		gui.getView().getToolLoadDataSet().addActionListener(this);
+	}
+
+	void setEnabled(boolean enabled) {
+		gui.getView().getMenuLoadDataSet().setEnabled(enabled);
+		gui.getView().getToolLoadDataSet().setEnabled(enabled);
 	}
 
 	@Override

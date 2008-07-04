@@ -8,6 +8,14 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public javax.swing.JMenuItem getMenuChooseRandomTrainingTestData() {
+        return menuChooseRandomTrainingTestData;
+    }
+
+    public javax.swing.JMenuItem getMenuRemove() {
+        return menuRemove;
+    }
+
     public javax.swing.JSpinner getOptionOverlap() {
         return optionOverlap;
     }
@@ -80,8 +88,8 @@ public class MainView extends javax.swing.JFrame {
         return menuNewMLP;
     }
 
-    public javax.swing.JMenuItem getMenuResetNetwork() {
-        return menuResetNetwork;
+    public javax.swing.JMenuItem getMenuReset() {
+        return menuReset;
     }
 
     public javax.swing.JMenuItem getMenuSaveDataSet() {
@@ -142,10 +150,15 @@ public class MainView extends javax.swing.JFrame {
     private void initComponents() {
 
         popupNeuralNetwork = new javax.swing.JPopupMenu();
-        menuClassify = new javax.swing.JMenuItem();
-        menuTrain = new javax.swing.JMenuItem();
         menuSubsampling = new javax.swing.JMenuItem();
-        menuResetNetwork = new javax.swing.JMenuItem();
+        menuClassify = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JSeparator();
+        menuTrain = new javax.swing.JMenuItem();
+        menuReset = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JSeparator();
+        menuChooseRandomTrainingTestData = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JSeparator();
+        menuRemove = new javax.swing.JMenuItem();
         jToolBar1 = new javax.swing.JToolBar();
         toolNewMLP = new javax.swing.JButton();
         toolLoadMLP = new javax.swing.JButton();
@@ -203,22 +216,27 @@ public class MainView extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         menuManual = new javax.swing.JMenuItem();
 
-        menuClassify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconClassify.png"))); // NOI18N
-        menuClassify.setText("Classify Data");
-        menuClassify.setActionCommand("Set Layer #");
-        popupNeuralNetwork.add(menuClassify);
-
-        menuTrain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconTraining.png"))); // NOI18N
-        menuTrain.setText("Train");
-        popupNeuralNetwork.add(menuTrain);
-
-        menuSubsampling.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconProcessAll.png"))); // NOI18N
         menuSubsampling.setText("Subsampling");
         popupNeuralNetwork.add(menuSubsampling);
 
-        menuResetNetwork.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconReset.png"))); // NOI18N
-        menuResetNetwork.setText("Reset Network");
-        popupNeuralNetwork.add(menuResetNetwork);
+        menuClassify.setText("Classify");
+        menuClassify.setActionCommand("Set Layer #");
+        popupNeuralNetwork.add(menuClassify);
+        popupNeuralNetwork.add(jSeparator4);
+
+        menuTrain.setText("Train");
+        popupNeuralNetwork.add(menuTrain);
+
+        menuReset.setText("Reset");
+        popupNeuralNetwork.add(menuReset);
+        popupNeuralNetwork.add(jSeparator5);
+
+        menuChooseRandomTrainingTestData.setText("Choose random training/test sets");
+        popupNeuralNetwork.add(menuChooseRandomTrainingTestData);
+        popupNeuralNetwork.add(jSeparator6);
+
+        menuRemove.setText("Remove");
+        popupNeuralNetwork.add(menuRemove);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("YAPRNN");
@@ -228,7 +246,6 @@ public class MainView extends javax.swing.JFrame {
 
         toolNewMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconNewMLP.png"))); // NOI18N
         toolNewMLP.setText("New MLP");
-        toolNewMLP.setToolTipText("New MLP");
         toolNewMLP.setFocusable(false);
         toolNewMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolNewMLP.setPreferredSize(new java.awt.Dimension(45, 45));
@@ -236,14 +253,12 @@ public class MainView extends javax.swing.JFrame {
 
         toolLoadMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadMLP.png"))); // NOI18N
         toolLoadMLP.setText("Load MLP");
-        toolLoadMLP.setToolTipText("Load MLP");
         toolLoadMLP.setFocusable(false);
         toolLoadMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jToolBar1.add(toolLoadMLP);
 
         toolSaveMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveMLP.png"))); // NOI18N
         toolSaveMLP.setText("Save MLP");
-        toolSaveMLP.setToolTipText("Save MLP");
         toolSaveMLP.setFocusable(false);
         toolSaveMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolSaveMLP.setPreferredSize(new java.awt.Dimension(45, 45));
@@ -252,14 +267,12 @@ public class MainView extends javax.swing.JFrame {
 
         toolLoadDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadDataSet.png"))); // NOI18N
         toolLoadDataSet.setText("Load dataset");
-        toolLoadDataSet.setToolTipText("Load Data Set");
         toolLoadDataSet.setFocusable(false);
         toolLoadDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jToolBar1.add(toolLoadDataSet);
 
         toolSaveDataSet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconSaveDataSet.png"))); // NOI18N
         toolSaveDataSet.setText("Save dataset");
-        toolSaveDataSet.setToolTipText("Save Data Set");
         toolSaveDataSet.setFocusable(false);
         toolSaveDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolSaveDataSet.setPreferredSize(new java.awt.Dimension(45, 45));
@@ -608,6 +621,9 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeperator1;
     private javax.swing.JSeparator jSeperator3;
     private javax.swing.JSplitPane jSplitPane1;
@@ -619,6 +635,7 @@ public class MainView extends javax.swing.JFrame {
     private yaprnn.gui.ImagePanel labelPreviewSubsampled;
     private javax.swing.JLabel labelSampleLabel;
     private javax.swing.JLabel labelUsedSubsamplingOptions;
+    private javax.swing.JMenuItem menuChooseRandomTrainingTestData;
     private javax.swing.JMenuItem menuClassify;
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenuItem menuImportAudio;
@@ -627,7 +644,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuLoadMLP;
     private javax.swing.JMenuItem menuManual;
     private javax.swing.JMenuItem menuNewMLP;
-    private javax.swing.JMenuItem menuResetNetwork;
+    private javax.swing.JMenuItem menuRemove;
+    private javax.swing.JMenuItem menuReset;
     private javax.swing.JMenuItem menuSaveDataSet;
     private javax.swing.JMenuItem menuSaveMLP;
     private javax.swing.JMenuItem menuSubsampling;

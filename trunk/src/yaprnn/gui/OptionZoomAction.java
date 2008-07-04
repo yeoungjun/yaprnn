@@ -1,12 +1,10 @@
 package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
-class OptionZoomAction extends AbstractAction {
-
-	private static final long serialVersionUID = -6562436206434168269L;
+class OptionZoomAction implements ActionListener {
 
 	private GUI gui;
 

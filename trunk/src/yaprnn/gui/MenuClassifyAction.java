@@ -1,17 +1,20 @@
 package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
+import java.awt.event.ActionListener;
 
-class MenuClassifyAction extends AbstractAction {
-
-	private static final long serialVersionUID = -846304331500913969L;
+class MenuClassifyAction implements ActionListener {
 
 	private GUI gui;
 
 	MenuClassifyAction(GUI gui) {
 		this.gui = gui;
+		setEnabled(false);
 		gui.getView().getMenuClassify().addActionListener(this);
+	}
+
+	void setEnabled(boolean enabled) {
+		gui.getView().getMenuClassify().setEnabled(enabled);
 	}
 
 	@Override

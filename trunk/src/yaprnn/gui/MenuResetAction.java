@@ -3,24 +3,23 @@ package yaprnn.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class MenuSubsamplingAction implements ActionListener {
+class MenuResetAction implements ActionListener {
 
 	private GUI gui;
 
-	MenuSubsamplingAction(GUI gui) {
+	MenuResetAction(GUI gui) {
 		this.gui = gui;
 		setEnabled(false);
-		gui.getView().getMenuSubsampling().addActionListener(this);
+		gui.getView().getMenuReset().addActionListener(this);
 	}
-
 	
 	void setEnabled(boolean enabled) {
-		gui.getView().getMenuSubsampling().setEnabled(enabled);
+		gui.getView().getMenuReset().setEnabled(enabled);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		// TODO : reset network action
 	}
 
 }
