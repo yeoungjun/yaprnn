@@ -178,7 +178,7 @@ public class MLP implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * This mathod performs the test using delivered data.
+	 * This method performs the test using delivered data.
 	 * 
 	 * @param dataCollection
 	 *            The data, tu be used for the test
@@ -219,7 +219,7 @@ public class MLP implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * This mathos starts a testrun.
+	 * This method starts a testrun.
 	 * 
 	 * @return the output of neurons in  percents.
 	 */
