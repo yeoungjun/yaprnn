@@ -40,6 +40,11 @@
         </MenuItem>
         <Component class="javax.swing.JSeparator" name="jSeparator6">
         </Component>
+        <MenuItem class="javax.swing.JMenuItem" name="menuEdit">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Edit"/>
+          </Properties>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuRemove">
           <Properties>
             <Property name="text" type="java.lang.String" value="Remove"/>
