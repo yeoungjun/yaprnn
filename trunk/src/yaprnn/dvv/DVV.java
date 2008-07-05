@@ -3,6 +3,7 @@ package yaprnn.dvv;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.Random;
 import java.io.IOException;
 import yaprnn.mlp.ActivationFunction;
 
@@ -56,6 +57,7 @@ public class DVV {
 	 */
 	public Collection<Data> getTrainingData() {
 		if(trainingData == null) selectTrainingData();
+		shuffle(trainingData);
 		return trainingData;
 	}
 
@@ -65,6 +67,7 @@ public class DVV {
 	 */
 	public Collection<Data> getTestData() {
 		if(testData == null) selectTrainingData();
+		shuffle(testData);
 		return testData;
 	}
 
@@ -141,6 +144,23 @@ public class DVV {
 				trainingData.add(data);
 			else if(data.isTest())
 				testData.add(data);
+	}
+
+	/** Shuffles the specified data set. */
+	private void shuffle(Collection<Data> input) {
+		Data[] dataset = input.toArray(new Data[0]);
+		input.clear();
+		Random random = new Random();
+		int n = dataset.length;
+		while(n > 1) {
+			final int k = random.nextInt(n);
+			--n;
+			final Data tmp = dataset[n];
+			dataset[n] = dataset[k];
+			dataset[k] = tmp;
+		}
+		for(int i=0; i<dataset.length; i++)
+			input.add(dataset[i]);
 	}
 
 }
