@@ -1,16 +1,23 @@
 package yaprnn.gui;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.Vector;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import yaprnn.gui.view.TrainingView;
 import yaprnn.mlp.NeuralNetwork;
 
@@ -208,6 +215,20 @@ class MenuTrainAction implements ActionListener {
 		}
 
 		ti = new TrainingInfo(gui, new TrainingView(), gui.getSelectedNetwork());
+
+		// Das JFreeChart zur Visualisierung erstellen
+		XYSeries series = new XYSeries("Average Size");
+		series.add(20.0, 10.0);
+		series.add(40.0, 20.0);
+		series.add(70.0, 50.0);
+		XYDataset xyDataset = new XYSeriesCollection(series);
+		JFreeChart chart = ChartFactory.createXYAreaChart("Sample XY Chart",
+				"Height", "Weight", xyDataset, PlotOrientation.HORIZONTAL,
+				true, false, false);
+		ChartPanel cp = new ChartPanel(chart);
+		ti.tv.getGraphPanel().add(cp, BorderLayout.CENTER);
+		ti.tv.getGraphPanel().validate();
+
 		new TrainAction(ti);
 		new TrainingWindowListener(ti);
 		ti.tv.getOptionTrainingMethod().setModel(
@@ -220,16 +241,17 @@ class MenuTrainAction implements ActionListener {
 	static void setTestError(List<Double> errorData) {
 		synchronized (ti.syncTest) {
 			// Wir müssen immer nur das letzte (also das neue) hinzufügen.
-			ti.testErr.add(new Double(errorData.get(errorData.size() - 1)));
+			// ti.testErr.add(new Double(errorData.get(errorData.size() - 1)));
 		}
-		ti.tv.getLabelTestError().repaint();
+		// ti.tv.getLabelTestError().repaint();
 	}
 
 	static void setTrainingError(List<Double> errorData) {
 		synchronized (ti.syncTraining) {
-			ti.trainingErr.add(new Double(errorData.get(errorData.size() - 1)));
+			// ti.trainingErr.add(new Double(errorData.get(errorData.size() -
+			// 1)));
 		}
-		ti.tv.getLabelTrainingError().repaint();
+		// ti.tv.getLabelTrainingError().repaint();
 	}
 
 }
