@@ -66,6 +66,7 @@ class MenuTrainAction implements ActionListener {
 
 		TrainingWindowListener(TrainingInfo ti) {
 			this.ti = ti;
+			ti.tv.addWindowListener(this);
 		}
 
 		@Override
