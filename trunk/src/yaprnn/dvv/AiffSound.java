@@ -225,7 +225,7 @@ public class AiffSound extends Data {
 				long frameLenght = audioInput.getFrameLength();
 				byte[] data = new byte[frameSize * (int)frameLenght];
 				try {
-					int read = audioInput.read(data); //read wird nicht gebraucht, aber verlangt.
+					audioInput.read(data); //read wird nicht gebraucht, aber verlangt.
 				}	catch (IOException e) {
 					e.printStackTrace();
 				}

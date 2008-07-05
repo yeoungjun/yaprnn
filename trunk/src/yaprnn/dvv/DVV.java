@@ -2,7 +2,6 @@ package yaprnn.dvv;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.Random;
 import java.io.IOException;
 import yaprnn.mlp.ActivationFunction;
@@ -110,13 +109,14 @@ public class DVV {
 	 */
 	public void preprocess(int resolution, double overlap, ActivationFunction scalingFunction) {
 		//TODO: error handling
-		for(Data data : allData)
-			data.subsample(resolution, overlap, scalingFunction);
-		Collection t = new ArrayList<AiffSound>(); 
-		if (allData.getClass().isInstance(t))
-			numInputNeurons = resolution;
-		else 
-			numInputNeurons = resolution * resolution;
+		if (allData.size() > 0) {
+			for(Data data : allData)
+				data.subsample(resolution, overlap, scalingFunction);
+			if (allData.iterator().next().isAudio())
+				numInputNeurons = resolution;
+			else 
+				numInputNeurons = resolution * resolution;
+		}
 	}
 
 	/** Returns the size of the input vector.

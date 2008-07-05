@@ -100,6 +100,8 @@ public class GUI implements GUIInterface {
 		removeAction = new MenuRemoveAction(this);
 
 		// Andere Handler
+		new MenuManualAction(this);
+		new MenuWebsiteAction(this);
 		new MenuExitAction(this);
 		new TreeNeuralNetworkSelection(this);
 		new OptionZoomAction(this);
