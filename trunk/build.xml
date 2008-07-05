@@ -21,6 +21,11 @@
 	        	<include name="*.png" />
 	        </fileset>
 	    </copy>
+	    <copy todir="${dist}">
+	        <fileset dir="${lib}">
+	        	<include name="*.jar" />
+	        </fileset>
+	    </copy>
 	</target>
 	
 	<target name="compile" depends="init, resources">
@@ -38,6 +43,7 @@
 	<target name="clean">
 	    <delete>
     		<fileset dir="build" includes="**/*.class"/>
+	    	<fileset dir="dist" includes="**/*.jar"/>
 	    </delete>
 	</target>
 	
