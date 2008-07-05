@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -15,7 +14,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import yaprnn.gui.view.TrainingView;
@@ -33,10 +31,9 @@ class MenuTrainAction implements ActionListener {
 		NeuralNetwork network;
 		boolean inProgress = false;
 
-		// Synch-Objekte für die Messpunkte.
-		Object syncTraining = new Object(), syncTest = new Object();
-		List<Double> trainingErr = new Vector<Double>(),
-				testErr = new Vector<Double>();
+		// JFreeChart Einbindung, Messpunkte
+		XYSeries trainingError;
+		XYSeries testError;
 
 		TrainingInfo(GUI gui, TrainingView tv, NeuralNetwork network) {
 			this.gui = gui;
@@ -217,15 +214,18 @@ class MenuTrainAction implements ActionListener {
 		ti = new TrainingInfo(gui, new TrainingView(), gui.getSelectedNetwork());
 
 		// Das JFreeChart zur Visualisierung erstellen
-		XYSeries series = new XYSeries("Average Size");
-		series.add(20.0, 10.0);
-		series.add(40.0, 20.0);
-		series.add(70.0, 50.0);
-		XYDataset xyDataset = new XYSeriesCollection(series);
-		JFreeChart chart = ChartFactory.createXYAreaChart("Sample XY Chart",
-				"Height", "Weight", xyDataset, PlotOrientation.HORIZONTAL,
-				true, false, false);
+		ti.trainingError = new XYSeries("Training error");
+		ti.testError = new XYSeries("Test error");
+		XYSeriesCollection xyDataset = new XYSeriesCollection();
+		xyDataset.addSeries(ti.trainingError);
+		xyDataset.addSeries(ti.testError);
+		JFreeChart chart = ChartFactory.createXYLineChart(
+				"Training statistics", "Index", "Error value", xyDataset,
+				PlotOrientation.VERTICAL, true, false, false);
 		ChartPanel cp = new ChartPanel(chart);
+		cp.setMouseZoomable(true, true);
+
+		// ChartPanel hinzufügen
 		ti.tv.getGraphPanel().add(cp, BorderLayout.CENTER);
 		ti.tv.getGraphPanel().validate();
 
@@ -235,23 +235,18 @@ class MenuTrainAction implements ActionListener {
 				new DefaultComboBoxModel(new Object[] { new OnlineTraining(),
 						new BatchTraining() }));
 		ti.tv.getOptionTrainingMethod().setEditable(false);
+		
 		ti.tv.setVisible(true);
 	}
 
 	static void setTestError(List<Double> errorData) {
-		synchronized (ti.syncTest) {
-			// Wir müssen immer nur das letzte (also das neue) hinzufügen.
-			// ti.testErr.add(new Double(errorData.get(errorData.size() - 1)));
-		}
-		// ti.tv.getLabelTestError().repaint();
+		Double val = errorData.get(errorData.size() - 1);
+		ti.testError.add(errorData.size(), val);
 	}
 
 	static void setTrainingError(List<Double> errorData) {
-		synchronized (ti.syncTraining) {
-			// ti.trainingErr.add(new Double(errorData.get(errorData.size() -
-			// 1)));
-		}
-		// ti.tv.getLabelTrainingError().repaint();
+		Double val = errorData.get(errorData.size() - 1);
+		ti.trainingError.add(errorData.size(), val);
 	}
 
 }
