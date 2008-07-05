@@ -162,6 +162,7 @@ public class MainView extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         menuChooseRandomTrainingTestData = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JSeparator();
+        menuEdit = new javax.swing.JMenuItem();
         menuRemove = new javax.swing.JMenuItem();
         jToolBar1 = new javax.swing.JToolBar();
         toolNewMLP = new javax.swing.JButton();
@@ -237,6 +238,9 @@ public class MainView extends javax.swing.JFrame {
         menuChooseRandomTrainingTestData.setText("Choose random training/test sets");
         popupNeuralNetwork.add(menuChooseRandomTrainingTestData);
         popupNeuralNetwork.add(jSeparator6);
+
+        menuEdit.setText("Edit");
+        popupNeuralNetwork.add(menuEdit);
 
         menuRemove.setText("Remove");
         popupNeuralNetwork.add(menuRemove);
@@ -626,6 +630,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JTextField labelUsedSubsamplingOptions;
     private javax.swing.JMenuItem menuChooseRandomTrainingTestData;
     private javax.swing.JMenuItem menuClassify;
+    private javax.swing.JMenuItem menuEdit;
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenuItem menuImportAudio;
     private javax.swing.JMenuItem menuImportImages;
@@ -654,5 +659,9 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JButton toolSaveMLP;
     private javax.swing.JTree treeNeuralNetwork;
     // End of variables declaration//GEN-END:variables
+
+    public javax.swing.JMenuItem getMenuEdit() {
+        return menuEdit;
+    }
 
 }

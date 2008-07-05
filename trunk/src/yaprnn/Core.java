@@ -130,6 +130,7 @@ public class Core {
 		}
 		try {
 			mlp = (MLP)in.readObject();
+			in.close();
 		} catch(Exception e) {
 			return null;
 		}
@@ -145,6 +146,8 @@ public class Core {
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(filename));
 			out.writeObject(mlp);
+			out.flush();
+			out.close();
 		} catch(FileNotFoundException e) {
 			throw new NoSuchFileException(filename);
 		} catch(Exception e) {

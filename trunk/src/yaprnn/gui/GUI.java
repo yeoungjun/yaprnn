@@ -63,6 +63,7 @@ public class GUI implements GUIInterface {
 	private MenuTrainAction trainAction;
 	private MenuResetAction resetAction;
 	private MenuChooseRandomTrainingTestSetAction chooseRandomTrainingTestSetAction;
+	private MenuEditAction editAction;
 	private MenuRemoveAction removeAction;
 
 	/**
@@ -93,6 +94,7 @@ public class GUI implements GUIInterface {
 		resetAction = new MenuResetAction(this);
 		chooseRandomTrainingTestSetAction = new MenuChooseRandomTrainingTestSetAction(
 				this);
+		editAction = new MenuEditAction(this);
 		removeAction = new MenuRemoveAction(this);
 
 		// Andere Handler
@@ -207,21 +209,26 @@ public class GUI implements GUIInterface {
 	 * can be used in correct order.
 	 */
 	void updateMenuToolsStates() {
-		boolean isNetwork = selected instanceof NetworkNode;
+		boolean isNetworkNode = selected instanceof NetworkNode;
+		boolean isNeuronsNode = selected instanceof NeuronsNode;
+		boolean isAVFNode = selected instanceof AVFNode;
+		boolean isBiasNode = selected instanceof BiasNode;
 		boolean isNetworkSetsNode = selected instanceof NetworkSetsNode;
-		boolean isData = selected instanceof DataNode;
-		
+		boolean isDataNode = selected instanceof DataNode;
+
 		// Standard Menus
-		saveMLPAction.setEnabled(isNetwork);
+		saveMLPAction.setEnabled(isNetworkNode);
 		saveDataSetAction.setEnabled(isNetworkSetsNode);
 
 		// PopupMenus
-		subsamplingAction.setEnabled(isData);
-		classifyAction.setEnabled(isData);
-		trainAction.setEnabled(isNetwork || isNetworkSetsNode);
-		resetAction.setEnabled(isNetwork);
+		subsamplingAction.setEnabled(isDataNode);
+		classifyAction.setEnabled(isDataNode);
+		trainAction.setEnabled(isNetworkNode || isNetworkSetsNode);
+		resetAction.setEnabled(isNetworkNode);
 		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode);
-		removeAction.setEnabled(isNetwork || isData);
+		editAction.setEnabled(isNetworkNode || isNeuronsNode || isAVFNode
+				|| isBiasNode);
+		removeAction.setEnabled(isNetworkNode || isDataNode);
 
 	}
 
