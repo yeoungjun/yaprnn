@@ -167,7 +167,7 @@ public class NetworkTreeModel implements TreeModel {
 
 		private List<NeuralNetwork> nets;
 		private Dictionary<NeuralNetwork, NetworkNode> netsNodes;
-
+		
 		NetworksNode(List<NeuralNetwork> nets,
 				Dictionary<NeuralNetwork, NetworkNode> netsNodes) {
 			super(null, "Networks");

@@ -210,12 +210,19 @@ public class GUI implements GUIInterface {
 		boolean isNetwork = selected instanceof NetworkNode;
 		boolean isNetworkSetsNode = selected instanceof NetworkSetsNode;
 		boolean isData = selected instanceof DataNode;
+		
+		// Standard Menus
+		saveMLPAction.setEnabled(isNetwork);
+		saveDataSetAction.setEnabled(isNetworkSetsNode);
+
+		// PopupMenus
 		subsamplingAction.setEnabled(isData);
 		classifyAction.setEnabled(isData);
 		trainAction.setEnabled(isNetwork || isNetworkSetsNode);
 		resetAction.setEnabled(isNetwork);
 		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode);
 		removeAction.setEnabled(isNetwork || isData);
+
 	}
 
 	@Override
