@@ -145,6 +145,7 @@ class MenuTrainAction implements ActionListener {
 		@Override
 		protected void done() {
 			ti.inProgress = false;
+			ti.tv.getToolTrain().setEnabled(true);
 		}
 
 	}
