@@ -580,22 +580,22 @@ public class NetworkTreeModel implements TreeModel {
 	 *            the network to add
 	 */
 	void add(NeuralNetwork n) {
-		if (!nets.contains(n)) {
-			nets.add(n);
+		if (nets.contains(n))
+			return;
+		nets.add(n);
 
-			// Training- und Testset anlegen
-			List<Data> trainingSet = new Vector<Data>();
-			List<Data> testSet = new Vector<Data>();
-			trainingSets.put(n, trainingSet);
-			testSets.put(n, testSet);
+		// Training- und Testset anlegen
+		List<Data> trainingSet = new Vector<Data>();
+		List<Data> testSet = new Vector<Data>();
+		trainingSets.put(n, trainingSet);
+		testSets.put(n, testSet);
 
-			// Dynamische Knoten erstellen
-			netsNodes.put(n, new NetworkNode(n));
-			setsNodes.put(n, new NetworkSetsNode(n, trainingSet, testSet));
+		// Dynamische Knoten erstellen
+		netsNodes.put(n, new NetworkNode(n));
+		setsNodes.put(n, new NetworkSetsNode(n, trainingSet, testSet));
 
-			fireStructureChanged(netsNode);
-			fireStructureChanged(datasetsNode);
-		}
+		fireStructureChanged(netsNode);
+		fireStructureChanged(datasetsNode);
 	}
 
 	/**
@@ -605,20 +605,20 @@ public class NetworkTreeModel implements TreeModel {
 	 *            the network to remove
 	 */
 	void remove(NeuralNetwork n) {
-		if (nets.contains(n)) {
-			nets.remove(n);
+		if (!nets.contains(n))
+			return;
+		nets.remove(n);
 
-			// Training- und Testset entferne
-			trainingSets.remove(n);
-			testSets.remove(n);
+		// Training- und Testset entferne
+		trainingSets.remove(n);
+		testSets.remove(n);
 
-			// Dynamische Knoten entfernen
-			netsNodes.remove(n);
-			setsNodes.remove(n);
+		// Dynamische Knoten entfernen
+		netsNodes.remove(n);
+		setsNodes.remove(n);
 
-			fireStructureChanged(netsNode);
-			fireStructureChanged(datasetsNode);
-		}
+		fireStructureChanged(netsNode);
+		fireStructureChanged(datasetsNode);
 	}
 
 	/**
@@ -628,14 +628,14 @@ public class NetworkTreeModel implements TreeModel {
 	 *            the data to add
 	 */
 	void add(Data d) {
-		if (!loadedData.contains(d)) {
-			loadedData.add(d);
+		if (loadedData.contains(d))
+			return;
+		loadedData.add(d);
 
-			// Dynamische Knoten erstellen
-			loadedNode.add(d);
+		// Dynamische Knoten erstellen
+		loadedNode.add(d);
 
-			fireStructureChanged(loadedNode);
-		}
+		fireStructureChanged(loadedNode);
 	}
 
 	/**
@@ -645,22 +645,70 @@ public class NetworkTreeModel implements TreeModel {
 	 *            the data to remove
 	 */
 	void remove(Data d) {
-		if (loadedData.contains(d)) {
-			loadedData.remove(d);
+		if (!loadedData.contains(d))
+			return;
+		loadedData.remove(d);
 
-			// Dynamische Knoten entfernen
-			loadedNode.remove(d);
+		// Dynamische Knoten entfernen
+		loadedNode.remove(d);
 
-			// Eventuell für ein Training oder Test eingesetzte Data-Objekte
-			// aus den Listen entfernen
-			for (NeuralNetwork n : nets) {
-				NetworkSetsNode nsn = setsNodes.get(n);
-				nsn.getTrainingSetNode().remove(d);
-				nsn.getTestSetNode().remove(d);
-			}
-
-			fireStructureChanged(datasetsNode);
+		// Eventuell für ein Training oder Test eingesetzte Data-Objekte
+		// aus den Listen entfernen
+		for (NeuralNetwork n : nets) {
+			NetworkSetsNode nsn = setsNodes.get(n);
+			nsn.getTrainingSetNode().remove(d);
+			nsn.getTestSetNode().remove(d);
 		}
+
+		fireStructureChanged(datasetsNode);
+	}
+
+	/**
+	 * Adds a Data-Object to the training or test set of a network.
+	 * 
+	 * @param d
+	 *            the data to add
+	 * @param n
+	 *            the network which set gets it
+	 * @param asTrainingSet
+	 *            if true the data will be added in the training set, else it
+	 *            will be added in the test set
+	 */
+	void add(Data d, NeuralNetwork n, boolean asTrainingSet) {
+		if (d == null || n == null)
+			return;
+		NetworkSetsNode nsn = setsNodes.get(n);
+		if (asTrainingSet) {
+			trainingSets.get(n).add(d);
+			// Dynamische Knoten erstellen
+			nsn.getTrainingSetNode().add(d);
+			fireStructureChanged(nsn.getTrainingSetNode());
+		} else {
+			testSets.get(n).add(d);
+			// Dynamische Knoten erstellen
+			setsNodes.get(n).getTestSetNode().add(d);
+			fireStructureChanged(nsn.getTestSetNode());
+		}
+	}
+
+	/**
+	 * Removes a Data-Object from a training or test set of a network.
+	 * 
+	 * @param d
+	 *            the data to remove
+	 * @param n
+	 *            the network which set will lose it
+	 */
+	void remove(Data d, NeuralNetwork n) {
+		if (d == null || n == null)
+			return;
+		trainingSets.get(n).remove(d);
+		testSets.get(n).remove(d);
+		// Dynamische Knoten entfernen (falls vorhanden)
+		NetworkSetsNode nsn = setsNodes.get(n);
+		nsn.getTrainingSetNode().remove(d);
+		nsn.getTestSetNode().remove(d);
+		fireStructureChanged(nsn.getTrainingSetNode());
 	}
 
 	/**
@@ -673,7 +721,7 @@ public class NetworkTreeModel implements TreeModel {
 	}
 
 	/**
-	 * Returns a copy of the list of data loaded
+	 * Returns a copy of the list of loaded data objects
 	 * 
 	 * @return copy of the list
 	 */

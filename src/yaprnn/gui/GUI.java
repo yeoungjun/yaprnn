@@ -9,11 +9,14 @@ import javax.swing.tree.TreePath;
 import yaprnn.Core;
 import yaprnn.GUIInterface;
 import yaprnn.dvv.Data;
+import yaprnn.gui.NetworkTreeModel.AVFNode;
+import yaprnn.gui.NetworkTreeModel.BiasNode;
 import yaprnn.gui.NetworkTreeModel.DataNode;
 import yaprnn.gui.NetworkTreeModel.LayerNode;
 import yaprnn.gui.NetworkTreeModel.ModelNode;
 import yaprnn.gui.NetworkTreeModel.NetworkNode;
 import yaprnn.gui.NetworkTreeModel.NetworkSetsNode;
+import yaprnn.gui.NetworkTreeModel.NeuronsNode;
 import yaprnn.gui.view.MainView;
 import yaprnn.mlp.NeuralNetwork;
 
@@ -38,6 +41,8 @@ public class GUI implements GUIInterface {
 	// Informationen über den ausgewählten Knoten
 	private TreePath selectedPath = null;
 	private ModelNode selected = null;
+	private NeuralNetwork selectedNetwork = null;
+	private Data selectedData = null;
 
 	// Einige Preview-Optionen
 	private double zoom = 1.0;
@@ -111,7 +116,7 @@ public class GUI implements GUIInterface {
 	 * node.
 	 */
 	void updateOnSelectedNode() {
-		changePopmenuStates();
+		updateMenuToolsStates();
 
 		// Preview anzeigen, falls eine DataNode selektiert wurde.
 		if (selected instanceof DataNode) {
@@ -198,10 +203,10 @@ public class GUI implements GUIInterface {
 	}
 
 	/**
-	 * This changes the enabled state of popmenu items, so the items can
-	 * correctly be edited.
+	 * This updates the enabled state of menu items and tool buttons, so the app
+	 * can be used in correct order.
 	 */
-	void changePopmenuStates() {
+	void updateMenuToolsStates() {
 		boolean isNetwork = selected instanceof NetworkNode;
 		boolean isNetworkSetsNode = selected instanceof NetworkSetsNode;
 		boolean isData = selected instanceof DataNode;
@@ -237,8 +242,33 @@ public class GUI implements GUIInterface {
 		this.selectedPath = selectedPath;
 		if (selectedPath != null) {
 			Object last = selectedPath.getLastPathComponent();
-			this.selected = (last instanceof ModelNode) ? (ModelNode) last
-					: null;
+			selected = (last instanceof ModelNode) ? (ModelNode) last : null;
+		}
+		if (selected != null) {
+			if (selected instanceof DataNode)
+				selectedData = ((DataNode) selected).getData();
+			else
+				selectedData = null;
+			if (selected instanceof NetworkNode
+					|| selected instanceof LayerNode
+					|| selected instanceof NeuronsNode
+					|| selected instanceof AVFNode
+					|| selected instanceof BiasNode
+					|| selected instanceof NetworkSetsNode) {
+				if (selected instanceof NetworkNode)
+					selectedNetwork = ((NetworkNode) selected).getNetwork();
+				if (selected instanceof LayerNode)
+					selectedNetwork = ((LayerNode) selected).getNetwork();
+				if (selected instanceof NeuronsNode)
+					selectedNetwork = ((NeuronsNode) selected).getNetwork();
+				if (selected instanceof AVFNode)
+					selectedNetwork = ((AVFNode) selected).getNetwork();
+				if (selected instanceof BiasNode)
+					selectedNetwork = ((BiasNode) selected).getNetwork();
+				if (selected instanceof NetworkSetsNode)
+					selectedNetwork = ((NetworkSetsNode) selected).getNetwork();
+			} else
+				selectedNetwork = null;
 		}
 		updateOnSelectedNode();
 	}
@@ -280,6 +310,14 @@ public class GUI implements GUIInterface {
 
 	Core getCore() {
 		return core;
+	}
+
+	Data getSelectedData() {
+		return selectedData;
+	}
+
+	NeuralNetwork getSelectedNetwork() {
+		return selectedNetwork;
 	}
 
 	ModelNode getSelected() {
