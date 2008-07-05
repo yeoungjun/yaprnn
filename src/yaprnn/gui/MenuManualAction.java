@@ -3,11 +3,11 @@ package yaprnn.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class MenuManual implements ActionListener {
+class MenuManualAction implements ActionListener {
 
 	private GUI gui;
 
-	MenuManual(GUI gui) {
+	MenuManualAction(GUI gui) {
 		this.gui = gui;
 		gui.getView().getMenuManual().addActionListener(this);
 	}

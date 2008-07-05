@@ -92,7 +92,7 @@ class ImagesMacros {
 		// Zu starke Verkleinerung/größerung ist nicht erlaubt
 		double zoomVal = limit(zoom, 0.5, 2);
 
-		// TODO
+		// TODO : createAudioPreview
 		return null;
 	}
 
