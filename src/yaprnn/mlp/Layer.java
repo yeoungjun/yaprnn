@@ -58,9 +58,9 @@ public class Layer implements Serializable {
 	}
 
 	/**
-	 *  Diese Funktion wird bei der Eingabeschicht verwendet und setzt die Eingabedaten.
-	 * @param input Ein Eingabevektor, der die gleiche Dimension wie die Neuronen braucht
-	 * @throws BadConfigException Wird bei falscher Konfiguration zurückgeworfen
+	 *  This function is to be used at the inout layer and sets the input data.
+	 * @param input The input vector, that needs the same dimension as the layer.
+	 * @throws BadConfigException Is thrown in case of wrong configuration
 	 */
 	public boolean setInput(double[] input) {
 		if (output.length != input.length)
@@ -76,11 +76,11 @@ public class Layer implements Serializable {
 	 * @return The output vector of this layer.  if this layer is the output layer, this vector is the output of the network
 	 */
 	public double[] getOutput() {
-		// Recursion cancell
+		// Recursion cancel
 		if (prevLayer == null)
 			return output;
 
-		// Speicherung wg. backPropagation
+		// Saving of backPropagation
 		 input = prevLayer.getOutput();
 
 		// Generate the output
@@ -118,7 +118,7 @@ public class Layer implements Serializable {
 	public void backPropagate(double[] error) {
 		if(prevLayer == null) return;
 		
-//		if(error.length != output.length) throw new BadConfigException("Flascher Fehler-Vektor übergeben!", BadConfigException.INVALID_ERROR_VECTOR);
+//		if(error.length != output.length) throw new BadConfigException("Flascher Fehler-Vektor Uebergeben!", BadConfigException.INVALID_ERROR_VECTOR);
 		
 		
 		double[] localError = new double[output.length];
