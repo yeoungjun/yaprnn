@@ -106,12 +106,13 @@ public class SubsamplingView extends javax.swing.JFrame {
 
         jLabel2.setText("Overlap:");
 
-        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 0.95d, 0.05d));
+        optionOverlap.setModel(new javax.swing.SpinnerNumberModel(0.4d, 0.0d, 0.95d, 0.05d));
 
         jLabel3.setText("Zoom:");
 
         optionZoom.setEditable(true);
         optionZoom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+        optionZoom.setSelectedIndex(1);
 
         jLabel4.setText("Scalefunction:");
 

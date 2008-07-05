@@ -115,12 +115,17 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		protected Object doInBackground() throws Exception {
-			if (onlineLearning)
+			System.out.println("Training beginnt");
+			if (onlineLearning) {
+				System.out.println("online");
 				ti.gui.getCore().trainOnline(learningRate, maxIterations,
 						maxError);
-			else
+			} else {
+				System.out.println("batch");
 				ti.gui.getCore().trainBatch(learningRate, maxIterations,
 						maxError);
+			}
+			System.out.println("fertig");
 			return null;
 		}
 

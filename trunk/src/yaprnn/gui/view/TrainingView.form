@@ -29,7 +29,7 @@
                   <Component id="jPanel2" alignment="0" max="32767" attributes="2"/>
                   <Component id="jPanel1" alignment="0" max="32767" attributes="2"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <Component id="jPanel3" pref="529" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="toolTrain" min="-2" pref="85" max="-2" attributes="2"/>
                   </Group>
@@ -211,7 +211,7 @@
         <Component class="javax.swing.JSpinner" name="optionLearningRate">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="0.009999999776482582" minimum="0.0" numberType="java.lang.Double" stepSize="0.0010000000474974513" type="number"/>
+              <SpinnerModel initial="0.009999999776482582" minimum="0.0010" numberType="java.lang.Double" stepSize="0.0010000000474974513" type="number"/>
             </Property>
           </Properties>
         </Component>
@@ -235,7 +235,7 @@
         <Component class="javax.swing.JSpinner" name="optionMaxError">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="0.1" minimum="0.01" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+              <SpinnerModel initial="0.01" minimum="0.0010" numberType="java.lang.Double" stepSize="0.0010" type="number"/>
             </Property>
           </Properties>
         </Component>

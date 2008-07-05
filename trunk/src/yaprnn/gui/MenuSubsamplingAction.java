@@ -26,7 +26,7 @@ class MenuSubsamplingAction implements ActionListener {
 		GUI gui;
 		SubsamplingView sv;
 		Data previewData;
-		double zoom = 1.0, overlap = 0.5;
+		double zoom = 1.0, overlap = 0.4;
 		int resolution = 16;
 
 		SubsamplingInfo(GUI gui, SubsamplingView sv, Data previewData) {

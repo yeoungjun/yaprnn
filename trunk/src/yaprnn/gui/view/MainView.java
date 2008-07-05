@@ -446,6 +446,7 @@ public class MainView extends javax.swing.JFrame {
 
         optionZoom.setEditable(true);
         optionZoom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+        optionZoom.setSelectedIndex(1);
 
         jLabel5.setText("Resolution:");
 

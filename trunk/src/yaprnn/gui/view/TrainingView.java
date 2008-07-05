@@ -106,7 +106,7 @@ public class TrainingView extends javax.swing.JFrame {
 
         jLabel2.setText("Learning rate:");
 
-        optionLearningRate.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.009999999776482582d), Double.valueOf(0.0d), null, Double.valueOf(0.0010000000474974513d)));
+        optionLearningRate.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.009999999776482582d), Double.valueOf(0.0010d), null, Double.valueOf(0.0010000000474974513d)));
 
         jLabel3.setText("Max iterations:");
 
@@ -114,7 +114,7 @@ public class TrainingView extends javax.swing.JFrame {
 
         jLabel4.setText("Max error:");
 
-        optionMaxError.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.1d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        optionMaxError.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.0010d), null, Double.valueOf(0.0010d)));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -168,7 +168,7 @@ public class TrainingView extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(toolTrain, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
