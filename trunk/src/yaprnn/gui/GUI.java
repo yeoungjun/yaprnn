@@ -233,12 +233,12 @@ public class GUI implements GUIInterface {
 
 	@Override
 	public void setTestError(List<Double> errorData) {
-		// TODO Auto-generated method stub
+		MenuTrainAction.setTestError(errorData);
 	}
 
 	@Override
 	public void setTrainingError(List<Double> errorData) {
-		// TODO Auto-generated method stub
+		MenuTrainAction.setTrainingError(errorData);
 	}
 
 	TreePath getSelectedPath() {

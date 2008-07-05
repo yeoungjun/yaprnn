@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
+import java.util.Vector;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,6 +25,11 @@ class MenuTrainAction implements ActionListener {
 		TrainingView tv;
 		NeuralNetwork network;
 		boolean inProgress = false;
+
+		// Synch-Objekte für die Messpunkte.
+		Object syncTraining = new Object(), syncTest = new Object();
+		List<Double> trainingErr = new Vector<Double>(),
+				testErr = new Vector<Double>();
 
 		TrainingInfo(GUI gui, TrainingView tv, NeuralNetwork network) {
 			this.gui = gui;
@@ -207,6 +215,21 @@ class MenuTrainAction implements ActionListener {
 						new BatchTraining() }));
 		ti.tv.getOptionTrainingMethod().setEditable(false);
 		ti.tv.setVisible(true);
+	}
+
+	static void setTestError(List<Double> errorData) {
+		synchronized (ti.syncTest) {
+			// Wir müssen immer nur das letzte (also das neue) hinzufügen.
+			ti.testErr.add(new Double(errorData.get(errorData.size() - 1)));
+		}
+		ti.tv.getLabelTestError().repaint();
+	}
+
+	static void setTrainingError(List<Double> errorData) {
+		synchronized (ti.syncTraining) {
+			ti.trainingErr.add(new Double(errorData.get(errorData.size() - 1)));
+		}
+		ti.tv.getLabelTrainingError().repaint();
 	}
 
 }
