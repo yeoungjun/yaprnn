@@ -8,12 +8,16 @@ public class TrainingView extends javax.swing.JFrame {
         initComponents();
     }
 
-    public javax.swing.JButton getButtonReset() {
-        return buttonReset;
+    public javax.swing.JSpinner getOptionMaxError() {
+        return optionMaxError;
     }
 
-    public javax.swing.JButton getButtonTrain() {
-        return buttonTrain;
+    public javax.swing.JSpinner getOptionMaxIterations() {
+        return optionMaxIterations;
+    }
+
+    public javax.swing.JButton getToolTrain() {
+        return toolTrain;
     }
 
     public javax.swing.JLabel getLabelTestError() {
@@ -50,8 +54,11 @@ public class TrainingView extends javax.swing.JFrame {
         optionTrainingMethod = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         optionLearningRate = new javax.swing.JSpinner();
-        buttonTrain = new javax.swing.JButton();
-        buttonReset = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        optionMaxIterations = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        optionMaxError = new javax.swing.JSpinner();
+        toolTrain = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Training");
@@ -97,53 +104,73 @@ public class TrainingView extends javax.swing.JFrame {
 
         optionTrainingMethod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Online learning", "Batch learning" }));
 
-        jLabel2.setText("Learning rate ETA:");
+        jLabel2.setText("Learning rate:");
 
-        optionLearningRate.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.01f), Float.valueOf(0.0f), null, Float.valueOf(0.0010f)));
+        optionLearningRate.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.009999999776482582d), Double.valueOf(0.0d), null, Double.valueOf(0.0010000000474974513d)));
+
+        jLabel3.setText("Max iterations:");
+
+        optionMaxIterations.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1000), Integer.valueOf(1), null, Integer.valueOf(100)));
+
+        jLabel4.setText("Max error:");
+
+        optionMaxError.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.1d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionTrainingMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(optionMaxIterations, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(optionTrainingMethod, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionLearningRate, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(optionLearningRate)
+                    .addComponent(optionMaxError, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
+                .addGap(171, 171, 171))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1)
-                .addComponent(optionTrainingMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel2)
-                .addComponent(optionLearningRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(optionTrainingMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(optionLearningRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(optionMaxIterations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(optionMaxError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(32, 32, 32))
         );
 
-        buttonTrain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconTraining.png"))); // NOI18N
-        buttonTrain.setText("Train");
-
-        buttonReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconReset.png"))); // NOI18N
-        buttonReset.setText("Reset");
+        toolTrain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconTraining.png"))); // NOI18N
+        toolTrain.setText("Train");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonTrain)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonReset))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(toolTrain, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -154,29 +181,30 @@ public class TrainingView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonReset)
-                    .addComponent(buttonTrain, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
-                .addGap(23, 23, 23))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(toolTrain)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonReset;
-    private javax.swing.JButton buttonTrain;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel labelTestError;
     private javax.swing.JLabel labelTrainingError;
     private javax.swing.JSpinner optionLearningRate;
+    private javax.swing.JSpinner optionMaxError;
+    private javax.swing.JSpinner optionMaxIterations;
     private javax.swing.JComboBox optionTrainingMethod;
+    private javax.swing.JButton toolTrain;
     // End of variables declaration//GEN-END:variables
 
 }

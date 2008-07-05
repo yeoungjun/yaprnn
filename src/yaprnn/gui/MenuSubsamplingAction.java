@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import yaprnn.dvv.Data;
-import yaprnn.gui.NetworkTreeModel.DataNode;
 import yaprnn.gui.view.SubsamplingView;
 import yaprnn.mlp.ActivationFunction;
 import yaprnn.mlp.Linear;
@@ -116,10 +115,10 @@ class MenuSubsamplingAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			si.sv.setVisible(false);
 			si.sv.dispose();
-			
+
 			// Vorher versuchen etwas Speicher frei zu machen
 			GUI.tryFreeMemory();
-			
+
 			si.gui.getCore().preprocess(
 					si.resolution,
 					si.overlap,
@@ -155,10 +154,7 @@ class MenuSubsamplingAction implements ActionListener {
 				break;
 			}
 
-		Data data = null;
-		if (gui.getSelected() instanceof DataNode)
-			data = ((DataNode) gui.getSelected()).getData();
-
+		Data data = gui.getSelectedData();
 		SubsamplingInfo si = new SubsamplingInfo(gui, new SubsamplingView(),
 				data);
 

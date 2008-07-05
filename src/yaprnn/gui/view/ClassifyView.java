@@ -20,8 +20,8 @@ public class ClassifyView extends javax.swing.JFrame {
         return tableClassification;
     }
 
-    public javax.swing.JButton getButtonClassify() {
-        return this.buttonClassify;
+    public javax.swing.JButton getToolClassify() {
+        return this.toolClassify;
     }
 
     /** This method is called from within the constructor to
@@ -39,7 +39,7 @@ public class ClassifyView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableClassification = new javax.swing.JTable();
-        buttonClassify = new javax.swing.JButton();
+        toolClassify = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         optionZoom = new javax.swing.JComboBox();
 
@@ -96,9 +96,9 @@ public class ClassifyView extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
         );
 
-        buttonClassify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconClassify.png"))); // NOI18N
-        buttonClassify.setMnemonic('C');
-        buttonClassify.setText("Classify");
+        toolClassify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconClassify.png"))); // NOI18N
+        toolClassify.setMnemonic('C');
+        toolClassify.setText("Classify");
 
         jLabel2.setText("Zoom:");
 
@@ -119,7 +119,7 @@ public class ClassifyView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(209, 209, 209)
-                        .addComponent(buttonClassify)))
+                        .addComponent(toolClassify)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -131,7 +131,7 @@ public class ClassifyView extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonClassify)
+                    .addComponent(toolClassify)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -142,7 +142,6 @@ public class ClassifyView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonClassify;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -151,6 +150,7 @@ public class ClassifyView extends javax.swing.JFrame {
     private yaprnn.gui.ImagePanel labelPreview;
     private javax.swing.JComboBox optionZoom;
     private javax.swing.JTable tableClassification;
+    private javax.swing.JButton toolClassify;
     // End of variables declaration//GEN-END:variables
 
 }
