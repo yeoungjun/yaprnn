@@ -6,8 +6,6 @@ import java.util.Collection;
 
 import yaprnn.dvv.Data;
 
-// TODO : JavaDoc-Kommentare von MLP müssen dringend ergänzt und übersetzt werden!
-
 public class MLP implements Serializable, NeuralNetwork {
 
 	private static final long serialVersionUID = -5212835785366190139L;

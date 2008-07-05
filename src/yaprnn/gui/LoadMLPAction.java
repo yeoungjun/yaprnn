@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import yaprnn.dvv.NoSuchFileException;
 
 class LoadMLPAction implements ActionListener {
 
@@ -33,10 +32,10 @@ class LoadMLPAction implements ActionListener {
 				gui.getTreeModel().add(
 						gui.getCore().loadMLP(
 								chooser.getSelectedFile().getPath()));
-			} catch (NoSuchFileException ex) {
+			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(gui.getView(),
 						"An error occured",
-						"The file you have choosen is invalid.\n"
+						"An error occured while loading the mlp.\n"
 								+ ex.getMessage(), JOptionPane.ERROR_MESSAGE);
 			}
 		}

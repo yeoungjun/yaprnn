@@ -98,7 +98,7 @@ public class Core {
 //				ActivationFunction[] functions = new ActivationFunction[activationFunction.length];
 //				for(int i=0; i<functions.length; i++)
 //					functions[i] = activations.get(activationFunction[i]);
-//				//TODO: try-catch block provisorisch, eignetlich ist hier keine Exception nötig
+//				//TOD: try-catch block provisorisch, eignetlich ist hier keine Exception nötig
 //				try {
 //					mlp = new MLP(numInputNeurons, numOutputNeurons, layer,
 //							functions, bias, autoEncoder);
@@ -117,23 +117,16 @@ public class Core {
 	 *  @return a NeuralNetwork interface representing the loaded mlp
 	 *  @throws NoSuchFileException if the specified file does not exist or could not be opened
 	 */
-	public NeuralNetwork loadMLP(String filename) throws NoSuchFileException {
+	public NeuralNetwork loadMLP(String filename) throws
+			NoSuchFileException, IOException, ClassNotFoundException {
 		ObjectInputStream in;
 		try {
 			in = new ObjectInputStream(new FileInputStream(filename));
 		} catch(FileNotFoundException e) {
 			throw new NoSuchFileException(filename);
-		} catch(IOException e) {
-			//TODO: Soll hier bei einem Fehler beim Lesen (nicht FileNotFoundException)
-			//	null zurückgegeben oder eine Exception geworfen werden ?
-			return null;
 		}
-		try {
-			mlp = (MLP)in.readObject();
-			in.close();
-		} catch(Exception e) {
-			return null;
-		}
+		mlp = (MLP)in.readObject();
+		in.close();
 		return mlp;
 	}
 
@@ -141,7 +134,7 @@ public class Core {
 	 *
 	 *  @param filename the name of the file where the MLP is to be stored
 	 */
-	public void saveMLP(String filename) throws NoSuchFileException {
+	public void saveMLP(String filename) throws NoSuchFileException, IOException {
 		ObjectOutputStream out;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(filename));
@@ -150,9 +143,6 @@ public class Core {
 			out.close();
 		} catch(FileNotFoundException e) {
 			throw new NoSuchFileException(filename);
-		} catch(Exception e) {
-			//TODO: Was soll hier im Fall einer IOException gemacht werden?
-			//	Eine neue Exception dafür, oder lieber einen Rückgabewert?
 		}
 	}
 
@@ -215,7 +205,6 @@ public class Core {
 	 *  @param scalingFunction the function used to scale (e.g. to the range [0, 1]) the subsampled data
 	 */
 	public void preprocess(int resolution, double overlap, ActivationFunction scalingFunction) {
-		//TODO: Was soll hier passieren, falls die Subsampling-Parameter ungültig sind ?
 		if(dvv != null)
 			dvv.preprocess(resolution, overlap, scalingFunction);
 	}

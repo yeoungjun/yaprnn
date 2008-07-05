@@ -214,13 +214,6 @@ public class NetworkTreeModel implements TreeModel {
 			return network;
 		}
 
-		/**
-		 * Updates the sub nodes due to a change to the NeuralNetwork.
-		 */
-		void update() {
-			// TODO : Update sub nodes
-		}
-
 		@Override
 		ModelNode getChild(int index) {
 			return layerNodes.get(index);
