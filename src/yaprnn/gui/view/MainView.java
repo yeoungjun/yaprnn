@@ -8,6 +8,18 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public javax.swing.JMenuItem getMenuAdd() {
+        return menuAdd;
+    }
+
+    public javax.swing.JMenuItem getMenuEdit() {
+        return menuEdit;
+    }
+
+    public javax.swing.JMenuItem getMenuWebsite() {
+        return menuWebsite;
+    }
+
     public javax.swing.JTabbedPane getTabs() {
         return tabs;
     }
@@ -162,6 +174,7 @@ public class MainView extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         menuChooseRandomTrainingTestData = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JSeparator();
+        menuAdd = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenuItem();
         menuRemove = new javax.swing.JMenuItem();
         jToolBar1 = new javax.swing.JToolBar();
@@ -180,7 +193,6 @@ public class MainView extends javax.swing.JFrame {
         treeNeuralNetwork = new javax.swing.JTree();
         tabs = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableWeights = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
@@ -212,13 +224,13 @@ public class MainView extends javax.swing.JFrame {
         menuLoadDataSet = new javax.swing.JMenuItem();
         menuSaveDataSet = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
-        jMenu2 = new javax.swing.JMenu();
         menuImportImages = new javax.swing.JMenuItem();
         menuImportAudio = new javax.swing.JMenuItem();
         jSeperator3 = new javax.swing.JSeparator();
         menuExit = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         menuManual = new javax.swing.JMenuItem();
+        menuWebsite = new javax.swing.JMenuItem();
 
         menuSubsampling.setText("Subsampling");
         popupNeuralNetwork.add(menuSubsampling);
@@ -239,6 +251,9 @@ public class MainView extends javax.swing.JFrame {
         popupNeuralNetwork.add(menuChooseRandomTrainingTestData);
         popupNeuralNetwork.add(jSeparator6);
 
+        menuAdd.setText("Add");
+        popupNeuralNetwork.add(menuAdd);
+
         menuEdit.setText("Edit");
         popupNeuralNetwork.add(menuEdit);
 
@@ -248,6 +263,8 @@ public class MainView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("YAPRNN");
         setBounds(new java.awt.Rectangle(0, 0, 600, 400));
+
+        jToolBar1.setRollover(true);
 
         toolNewMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconNewMLP.png"))); // NOI18N
         toolNewMLP.setText("New MLP");
@@ -312,7 +329,7 @@ public class MainView extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,8 +340,6 @@ public class MainView extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Weights"));
-
         tableWeights.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -333,32 +348,22 @@ public class MainView extends javax.swing.JFrame {
 
             }
         ));
+        tableWeights.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableWeights.setRowSelectionAllowed(false);
         jScrollPane2.setViewportView(tableWeights);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
         );
 
-        tabs.addTab("Layer details", jPanel2);
+        tabs.addTab("Layer weights", jPanel2);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -393,9 +398,9 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelFilename, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                    .addComponent(labelSampleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)))
+                    .addComponent(labelFilename, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(labelSampleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,7 +418,7 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Sample details"));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
 
         jSplitPane2.setDividerLocation(225);
 
@@ -436,7 +441,7 @@ public class MainView extends javax.swing.JFrame {
         labelPreviewSubsampled.setLayout(labelPreviewSubsampledLayout);
         labelPreviewSubsampledLayout.setHorizontalGroup(
             labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 217, Short.MAX_VALUE)
+            .addGap(0, 163, Short.MAX_VALUE)
         );
         labelPreviewSubsampledLayout.setVerticalGroup(
             labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,20 +470,20 @@ public class MainView extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+            .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addGap(2, 2, 2)
-                .addComponent(optionResolution, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addComponent(optionResolution, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(117, 117, 117))
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE))
+            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,8 +503,8 @@ public class MainView extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,18 +549,13 @@ public class MainView extends javax.swing.JFrame {
         jMenu1.add(menuSaveDataSet);
         jMenu1.add(jSeparator2);
 
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadAudioImage.png"))); // NOI18N
-        jMenu2.setText("Import");
-
         menuImportImages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadImage.png"))); // NOI18N
-        menuImportImages.setText("Image data");
-        jMenu2.add(menuImportImages);
+        menuImportImages.setText("Import images");
+        jMenu1.add(menuImportImages);
 
         menuImportAudio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadAudio.png"))); // NOI18N
-        menuImportAudio.setText("Audio data");
-        jMenu2.add(menuImportAudio);
-
-        jMenu1.add(jMenu2);
+        menuImportAudio.setText("Import audio");
+        jMenu1.add(menuImportAudio);
         jMenu1.add(jSeperator3);
 
         menuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconExit.png"))); // NOI18N
@@ -569,6 +569,9 @@ public class MainView extends javax.swing.JFrame {
 
         menuManual.setText("Manual");
         jMenu3.add(menuManual);
+
+        menuWebsite.setText("Website");
+        jMenu3.add(menuWebsite);
 
         jMenuBar1.add(jMenu3);
 
@@ -587,12 +590,10 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -616,6 +617,7 @@ public class MainView extends javax.swing.JFrame {
     private yaprnn.gui.ImagePanel labelPreviewSubsampled;
     private javax.swing.JTextField labelSampleLabel;
     private javax.swing.JTextField labelUsedSubsamplingOptions;
+    private javax.swing.JMenuItem menuAdd;
     private javax.swing.JMenuItem menuChooseRandomTrainingTestData;
     private javax.swing.JMenuItem menuClassify;
     private javax.swing.JMenuItem menuEdit;
@@ -632,6 +634,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSaveMLP;
     private javax.swing.JMenuItem menuSubsampling;
     private javax.swing.JMenuItem menuTrain;
+    private javax.swing.JMenuItem menuWebsite;
     private javax.swing.JSpinner optionOverlap;
     private javax.swing.JSpinner optionResolution;
     private javax.swing.JComboBox optionZoom;
@@ -647,9 +650,5 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JButton toolSaveMLP;
     private javax.swing.JTree treeNeuralNetwork;
     // End of variables declaration//GEN-END:variables
-
-    public javax.swing.JMenuItem getMenuEdit() {
-        return menuEdit;
-    }
 
 }
