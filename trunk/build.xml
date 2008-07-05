@@ -17,9 +17,9 @@
 	
 	<target name="resources" depends="init">
 	    <copy todir="${build}/yaprnn/gui/view">
-	      <fileset dir="${src}/yaprnn/gui/view">
-	        <include name="*.png" />
-	      </fileset>
+	        <fileset dir="${src}/yaprnn/gui/view">
+	        	<include name="*.png" />
+	        </fileset>
 	    </copy>
 	</target>
 	
