@@ -63,6 +63,7 @@ public class GUI implements GUIInterface {
 	private MenuTrainAction trainAction;
 	private MenuResetAction resetAction;
 	private MenuChooseRandomTrainingTestSetAction chooseRandomTrainingTestSetAction;
+	private MenuAddAction addAction;
 	private MenuEditAction editAction;
 	private MenuRemoveAction removeAction;
 
@@ -94,6 +95,7 @@ public class GUI implements GUIInterface {
 		resetAction = new MenuResetAction(this);
 		chooseRandomTrainingTestSetAction = new MenuChooseRandomTrainingTestSetAction(
 				this);
+		addAction = new MenuAddAction(this);
 		editAction = new MenuEditAction(this);
 		removeAction = new MenuRemoveAction(this);
 
@@ -226,6 +228,7 @@ public class GUI implements GUIInterface {
 		trainAction.setEnabled(isNetworkNode || isNetworkSetsNode);
 		resetAction.setEnabled(isNetworkNode);
 		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode);
+		addAction.setEnabled(isNetworkNode);
 		editAction.setEnabled(isNetworkNode || isNeuronsNode || isAVFNode
 				|| isBiasNode);
 		removeAction.setEnabled(isNetworkNode || isDataNode);
