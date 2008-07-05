@@ -104,6 +104,7 @@ public class ClassifyView extends javax.swing.JFrame {
 
         optionZoom.setEditable(true);
         optionZoom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+        optionZoom.setSelectedIndex(1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

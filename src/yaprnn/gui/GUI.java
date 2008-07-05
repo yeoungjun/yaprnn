@@ -47,7 +47,7 @@ public class GUI implements GUIInterface {
 	// Einige Preview-Optionen
 	private double zoom = 1.0;
 	private int resolution = 16;
-	private double overlap = 0.5;
+	private double overlap = 0.4;
 
 	// Standard-Actions
 	private NewMLPAction newMLPAction;
@@ -175,7 +175,7 @@ public class GUI implements GUIInterface {
 				for (int y = 0; y < rows; y++) {
 					weights2[y][0] = "to neur: " + (y + 1);
 					for (int x = 1; x < cols; x++)
-						weights2[y][x] = Math.round(weights[y][x - 1] * 100) / 100;
+						weights2[y][x] = Math.round(weights[y][x - 1] * 1000) / 1000d;
 				}
 
 				// Spaltentitel setzen
