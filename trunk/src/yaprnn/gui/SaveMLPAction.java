@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import yaprnn.dvv.NoSuchFileException;
 
 class SaveMLPAction implements ActionListener {
 
@@ -31,10 +30,10 @@ class SaveMLPAction implements ActionListener {
 			try {
 				// TODO : Ausgewähltes MLP speichern.
 				gui.getCore().saveMLP(chooser.getSelectedFile().getPath());
-			} catch (NoSuchFileException ex) {
+			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(gui.getView(),
 						"An error occured",
-						"The file you have choosen is invalid.\n"
+						"An error occured while saving the mlp.\n"
 								+ ex.getMessage(), JOptionPane.ERROR_MESSAGE);
 			}
 		}
