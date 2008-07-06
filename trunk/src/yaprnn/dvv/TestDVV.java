@@ -15,7 +15,8 @@ class TestDVV {
 		TestDVV.test04();
 		TestDVV.test05();
 		//TestDVV.testSound01();
-		TestDVV.test();
+		//TestDVV.test();
+		TestDVV.test06();
 	}
 
 	public static void test01() {
@@ -127,6 +128,25 @@ class TestDVV {
 		catch (NoSuchFileException e) {
 			System.out.println(e.getFilename() + " ist nicht vorhanden.");
 		}
+	}
+
+	public static void test06() {
+		DVV dvv = null;
+		try {
+			dvv = new DVV("images", "labels");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		dvv.chooseRandomTrainingData(0.3, 0.1);
+		dvv.preprocess(10, 0.5, tanh);
+		Collection<Data> training = dvv.getTrainingData();
+		Collection<Data> test = dvv.getTestData();
+		System.out.println("Training data count: " + training.size());
+		System.out.println("Test data count: " + test.size());
+		for(Data e: training)
+			for(Data d: test)
+				if(e.equals(d))
+					System.out.println("Error in test06");
 	}
 
 }

@@ -78,26 +78,18 @@ public class DVV {
 	public void chooseRandomTrainingData(double trainingDataPercentage, double testDataPercentage) {
 		int numTraining = (int)(allData.size() * trainingDataPercentage);
 		int numTest = (int)(allData.size() * testDataPercentage);
-		int numNotUsed = allData.size() - numTraining - numTest;
+		//int numNotUsed = allData.size() - numTraining - numTest;
 		java.util.Random random = new java.util.Random();
+		shuffle(allData);
 		for(Data data : allData) {
-			switch(random.nextInt(3)) {
-				case 0: if(numTraining > 0) {
-					--numTraining; data.setTraining(); break;
-				}
-				case 1: if(numTest > 0) {
-					--numTest; data.setTest(); break;
-				}
-				case 2: if(numNotUsed > 0) {
-					--numNotUsed; data.setNotUsed(); break;
-				}
-				case 3: if(numTraining > 0) {
-					--numTraining; data.setTraining(); break;
-				}
-				case 4: if(numTest > 0) {
-					--numTest; data.setTest(); break;
-				}
-			}
+			if(numTraining > 0) {
+				data.setTraining();
+				--numTraining;
+			} else if(numTest > 0) {
+				data.setTest();
+				--numTest;
+			} else
+				data.setNotUsed();
 		}
 	}
 
