@@ -29,11 +29,11 @@ public class AiffSound extends Data {
 		this.rawData = rawData;
 		this.label = label;
 		this.filename = filename;
-		if (label == "a") this.target = 1;
-		if (label == "e") this.target = 2;
-		if (label == "i") this.target = 3;
-		if (label == "o") this.target = 4;
-		if (label == "u") this.target = 5;
+		if (label.equals("a")) this.target = 0;
+		if (label.equals("e")) this.target = 1;
+		if (label.equals("i")) this.target = 2;
+		if (label.equals("o")) this.target = 3;
+		if (label.equals("u")) this.target = 4;
 		this.data = new double[this.rawData.length];
 		for (int i = 0; i < this.rawData.length; i++)
 			this.data[i] = this.rawData[i];
