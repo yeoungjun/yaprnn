@@ -1,13 +1,13 @@
 ==Momentane Aufgaben==
 
 ===Alle===
- # Diagramme anfertigen
+* Debugging and Bugtracking
 
 ===MLP===
 
 ===DVV===
 
 ===GUI===
- # GUI-Design anfertigen
+* Funktionsvervollständigung (Eventhandler, TODOs)
 
 ===DOK===
