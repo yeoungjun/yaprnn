@@ -76,11 +76,9 @@ public class DVV {
 	 *  @param testDataPercentage the percentage of data to be used for testing
 	 */ 
 	public void chooseRandomTrainingData(double trainingDataPercentage, double testDataPercentage) {
+		shuffle(allData);
 		int numTraining = (int)(allData.size() * trainingDataPercentage);
 		int numTest = (int)(allData.size() * testDataPercentage);
-		//int numNotUsed = allData.size() - numTraining - numTest;
-		java.util.Random random = new java.util.Random();
-		shuffle(allData);
 		for(Data data : allData) {
 			if(numTraining > 0) {
 				data.setTraining();
@@ -91,6 +89,8 @@ public class DVV {
 			} else
 				data.setNotUsed();
 		}
+		trainingData = null;
+		testData = null;
 	}
 
 	/** Preprocesses the whole data set.
@@ -131,11 +131,12 @@ public class DVV {
 	private void selectTrainingData() {
 		trainingData = new LinkedList<Data>();
 		testData = new LinkedList<Data>();
-		for(Data data : allData)
+		for(Data data : allData) {
 			if(data.isTraining()) 
 				trainingData.add(data);
 			else if(data.isTest())
 				testData.add(data);
+		}
 	}
 
 	/** Shuffles the specified data set. */
