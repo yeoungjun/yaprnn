@@ -14,7 +14,7 @@ public class MLP implements Serializable, NeuralNetwork {
 	 * Readable name identifier
 	 */
 	private String name;
-
+	private boolean isTrained = false;
 	private Layer[] layer;  
 
 	/**
@@ -88,6 +88,8 @@ public class MLP implements Serializable, NeuralNetwork {
 		if (layer == null || eta == 0)
 			return 0;
 
+		isTrained  = true;
+		
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
 		double[] errVec = new double[target.length];
@@ -134,9 +136,11 @@ public class MLP implements Serializable, NeuralNetwork {
 	 */
 	
 	public double runBatch(Collection<Data> dataCollection, double eta, double momentum) {
-		if (layer == null)
+		if (layer == null || eta == 0)
 			return 0;
 
+		isTrained  = true;
+		
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
 		double[] errVec = new double[target.length];
@@ -161,9 +165,12 @@ public class MLP implements Serializable, NeuralNetwork {
 			layer[layer.length - 1].backPropagate(errVec);
 
 		}
-
+		
 		// Adjust the weights
-		layer[layer.length - 1].update(dataCollection.size(), eta, 0.3);
+		if(momentum > 0)
+			layer[layer.length - 1].update(dataCollection.size(), eta, momentum);
+		else
+			layer[layer.length - 1].update(dataCollection.size(), eta);
 		
 		return runTest(dataCollection);
 	}
@@ -245,7 +252,6 @@ public class MLP implements Serializable, NeuralNetwork {
 		return buffer.toString();
 	}
 
-	@Override
 	public ActivationFunction getActivationFunction(int layer) {
 		if (layer > (this.layer.length - 1))
 			return null;
@@ -253,7 +259,6 @@ public class MLP implements Serializable, NeuralNetwork {
 		return this.layer[layer].getActivationFunction();
 	}
 
-	@Override
 	public double getBias(int layer) {
 		if (layer > (this.layer.length - 1))
 			return 0;
@@ -261,7 +266,6 @@ public class MLP implements Serializable, NeuralNetwork {
 		return this.layer[layer].getBias();
 	}
 
-	@Override
 	public int getLayerSize(int layer) {
 		if (layer > (this.layer.length - 1))
 			return -1;
@@ -269,12 +273,10 @@ public class MLP implements Serializable, NeuralNetwork {
 		return this.layer[layer].getSize();
 	}
 
-	@Override
 	public int getNumLayers() {
 		return this.layer.length;
 	}
-
-	@Override
+	
 	public double[][] getWeights(int layer) {
 		if (layer > (this.layer.length - 1))
 			return null;
@@ -282,14 +284,15 @@ public class MLP implements Serializable, NeuralNetwork {
 		return this.layer[layer].getWeightMatrix();
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 	
+	public boolean isTrained(){
+		return isTrained;
+	}
 }
