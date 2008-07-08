@@ -29,11 +29,11 @@ public class AiffSound extends Data {
 		this.rawData = rawData;
 		this.label = label;
 		this.filename = filename;
-		if (label.equals("a")) this.target = 0;
-		if (label.equals("e")) this.target = 1;
-		if (label.equals("i")) this.target = 2;
-		if (label.equals("o")) this.target = 3;
-		if (label.equals("u")) this.target = 4;
+		if (label.equalsIgnoreCase("a")) this.target = 0;
+		if (label.equalsIgnoreCase("e")) this.target = 1;
+		if (label.equalsIgnoreCase("i")) this.target = 2;
+		if (label.equalsIgnoreCase("o")) this.target = 3;
+		if (label.equalsIgnoreCase("u")) this.target = 4;
 		this.data = new double[this.rawData.length];
 		for (int i = 0; i < this.rawData.length; i++)
 			this.data[i] = this.rawData[i];
@@ -230,7 +230,7 @@ public class AiffSound extends Data {
 					e.printStackTrace();
 				}
 				String filename = name.substring(name.lastIndexOf("/")+1); //es handelt sich hierbei um eine Pfadangabe z.B. /home/bla/a3-08.aiff
-				String label = filename.substring(0, 1); //label ist der erste Buchstabe von filename
+				String label = (new File(filename)).getName().substring(0, 1); //label ist der erste Buchstabe von filename
 				result.add(new AiffSound(convertByteToShort(data), label, filename));
 			}
 			return result;
