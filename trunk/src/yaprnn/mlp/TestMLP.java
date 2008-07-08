@@ -157,7 +157,7 @@ public class TestMLP {
 			layer[layer.length - 1].backPropagate(errVec);
 
 			// Gewichte anpassen
-			layer[layer.length - 1].update(1, eta);
+			layer[layer.length - 1].update(1, eta, 0.3);
 		}
 		
 		// Mittelwert berechnen  und Fehler zurückgeben
@@ -199,7 +199,7 @@ public class TestMLP {
 		}
 
 		// Gewichte anpassen
-		layer[layer.length - 1].update(intTarget.length, eta);
+		layer[layer.length - 1].update(intTarget.length, eta, 0.3);
 		
 		// Mittelwert berechnen  und Fehler zurückgeben
 		return runTest(intTarget, input);

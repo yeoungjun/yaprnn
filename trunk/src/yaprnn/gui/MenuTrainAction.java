@@ -132,11 +132,11 @@ class MenuTrainAction implements ActionListener {
 			if (onlineLearning) {
 				System.out.println("online");
 				ti.gui.getCore().trainOnline(learningRate, maxIterations,
-						maxError);
+						maxError, 0.99, 20, 0.8);
 			} else {
 				System.out.println("batch");
 				ti.gui.getCore().trainBatch(learningRate, maxIterations,
-						maxError);
+						maxError, 0);
 			}
 			System.out.println("fertig");
 			return null;
@@ -203,11 +203,11 @@ class MenuTrainAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (gui.getSelectedNetwork() == null)
-			// Kein Netzwerk ausgewählt
+			// Kein Netzwerk ausgewï¿½hlt
 			return;
 
 		if (ti != null) {
-			// Wir können zurzeit nur ein MLP trainieren
+			// Wir kï¿½nnen zurzeit nur ein MLP trainieren
 			JOptionPane
 					.showMessageDialog(
 							gui.getView(),
@@ -230,7 +230,7 @@ class MenuTrainAction implements ActionListener {
 		ChartPanel cp = new ChartPanel(chart);
 		cp.setMouseZoomable(true, true);
 
-		// ChartPanel hinzufügen
+		// ChartPanel hinzufï¿½gen
 		ti.tv.getGraphPanel().add(cp, BorderLayout.CENTER);
 		ti.tv.getGraphPanel().validate();
 

@@ -15,7 +15,7 @@ public class MLP implements Serializable, NeuralNetwork {
 	 */
 	private String name;
 
-	private Layer[] layer;
+	private Layer[] layer;  
 
 	/**
 	 * Constructor; Builds the Network and sets all the variables
@@ -84,12 +84,9 @@ public class MLP implements Serializable, NeuralNetwork {
 	 *            The learning rate to be used.
 	 * @throws BadConfigException
 	 */
-	public double runOnline(Collection<Data> dataCollection, double eta) {
-		if (layer == null)
+	public double runOnline(Collection<Data> dataCollection, double eta, double momentum) {
+		if (layer == null || eta == 0)
 			return 0;
-
-		// if (eta < 0) throw new BadConfigException("Eta is negative!",
-		// BadConfigException.INVALID_ETA);
 
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
@@ -98,9 +95,6 @@ public class MLP implements Serializable, NeuralNetwork {
 		for (Data theData : dataCollection) {
 			// creates target values
 			Arrays.fill(target, 0);
-			// if(theData.getTarget() > target.length) throw new
-			// BadConfigException("Invalid Target: " + theData.getTarget(),
-			// BadConfigException.INVALID_TARGET_VECTOR);
 			target[theData.getTarget()] = 1;
 
 			// Sets the input data
@@ -118,7 +112,10 @@ public class MLP implements Serializable, NeuralNetwork {
 			layer[layer.length - 1].backPropagate(errVec);
 
 			// Adjust the weights
-			layer[layer.length - 1].update(1, eta);
+			if(momentum > 0)
+				layer[layer.length - 1].update(1, eta, momentum);
+			else
+				layer[layer.length - 1].update(1, eta);
 		}
 
 		return runTest(dataCollection);
@@ -136,12 +133,9 @@ public class MLP implements Serializable, NeuralNetwork {
 	 * @return den Testfehler. In case of an  error returns 0.
 	 */
 	
-	public double runBatch(Collection<Data> dataCollection, double eta) {
+	public double runBatch(Collection<Data> dataCollection, double eta, double momentum) {
 		if (layer == null)
 			return 0;
-
-		// if (eta < 0) throw new BadConfigException("Eta is negative!",
-		// BadConfigException.INVALID_ETA);
 
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
@@ -150,9 +144,6 @@ public class MLP implements Serializable, NeuralNetwork {
 		for (Data theData : dataCollection) {
 			// creates target values
 			Arrays.fill(target, 0);
-			// if(theData.getTarget() > target.length) throw new
-			// BadConfigException("Invalid Target: " + theData.getTarget(),
-			// BadConfigException.INVALID_TARGET_VECTOR);
 			target[theData.getTarget()] = 1;
 
 			// Sets the input data
@@ -162,11 +153,6 @@ public class MLP implements Serializable, NeuralNetwork {
 			// Calculate the output
 			out = layer[layer.length - 1].getOutput();
 
-
-//			double netJ = 0;
-//			for(double o : layer[layer.length - 1].input) netJ += o;
-			
-			
 			// Calculates the error of the output layer
 			for (int h = 0; h < target.length; h++)
 				errVec[h] = (out[h] - target[h]) * layer[layer.length-1].getActivationFunction().derivation(layer[layer.length-1].layerInput[h]);
@@ -177,7 +163,7 @@ public class MLP implements Serializable, NeuralNetwork {
 		}
 
 		// Adjust the weights
-		layer[layer.length - 1].update(dataCollection.size(), eta);
+		layer[layer.length - 1].update(dataCollection.size(), eta, 0.3);
 		
 		return runTest(dataCollection);
 	}
@@ -305,5 +291,5 @@ public class MLP implements Serializable, NeuralNetwork {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 }
