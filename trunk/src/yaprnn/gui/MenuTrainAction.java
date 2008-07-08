@@ -166,6 +166,9 @@ class MenuTrainAction implements ActionListener {
 			// Das verhindert, dass das Fenster vor Beendigung der
 			// Trainingsphase geschlossen werden kann.
 			ti.inProgress = true;
+			ti.testError.clear();
+			ti.trainingError.clear();
+			
 
 			TrainingWorker tw = new TrainingWorker(
 					ti,
@@ -232,7 +235,7 @@ class MenuTrainAction implements ActionListener {
 		ti.tv.getGraphPanel().validate();
 
 		ti.tv.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		ti.tv.setResizable(true);
+		//ti.tv.setResizable(true);
 
 		new TrainAction(ti);
 		new TrainingWindowListener(ti);

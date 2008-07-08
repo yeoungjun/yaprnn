@@ -175,21 +175,11 @@ class MenuSubsamplingAction implements ActionListener {
 		Data data = si.previewData;
 		if (data == null)
 			return;
-		if (data.isPicture()) {
-			si.sv.getLabelPreview().setImage(
-					ImagesMacros.createImagePreview((byte[][]) data
-							.previewRawData(), si.zoom));
-			si.sv.getLabelPreviewSubsampled().setImage(
-					ImagesMacros.createImagePreview((byte[][]) data
-							.previewSubsampledData(si.resolution, si.overlap),
-							si.zoom));
-		} else if (data.isAudio()) {
-			// TODO : Audio preview
-			// mainView.getLabelPreview().setImage(
-			// ImagesMacros.createAudioPreview(, si.zoom));
-			// si.sv.getLabelPreviewSubsampled().setImage(
-			// ImagesMacros.createAudioPreview(, si.zoom));
-		}
+		si.sv.getLabelPreview().setImage(
+				ImagesMacros.createPreview(data, si.zoom, false, 0, 0));
+		si.sv.getLabelPreviewSubsampled().setImage(
+				ImagesMacros.createPreview(data, si.zoom, true, si.resolution,
+						si.overlap));
 	}
 
 }
