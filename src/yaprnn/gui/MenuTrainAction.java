@@ -194,7 +194,7 @@ class MenuTrainAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// TODO : Dieser Weg das Trainieren abzubrechen funktioniert nicht!
 			if (ti.tw != null)
-				ti.tw.cancel(true);
+				ti.gui.getCore().stopLearning();
 		}
 
 	}
