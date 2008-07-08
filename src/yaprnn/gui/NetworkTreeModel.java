@@ -357,7 +357,7 @@ public class NetworkTreeModel implements TreeModel {
 		private int layerIndex;
 
 		BiasNode(NeuralNetwork network, int layerIndex) {
-			super(ICON_AVF, "AVF: " + network.getBias(layerIndex));
+			super(ICON_AVF, "BIAS: " + network.getBias(layerIndex));
 			this.network = network;
 			this.layerIndex = layerIndex;
 		}
