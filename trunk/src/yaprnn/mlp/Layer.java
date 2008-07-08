@@ -230,9 +230,9 @@ public class Layer implements Serializable {
 	}
 	
 	public double[] makeAutoencoder(double value, double maxIterations, double upperBound, double eta) throws BadConfigException{
-		
+
 		double[] trainingValues = new double[this.getSize()];
-		trainingValues[0] = value;
+		Arrays.fill(trainingValues, value); 
 		if(prevLayer == null)	return trainingValues;
 
 		// Input Data

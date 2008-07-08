@@ -70,7 +70,7 @@ public class MLP implements Serializable, NeuralNetwork {
 			return;
 
 		// Trains as Autoencoder 
-		layer[layer.length - 1].makeAutoencoder(0.5, 1000, 0.001, 0.2);
+		layer[layer.length - 1].makeAutoencoder(Math.random(), 250, 0.001, 0.2);
 	}
 
 	/**
