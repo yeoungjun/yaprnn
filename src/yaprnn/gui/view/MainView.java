@@ -8,6 +8,18 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public yaprnn.gui.ImagePanel getLabelWeightsImage() {
+        return labelWeightsImage;
+    }
+
+    public javax.swing.JComboBox getOptionZoom1() {
+        return optionZoom1;
+    }
+
+    public javax.swing.JComboBox getOptionZoom2() {
+        return optionZoom2;
+    }
+
     public javax.swing.JMenuItem getMenuAdd() {
         return menuAdd;
     }
@@ -38,10 +50,6 @@ public class MainView extends javax.swing.JFrame {
 
     public javax.swing.JSpinner getOptionResolution() {
         return optionResolution;
-    }
-
-    public javax.swing.JComboBox getOptionZoom() {
-        return optionZoom;
     }
 
     public javax.swing.JTextField getLabelFilename() {
@@ -193,8 +201,14 @@ public class MainView extends javax.swing.JFrame {
         treeNeuralNetwork = new javax.swing.JTree();
         tabs = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableWeights = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        labelWeightsImage = new yaprnn.gui.ImagePanel();
+        jLabel7 = new javax.swing.JLabel();
+        optionZoom1 = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -210,7 +224,7 @@ public class MainView extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         labelPreviewSubsampled = new yaprnn.gui.ImagePanel();
         jLabel4 = new javax.swing.JLabel();
-        optionZoom = new javax.swing.JComboBox();
+        optionZoom2 = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         optionResolution = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
@@ -348,22 +362,71 @@ public class MainView extends javax.swing.JFrame {
 
             }
         ));
-        tableWeights.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tableWeights.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tableWeights.setRowSelectionAllowed(false);
         jScrollPane2.setViewportView(tableWeights);
+
+        jTabbedPane1.addTab("Matrix", jScrollPane2);
+
+        javax.swing.GroupLayout labelWeightsImageLayout = new javax.swing.GroupLayout(labelWeightsImage);
+        labelWeightsImage.setLayout(labelWeightsImageLayout);
+        labelWeightsImageLayout.setHorizontalGroup(
+            labelWeightsImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 385, Short.MAX_VALUE)
+        );
+        labelWeightsImageLayout.setVerticalGroup(
+            labelWeightsImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 359, Short.MAX_VALUE)
+        );
+
+        jScrollPane5.setViewportView(labelWeightsImage);
+
+        jLabel7.setText("Zoom:");
+
+        optionZoom1.setEditable(true);
+        optionZoom1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+        optionZoom1.setSelectedIndex(1);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(optionZoom1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(optionZoom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Image", jPanel3);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
         );
 
-        tabs.addTab("Layer weights", jPanel2);
+        tabs.addTab("Layer details", jPanel2);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -454,9 +517,9 @@ public class MainView extends javax.swing.JFrame {
 
         jLabel4.setText("Zoom:");
 
-        optionZoom.setEditable(true);
-        optionZoom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
-        optionZoom.setSelectedIndex(1);
+        optionZoom2.setEditable(true);
+        optionZoom2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
+        optionZoom2.setSelectedIndex(1);
 
         jLabel5.setText("Resolution:");
 
@@ -473,16 +536,15 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionZoom2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(2, 2, 2)
                 .addComponent(optionResolution, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addGap(4, 4, 4)
-                .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
@@ -490,7 +552,7 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(optionZoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(optionZoom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(optionResolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
@@ -589,11 +651,13 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -601,6 +665,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
@@ -611,12 +676,14 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeperator3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTextField labelFilename;
     private yaprnn.gui.ImagePanel labelPreview;
     private yaprnn.gui.ImagePanel labelPreviewSubsampled;
     private javax.swing.JTextField labelSampleLabel;
     private javax.swing.JTextField labelUsedSubsamplingOptions;
+    private yaprnn.gui.ImagePanel labelWeightsImage;
     private javax.swing.JMenuItem menuAdd;
     private javax.swing.JMenuItem menuChooseRandomTrainingTestData;
     private javax.swing.JMenuItem menuClassify;
@@ -637,7 +704,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuWebsite;
     private javax.swing.JSpinner optionOverlap;
     private javax.swing.JSpinner optionResolution;
-    private javax.swing.JComboBox optionZoom;
+    private javax.swing.JComboBox optionZoom1;
+    private javax.swing.JComboBox optionZoom2;
     private javax.swing.JPopupMenu popupNeuralNetwork;
     private javax.swing.JTable tableWeights;
     private javax.swing.JTabbedPane tabs;

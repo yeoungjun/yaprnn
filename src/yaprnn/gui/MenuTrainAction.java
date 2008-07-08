@@ -29,11 +29,11 @@ class MenuTrainAction implements ActionListener {
 		GUI gui;
 		TrainingView tv;
 		NeuralNetwork network;
-		boolean inProgress = false;
+		TrainingWorker tw = null;
 
 		// JFreeChart Einbindung, Messpunkte
-		XYSeries trainingError;
-		XYSeries testError;
+		XYSeries trainingError = new XYSeries("Training error");
+		XYSeries testError = new XYSeries("Test error");
 
 		TrainingInfo(GUI gui, TrainingView tv, NeuralNetwork network) {
 			this.gui = gui;
@@ -80,7 +80,7 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-			if (!ti.inProgress) {
+			if (ti.tw == null) {
 				((JFrame) e.getSource()).dispose();
 				// Siehe Kommentar bei Definition MenuTrainAction.ti.
 				MenuTrainAction.ti = null;
@@ -128,7 +128,9 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		protected Object doInBackground() throws Exception {
-			System.out.println("Training beginnt");
+			ti.tv.getToolTrain().setEnabled(false);
+			ti.tv.getToolStop().setEnabled(true);
+
 			if (onlineLearning) {
 				System.out.println("online");
 				ti.gui.getCore().trainOnline(learningRate, maxIterations,
@@ -138,14 +140,15 @@ class MenuTrainAction implements ActionListener {
 				ti.gui.getCore().trainBatch(learningRate, maxIterations,
 						maxError, 0);
 			}
-			System.out.println("fertig");
+
 			return null;
 		}
 
 		@Override
 		protected void done() {
-			ti.inProgress = false;
+			ti.tw = null;
 			ti.tv.getToolTrain().setEnabled(true);
+			ti.tv.getToolStop().setEnabled(false);
 		}
 
 	}
@@ -161,16 +164,12 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ti.tv.getToolTrain().setEnabled(false);
-
 			// Das verhindert, dass das Fenster vor Beendigung der
 			// Trainingsphase geschlossen werden kann.
-			ti.inProgress = true;
 			ti.testError.clear();
 			ti.trainingError.clear();
-			
 
-			TrainingWorker tw = new TrainingWorker(
+			ti.tw = new TrainingWorker(
 					ti,
 					((Double) ti.tv.getOptionLearningRate().getValue())
 							.doubleValue(),
@@ -179,7 +178,25 @@ class MenuTrainAction implements ActionListener {
 					((Double) ti.tv.getOptionMaxError().getValue())
 							.doubleValue(),
 					ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining);
-			tw.execute();
+			ti.tw.execute();
+		}
+
+	}
+
+	private class StopAction implements ActionListener {
+
+		private TrainingInfo ti;
+
+		StopAction(TrainingInfo ti) {
+			this.ti = ti;
+			ti.tv.getToolStop().addActionListener(this);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO : Dieser Weg das Trainieren abzubrechen funktioniert nicht!
+			if (ti.tw != null)
+				ti.tw.cancel(true);
 		}
 
 	}
@@ -219,8 +236,6 @@ class MenuTrainAction implements ActionListener {
 		ti = new TrainingInfo(gui, new TrainingView(), gui.getSelectedNetwork());
 
 		// Das JFreeChart zur Visualisierung erstellen
-		ti.trainingError = new XYSeries("Training error");
-		ti.testError = new XYSeries("Test error");
 		XYSeriesCollection xyDataset = new XYSeriesCollection();
 		xyDataset.addSeries(ti.trainingError);
 		xyDataset.addSeries(ti.testError);
@@ -234,10 +249,8 @@ class MenuTrainAction implements ActionListener {
 		ti.tv.getGraphPanel().add(cp, BorderLayout.CENTER);
 		ti.tv.getGraphPanel().validate();
 
-		ti.tv.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		//ti.tv.setResizable(true);
-
 		new TrainAction(ti);
+		new StopAction(ti);
 		new TrainingWindowListener(ti);
 		ti.tv.getOptionTrainingMethod().setModel(
 				new DefaultComboBoxModel(new Object[] { new OnlineTraining(),
