@@ -8,8 +8,7 @@
   * Stub-Objekt mit Konfigurationen des MLPs, sowie Test- und Trainingsets (Leo)
 
 ===MLP===
-  * Bezüglich Editierung des MLPs, merken ob das MLP schon trainiert wurde als Attribut des MLPs (Felix)
-
+  
 ===DVV===
   * Merken der Informationen über das verwendete Subsampling in den einzelnen Data-Objekten für die Ausgabe in der GUI (?)
 
