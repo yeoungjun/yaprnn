@@ -164,8 +164,6 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// Das verhindert, dass das Fenster vor Beendigung der
-			// Trainingsphase geschlossen werden kann.
 			ti.testError.clear();
 			ti.trainingError.clear();
 
@@ -256,6 +254,8 @@ class MenuTrainAction implements ActionListener {
 				new DefaultComboBoxModel(new Object[] { new OnlineTraining(),
 						new BatchTraining() }));
 		ti.tv.getOptionTrainingMethod().setEditable(false);
+
+		ti.tv.setTitle("Training: " + ti.network.getName());
 
 		ti.tv.setVisible(true);
 	}
