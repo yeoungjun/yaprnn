@@ -94,7 +94,7 @@ class MenuClassifyAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// Symbole festlegen
-			// TODO : sollte besser von Core.classify zurückgegeben werden!
+			// TODO : sollte besser von Core.classify zurï¿½ckgegeben werden!
 			String[] symbols = (ci.data.isAudio()) ? new String[] { "a", "e",
 					"i", "o", "u" } : null;
 			if (ci.data.isPicture())
@@ -104,7 +104,8 @@ class MenuClassifyAction implements ActionListener {
 			// Klassifizieren
 			double[] out = ci.gui.getCore().classify(ci.data);
 
-			int rows = out.length, cols = 2;
+			// -1, da letzter Output Bias des Output-layers. (uninteressant)
+			int rows = out.length - 1, cols = 2;
 
 			// Werte auslesen
 			Object[][] out2 = new Object[rows][cols];
@@ -171,7 +172,7 @@ class MenuClassifyAction implements ActionListener {
 			return;
 		network = ((NetworkBox) optionNetwork.getSelectedItem()).network;
 
-		// Die View öffnen
+		// Die View ï¿½ffnen
 		ClassifyInfo ci = new ClassifyInfo(gui, new ClassifyView(), data,
 				network);
 		new ClassifyAction(ci);

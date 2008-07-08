@@ -104,26 +104,27 @@ public class MLP implements Serializable, NeuralNetwork {
 			target[theData.getTarget()] = 1;
 
 			// Sets the input data
-			layer[0].setInput(theData.getData());
+			if(!layer[0].setInput(theData.getData()))
+				System.out.println("Can't set input data!");
 
 			// Calculate the output
 			out = layer[layer.length - 1].getOutput();
 
 			// Calculates the error of the output layer
 			for (int h = 0; h < target.length; h++)
-				errVec[h] = out[h] - target[h];
+				errVec[h] = (out[h] - target[h]) * layer[layer.length-1].getActivationFunction().derivation(layer[layer.length-1].layerInput[h]);
 
 			// Error backpropagation 
 			layer[layer.length - 1].backPropagate(errVec);
 
-			// Adjust thw weights
+			// Adjust the weights
 			layer[layer.length - 1].update(1, eta);
 		}
 
 		return runTest(dataCollection);
 	}
 
-	/**This function performs the batch calculation  with the the Network
+	/**This function performs the batch calculation  with the Network
 	 * 
 	 * 
 	 * 
@@ -134,9 +135,11 @@ public class MLP implements Serializable, NeuralNetwork {
 	 *            The learning rate to be used.
 	 * @return den Testfehler. In case of an  error returns 0.
 	 */
+	
 	public double runBatch(Collection<Data> dataCollection, double eta) {
 		if (layer == null)
 			return 0;
+
 		// if (eta < 0) throw new BadConfigException("Eta is negative!",
 		// BadConfigException.INVALID_ETA);
 
@@ -145,8 +148,7 @@ public class MLP implements Serializable, NeuralNetwork {
 		double[] errVec = new double[target.length];
 
 		for (Data theData : dataCollection) {
-
-			// Creates target values
+			// creates target values
 			Arrays.fill(target, 0);
 			// if(theData.getTarget() > target.length) throw new
 			// BadConfigException("Invalid Target: " + theData.getTarget(),
@@ -154,26 +156,32 @@ public class MLP implements Serializable, NeuralNetwork {
 			target[theData.getTarget()] = 1;
 
 			// Sets the input data
-			if (!layer[0].setInput(theData.getData()))
-				return 0;
+			if(!layer[0].setInput(theData.getData()))
+				System.out.println("Can't set input data!");
 
-			//Calculate the output
+			// Calculate the output
 			out = layer[layer.length - 1].getOutput();
 
+
+//			double netJ = 0;
+//			for(double o : layer[layer.length - 1].input) netJ += o;
+			
+			
 			// Calculates the error of the output layer
 			for (int h = 0; h < target.length; h++)
-				errVec[h] = out[h] - target[h];
+				errVec[h] = (out[h] - target[h]) * layer[layer.length-1].getActivationFunction().derivation(layer[layer.length-1].layerInput[h]);
 
 			// Error backpropagation 
 			layer[layer.length - 1].backPropagate(errVec);
+
 		}
 
-		// Adjust thw weights
+		// Adjust the weights
 		layer[layer.length - 1].update(dataCollection.size(), eta);
-
+		
 		return runTest(dataCollection);
-
 	}
+	
 
 	/**
 	 * This method performs the test using delivered data.
@@ -186,8 +194,7 @@ public class MLP implements Serializable, NeuralNetwork {
 		double err = 0;
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
-		double[] errVec = new double[target.length];
-		double overallError;
+
 
 		for (Data theData : dataCollection) {
 			// Creates target values
@@ -203,17 +210,10 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Calculates the error of the output layer
 			for (int h = 0; h < target.length; h++)
-				errVec[h] = out[h] - target[h];
-
-			// Assess and add the error
-			overallError = 0;
-			for (double e : errVec)
-				overallError += Math.pow(e, 2);
-
-			err += 0.5 * overallError;
+				err += Math.pow(out[h] - target[h], 2);
 		}
 
-		return err / dataCollection.size();
+		return (0.5 * err) / dataCollection.size();
 	}
 
 	/**
