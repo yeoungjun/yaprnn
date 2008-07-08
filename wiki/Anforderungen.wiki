@@ -4,8 +4,10 @@
   * Debugging and Bugtracking
   * Vortrag ausarbeiten für Di/Mi :( (?)
 
+===Core===
+  * Stub-Objekt mit Konfigurationen des MLPs, sowie Test- und Trainingsets (Leo)
+
 ===MLP===
-  * Editier-Methoden, wie Layer hinzufügen, entfernen und Anzahl der Neuronen anpassen, fürs MLP (?)
   * Bezüglich Editierung des MLPs, merken ob das MLP schon trainiert wurde als Attribut des MLPs (Felix)
 
 ===DVV===
@@ -13,6 +15,8 @@
 
 ===GUI===
   * Audio Preview (Sascha)
-  * Trainingsfenster braucht weitere Einstellungen (Sigma, roh, Momentum)
+  * Trainingsfenster braucht weitere Einstellungen (Sigma, roh, Momentum) (Felix)
+  * Actionhandler zu den neuen Einstellung (Falko)
 
 ===DOK===
+  * Klassenmodel updaten zu dem ist-Zustand (Andreas)
