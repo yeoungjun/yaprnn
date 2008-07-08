@@ -231,13 +231,16 @@ class MenuTrainAction implements ActionListener {
 		ti.tv.getGraphPanel().add(cp, BorderLayout.CENTER);
 		ti.tv.getGraphPanel().validate();
 
+		ti.tv.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		ti.tv.setResizable(true);
+
 		new TrainAction(ti);
 		new TrainingWindowListener(ti);
 		ti.tv.getOptionTrainingMethod().setModel(
 				new DefaultComboBoxModel(new Object[] { new OnlineTraining(),
 						new BatchTraining() }));
 		ti.tv.getOptionTrainingMethod().setEditable(false);
-		
+
 		ti.tv.setVisible(true);
 	}
 
