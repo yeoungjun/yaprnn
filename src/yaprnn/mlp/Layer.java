@@ -10,6 +10,7 @@ public class Layer implements Serializable {
 
 	private double[][] weightMatrix;
 	private double[][] gradientMatrix;
+	private double[][] lastGradientMatrix;
 
 	private ActivationFunction function;
 
@@ -49,6 +50,7 @@ public class Layer implements Serializable {
 		this.prevLayer = prevLayer;
 		this.weightMatrix = new double[neurons][prevLayer.getSize()];
 		this.gradientMatrix = new double[neurons][prevLayer.getSize()];
+		this.lastGradientMatrix = new double[neurons][prevLayer.getSize()];
 		
 		// Setting values of matrices and arrays
 		for (int h = 0; h < neurons; h++)
@@ -155,10 +157,12 @@ public class Layer implements Serializable {
 
 	/**
 	 * Ajusts recursively the weights of the net.
+	 * @param eta 
 	 * @param iterations the number of iteration since the last update.
 	 * @param eta The learning rate to be used. 
+	 * @param iterations 
 	 */
-	public void update(int iterations, double eta) {
+	public void update(double iterations, double eta) {
 		if(prevLayer == null) return;
 		
 		for(int i = 0; i < output.length; i++)
@@ -170,6 +174,20 @@ public class Layer implements Serializable {
 		prevLayer.update(iterations, eta);
 	}
 
+	public void update(double iterations, double eta, double momentum) {
+		if(prevLayer == null) return;
+		
+		for(int i = 0; i < output.length; i++)
+			for(int h = 0; h < prevLayer.getSize(); h++){
+				
+				lastGradientMatrix[i][h] = eta * ( (1 - momentum )*  (gradientMatrix[i][h] / iterations) + momentum * lastGradientMatrix[i][h]);
+				weightMatrix[i][h] -= lastGradientMatrix[i][h];
+				gradientMatrix[i][h] = 0;
+			}
+		
+		prevLayer.update(iterations, eta, momentum);
+	}
+	
 	/**
 	 *  Returns the current Bias. [unnecessary]
 	 * @return The current bias.
@@ -253,7 +271,7 @@ public class Layer implements Serializable {
 			additionalLayer.backPropagate(errVec);
 	
 			// Adjust the weights
-			additionalLayer.update(1, eta);
+			additionalLayer.update(1, eta, 0);
 		}
 
 		// Restore the layer
