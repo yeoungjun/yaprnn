@@ -57,9 +57,15 @@ public interface NeuralNetwork {
 	/**
 	 * Sets a readable name for the NeuralNetwork
 	 * 
-	 * @param name
-	 *            new name of the NeuralNetwork
+	 * @param name new name of the NeuralNetwork
 	 */
 	public void setName(String name);
 
+	/**
+	 * Returns true if the network has been trained.
+	 * 
+	 * @return <b>true</b> if the network has been trained<br>
+	 * 					<b>false</b> else 
+	 */
+	public boolean isTrained();
 }
