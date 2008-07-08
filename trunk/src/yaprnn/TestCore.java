@@ -18,7 +18,7 @@ class TestCore {
 		int[] func = { 0, 0, 0, 0, 0 };
 		double[] bias = { 0, 0, 0 };
 		core.newMLP("test", layers, func, bias, false);
-		core.trainOnline(0.2, 1000, 0.1);
+		core.trainOnline(0.2, 1000, 0.1, 0.99);
 	}
 
 	public static void test02() throws Exception {
@@ -40,7 +40,7 @@ class TestCore {
 		int[] func = { 0, 0, 0, 0, 0 };
 		double[] bias = { 0, 0, 0 };
 		core.newMLP("test", layers, func, bias, false);
-		core.trainOnline(0.2, 1000, 0.1);
+		core.trainOnline(0.2, 1000, 0.1, 0.99);
 	}
 	
 	public static void main(String[] args) throws Exception {

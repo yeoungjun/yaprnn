@@ -178,7 +178,12 @@ class MenuClassifyAction implements ActionListener {
 				network);
 		new ClassifyAction(ci);
 		new ZoomAction(ci);
+
 		MenuClassifyAction.createPreview(ci);
+
+		ci.cv.setTitle("Classify: " + data.getName() + " by "
+				+ network.getName());
+
 		ci.cv.setVisible(true);
 
 	}
