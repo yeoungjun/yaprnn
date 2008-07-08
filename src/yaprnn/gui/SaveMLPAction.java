@@ -28,8 +28,12 @@ class SaveMLPAction implements ActionListener {
 		chooser.setFileFilter(GUI.FILEFILTER_MLP);
 		if (chooser.showSaveDialog(gui.getView()) == JFileChooser.APPROVE_OPTION) {
 			try {
-				// TODO : Ausgewähltes MLP speichern.
-				gui.getCore().saveMLP(chooser.getSelectedFile().getPath());
+				String path = chooser.getSelectedFile().getPath();
+				
+				if(path.toLowerCase().lastIndexOf(".mlp") != (path.length() - 4))
+					path += ".mlp";
+				
+				gui.getCore().saveMLP(path);
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(gui.getView(),
 						"An error occured",
