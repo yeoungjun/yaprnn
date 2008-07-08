@@ -6,14 +6,13 @@
 
 ===MLP===
   * Editier-Methoden, wie Layer hinzufügen, entfernen und Anzahl der Neuronen anpassen, fürs MLP (?)
-  * Bezüglich Editierung des MLPs, merken ob das MLP schon trainiert wurde [als Attribut des MLPs] (Felix)
+  * Bezüglich Editierung des MLPs, merken ob das MLP schon trainiert wurde als Attribut des MLPs (Felix)
 
 ===DVV===
   * Merken der Informationen über das verwendete Subsampling in den einzelnen Data-Objekten für die Ausgabe in der GUI (?)
 
 ===GUI===
   * Audio Preview (Sascha)
-  * Abbild der Gewichte (Falko)
   * Trainingsfenster braucht weitere Einstellungen (Sigma, roh, Momentum)
   * Name des Trainingsfensters sollte das MLP enthalten
 
