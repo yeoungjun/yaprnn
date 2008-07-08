@@ -60,6 +60,11 @@ class ImagesMacros {
 	 *            be the original
 	 * @param zoom
 	 *            the zoom factor to be used
+	 * @param resolution
+	 *            subsampling parameter resolution, ignored if subsampled is
+	 *            false
+	 * @param overlap
+	 *            subsampling parameter overlap, ignored if subsampled is false
 	 * @return
 	 */
 	static Image createPreview(Data data, double zoom, boolean subsampled,
@@ -73,23 +78,67 @@ class ImagesMacros {
 		Image image = null;
 
 		if (data.isPicture()) {
-			if (subsampled)
+			if (!subsampled)
 				image = createImagePreview((byte[][]) data.previewRawData());
 			else
 				image = createImagePreview((byte[][]) data
 						.previewSubsampledData(resolution, overlap));
 		} else if (data.isAudio()) {
-//			if (subsampled)
-//				image = createAudioPreview((double[]) data.previewRawData());
-//			else
-//				image = createAudioPreview((double[]) data
-//						.previewSubsampledData(resolution, overlap));
+			// if (!subsampled)
+			// image = createAudioPreview((double[]) data.previewRawData());
+			// else
+			// image = createAudioPreview((double[]) data
+			// .previewSubsampledData(resolution, overlap));
 		}
 
 		if (image == null)
 			return null;
 		return resizeImage(image, (int) (image.getWidth(null) * zoomVal),
 				(int) (image.getHeight(null) * zoomVal),
+				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+	}
+
+	/**
+	 * Creates a preview image of a weights matrix.
+	 * 
+	 * @param data
+	 *            the data object to create a preview from
+	 * @param zoom
+	 *            the zoom factor to be used
+	 * @param min
+	 *            precalculated min value, used for scaling
+	 * @param max
+	 *            precalculated max value, used for scaling
+	 * @return
+	 */
+	static Image createWeightsImage(double[][] weights, double zoom,
+			double min, double max) {
+		if (weights == null)
+			return null;
+
+		// Zu starke Verkleinerung/größerung ist nicht erlaubt
+		double zoomVal = limit(zoom, 0.5, 100);
+
+		int height = weights.length, width = weights[0].length;
+		double scale = 255 / (max - min);
+
+		// BufferdImage erstellen aus weights, Darstellung als Graustufen-Bild.
+		BufferedImage image = new BufferedImage(width, height,
+				BufferedImage.TYPE_BYTE_GRAY);
+		for (int y = 0; y < height; y++)
+			for (int x = 0; x < width; x++) {
+				// Graufarbenes Bild erstellen
+				int pixelValue = (int) limit((weights[y][x] - min) * scale, 0,
+						255);
+				pixelValue = pixelValue | (pixelValue << 8)
+						| (pixelValue << 16);
+
+				image.setRGB(x, y, pixelValue);
+			}
+
+		// Dann noch zoomen
+		return resizeImage(image, (int) (width * zoomVal),
+				(int) (height * zoomVal),
 				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 	}
 

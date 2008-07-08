@@ -167,11 +167,16 @@ public class GUI implements GUIInterface {
 				int rows = weights.length, cols = weights[0].length + 1;
 
 				// Gewichte auslesen
+				double min = weights[0][0], max = weights[0][0];
 				Object[][] weights2 = new Object[rows][cols];
 				for (int y = 0; y < rows; y++) {
 					weights2[y][0] = "to neur: " + (y + 1);
-					for (int x = 1; x < cols; x++)
-						weights2[y][x] = Math.round(weights[y][x - 1] * 1000) / 1000d;
+					for (int x = 1; x < cols; x++) {
+						double val = weights[y][x - 1];
+						weights2[y][x] = Math.round(val * 1000) / 1000d;
+						min = (val < min) ? val : min;
+						max = (val > max) ? val : max;
+					}
 				}
 
 				// Spaltentitel setzen
@@ -191,10 +196,20 @@ public class GUI implements GUIInterface {
 								return false;
 							}
 						});
-			} else
+
+				// Weights-Image erstellen lassen
+				mainView.getLabelWeightsImage().setImage(
+						ImagesMacros
+								.createWeightsImage(weights, zoom, min, max));
+
+			} else {
 				mainView.getTableWeights().setModel(new DefaultTableModel());
-		} else
+				mainView.getLabelWeightsImage().setImage(null);
+			}
+		} else {
 			mainView.getTableWeights().setModel(new DefaultTableModel());
+			mainView.getLabelWeightsImage().setImage(null);
+		}
 
 	}
 
