@@ -139,21 +139,11 @@ public class GUI implements GUIInterface {
 			// mainView.getLabelUsedSubsamplingOptions().setText(data.getSubsamplingOptions());
 
 			// Preview erzeugen
-			if (data.isPicture()) {
-				mainView.getLabelPreview().setImage(
-						ImagesMacros.createImagePreview((byte[][]) data
-								.previewRawData(), zoom));
-				mainView.getLabelPreviewSubsampled().setImage(
-						ImagesMacros.createImagePreview((byte[][]) data
-								.previewSubsampledData(resolution, overlap),
-								zoom));
-			} else if (data.isAudio()) {
-				// TODO : Audio preview
-				// mainView.getLabelPreview().setImage(
-				// ImagesMacros.createAudioPreview(, zoom));
-				// mainView.getLabelPreviewSubsampled().setImage(
-				// ImagesMacros.createAudioPreview(, zoom));
-			}
+			mainView.getLabelPreview().setImage(
+					ImagesMacros.createPreview(data, zoom, false, 0, 0));
+			mainView.getLabelPreviewSubsampled().setImage(
+					ImagesMacros.createPreview(data, zoom, true, resolution,
+							overlap));
 
 		} else {
 			// Löschen der Informationen und previews

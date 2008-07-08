@@ -69,7 +69,7 @@ class MenuClassifyAction implements ActionListener {
 			if (item instanceof String) {
 				try {
 					ci.zoom = Double.parseDouble((String) item);
-					MenuClassifyAction.createSubsampledPreview(ci);
+					MenuClassifyAction.createPreview(ci);
 				} catch (Exception ex) {
 					JOptionPane
 							.showMessageDialog(
@@ -148,6 +148,7 @@ class MenuClassifyAction implements ActionListener {
 		Data data = gui.getSelectedData();
 		if (data == null)
 			return;
+
 		NeuralNetwork network = null;
 
 		Vector<NetworkBox> boxes = new Vector<NetworkBox>();
@@ -177,26 +178,14 @@ class MenuClassifyAction implements ActionListener {
 				network);
 		new ClassifyAction(ci);
 		new ZoomAction(ci);
-		MenuClassifyAction.createSubsampledPreview(ci);
+		MenuClassifyAction.createPreview(ci);
 		ci.cv.setVisible(true);
 
 	}
 
-	private static void createSubsampledPreview(ClassifyInfo ci) {
-		Data data = ci.data;
-		if (data == null)
-			return;
-		if (data.isPicture()) {
-			ci.cv.getLabelPreview().setImage(
-					ImagesMacros.createImagePreview((byte[][]) data
-							.previewRawData(), ci.zoom));
-		} else if (data.isAudio()) {
-			// TODO : Audio preview
-			// mainView.getLabelPreview().setImage(
-			// ImagesMacros.createAudioPreview(, si.zoom));
-			// si.sv.getLabelPreviewSubsampled().setImage(
-			// ImagesMacros.createAudioPreview(, si.zoom));
-		}
+	private static void createPreview(ClassifyInfo ci) {
+		ci.cv.getLabelPreview().setImage(
+				ImagesMacros.createPreview(ci.data, ci.zoom, false, 0, 0));
 	}
 
 }
