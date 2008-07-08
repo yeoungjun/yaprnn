@@ -87,28 +87,6 @@ public class Core {
 		
 		mlp = new MLP(name, dvv.getNumInputNeurons(), dvv.getNumOutputNeurons(), layer, functions, bias, autoEncoder);
 		return mlp;
-		
-//		if(activationFunction.length == layer.length+2 && layer.length == bias.length && dvv != null) {
-//			
-//			final int numInputNeurons = dvv.getNumInputNeurons();
-//			final int numOutputNeurons = dvv.getNumOutputNeurons();
-//			
-//			if(numInputNeurons > 0 && numOutputNeurons > 0) {
-//				
-//				ActivationFunction[] functions = new ActivationFunction[activationFunction.length];
-//				for(int i=0; i<functions.length; i++)
-//					functions[i] = activations.get(activationFunction[i]);
-//				//TOD: try-catch block provisorisch, eignetlich ist hier keine Exception nötig
-//				try {
-//					mlp = new MLP(numInputNeurons, numOutputNeurons, layer,
-//							functions, bias, autoEncoder);
-//					return mlp;
-//				} catch(BadConfigException e) { }
-//				
-//			}
-//			
-//		}
-//		return null;
 	}
 
 	/** Loads a MLP from the specified file.
@@ -181,10 +159,11 @@ public class Core {
 	public void trainBatch(double eta, int maxIterations, double maxError) {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();	
-		
-		for(int i=0; i<maxIterations; i++) {
+
+		for(int i=0; i < maxIterations; i++) {
 				final double trainingErr = mlp.runBatch(dvv.getTrainingData(), eta);
 				final double testErr = mlp.runTest(dvv.getTestData());
+				
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
 				
@@ -192,7 +171,6 @@ public class Core {
 				gui.setTestError(testErrors);
 				
 				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr);
-				
 				if(testErr <= maxError) break;
 		}
 	}

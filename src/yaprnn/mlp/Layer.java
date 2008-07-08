@@ -1,6 +1,7 @@
 package yaprnn.mlp;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Layer implements Serializable {
 	private static final long serialVersionUID = -4607204450973284028L;
@@ -13,9 +14,9 @@ public class Layer implements Serializable {
 	private ActivationFunction function;
 
 	private double[] output;
-	private double[] input; // TODO unnecessary
-	private double[] layerInput;
+	double[] input = null;
 	private double bias;
+	double[] layerInput;
 
 	/**
 	 * Constructor; Is  initialized with the previuos layer, activation function  number of neurons and the bias
@@ -26,6 +27,8 @@ public class Layer implements Serializable {
 	 * @throws BadConfigException Is thrown in case of incorrect configuration
 	 */
 	public Layer(Layer prevLayer, int neurons, ActivationFunction function, double bias) throws BadConfigException {
+		
+		neurons++;
 		
 		// Tests  configuration
 		if (neurons <= 0)
@@ -39,22 +42,18 @@ public class Layer implements Serializable {
 		this.function = function;
 		this.bias = bias;
 		this.output = new double[neurons];
-
-		if (prevLayer == null) return;
+		this.layerInput = new double[neurons];
 		
-		this.layerInput = new double[neurons];		
+		if (prevLayer == null) return;
+
 		this.prevLayer = prevLayer;
 		this.weightMatrix = new double[neurons][prevLayer.getSize()];
 		this.gradientMatrix = new double[neurons][prevLayer.getSize()];
 		
 		// Setting values of matrices and arrays
-		for (int h = 0; h < neurons; h++) {
-			output[h] = 0;
-			for (int i = 0; i < prevLayer.getSize(); i++) {
+		for (int h = 0; h < neurons; h++)
+			for (int i = 0; i < prevLayer.getSize(); i++)
 				weightMatrix[h][i] = Math.random() * (Math.random() < 0.5 ? -1 : 1);
-				gradientMatrix[h][i] = 0;
-			}
-		}
 	}
 
 	/**
@@ -63,10 +62,12 @@ public class Layer implements Serializable {
 	 * @throws BadConfigException Is thrown in case of wrong configuration
 	 */
 	public boolean setInput(double[] input) {
-		if (output.length != input.length)
-			return false;
-		
-		output = input;
+		if ((output.length - 1)!= input.length) 	return false;
+	
+		this.input = input;
+
+		output = Arrays.copyOf(input, output.length);
+		output[output.length - 1] = 0;
 		return true;
 	}
 
@@ -77,27 +78,30 @@ public class Layer implements Serializable {
 	 */
 	public double[] getOutput() {
 		// Recursion cancel
-		if (prevLayer == null)
+		if (prevLayer == null){
+			layerInput = output;
 			return output;
+		}
 
-		// Saving of backPropagation
-		 input = prevLayer.getOutput();
+		input  = prevLayer.getOutput();
 
+		
 		// Generate the output
-		for (int h = 0; h < output.length; h++) {
-			// Reset and add a bias
-			output[h] = bias;
+		for (int h = 0; h < output.length - 1; h++) {
+			// Reset
+			output[h] = 0;
 
 			//  Multiply every output of the last Layer with the corresponding  matrix  and add it.
 			for (int i = 0; i < input.length; i++)
 				output[h] += input[i] * weightMatrix[h][i];
-
-			layerInput[h] = output[h] - bias;
 			
+			layerInput[h] = output[h];
 			// Use the activation function on the sum.
 			output[h] = function.compute(output[h]);
 		}
-
+		
+		output[output.length - 1] = bias;
+		
 		return output;
 	}
 
@@ -116,28 +120,37 @@ public class Layer implements Serializable {
 	 * @throws BadConfigException if the error vector wrong is.
 	 */
 	public void backPropagate(double[] error) {
+		try {
 		if(prevLayer == null) return;
 		
-//		if(error.length != output.length) throw new BadConfigException("Flascher Fehler-Vektor Uebergeben!", BadConfigException.INVALID_ERROR_VECTOR);
-		
-		
-		double[] localError = new double[output.length];
-		double preLayerError[] = new double[prevLayer.getSize()];
+		// init
+			double[] preLayerError = new double[prevLayer.getSize()];
+			double preLayerNetOutput = 0;
 
-		for(int i = 0; i <localError.length; i++) {
-			localError[i] = function.derivation(layerInput[i]);
-			localError[i] = localError[i] * error[i];
-			for(int h = 0; h < preLayerError.length; h++)
-				gradientMatrix[i][h] += localError[i] * input[h]; 
-		}
+			// calculate previous layer's overall output
+			for (double in : prevLayer.input) preLayerNetOutput += in;
+
+			// alter gradient
+			for (int i = 0; i < gradientMatrix.length; i++)
+				for (int h = 0; h < prevLayer.output.length; h++)
+					gradientMatrix[i][h] += error[i] * prevLayer.output[h];
+			
+			// generate preLayerError
+			for (int i = 0; i < prevLayer.getSize(); i++) {
+				for (int h = 0; h < error.length; h++)
+					preLayerError[i] += error[h] * weightMatrix[h][i];
+
+				preLayerError[i] *= prevLayer.function.derivation(prevLayer.layerInput[i]);
+			}
+
+			prevLayer.backPropagate(preLayerError);
 		
-		for (int i = 0; i < preLayerError.length; i++) {
-			preLayerError[i] =  0;
-				for(int h = 0; h < output.length; h++)
-					preLayerError[i] += weightMatrix[h][i] * localError[h];
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			System.exit(0);
 		}
 
-		prevLayer.backPropagate(preLayerError);
 	}
 
 	/**
@@ -212,10 +225,13 @@ public class Layer implements Serializable {
 		this.prevLayer.prevLayer = null;
 		
 		// Add the new layer
-		Layer additionalLayer = new Layer(this, this.prevLayer.getSize(), this.prevLayer.getActivationFunction(), this.prevLayer.getBias());		
+		Layer additionalLayer = new Layer(this, this.prevLayer.getSize() - 1, this.prevLayer.getActivationFunction(), this.prevLayer.getBias());		
+		
+		double[] firstLayerinput =Arrays.copyOf(lastLayerOutput, lastLayerOutput.length - 1);
 		
 		// use output ans new input
-		this.prevLayer.setInput(lastLayerOutput);
+		if(!this.prevLayer.setInput(firstLayerinput))
+			System.out.println("Lenght of lastLayerOutput: " + lastLayerOutput.length);
 		
 		// train Online
 		double out[] = null;
