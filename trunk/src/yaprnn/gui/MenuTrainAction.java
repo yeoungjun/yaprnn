@@ -101,12 +101,14 @@ class MenuTrainAction implements ActionListener {
 						((Double) ti.tv.getOptionMomentum().getValue())
 								.doubleValue(),
 						ti.tv.getOptionModifyLearningrate().isSelected(),
-						((Double) ti.tv.getOptionReductionfactor().getValue())
-								.doubleValue(),
 						ti.tv.getOptionDynamicAdjustment().isSelected(),
+						((Double) ti.tv.getOptionDynamicReductionfactor()
+								.getValue()).doubleValue(),
 						((Double) ti.tv.getOptionDynamicMultiplier().getValue())
-								.doubleValue(), ((Integer) ti.tv
-								.getOptionStaticIterations().getValue())
+								.doubleValue(),
+						((Double) ti.tv.getOptionStaticReductionfactor()
+								.getValue()).doubleValue(),
+						((Integer) ti.tv.getOptionStaticIterations().getValue())
 								.intValue());
 				ti.tw.execute();
 			}
@@ -127,16 +129,18 @@ class MenuTrainAction implements ActionListener {
 		boolean useMomentum;
 		double momentum;
 		boolean modifyLearningrate;
-		double reductionFactor;
 		boolean dynamicAdjustment;
+		double dynamicReductionFactor;
 		double dynamicMultiplier;
+		double staticReductionFactor;
 		int staticIterations;
 
 		TrainingWorker(TrainingInfo ti, double learningRate, int maxIterations,
 				double maxError, boolean onlineLearning, boolean useMomentum,
 				double momentum, boolean modifyLearningrate,
-				double reductionFactor, boolean dynamicAdjustment,
-				double dynamicMultiplier, int staticIterations) {
+				boolean dynamicAdjustment, double dynamicReductionFactor,
+				double dynamicMultiplier, double staticReductionFactor,
+				int staticIterations) {
 			this.ti = ti;
 			this.learningRate = learningRate;
 			this.maxError = maxError;
@@ -146,7 +150,9 @@ class MenuTrainAction implements ActionListener {
 			this.momentum = momentum;
 			this.modifyLearningrate = modifyLearningrate;
 			this.dynamicAdjustment = dynamicAdjustment;
+			this.dynamicReductionFactor = dynamicReductionFactor;
 			this.dynamicMultiplier = dynamicMultiplier;
+			this.staticReductionFactor = staticReductionFactor;
 			this.staticIterations = staticIterations;
 		}
 
@@ -165,20 +171,22 @@ class MenuTrainAction implements ActionListener {
 				if (dynamicAdjustment) {
 					if (onlineLearning)
 						ti.gui.getCore().trainOnline(learningRate,
-								maxIterations, maxError, reductionFactor,
-								dynamicMultiplier, momentum);
+								maxIterations, maxError,
+								dynamicReductionFactor, dynamicMultiplier,
+								momentum);
 					else
 						ti.gui.getCore().trainBatch(learningRate,
-								maxIterations, maxError, reductionFactor,
-								staticIterations, momentum);
+								maxIterations, maxError,
+								dynamicReductionFactor, staticIterations,
+								momentum);
 				} else {
 					if (onlineLearning)
 						ti.gui.getCore().trainOnline(learningRate,
-								maxIterations, maxError, reductionFactor,
+								maxIterations, maxError, staticReductionFactor,
 								staticIterations, momentum);
 					else
 						ti.gui.getCore().trainBatch(learningRate,
-								maxIterations, maxError, reductionFactor,
+								maxIterations, maxError, staticReductionFactor,
 								staticIterations, momentum);
 				}
 			} else {
@@ -282,10 +290,14 @@ class MenuTrainAction implements ActionListener {
 
 			// Aktiviere ...Adjustment-Optionen, wenn
 			// option...Adjustment selektiert ist
-			if (src == ti.tv.getOptionDynamicAdjustment())
+			if (src == ti.tv.getOptionDynamicAdjustment()) {
 				ti.tv.getOptionDynamicMultiplier().setEnabled(enable);
-			if (src == ti.tv.getOptionStaticAdjustment())
+				ti.tv.getOptionDynamicReductionfactor().setEnabled(enable);
+			}
+			if (src == ti.tv.getOptionStaticAdjustment()) {
 				ti.tv.getOptionStaticIterations().setEnabled(enable);
+				ti.tv.getOptionStaticReductionfactor().setEnabled(enable);
+			}
 
 		}
 
@@ -358,9 +370,13 @@ class MenuTrainAction implements ActionListener {
 				ti.tv.getOptionUseMomentum().isSelected());
 		ti.tv.getOptionDynamicMultiplier().setEnabled(
 				ti.tv.getOptionDynamicAdjustment().isSelected());
+		ti.tv.getOptionDynamicReductionfactor().setEnabled(
+				ti.tv.getOptionDynamicAdjustment().isSelected());
 		ti.tv.getOptionStaticIterations().setEnabled(
 				ti.tv.getOptionStaticAdjustment().isSelected());
-		
+		ti.tv.getOptionStaticReductionfactor().setEnabled(
+				ti.tv.getOptionStaticAdjustment().isSelected());
+
 		ti.tv.setVisible(true);
 	}
 
