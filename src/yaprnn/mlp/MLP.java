@@ -115,9 +115,9 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Adjust the weights
 			if(momentum > 0)
-				layer[layer.length - 1].update(1, eta, momentum);
+				layer[layer.length - 1].update(eta, momentum);
 			else
-				layer[layer.length - 1].update(1, eta);
+				layer[layer.length - 1].update(eta);
 		}
 
 		return runTest(dataCollection);
@@ -168,9 +168,9 @@ public class MLP implements Serializable, NeuralNetwork {
 		
 		// Adjust the weights
 		if(momentum > 0)
-			layer[layer.length - 1].update(dataCollection.size(), eta, momentum);
+			layer[layer.length - 1].update(eta, momentum);
 		else
-			layer[layer.length - 1].update(dataCollection.size(), eta);
+			layer[layer.length - 1].update(eta);
 		
 		return runTest(dataCollection);
 	}

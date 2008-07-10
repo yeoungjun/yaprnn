@@ -162,30 +162,30 @@ public class Layer implements Serializable {
 	 * @param eta The learning rate to be used. 
 	 * @param iterations 
 	 */
-	public void update(double iterations, double eta) {
+	public void update(double eta) {
 		if(prevLayer == null) return;
 		
 		for(int i = 0; i < output.length; i++)
 			for(int h = 0; h < prevLayer.getSize(); h++){
-				weightMatrix[i][h] -= eta * (gradientMatrix[i][h] / iterations);
+				weightMatrix[i][h] -= eta * gradientMatrix[i][h]  ;
 				gradientMatrix[i][h] = 0;
 			}
 		
-		prevLayer.update(iterations, eta);
+		prevLayer.update(eta);
 	}
 
-	public void update(double iterations, double eta, double momentum) {
+	public void update(double eta, double momentum) {
 		if(prevLayer == null) return;
 		
 		for(int i = 0; i < output.length; i++)
 			for(int h = 0; h < prevLayer.getSize(); h++){
 				
-				lastGradientMatrix[i][h] = eta * ( (1 - momentum )*  (gradientMatrix[i][h] / iterations) + momentum * lastGradientMatrix[i][h]);
+				lastGradientMatrix[i][h] = eta * ( (1 - momentum )*  gradientMatrix[i][h]  + momentum * lastGradientMatrix[i][h]);
 				weightMatrix[i][h] -= lastGradientMatrix[i][h];
 				gradientMatrix[i][h] = 0;
 			}
 		
-		prevLayer.update(iterations, eta, momentum);
+		prevLayer.update(eta, momentum);
 	}
 	
 	/**
@@ -271,7 +271,7 @@ public class Layer implements Serializable {
 			additionalLayer.backPropagate(errVec);
 	
 			// Adjust the weights
-			additionalLayer.update(1, eta, 0);
+			additionalLayer.update(eta, 0);
 		}
 
 		// Restore the layer
