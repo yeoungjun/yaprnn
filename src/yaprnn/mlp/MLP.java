@@ -85,7 +85,7 @@ public class MLP implements Serializable, NeuralNetwork {
 	 * @throws BadConfigException
 	 */
 	public double runOnline(Collection<Data> dataCollection, double eta, double momentum) {
-		if (layer == null || eta == 0)
+		if (layer == null)
 			return 0;
 
 		isTrained  = true;
@@ -163,7 +163,6 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Error backpropagation 
 			layer[layer.length - 1].backPropagate(errVec);
-
 		}
 		
 		// Adjust the weights

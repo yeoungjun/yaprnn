@@ -132,18 +132,19 @@ public class Core {
 	 *  @param maxError      training stops if the test error falls below maxError
 	 */
 	
-	public void trainOnline(double eta, int maxIterations, double maxError, double momentum) {
+	public void trainOnline(Eta eta, int maxIterations, double maxError, double momentum) {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();
-		
+		double trainingErr = Double.MAX_VALUE;
+		double testErr;
 		run = true;
 		
 		for(int i=0; i<maxIterations && run; i++) {
 				Collection<Data> test = dvv.getTestData();
 				Collection<Data> train = dvv.getTrainingData();
 				
-				final double trainingErr = mlp.runOnline(train, eta, momentum);
-				final double testErr = mlp.runTest(test);
+				trainingErr = mlp.runOnline(train, eta.getEta(trainingErr), momentum);
+				testErr = mlp.runTest(test);
 				
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
@@ -151,68 +152,11 @@ public class Core {
 				gui.setTrainingError(trainingErrors);
 				gui.setTestError(testErrors);
 				
-				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr + " Eta: " + eta);
+				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr + " Eta: " + eta.toString());
 				if(trainingErr <= maxError) break;
 			}
 	}
-	
-	public void trainOnline(double eta, int maxIterations, double maxError, double sigma, int iterations, double momentum) {
-		trainingErrors = new LinkedList<Double>();	
-		testErrors = new LinkedList<Double>();
-		
-		run = true;
-		
-		for(int i=0; i<maxIterations && run; i++) {
-				Collection<Data> test = dvv.getTestData();
-				Collection<Data> train = dvv.getTrainingData();
-				
-				final double trainingErr = mlp.runOnline(train, eta, momentum);
-				final double testErr = mlp.runTest(test);
-				
-				trainingErrors.add(trainingErr);
-				testErrors.add(testErr);
-				
-				gui.setTrainingError(trainingErrors);
-				gui.setTestError(testErrors);
-				
-				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr + " Eta: " + eta);
-				if(trainingErr <= maxError) break;
-				if(i % iterations == 0) eta *= sigma;
-		}
-	}
 
-	public void trainOnline(double eta, int maxIterations, double maxError, double sigma, double roh, double momentum) {
-		trainingErrors = new LinkedList<Double>();	
-		testErrors = new LinkedList<Double>();
-		
-		double lastTrainingError = Double.MAX_VALUE; 
-		run = true;
-		
-		for(int i=0; i<maxIterations && run; i++) {
-				Collection<Data> test = dvv.getTestData();
-				Collection<Data> train = dvv.getTrainingData();
-				
-				final double trainingErr = mlp.runOnline(train, eta, momentum);
-				final double testErr = mlp.runTest(test);
-				
-				trainingErrors.add(trainingErr);
-				testErrors.add(testErr);
-				
-				gui.setTrainingError(trainingErrors);
-				gui.setTestError(testErrors);
-				
-				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr + " Eta: " + eta);
-				
-				if(trainingErr <= maxError) break;
-				
-				if(trainingErr > lastTrainingError)
-					eta *= sigma;
-				else if(trainingErr < lastTrainingError)
-					eta *= roh;
-				
-				lastTrainingError = trainingErr;
-		}
-	}
 	
 	/** Performs batch training with the specified parameters, using the current data set and mlp.
 	 *
@@ -221,18 +165,19 @@ public class Core {
 	 *  @param maxError      training stops if the test error falls below maxError
 	 */
 	
-	public void trainBatch(double eta, int maxIterations, double maxError, double momentum) {
+	public void trainBatch(Eta eta, int maxIterations, double maxError, double momentum) {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();
-		
+		double trainingErr = Double.MAX_VALUE;
+		double testErr;
 		run = true;
 		
 		for(int i=0; i<maxIterations && run; i++) {
 				Collection<Data> test = dvv.getTestData();
 				Collection<Data> train = dvv.getTrainingData();
 				
-				final double trainingErr = mlp.runBatch(train, eta, momentum);
-				final double testErr = mlp.runTest(test);
+				trainingErr = mlp.runBatch(train, eta.getEta(trainingErr), momentum);
+				testErr = mlp.runTest(test);
 				
 				trainingErrors.add(trainingErr);
 				testErrors.add(testErr);
@@ -244,65 +189,7 @@ public class Core {
 				if(trainingErr <= maxError) break;
 			}
 	}
-	
-	public void trainBatch(double eta, int maxIterations, double maxError, double sigma, int iterations, double momentum) {
-		trainingErrors = new LinkedList<Double>();	
-		testErrors = new LinkedList<Double>();
 		
-		run = true;
-		
-		for(int i=0; i<maxIterations && run; i++) {
-				Collection<Data> test = dvv.getTestData();
-				Collection<Data> train = dvv.getTrainingData();
-				
-				final double trainingErr = mlp.runBatch(train, eta, momentum);
-				final double testErr = mlp.runTest(test);
-				
-				trainingErrors.add(trainingErr);
-				testErrors.add(testErr);
-				
-				gui.setTrainingError(trainingErrors);
-				gui.setTestError(testErrors);
-				
-				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr + " Eta: " + eta);
-				if(trainingErr <= maxError) break;
-				if(i % iterations == 0) eta *= sigma;
-		}
-	}
-
-	public void trainBatch(double eta, int maxIterations, double maxError, double sigma, double roh, double momentum) {
-		trainingErrors = new LinkedList<Double>();	
-		testErrors = new LinkedList<Double>();
-		
-		double lastTrainingError = Double.MAX_VALUE; 
-		run = true;
-		
-		for(int i=0; i<maxIterations && run; i++) {
-				Collection<Data> test = dvv.getTestData();
-				Collection<Data> train = dvv.getTrainingData();
-				
-				final double trainingErr = mlp.runBatch(train, eta, momentum);
-				final double testErr = mlp.runTest(test);
-				
-				trainingErrors.add(trainingErr);
-				testErrors.add(testErr);
-				
-				gui.setTrainingError(trainingErrors);
-				gui.setTestError(testErrors);
-				
-				System.out.println("Trainingsfehler: " + trainingErr + "   Testfehler " + testErr + " Eta: " + eta);
-				
-				if(trainingErr <= maxError) break;
-				
-				if(trainingErr > lastTrainingError)
-					eta *= sigma;
-				else if(trainingErr < lastTrainingError)
-					eta *= roh;
-				
-				lastTrainingError = trainingErr;
-		}
-	}
-	
 	/** Preprocesses the currently loaded data set using the specified parameters.
 	 *  If no data set is loaded, this method does nothing.
 	 *
