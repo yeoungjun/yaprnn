@@ -38,7 +38,7 @@ public class GUI implements GUIInterface {
 	private MainView mainView = new MainView();
 	private NetworkTreeModel treeModel = new NetworkTreeModel();
 
-	// Informationen über den ausgewählten Knoten
+	// Informationen ueber den ausgewaehlten Knoten
 	private TreePath selectedPath = null;
 	private ModelNode selected = null;
 	private NeuralNetwork selectedNetwork = null;
@@ -56,7 +56,7 @@ public class GUI implements GUIInterface {
 	private LoadDataSetAction loadDataSetAction;
 	private SaveDataSetAction saveDataSetAction;
 
-	// Actions im Popmenu die nur ausgeführt werden können, wenn der richtige
+	// Actions im Popmenu die nur ausgefuehrt werden koennen, wenn der richtige
 	// Knoten selektiert ist.
 	private MenuSubsamplingAction subsamplingAction;
 	private MenuClassifyAction classifyAction;
@@ -108,7 +108,7 @@ public class GUI implements GUIInterface {
 		new OptionResolutionChange(this);
 		new OptionOverlapChange(this);
 
-		// Das Anzeigen der View sollte verzögert geschehen.
+		// Das Anzeigen der View sollte verzoegert geschehen.
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				mainView.setVisible(true);
@@ -146,7 +146,7 @@ public class GUI implements GUIInterface {
 							overlap));
 
 		} else {
-			// Löschen der Informationen und previews
+			// Loeschen der Informationen und previews
 			mainView.getLabelFilename().setText("");
 			mainView.getLabelSampleLabel().setText("");
 			mainView.getLabelUsedSubsamplingOptions().setText("");
@@ -161,7 +161,7 @@ public class GUI implements GUIInterface {
 
 			LayerNode ln = (LayerNode) selected;
 			NeuralNetwork net = ln.getNetwork();
-			// Wir können die Eingangsschicht nicht auslesen
+			// Wir kï¿½nnen die Eingangsschicht nicht auslesen
 			if (ln.getLayerIndex() > 0) {
 				double[][] weights = net.getWeights(ln.getLayerIndex());
 				int rows = weights.length, cols = weights[0].length + 1;
