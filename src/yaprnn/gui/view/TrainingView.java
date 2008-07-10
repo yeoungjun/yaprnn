@@ -11,13 +11,17 @@ public class TrainingView extends javax.swing.JFrame {
     public javax.swing.JPanel getGraphPanel() {
         return graphPanel;
     }
-    
-    public javax.swing.JPanel getDynamicAdjustmentPanel() {
-        return dynamicAdjustmentPanel;
+
+    public javax.swing.JRadioButton getOptionDynamicAdjustment() {
+        return optionDynamicAdjustment;
     }
-    
-    public javax.swing.JPanel getStaticAdjustmentPanel() {
-        return staticAdjustmentPanel;
+
+    public javax.swing.JSpinner getOptionDynamicMultiplier() {
+        return optionDynamicMultiplier;
+    }
+
+    public javax.swing.JSpinner getOptionLearningRate() {
+        return optionLearningRate;
     }
 
     public javax.swing.JSpinner getOptionMaxError() {
@@ -28,59 +32,42 @@ public class TrainingView extends javax.swing.JFrame {
         return optionMaxIterations;
     }
 
-    public javax.swing.JButton getToolTrain() {
-        return toolTrain;
+    public javax.swing.JCheckBox getOptionModifyLearningrate() {
+        return optionModifyLearningrate;
     }
 
-    public javax.swing.JSpinner getOptionLearningRate() {
-        return optionLearningRate;
+    public javax.swing.JSpinner getOptionMomentum() {
+        return optionMomentum;
+    }
+
+    public javax.swing.JSpinner getOptionReductionfactor() {
+        return optionReductionfactor;
+    }
+
+    public javax.swing.JRadioButton getOptionStaticAdjustment() {
+        return optionStaticAdjustment;
+    }
+
+    public javax.swing.JSpinner getOptionStaticIterations() {
+        return optionStaticIterations;
     }
 
     public javax.swing.JComboBox getOptionTrainingMethod() {
         return optionTrainingMethod;
     }
 
-    public javax.swing.JTabbedPane getPreferenceTabbedPane() {
-        return preferenceTabbedPane;
+    public javax.swing.JCheckBox getOptionUseMomentum() {
+        return optionUseMomentum;
     }
-    
-    public javax.swing.JCheckBox getLearningRateToggle() {
-        return learningRateToggle;
+
+    public javax.swing.JTabbedPane getPreferencesTabs() {
+        return preferencesTabs;
     }
-    
-    public javax.swing.JCheckBox getMomentumToggle() {
-        return momentumToggle;
+
+    public javax.swing.JButton getToolTrain() {
+        return toolTrain;
     }
-    
-    public javax.swing.JSpinner getDynamicReductionFactor() {
-        return dynamicReductionFactor;
-    }
-    
-    public javax.swing.JSpinner getDynamicMultiplier() {
-        return dynamicMultiplier;
-    }
-    
-    public javax.swing.JSpinner getMomentum() {
-        return momentum;
-    }
-    
-    public javax.swing.JSpinner getStaticReductionFactor() {
-        return staticReductionFactor;
-    }
-    
-    public javax.swing.JRadioButton getDynamicAdjustmentToggle() {
-    	return dynamicAdjustmentToggle;
-    }
-    
-    public javax.swing.JRadioButton getStaticAdjustmentToggle() {
-    	return staticAdjustmentToggle;
-    }
-    
-    public javax.swing.JSpinner getStaticIterations() {
-    	return staticIterations;
-    }
-    
-        
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -93,37 +80,32 @@ public class TrainingView extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         graphPanel = new javax.swing.JPanel();
-        toolTrain = new javax.swing.JButton();
-        preferenceTabbedPane = new javax.swing.JTabbedPane();
+        preferencesTabs = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         optionTrainingMethod = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        optionLearningRate = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         optionMaxIterations = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         optionMaxError = new javax.swing.JSpinner();
-        jLabel2 = new javax.swing.JLabel();
-        optionLearningRate = new javax.swing.JSpinner();
-        learningRateToggle = new javax.swing.JCheckBox();
-        momentumToggle = new javax.swing.JCheckBox();
+        optionModifyLearningrate = new javax.swing.JCheckBox();
+        optionUseMomentum = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
-        dynamicAdjustmentPanel = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        dynamicReductionFactor = new javax.swing.JSpinner();
+        optionReductionfactor = new javax.swing.JSpinner();
+        optionDynamicAdjustment = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
-        dynamicMultiplier = new javax.swing.JSpinner();
-        staticAdjustmentPanel = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        staticReductionFactor = new javax.swing.JSpinner();
+        optionDynamicMultiplier = new javax.swing.JSpinner();
+        optionStaticAdjustment = new javax.swing.JRadioButton();
         jLabel9 = new javax.swing.JLabel();
-        staticIterations = new javax.swing.JSpinner();
-        jPanel2 = new javax.swing.JPanel();
-        dynamicAdjustmentToggle = new javax.swing.JRadioButton();
-        staticAdjustmentToggle = new javax.swing.JRadioButton();
+        optionStaticIterations = new javax.swing.JSpinner();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        momentum = new javax.swing.JSpinner();
+        optionMomentum = new javax.swing.JSpinner();
         jToolBar1 = new javax.swing.JToolBar();
+        toolTrain = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Training");
@@ -131,12 +113,13 @@ public class TrainingView extends javax.swing.JFrame {
         graphPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
         graphPanel.setLayout(new java.awt.BorderLayout());
 
-        toolTrain.setText("Train");
-        toolTrain.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-
         jLabel1.setText("Training method:");
 
         optionTrainingMethod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Online learning", "Batch learning" }));
+
+        jLabel2.setText("Learning rate:");
+
+        optionLearningRate.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.009999999776482582d), Double.valueOf(0.0010d), null, Double.valueOf(0.0010000000474974513d)));
 
         jLabel3.setText("Max iterations:");
 
@@ -146,34 +129,10 @@ public class TrainingView extends javax.swing.JFrame {
 
         optionMaxError.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.0010d), null, Double.valueOf(0.0010d)));
 
-        jLabel2.setText("Learning rate:");
+        optionModifyLearningrate.setText("Modify learning rate");
+        optionModifyLearningrate.setActionCommand("toggleLearn");
 
-        optionLearningRate.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.009999999776482582d), Double.valueOf(0.0010d), null, Double.valueOf(0.0010000000474974513d)));
-
-        learningRateToggle.setText("modify learning rate");
-        learningRateToggle.setActionCommand("toggleLearn");
-        learningRateToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                learningRateToggleActionPerformed(evt);
-            }
-        });
-
-        momentumToggle.setText("use momentum");
-        momentumToggle.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                momentumToggleStateChanged(evt);
-            }
-        });
-        momentumToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                momentumToggleActionPerformed(evt);
-            }
-        });
-        momentumToggle.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                momentumTogglePropertyChange(evt);
-            }
-        });
+        optionUseMomentum.setText("Use momentum");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -182,191 +141,132 @@ public class TrainingView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(optionMaxIterations, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(optionTrainingMethod, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(35, 35, 35)
-                        .addComponent(optionMaxError, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optionLearningRate)))
-                .addGap(8, 8, 8)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(learningRateToggle)
-                    .addComponent(momentumToggle))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(optionMaxIterations)
+                            .addComponent(optionTrainingMethod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(optionMaxError, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(optionLearningRate, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(345, 345, 345))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(optionModifyLearningrate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(optionUseMomentum)
+                        .addGap(479, 479, 479))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(optionTrainingMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(optionMaxIterations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(optionLearningRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(optionMaxError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(learningRateToggle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(momentumToggle)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        preferenceTabbedPane.addTab("Preferences", jPanel3);
-
-        jLabel5.setText("reduction factor:");
-
-        dynamicReductionFactor.setModel(new javax.swing.SpinnerNumberModel(0.99d, 0.0d, 1.0d, 0.0010d));
-        dynamicReductionFactor.setPreferredSize(new java.awt.Dimension(80, 20));
-
-        jLabel6.setText("multiplier:");
-
-        dynamicMultiplier.setModel(new javax.swing.SpinnerNumberModel(1.01d, 0.0d, 2.0d, 0.0010d));
-        dynamicMultiplier.setPreferredSize(new java.awt.Dimension(80, 20));
-
-        javax.swing.GroupLayout dynamicAdjustmentPanelLayout = new javax.swing.GroupLayout(dynamicAdjustmentPanel);
-        dynamicAdjustmentPanel.setLayout(dynamicAdjustmentPanelLayout);
-        dynamicAdjustmentPanelLayout.setHorizontalGroup(
-            dynamicAdjustmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dynamicAdjustmentPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(optionTrainingMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(optionLearningRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dynamicReductionFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(optionMaxIterations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(optionMaxError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dynamicMultiplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(optionModifyLearningrate)
+                    .addComponent(optionUseMomentum))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
-        dynamicAdjustmentPanelLayout.setVerticalGroup(
-            dynamicAdjustmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dynamicAdjustmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel5)
-                .addComponent(dynamicReductionFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel6)
-                .addComponent(dynamicMultiplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
 
-        jLabel8.setText("reduction factor:");
+        preferencesTabs.addTab("Preferences", jPanel3);
 
-        staticReductionFactor.setModel(new javax.swing.SpinnerNumberModel(0.99d, 0.0d, 1.0d, 0.0010d));
-        staticReductionFactor.setPreferredSize(new java.awt.Dimension(80, 20));
+        jLabel5.setText("Reduction factor:");
 
-        jLabel9.setText("iterations:");
+        optionReductionfactor.setModel(new javax.swing.SpinnerNumberModel(0.99d, 0.0d, 1.0d, 0.0010d));
+        optionReductionfactor.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        buttonGroup1.add(optionDynamicAdjustment);
+        optionDynamicAdjustment.setText("Dynamic adjustment");
+
+        jLabel6.setText("Multiplier:");
+
+        optionDynamicMultiplier.setModel(new javax.swing.SpinnerNumberModel(1.01d, 0.0d, 2.0d, 0.0010d));
+        optionDynamicMultiplier.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        buttonGroup1.add(optionStaticAdjustment);
+        optionStaticAdjustment.setSelected(true);
+        optionStaticAdjustment.setText("Static adjustment");
+
+        jLabel9.setText("Iterations:");
         jLabel9.setMaximumSize(new java.awt.Dimension(64, 15));
         jLabel9.setMinimumSize(new java.awt.Dimension(64, 15));
 
-        staticIterations.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(20), Integer.valueOf(1), null, Integer.valueOf(1)));
-        staticIterations.setPreferredSize(new java.awt.Dimension(80, 20));
-
-        javax.swing.GroupLayout staticAdjustmentPanelLayout = new javax.swing.GroupLayout(staticAdjustmentPanel);
-        staticAdjustmentPanel.setLayout(staticAdjustmentPanelLayout);
-        staticAdjustmentPanelLayout.setHorizontalGroup(
-            staticAdjustmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(staticAdjustmentPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(staticReductionFactor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(staticIterations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        staticAdjustmentPanelLayout.setVerticalGroup(
-            staticAdjustmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(staticAdjustmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel8)
-                .addComponent(staticReductionFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(staticIterations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        buttonGroup1.add(dynamicAdjustmentToggle);
-        dynamicAdjustmentToggle.setText("dynamic adjustment");
-        dynamicAdjustmentToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dynamicAdjustmentToggleActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(staticAdjustmentToggle);
-        staticAdjustmentToggle.setSelected(true);
-        staticAdjustmentToggle.setText("static adjustment");
-        staticAdjustmentToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                staticAdjustmentToggleActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(dynamicAdjustmentToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(staticAdjustmentToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(127, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(dynamicAdjustmentToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(staticAdjustmentToggle))
-        );
+        optionStaticIterations.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(20), Integer.valueOf(1), null, Integer.valueOf(1)));
+        optionStaticIterations.setPreferredSize(new java.awt.Dimension(80, 20));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(dynamicAdjustmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(staticAdjustmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(optionDynamicAdjustment, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(optionStaticAdjustment, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 51, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(optionStaticIterations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(optionDynamicMultiplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(437, 437, 437))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(optionReductionfactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(533, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(optionReductionfactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(optionDynamicAdjustment, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dynamicAdjustmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(staticAdjustmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(optionStaticAdjustment)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addComponent(optionDynamicMultiplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionStaticIterations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        preferenceTabbedPane.addTab("Learning rate", jPanel4);
+        preferencesTabs.addTab("Learning rate", jPanel4);
 
         jLabel7.setText("Momentum:");
 
-        momentum.setModel(new javax.swing.SpinnerNumberModel(0.8d, 0.0d, 1.0d, 0.0010d));
-        momentum.setPreferredSize(new java.awt.Dimension(80, 20));
+        optionMomentum.setModel(new javax.swing.SpinnerNumberModel(0.8d, 0.0d, 1.0d, 0.0010d));
+        optionMomentum.setPreferredSize(new java.awt.Dimension(80, 20));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -376,8 +276,8 @@ public class TrainingView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(momentum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(451, Short.MAX_VALUE))
+                .addComponent(optionMomentum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(561, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -385,11 +285,11 @@ public class TrainingView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(momentum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(optionMomentum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
-        preferenceTabbedPane.addTab("Momentum", jPanel5);
+        preferencesTabs.addTab("Momentum", jPanel5);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -398,69 +298,38 @@ public class TrainingView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(graphPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(preferenceTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(toolTrain)))
+                    .addComponent(graphPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
+                    .addComponent(preferencesTabs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(graphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                .addComponent(graphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(toolTrain, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(preferenceTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(preferencesTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        preferenceTabbedPane.getAccessibleContext().setAccessibleName("preferencesTab");
+        preferencesTabs.getAccessibleContext().setAccessibleName("preferencesTab");
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
+        jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
+
+        toolTrain.setText("Train");
+        toolTrain.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jToolBar1.add(toolTrain);
+
         getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void momentumTogglePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_momentumTogglePropertyChange
-
-}//GEN-LAST:event_momentumTogglePropertyChange
-
-private void momentumToggleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_momentumToggleStateChanged
-}//GEN-LAST:event_momentumToggleStateChanged
-
-private void momentumToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_momentumToggleActionPerformed
-    preferenceTabbedPane.setEnabledAt(2, !preferenceTabbedPane.isEnabledAt(2));
-}//GEN-LAST:event_momentumToggleActionPerformed
-
-private void learningRateToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_learningRateToggleActionPerformed
-    preferenceTabbedPane.setEnabledAt(1, !preferenceTabbedPane.isEnabledAt(1));
-}//GEN-LAST:event_learningRateToggleActionPerformed
-
-private void dynamicAdjustmentToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dynamicAdjustmentToggleActionPerformed
-    if(dynamicAdjustmentPanel.isVisible()) return;
-    staticAdjustmentPanel.setVisible(false);
-    dynamicAdjustmentPanel.setVisible(true);
-}//GEN-LAST:event_dynamicAdjustmentToggleActionPerformed
-
-private void staticAdjustmentToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_staticAdjustmentToggleActionPerformed
-    if(staticAdjustmentPanel.isVisible()) return;
-    dynamicAdjustmentPanel.setVisible(false);
-    staticAdjustmentPanel.setVisible(true);
-}//GEN-LAST:event_staticAdjustmentToggleActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JPanel dynamicAdjustmentPanel;
-    private javax.swing.JRadioButton dynamicAdjustmentToggle;
-    private javax.swing.JSpinner dynamicMultiplier;
-    private javax.swing.JSpinner dynamicReductionFactor;
     private javax.swing.JPanel graphPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -469,26 +338,25 @@ private void staticAdjustmentToggleActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JCheckBox learningRateToggle;
-    private javax.swing.JSpinner momentum;
-    private javax.swing.JCheckBox momentumToggle;
+    private javax.swing.JRadioButton optionDynamicAdjustment;
+    private javax.swing.JSpinner optionDynamicMultiplier;
     private javax.swing.JSpinner optionLearningRate;
     private javax.swing.JSpinner optionMaxError;
     private javax.swing.JSpinner optionMaxIterations;
+    private javax.swing.JCheckBox optionModifyLearningrate;
+    private javax.swing.JSpinner optionMomentum;
+    private javax.swing.JSpinner optionReductionfactor;
+    private javax.swing.JRadioButton optionStaticAdjustment;
+    private javax.swing.JSpinner optionStaticIterations;
     private javax.swing.JComboBox optionTrainingMethod;
-    private javax.swing.JTabbedPane preferenceTabbedPane;
-    private javax.swing.JPanel staticAdjustmentPanel;
-    private javax.swing.JRadioButton staticAdjustmentToggle;
-    private javax.swing.JSpinner staticIterations;
-    private javax.swing.JSpinner staticReductionFactor;
+    private javax.swing.JCheckBox optionUseMomentum;
+    private javax.swing.JTabbedPane preferencesTabs;
     private javax.swing.JButton toolTrain;
     // End of variables declaration//GEN-END:variables
 
