@@ -1,17 +1,17 @@
 #summary GUI related FAQ
 == Wie starte ich yaprnn mit GUI? ==
-Über die Main-Klasse in /yaprnn.
+Über die Main-Klasse in /yaprnn. Dafür stehen yaprnn.sh (für Unix), yaprnn.bat (für Windows) und yaprnn.jar an sich zur Verfügung.
 
-== ~~Ich bekomme eine NullPointerException. Was soll ich machen?~~ ==
-~~Die GUI lädt noch bevor die MainView sichtbar wird die Icons aus den .png Dateien. Sie liegen im src/yaprnn/gui/view Verzeichnis und müssen leider manuell in build/yaprnn/gui/view kopiert werden. Danach sollte es laufen. Falls nicht, eMail!~~ fixed
+== ~~Ich bekomme eine NullPointerException, was soll ich machen?~~ ==
+~~Die GUI lädt, noch bevor die MainView sichtbar wird, die Icons aus den png-Dateien. Sie liegen im src/yaprnn/gui/view Verzeichnis und müssen leider manuell in build/yaprnn/gui/view kopiert werden.~~ fixed, die png-Dateien werden nun automatisch durch build.xml in das richtige Verzeichniss kopiert.
 
-== Was funktioniert schon von der GUI? ==
-Folgende Buttons/Menupunkte sollten schon gehen:
-New MLP
-Load MLP
-Save MLP
-Import->Image data
-Import->Audio data
+== Was funktioniert noch nicht? ==
+Folgende Features gehen noch nicht:
+"Save dataset"
+"Load dataset"
 
-== Warum wird in der Baumansicht noch nix angezeigt? ==
-Weil noch dran gearbeitet wird. Aber zumindestens sollten die Datasets im Baum angzeigt werden, sobald sie importiert wurden.
+In Popupmenus funktioniert noch nicht:
+"Reset"
+"Add"
+"Edit"
+"Remove"
