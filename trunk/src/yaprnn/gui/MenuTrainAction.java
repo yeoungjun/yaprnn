@@ -3,10 +3,13 @@ package yaprnn.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -21,8 +24,11 @@ import yaprnn.mlp.NeuralNetwork;
 
 class MenuTrainAction implements ActionListener {
 
-	private boolean active = false; 
-	
+	private final static ImageIcon ICON_TRAIN = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconTraining.png");
+	private final static ImageIcon ICON_STOP = ImagesMacros.loadIcon(22, 22,
+			"/yaprnn/gui/view/iconStop.png");
+
 	/**
 	 * Used to hold required parameters and view objects.
 	 */
@@ -60,6 +66,142 @@ class MenuTrainAction implements ActionListener {
 		public String toString() {
 			return "Batch";
 		}
+	}
+
+	private class TrainAction implements ActionListener {
+
+		private TrainingInfo ti;
+
+		TrainAction(TrainingInfo ti) {
+			this.ti = ti;
+			ti.tv.getToolTrain().addActionListener(this);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ti.tv.getToolTrain().setEnabled(false);
+			if (ti.tw != null)
+				ti.gui.getCore().stopLearning();
+			else {
+				// Messpunkte löschen
+				ti.testError.clear();
+				ti.trainingError.clear();
+
+				// Trainieren in einem Background-Worker arbeiten lassen
+				ti.tw = new TrainingWorker(
+						ti,
+						((Double) ti.tv.getOptionLearningRate().getValue())
+								.doubleValue(),
+						((Integer) ti.tv.getOptionMaxIterations().getValue())
+								.intValue(),
+						((Double) ti.tv.getOptionMaxError().getValue())
+								.doubleValue(),
+						ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining,
+						ti.tv.getOptionUseMomentum().isSelected(),
+						((Double) ti.tv.getOptionMomentum().getValue())
+								.doubleValue(),
+						ti.tv.getOptionModifyLearningrate().isSelected(),
+						((Double) ti.tv.getOptionReductionfactor().getValue())
+								.doubleValue(),
+						ti.tv.getOptionDynamicAdjustment().isSelected(),
+						((Double) ti.tv.getOptionDynamicMultiplier().getValue())
+								.doubleValue(), ((Integer) ti.tv
+								.getOptionStaticIterations().getValue())
+								.intValue());
+				ti.tw.execute();
+			}
+		}
+	}
+
+	/**
+	 * This worker invokes the training method to not block the awt dispatcher
+	 * thread.
+	 */
+	private class TrainingWorker extends SwingWorker<Object, Object> {
+
+		private TrainingInfo ti;
+		double maxError;
+		int maxIterations;
+		boolean onlineLearning;
+		double learningRate;
+		boolean useMomentum;
+		double momentum;
+		boolean modifyLearningrate;
+		double reductionFactor;
+		boolean dynamicAdjustment;
+		double dynamicMultiplier;
+		int staticIterations;
+
+		TrainingWorker(TrainingInfo ti, double learningRate, int maxIterations,
+				double maxError, boolean onlineLearning, boolean useMomentum,
+				double momentum, boolean modifyLearningrate,
+				double reductionFactor, boolean dynamicAdjustment,
+				double dynamicMultiplier, int staticIterations) {
+			this.ti = ti;
+			this.learningRate = learningRate;
+			this.maxError = maxError;
+			this.maxIterations = maxIterations;
+			this.onlineLearning = onlineLearning;
+			this.useMomentum = useMomentum;
+			this.momentum = momentum;
+			this.modifyLearningrate = modifyLearningrate;
+			this.dynamicAdjustment = dynamicAdjustment;
+			this.dynamicMultiplier = dynamicMultiplier;
+			this.staticIterations = staticIterations;
+		}
+
+		@Override
+		protected Object doInBackground() {
+			ti.tv.getToolTrain().setIcon(ICON_STOP);
+			ti.tv.getToolTrain().setText("Stop");
+			ti.tv.getToolTrain().setEnabled(true);
+
+			// Momentum auswählen
+			double momentum = 0.0;
+			if (useMomentum)
+				momentum = this.momentum;
+
+			if (modifyLearningrate) {
+				if (dynamicAdjustment) {
+					if (onlineLearning)
+						ti.gui.getCore().trainOnline(learningRate,
+								maxIterations, maxError, reductionFactor,
+								dynamicMultiplier, momentum);
+					else
+						ti.gui.getCore().trainBatch(learningRate,
+								maxIterations, maxError, reductionFactor,
+								staticIterations, momentum);
+				} else {
+					if (onlineLearning)
+						ti.gui.getCore().trainOnline(learningRate,
+								maxIterations, maxError, reductionFactor,
+								staticIterations, momentum);
+					else
+						ti.gui.getCore().trainBatch(learningRate,
+								maxIterations, maxError, reductionFactor,
+								staticIterations, momentum);
+				}
+			} else {
+				if (onlineLearning)
+					ti.gui.getCore().trainOnline(learningRate, maxIterations,
+							maxError, momentum);
+				else
+					ti.gui.getCore().trainBatch(learningRate, maxIterations,
+							maxError, momentum);
+
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void done() {
+			ti.tw = null;
+			ti.tv.getToolTrain().setIcon(ICON_TRAIN);
+			ti.tv.getToolTrain().setText("Train");
+			ti.tv.getToolTrain().setEnabled(true);
+		}
+
 	}
 
 	private class TrainingWindowListener implements WindowListener {
@@ -107,109 +249,48 @@ class MenuTrainAction implements ActionListener {
 
 	}
 
-	
 	/**
-	 * This worker invokes the training method to not block the awt dispatcher
-	 * thread.
+	 * Handles the enabling states of certain sub options, which are only
+	 * usefull when the corresponding enabling option is selected.
 	 */
-	private class TrainingWorker extends SwingWorker<Object, Object> {
+	private class OptionItemChange implements ItemListener {
 
 		private TrainingInfo ti;
-		double learningRate;
-		double maxError;
-		int maxIterations;
-		boolean onlineLearning;
 
-		TrainingWorker(TrainingInfo ti, double learningRate, int maxIterations, double maxError, boolean onlineLearning) {
+		OptionItemChange(TrainingInfo ti) {
 			this.ti = ti;
-			this.learningRate = learningRate;
-			this.maxError = maxError;
-			this.maxIterations = maxIterations;
-			this.onlineLearning = onlineLearning;
+			ti.tv.getOptionUseMomentum().addItemListener(this);
+			ti.tv.getOptionModifyLearningrate().addItemListener(this);
+			ti.tv.getOptionDynamicAdjustment().addItemListener(this);
+			ti.tv.getOptionStaticAdjustment().addItemListener(this);
 		}
 
 		@Override
-		protected Object doInBackground() {
-			active = true;
-			ti.tv.getToolTrain().setText("Stop");
+		public void itemStateChanged(ItemEvent e) {
+			Object src = e.getSource();
+			boolean enable = e.getStateChange() == ItemEvent.SELECTED;
 
-			double momentum = 0;
-			if(ti.tv.getMomentumToggle().isSelected())
-				momentum = ((Double) ti.tv.getMomentum().getValue()).doubleValue();
-			
-			if(ti.tv.getLearningRateToggle().isSelected()) {
-				if(ti.tv.getDynamicAdjustmentToggle().isSelected()) {
-					if(onlineLearning)
-						ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, ((Double) ti.tv.getDynamicReductionFactor().getValue()).doubleValue(),
-								((Double) ti.tv.getDynamicMultiplier().getValue()).doubleValue(), momentum);
-					else
-						ti.gui.getCore().trainBatch(learningRate, maxIterations, maxError, ((Double) ti.tv.getStaticReductionFactor().getValue()).doubleValue(),
-								((Integer) ti.tv.getStaticIterations().getValue()).intValue(), momentum);
-				} else {
-					if(onlineLearning)
-						ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, ((Double) ti.tv.getStaticReductionFactor().getValue()).doubleValue(),
-								((Integer) ti.tv.getStaticIterations().getValue()).intValue(), momentum);
-					else
-						ti.gui.getCore().trainBatch(learningRate, maxIterations, maxError, ((Double) ti.tv.getStaticReductionFactor().getValue()).doubleValue(),
-								((Integer) ti.tv.getStaticIterations().getValue()).intValue(), momentum);
-				}
-			} else {
-				if (onlineLearning)
-					ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, momentum);
-				else
-					ti.gui.getCore().trainBatch(learningRate, maxIterations,	maxError, momentum);
-				
-			}
+			// Aktiviere Momentum-Optionen, wenn optionUseMomentum selektiert
+			// ist
+			if (src == ti.tv.getOptionUseMomentum())
+				ti.tv.getPreferencesTabs().setEnabledAt(2, enable);
 
-			ti.tv.getToolTrain().setText("Train");
-			active = false;
-			
-			return null;
-		}
+			// Aktiviere Learningrate-Optionen, wenn optionModifyLearningrate
+			// selektiert ist
+			if (src == ti.tv.getOptionModifyLearningrate())
+				ti.tv.getPreferencesTabs().setEnabledAt(1, enable);
 
-		@Override
-		protected void done() {
-			ti.tw = null;
-			ti.tv.getToolTrain().setEnabled(true);
+			// Aktiviere ...Adjustment-Optionen, wenn
+			// option...Adjustment selektiert ist
+			if (src == ti.tv.getOptionDynamicAdjustment())
+				ti.tv.getOptionDynamicMultiplier().setEnabled(enable);
+			if (src == ti.tv.getOptionStaticAdjustment())
+				ti.tv.getOptionStaticIterations().setEnabled(enable);
+
 		}
 
 	}
 
-	
-	
-	private class TrainAction implements ActionListener {
-
-		private TrainingInfo ti;
-
-		TrainAction(TrainingInfo ti) {
-			this.ti = ti;
-			ti.tv.getToolTrain().addActionListener(this);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			if (active) {
-				ti.gui.getCore().stopLearning();
-				ti.tv.getToolTrain().setText("Train");
-				active = false;
-				return;
-			}
-
-			ti.testError.clear();
-			ti.trainingError.clear();
-
-			ti.tw = new TrainingWorker(ti, ((Double) ti.tv.getOptionLearningRate().getValue()).doubleValue(),
-					((Integer) ti.tv.getOptionMaxIterations().getValue()).intValue(),
-					((Double) ti.tv.getOptionMaxError().getValue()).doubleValue(),
-					ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining);
-				
-			ti.tw.execute();
-			 
-		}
-	}
-	
-	
 	// TODO : Zur zeit kann nur ein Netzwerk trainiert werden.
 	// private static Dictionary<NeuralNetwork, TrainingInfo> trainingInfos =
 	// new Hashtable<NeuralNetwork, TrainingInfo>();
@@ -234,7 +315,9 @@ class MenuTrainAction implements ActionListener {
 
 		if (ti != null) {
 			// Wir koennen zurzeit nur ein MLP trainieren
-			JOptionPane.showMessageDialog(gui.getView(),
+			JOptionPane
+					.showMessageDialog(
+							gui.getView(),
 							"A training is already in progress. This version doesn't support more than one training window up at a time.",
 							"Training", JOptionPane.ERROR_MESSAGE);
 			return;
@@ -246,38 +329,48 @@ class MenuTrainAction implements ActionListener {
 		XYSeriesCollection xyDataset = new XYSeriesCollection();
 		xyDataset.addSeries(ti.trainingError);
 		xyDataset.addSeries(ti.testError);
-		JFreeChart chart = ChartFactory.createXYLineChart("Training statistics", "Index", "Error value", xyDataset, PlotOrientation.VERTICAL, true, false, false);
+		JFreeChart chart = ChartFactory.createXYLineChart(
+				"Training statistics", "Index", "Error value", xyDataset,
+				PlotOrientation.VERTICAL, true, false, false);
 		ChartPanel cp = new ChartPanel(chart);
 		cp.setMouseZoomable(true, true);
-
-		// ChartPanel hinzufuegen
 		ti.tv.getGraphPanel().add(cp, BorderLayout.CENTER);
 		ti.tv.getGraphPanel().validate();
 
+		// Listener hinzufuegen
 		new TrainAction(ti);
 		new TrainingWindowListener(ti);
+		new OptionItemChange(ti);
+
+		// Einstellungen initialisieren
+		ti.tv.getToolTrain().setIcon(ICON_TRAIN);
+		ti.tv.getToolTrain().setText("Train");
 		ti.tv.getOptionTrainingMethod().setModel(
 				new DefaultComboBoxModel(new Object[] { new OnlineTraining(),
 						new BatchTraining() }));
 		ti.tv.getOptionTrainingMethod().setEditable(false);
-
 		ti.tv.setTitle("Training: " + ti.network.getName());
 
-		ti.tv.getPreferenceTabbedPane().setEnabledAt(1, false);
-		ti.tv.getPreferenceTabbedPane().setEnabledAt(2, false);
-		ti.tv.getDynamicAdjustmentPanel().setVisible(false);
+		// Options init-aktivieren/deaktivieren
+		ti.tv.getPreferencesTabs().setEnabledAt(1,
+				ti.tv.getOptionModifyLearningrate().isSelected());
+		ti.tv.getPreferencesTabs().setEnabledAt(2,
+				ti.tv.getOptionUseMomentum().isSelected());
+		ti.tv.getOptionDynamicMultiplier().setEnabled(
+				ti.tv.getOptionDynamicAdjustment().isSelected());
+		ti.tv.getOptionStaticIterations().setEnabled(
+				ti.tv.getOptionStaticAdjustment().isSelected());
 		
 		ti.tv.setVisible(true);
 	}
 
 	static void setTestError(List<Double> errorData) {
-		Double val = errorData.get(errorData.size() - 1);
-		ti.testError.add(errorData.size(), val);
+		ti.testError.add(errorData.size(), errorData.get(errorData.size() - 1));
 	}
 
 	static void setTrainingError(List<Double> errorData) {
-		Double val = errorData.get(errorData.size() - 1);
-		ti.trainingError.add(errorData.size(), val);
+		ti.trainingError.add(errorData.size(), errorData
+				.get(errorData.size() - 1));
 	}
 
 }
