@@ -55,7 +55,7 @@ public class Layer implements Serializable {
 		// Setting values of matrices and arrays
 		for (int h = 0; h < neurons; h++)
 			for (int i = 0; i < prevLayer.getSize(); i++)
-				weightMatrix[h][i] = Math.random() * (Math.random() < 0.5 ? -1 : 1);
+				weightMatrix[h][i] = 0.5 - Math.random();
 	}
 
 	/**

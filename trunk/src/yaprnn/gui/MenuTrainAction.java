@@ -20,7 +20,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import yaprnn.gui.view.TrainingView;
+import yaprnn.mlp.DynamicEtaAdjustment;
+import yaprnn.mlp.Eta;
 import yaprnn.mlp.NeuralNetwork;
+import yaprnn.mlp.NoEtaAdjustment;
+import yaprnn.mlp.StaticEtaAdjustment;
 
 class MenuTrainAction implements ActionListener {
 
@@ -83,7 +87,7 @@ class MenuTrainAction implements ActionListener {
 			if (ti.tw != null)
 				ti.gui.getCore().stopLearning();
 			else {
-				// Messpunkte löschen
+				// Messpunkte loeschen
 				ti.testError.clear();
 				ti.trainingError.clear();
 
@@ -162,43 +166,26 @@ class MenuTrainAction implements ActionListener {
 			ti.tv.getToolTrain().setText("Stop");
 			ti.tv.getToolTrain().setEnabled(true);
 
-			// Momentum auswählen
+			// Momentum auswaehlen
 			double momentum = 0.0;
 			if (useMomentum)
 				momentum = this.momentum;
 
-			if (modifyLearningrate) {
-				if (dynamicAdjustment) {
-					if (onlineLearning)
-						ti.gui.getCore().trainOnline(learningRate,
-								maxIterations, maxError,
-								dynamicReductionFactor, dynamicMultiplier,
-								momentum);
-					else
-						ti.gui.getCore().trainBatch(learningRate,
-								maxIterations, maxError,
-								dynamicReductionFactor, staticIterations,
-								momentum);
-				} else {
-					if (onlineLearning)
-						ti.gui.getCore().trainOnline(learningRate,
-								maxIterations, maxError, staticReductionFactor,
-								staticIterations, momentum);
-					else
-						ti.gui.getCore().trainBatch(learningRate,
-								maxIterations, maxError, staticReductionFactor,
-								staticIterations, momentum);
-				}
-			} else {
-				if (onlineLearning)
-					ti.gui.getCore().trainOnline(learningRate, maxIterations,
-							maxError, momentum);
+			Eta eta = null; 
+			
+			if(modifyLearningrate) {
+				if (dynamicAdjustment)
+					eta = new DynamicEtaAdjustment(learningRate, dynamicReductionFactor, dynamicMultiplier);
 				else
-					ti.gui.getCore().trainBatch(learningRate, maxIterations,
-							maxError, momentum);
-
-			}
-
+					eta = new StaticEtaAdjustment(learningRate, staticReductionFactor, staticIterations);
+			} else
+				eta = new NoEtaAdjustment(learningRate);
+					
+			
+			if(onlineLearning)
+				ti.gui.getCore().trainOnline(eta, maxIterations,maxError, momentum);
+			else
+				ti.gui.getCore().trainBatch(eta, maxIterations,maxError, momentum);
 			return null;
 		}
 
