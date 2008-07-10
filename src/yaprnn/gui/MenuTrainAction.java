@@ -132,13 +132,33 @@ class MenuTrainAction implements ActionListener {
 		protected Object doInBackground() {
 			active = true;
 			ti.tv.getToolTrain().setText("Stop");
+
+			double momentum = 0;
+			if(ti.tv.getMomentumToggle().isSelected())
+				momentum = ((Double) ti.tv.getMomentum().getValue()).doubleValue();
 			
-			if (onlineLearning) {
-				System.out.println("online");
-				ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, 0.99, 20, 0.8);
+			if(ti.tv.getLearningRateToggle().isSelected()) {
+				if(ti.tv.getDynamicAdjustmentToggle().isSelected()) {
+					if(onlineLearning)
+						ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, ((Double) ti.tv.getDynamicReductionFactor().getValue()).doubleValue(),
+								((Double) ti.tv.getDynamicMultiplier().getValue()).doubleValue(), momentum);
+					else
+						ti.gui.getCore().trainBatch(learningRate, maxIterations, maxError, ((Double) ti.tv.getStaticReductionFactor().getValue()).doubleValue(),
+								((Integer) ti.tv.getStaticIterations().getValue()).intValue(), momentum);
+				} else {
+					if(onlineLearning)
+						ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, ((Double) ti.tv.getStaticReductionFactor().getValue()).doubleValue(),
+								((Integer) ti.tv.getStaticIterations().getValue()).intValue(), momentum);
+					else
+						ti.gui.getCore().trainBatch(learningRate, maxIterations, maxError, ((Double) ti.tv.getStaticReductionFactor().getValue()).doubleValue(),
+								((Integer) ti.tv.getStaticIterations().getValue()).intValue(), momentum);
+				}
 			} else {
-				System.out.println("batch");
-				ti.gui.getCore().trainBatch(learningRate, maxIterations, maxError, 0);
+				if (onlineLearning)
+					ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, momentum);
+				else
+					ti.gui.getCore().trainBatch(learningRate, maxIterations,	maxError, momentum);
+				
 			}
 
 			ti.tv.getToolTrain().setText("Train");
@@ -168,34 +188,24 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Action command is: " + e.getActionCommand());
-			if(e.getActionCommand().equals("Train")) {
-			
-				ti.testError.clear();
-				ti.trainingError.clear();
 
-				ti.tw = new TrainingWorker(ti, ((Double) ti.tv.getOptionLearningRate().getValue()).doubleValue(),
-						((Integer) ti.tv.getOptionMaxIterations().getValue()).intValue(),
-						((Double) ti.tv.getOptionMaxError().getValue()).doubleValue(),
-						ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining);
-				
-				ti.tw.execute();
-			} else if (active && e.getActionCommand().equals("Stop")) {
-					ti.gui.getCore().stopLearning();
-					ti.tv.getToolTrain().setText("Train");
-					active = false;
-			} else if(e.getActionCommand().equals("toggleLearn")){
-				if(!ti.tv.getPreferenceTabbedPane().isEnabledAt(1))
-					ti.tv.getPreferenceTabbedPane().setEnabledAt(1, true);
-				else
-					ti.tv.getPreferenceTabbedPane().setEnabledAt(1, false);
-				
-			} else if(e.getActionCommand().equals("toggleMomentum")){
-				if(!ti.tv.getPreferenceTabbedPane().isEnabledAt(2))
-					ti.tv.getPreferenceTabbedPane().setEnabledAt(2, true);
-				else
-					ti.tv.getPreferenceTabbedPane().setEnabledAt(2, false);
+			if (active) {
+				ti.gui.getCore().stopLearning();
+				ti.tv.getToolTrain().setText("Train");
+				active = false;
+				return;
 			}
+
+			ti.testError.clear();
+			ti.trainingError.clear();
+
+			ti.tw = new TrainingWorker(ti, ((Double) ti.tv.getOptionLearningRate().getValue()).doubleValue(),
+					((Integer) ti.tv.getOptionMaxIterations().getValue()).intValue(),
+					((Double) ti.tv.getOptionMaxError().getValue()).doubleValue(),
+					ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining);
+				
+			ti.tw.execute();
+			 
 		}
 	}
 	
@@ -253,10 +263,10 @@ class MenuTrainAction implements ActionListener {
 
 		ti.tv.setTitle("Training: " + ti.network.getName());
 
-		// Disable the momentum and learning rate tab
-//		ti.tv.getPreferenceTabbedPane().setEnabledAt(1, false);
-//		ti.tv.getPreferenceTabbedPane().setEnabledAt(2, false);
-
+		ti.tv.getPreferenceTabbedPane().setEnabledAt(1, false);
+		ti.tv.getPreferenceTabbedPane().setEnabledAt(2, false);
+		ti.tv.getDynamicAdjustmentPanel().setVisible(false);
+		
 		ti.tv.setVisible(true);
 	}
 
