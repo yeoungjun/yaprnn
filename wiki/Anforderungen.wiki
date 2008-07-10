@@ -14,8 +14,8 @@
 
 ===GUI===
   * Audio Preview (Sascha)
-  * Trainingsfenster braucht weitere Einstellungen (Sigma, roh, Momentum) (Felix)
-  * Actionhandler zu den neuen Einstellung (Falko)
+  * ~~Trainingsfenster braucht weitere Einstellungen (Sigma, roh, Momentum) (Felix)~~
+  * ~~Actionhandler zu den neuen Einstellung (Falko)~~ schon erledigt
 
 ===DOK===
   * Klassenmodel updaten zu dem ist-Zustand (Andreas)
