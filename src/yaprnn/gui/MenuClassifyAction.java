@@ -94,7 +94,7 @@ class MenuClassifyAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// Symbole festlegen
-			// TODO : sollte besser von Core.classify zur�ckgegeben werden!
+			// TODO : sollte besser von Core.classify zurueckgegeben werden!
 			String[] symbols = (ci.data.isAudio()) ? new String[] { "a", "e",
 					"i", "o", "u" } : null;
 			if (ci.data.isPicture())
@@ -146,34 +146,38 @@ class MenuClassifyAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Data data = gui.getSelectedData();
-		if (data == null)
+		if (data == null || gui.getTreeModel().getNetworks().isEmpty())
 			return;
 
 		NeuralNetwork network = null;
 
-		Vector<NetworkBox> boxes = new Vector<NetworkBox>();
-		for (NeuralNetwork n : gui.getTreeModel().getNetworks())
-			boxes.add(new NetworkBox(n));
+		if(gui.getTreeModel().getNetworks().size() > 1) {
+			Vector<NetworkBox> boxes = new Vector<NetworkBox>();
+			for (NeuralNetwork n : gui.getTreeModel().getNetworks())
+				boxes.add(new NetworkBox(n));
 
-		// Input Dialog vorbereiten.
-		JPanel panel = new JPanel(new GridLayout(2, 1));
-		JComboBox optionNetwork = new JComboBox(boxes);
-		optionNetwork.setEditable(false);
-		panel.add(new JLabel(
-				"Please select the network with which you want to classify "
-						+ data.getName()));
-		panel.add(optionNetwork);
-
-		// Parameter anfragen
-		int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
-				"Classify", JOptionPane.OK_CANCEL_OPTION);
-		if (ret == JOptionPane.CANCEL_OPTION)
-			return;
-		if (optionNetwork.getSelectedItem() == null)
-			return;
-		network = ((NetworkBox) optionNetwork.getSelectedItem()).network;
-
-		// Die View �ffnen
+			// Input Dialog vorbereiten.
+			JPanel panel = new JPanel(new GridLayout(2, 1));
+			JComboBox optionNetwork = new JComboBox(boxes);
+			optionNetwork.setEditable(false);
+			panel.add(new JLabel(
+					"Please select the network with which you want to classify "
+							+ data.getName()));
+			panel.add(optionNetwork);
+	
+			// Parameter anfragen
+			int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
+					"Classify", JOptionPane.OK_CANCEL_OPTION);
+			if (ret == JOptionPane.CANCEL_OPTION)
+				return;
+			if (optionNetwork.getSelectedItem() == null)
+				return;
+	
+			network = ((NetworkBox) optionNetwork.getSelectedItem()).network;
+		} else
+			network = gui.getTreeModel().getNetworks().get(0);
+		
+		// Die View oeffnen
 		ClassifyInfo ci = new ClassifyInfo(gui, new ClassifyView(), data,
 				network);
 		new ClassifyAction(ci);
