@@ -21,6 +21,8 @@ import yaprnn.mlp.NeuralNetwork;
 
 class MenuTrainAction implements ActionListener {
 
+	private boolean active = false; 
+	
 	/**
 	 * Used to hold required parameters and view objects.
 	 */
@@ -105,6 +107,7 @@ class MenuTrainAction implements ActionListener {
 
 	}
 
+	
 	/**
 	 * This worker invokes the training method to not block the awt dispatcher
 	 * thread.
@@ -117,8 +120,7 @@ class MenuTrainAction implements ActionListener {
 		int maxIterations;
 		boolean onlineLearning;
 
-		TrainingWorker(TrainingInfo ti, double learningRate, int maxIterations,
-				double maxError, boolean onlineLearning) {
+		TrainingWorker(TrainingInfo ti, double learningRate, int maxIterations, double maxError, boolean onlineLearning) {
 			this.ti = ti;
 			this.learningRate = learningRate;
 			this.maxError = maxError;
@@ -127,20 +129,21 @@ class MenuTrainAction implements ActionListener {
 		}
 
 		@Override
-		protected Object doInBackground() throws Exception {
-			ti.tv.getToolTrain().setEnabled(false);
-			ti.tv.getToolStop().setEnabled(true);
-
+		protected Object doInBackground() {
+			active = true;
+			ti.tv.getToolTrain().setText("Stop");
+			
 			if (onlineLearning) {
 				System.out.println("online");
-				ti.gui.getCore().trainOnline(learningRate, maxIterations,
-						maxError, 0.99, 20, 0.8);
+				ti.gui.getCore().trainOnline(learningRate, maxIterations, maxError, 0.99, 20, 0.8);
 			} else {
 				System.out.println("batch");
-				ti.gui.getCore().trainBatch(learningRate, maxIterations,
-						maxError, 0);
+				ti.gui.getCore().trainBatch(learningRate, maxIterations, maxError, 0);
 			}
 
+			ti.tv.getToolTrain().setText("Train");
+			active = false;
+			
 			return null;
 		}
 
@@ -148,11 +151,12 @@ class MenuTrainAction implements ActionListener {
 		protected void done() {
 			ti.tw = null;
 			ti.tv.getToolTrain().setEnabled(true);
-			ti.tv.getToolStop().setEnabled(false);
 		}
 
 	}
 
+	
+	
 	private class TrainAction implements ActionListener {
 
 		private TrainingInfo ti;
@@ -164,41 +168,38 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ti.testError.clear();
-			ti.trainingError.clear();
+			System.out.println("Action command is: " + e.getActionCommand());
+			if(e.getActionCommand().equals("Train")) {
+			
+				ti.testError.clear();
+				ti.trainingError.clear();
 
-			ti.tw = new TrainingWorker(
-					ti,
-					((Double) ti.tv.getOptionLearningRate().getValue())
-							.doubleValue(),
-					((Integer) ti.tv.getOptionMaxIterations().getValue())
-							.intValue(),
-					((Double) ti.tv.getOptionMaxError().getValue())
-							.doubleValue(),
-					ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining);
-			ti.tw.execute();
+				ti.tw = new TrainingWorker(ti, ((Double) ti.tv.getOptionLearningRate().getValue()).doubleValue(),
+						((Integer) ti.tv.getOptionMaxIterations().getValue()).intValue(),
+						((Double) ti.tv.getOptionMaxError().getValue()).doubleValue(),
+						ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining);
+				
+				ti.tw.execute();
+			} else if (active && e.getActionCommand().equals("Stop")) {
+					ti.gui.getCore().stopLearning();
+					ti.tv.getToolTrain().setText("Train");
+					active = false;
+			} else if(e.getActionCommand().equals("toggleLearn")){
+				if(!ti.tv.getPreferenceTabbedPane().isEnabledAt(1))
+					ti.tv.getPreferenceTabbedPane().setEnabledAt(1, true);
+				else
+					ti.tv.getPreferenceTabbedPane().setEnabledAt(1, false);
+				
+			} else if(e.getActionCommand().equals("toggleMomentum")){
+				if(!ti.tv.getPreferenceTabbedPane().isEnabledAt(2))
+					ti.tv.getPreferenceTabbedPane().setEnabledAt(2, true);
+				else
+					ti.tv.getPreferenceTabbedPane().setEnabledAt(2, false);
+			}
 		}
-
 	}
-
-	private class StopAction implements ActionListener {
-
-		private TrainingInfo ti;
-
-		StopAction(TrainingInfo ti) {
-			this.ti = ti;
-			ti.tv.getToolStop().addActionListener(this);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO : Dieser Weg das Trainieren abzubrechen funktioniert nicht!
-			if (ti.tw != null)
-				ti.gui.getCore().stopLearning();
-		}
-
-	}
-
+	
+	
 	// TODO : Zur zeit kann nur ein Netzwerk trainiert werden.
 	// private static Dictionary<NeuralNetwork, TrainingInfo> trainingInfos =
 	// new Hashtable<NeuralNetwork, TrainingInfo>();
@@ -218,14 +219,12 @@ class MenuTrainAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (gui.getSelectedNetwork() == null)
-			// Kein Netzwerk ausgew�hlt
+			// Kein Netzwerk ausgewaehlt
 			return;
 
 		if (ti != null) {
-			// Wir k�nnen zurzeit nur ein MLP trainieren
-			JOptionPane
-					.showMessageDialog(
-							gui.getView(),
+			// Wir koennen zurzeit nur ein MLP trainieren
+			JOptionPane.showMessageDialog(gui.getView(),
 							"A training is already in progress. This version doesn't support more than one training window up at a time.",
 							"Training", JOptionPane.ERROR_MESSAGE);
 			return;
@@ -237,18 +236,15 @@ class MenuTrainAction implements ActionListener {
 		XYSeriesCollection xyDataset = new XYSeriesCollection();
 		xyDataset.addSeries(ti.trainingError);
 		xyDataset.addSeries(ti.testError);
-		JFreeChart chart = ChartFactory.createXYLineChart(
-				"Training statistics", "Index", "Error value", xyDataset,
-				PlotOrientation.VERTICAL, true, false, false);
+		JFreeChart chart = ChartFactory.createXYLineChart("Training statistics", "Index", "Error value", xyDataset, PlotOrientation.VERTICAL, true, false, false);
 		ChartPanel cp = new ChartPanel(chart);
 		cp.setMouseZoomable(true, true);
 
-		// ChartPanel hinzuf�gen
+		// ChartPanel hinzufuegen
 		ti.tv.getGraphPanel().add(cp, BorderLayout.CENTER);
 		ti.tv.getGraphPanel().validate();
 
 		new TrainAction(ti);
-		new StopAction(ti);
 		new TrainingWindowListener(ti);
 		ti.tv.getOptionTrainingMethod().setModel(
 				new DefaultComboBoxModel(new Object[] { new OnlineTraining(),
@@ -256,6 +252,10 @@ class MenuTrainAction implements ActionListener {
 		ti.tv.getOptionTrainingMethod().setEditable(false);
 
 		ti.tv.setTitle("Training: " + ti.network.getName());
+
+		// Disable the momentum and learning rate tab
+//		ti.tv.getPreferenceTabbedPane().setEnabledAt(1, false);
+//		ti.tv.getPreferenceTabbedPane().setEnabledAt(2, false);
 
 		ti.tv.setVisible(true);
 	}
