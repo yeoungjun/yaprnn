@@ -200,7 +200,6 @@ public class MainView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         treeNeuralNetwork = new javax.swing.JTree();
         tabs = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableWeights = new javax.swing.JTable();
@@ -284,7 +283,6 @@ public class MainView extends javax.swing.JFrame {
         toolNewMLP.setText("New MLP");
         toolNewMLP.setFocusable(false);
         toolNewMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolNewMLP.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolNewMLP);
 
         toolLoadMLP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/yaprnn/gui/view/iconLoadMLP.png"))); // NOI18N
@@ -297,7 +295,6 @@ public class MainView extends javax.swing.JFrame {
         toolSaveMLP.setText("Save MLP");
         toolSaveMLP.setFocusable(false);
         toolSaveMLP.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolSaveMLP.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolSaveMLP);
         jToolBar1.add(jSeparator1);
 
@@ -311,7 +308,6 @@ public class MainView extends javax.swing.JFrame {
         toolSaveDataSet.setText("Save dataset");
         toolSaveDataSet.setFocusable(false);
         toolSaveDataSet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolSaveDataSet.setPreferredSize(new java.awt.Dimension(45, 45));
         jToolBar1.add(toolSaveDataSet);
         jToolBar1.add(jSeparator3);
 
@@ -331,7 +327,7 @@ public class MainView extends javax.swing.JFrame {
 
         jSplitPane1.setDividerLocation(300);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Neural network"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Networks/Datasets"));
 
         treeNeuralNetwork.setComponentPopupMenu(popupNeuralNetwork);
         treeNeuralNetwork.setModel(null);
@@ -347,12 +343,10 @@ public class MainView extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
         );
 
         jSplitPane1.setLeftComponent(jPanel1);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         tableWeights.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -372,11 +366,11 @@ public class MainView extends javax.swing.JFrame {
         labelWeightsImage.setLayout(labelWeightsImageLayout);
         labelWeightsImageLayout.setHorizontalGroup(
             labelWeightsImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 385, Short.MAX_VALUE)
+            .addGap(0, 401, Short.MAX_VALUE)
         );
         labelWeightsImageLayout.setVerticalGroup(
             labelWeightsImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+            .addGap(0, 381, Short.MAX_VALUE)
         );
 
         jScrollPane5.setViewportView(labelWeightsImage);
@@ -394,7 +388,7 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -409,24 +403,13 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(optionZoom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Image", jPanel3);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-        );
-
-        tabs.addTab("Layer details", jPanel2);
+        tabs.addTab("Layer details", jTabbedPane1);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -493,7 +476,7 @@ public class MainView extends javax.swing.JFrame {
         );
         labelPreviewLayout.setVerticalGroup(
             labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
+            .addGap(0, 293, Short.MAX_VALUE)
         );
 
         jScrollPane3.setViewportView(labelPreview);
@@ -508,7 +491,7 @@ public class MainView extends javax.swing.JFrame {
         );
         labelPreviewSubsampledLayout.setVerticalGroup(
             labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
+            .addGap(0, 293, Short.MAX_VALUE)
         );
 
         jScrollPane4.setViewportView(labelPreviewSubsampled);
@@ -558,7 +541,7 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -656,7 +639,6 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;

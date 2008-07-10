@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -17,6 +18,9 @@ import yaprnn.mlp.Linear;
  * parameters and then calls the subsampling method in the core.
  */
 class MenuSubsamplingAction implements ActionListener {
+
+	private final static ImageIcon ICON_PROCESSALL = ImagesMacros.loadIcon(22,
+			22, "/yaprnn/gui/view/iconProcessAll.png");
 
 	/**
 	 * Used to hold required parameters and view objects.
@@ -163,6 +167,7 @@ class MenuSubsamplingAction implements ActionListener {
 		new ZoomAction(si);
 		new ProcessAction(si);
 
+		si.sv.getToolProcess().setIcon(ICON_PROCESSALL);
 		si.sv.getOptionScaleFun().setModel(new DefaultComboBoxModel(scaleFuns));
 		si.sv.getOptionScaleFun().setEditable(false);
 

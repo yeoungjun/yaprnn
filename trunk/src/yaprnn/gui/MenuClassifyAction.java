@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,6 +17,9 @@ import yaprnn.mlp.NeuralNetwork;
 
 class MenuClassifyAction implements ActionListener {
 
+	private final static ImageIcon ICON_CLASSIFY = ImagesMacros.loadIcon(22,
+			22, "/yaprnn/gui/view/iconClassify.png");
+	
 	/**
 	 * Used to hold required parameters and view objects.
 	 */
@@ -185,6 +190,7 @@ class MenuClassifyAction implements ActionListener {
 
 		MenuClassifyAction.createPreview(ci);
 
+		ci.cv.getToolClassify().setIcon(ICON_CLASSIFY);
 		ci.cv.setTitle("Classify: " + data.getName() + " by "
 				+ network.getName());
 
