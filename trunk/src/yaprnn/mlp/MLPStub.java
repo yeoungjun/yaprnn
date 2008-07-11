@@ -1,9 +1,10 @@
 package yaprnn.mlp;
 
+import java.io.Serializable;
 import java.util.*;
 import yaprnn.dvv.*;
 
-public class MLPStub implements NeuralNetwork {
+public class MLPStub implements Serializable, NeuralNetwork {
 
 	private String name;
 	private int[] layers;
@@ -128,6 +129,8 @@ public class MLPStub implements NeuralNetwork {
 	 *         
 	 */
 	public double[][] getWeights(int layer) {
+		if(mlp != null)
+			return mlp.getWeights(layer);
 		if(layer != 0) {
 			double[][] result = new double[layers[layer]][layers[layer-1]];
 			for(int i=0; i<result.length; i++)
