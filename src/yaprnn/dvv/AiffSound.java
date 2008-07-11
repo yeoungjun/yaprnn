@@ -60,7 +60,7 @@ public class AiffSound extends Data {
 	 *  @return the filename this object was read from
 	 */
 	public String getFilename() {
-		return filename;
+		return filename.substring(filename.lastIndexOf("/")+1);
 	}
 	
 	/** Returns the name of this sound.
@@ -229,7 +229,7 @@ public class AiffSound extends Data {
 				}	catch (IOException e) {
 					e.printStackTrace();
 				}
-				String filename = name.substring(name.lastIndexOf("/")+1); //es handelt sich hierbei um eine Pfadangabe z.B. /home/bla/a3-08.aiff
+				String filename = name; //.substring(name.lastIndexOf("/")+1); //es handelt sich hierbei um eine Pfadangabe z.B. /home/bla/a3-08.aiff
 				String label = (new File(filename)).getName().substring(0, 1); //label ist der erste Buchstabe von filename
 				result.add(new AiffSound(convertByteToShort(data), label, filename));
 			}
@@ -329,7 +329,8 @@ public class AiffSound extends Data {
 		double width = (this.data.length) / ((1-overlap)*temp + Math.pow(lambda,resolution-1));
 		return width;
 	}
-	
-	
-	
+
+	public String getPath() {
+		return filename;
+	}
 }

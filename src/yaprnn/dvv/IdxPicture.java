@@ -249,4 +249,7 @@ public class IdxPicture extends Data {
 		return i >= 0 ? i : 128 + (i & 0x7F);
 	}
 
+	public String getPath() {
+		return filename;
+	}
 }
