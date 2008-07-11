@@ -23,7 +23,7 @@ public interface NeuralNetwork {
 
 	/**
 	 * Returns the size (number of neurons) of a layer.
-	 * If layer is 0 and isTrained() returns false, this function may return 0.
+	 * If layer is 0 and isTrained() returns false, this function will return 1.
 	 * 
 	 * @param layer the index of the layer
 	 * @return number of neurons in the layer
