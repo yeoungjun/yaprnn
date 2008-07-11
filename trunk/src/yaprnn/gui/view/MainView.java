@@ -362,6 +362,8 @@ public class MainView extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Matrix", jScrollPane2);
 
+        jPanel3.setOpaque(false);
+
         javax.swing.GroupLayout labelWeightsImageLayout = new javax.swing.GroupLayout(labelWeightsImage);
         labelWeightsImage.setLayout(labelWeightsImageLayout);
         labelWeightsImageLayout.setHorizontalGroup(
@@ -411,9 +413,10 @@ public class MainView extends javax.swing.JFrame {
 
         tabs.addTab("Layer details", jTabbedPane1);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel5.setOpaque(false);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional informations"));
+        jPanel6.setOpaque(false);
 
         jLabel1.setText("Filename:");
 
@@ -424,14 +427,17 @@ public class MainView extends javax.swing.JFrame {
         labelFilename.setEditable(false);
         labelFilename.setText("...");
         labelFilename.setBorder(null);
+        labelFilename.setOpaque(false);
 
         labelUsedSubsamplingOptions.setEditable(false);
         labelUsedSubsamplingOptions.setText("...");
         labelUsedSubsamplingOptions.setBorder(null);
+        labelUsedSubsamplingOptions.setOpaque(false);
 
         labelSampleLabel.setEditable(false);
         labelSampleLabel.setText("...");
         labelSampleLabel.setBorder(null);
+        labelSampleLabel.setOpaque(false);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -444,9 +450,9 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelFilename, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                    .addComponent(labelSampleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)))
+                    .addComponent(labelFilename, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                    .addComponent(labelSampleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,6 +471,7 @@ public class MainView extends javax.swing.JFrame {
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
+        jPanel7.setOpaque(false);
 
         jSplitPane2.setDividerLocation(225);
 
@@ -476,7 +483,7 @@ public class MainView extends javax.swing.JFrame {
         );
         labelPreviewLayout.setVerticalGroup(
             labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 293, Short.MAX_VALUE)
+            .addGap(0, 287, Short.MAX_VALUE)
         );
 
         jScrollPane3.setViewportView(labelPreview);
@@ -487,11 +494,11 @@ public class MainView extends javax.swing.JFrame {
         labelPreviewSubsampled.setLayout(labelPreviewSubsampledLayout);
         labelPreviewSubsampledLayout.setHorizontalGroup(
             labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 163, Short.MAX_VALUE)
+            .addGap(0, 159, Short.MAX_VALUE)
         );
         labelPreviewSubsampledLayout.setVerticalGroup(
             labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 293, Short.MAX_VALUE)
+            .addGap(0, 287, Short.MAX_VALUE)
         );
 
         jScrollPane4.setViewportView(labelPreviewSubsampled);
@@ -520,7 +527,7 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(optionZoom2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(2, 2, 2)
                 .addComponent(optionResolution, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -528,7 +535,7 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(4, 4, 4)
                 .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,22 +548,28 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabs.addTab("Data sample details", jPanel5);
