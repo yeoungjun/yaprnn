@@ -10,11 +10,6 @@ public class MLP implements Serializable {
 
 	private static final long serialVersionUID = -5212835785366190139L;
 
-	/**
-	 * Readable name identifier
-	 */
-	private String name;
-	private boolean isTrained = false;
 	private Layer[] layer; 
 	int iterations = 0;
 
@@ -29,7 +24,7 @@ public class MLP implements Serializable {
        * @param bias, array with biases
 	 * @param autoencoder 
 	 */
-	public MLP(String name, int inputNeurons, int outputNeurons, int[] hiddenLayers,
+	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers,
 			ActivationFunction[] functions, double[] bias, boolean autoencoder)
 			throws BadConfigException {
 
@@ -51,8 +46,6 @@ public class MLP implements Serializable {
 					"Anzahl der Bias(se?) stimmt nicht mit den Layern Ueberein!",
 					BadConfigException.INVALID_NUMBER_OF_BIAS);
 
-		this.name = name;
-		
 		// Creates the input layer
 		layer = new Layer[hiddenLayers.length + 2];
 		layer[0] = new Layer(null, inputNeurons, functions[0], 0);
@@ -88,8 +81,6 @@ public class MLP implements Serializable {
 	public double runOnline(Collection<Data> dataCollection, double eta, double momentum) {
 		if (layer == null)
 			return 0;
-
-		isTrained  = true;
 		
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
@@ -140,8 +131,6 @@ public class MLP implements Serializable {
 		if (layer == null)
 			return 0;
 
-		isTrained  = true;
-		
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
 		double[] errVec = new double[target.length];
@@ -190,7 +179,6 @@ public class MLP implements Serializable {
 		double err = 0;
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
-
 
 		for (Data theData : dataCollection) {
 			// Creates target values
@@ -278,18 +266,6 @@ public class MLP implements Serializable {
 		return this.layer[layer].getWeightMatrix();
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public boolean isTrained(){
-		return isTrained;
-	}
-	
 	public void resetIterations(){
 		iterations = 0;
 	}
