@@ -1,18 +1,18 @@
 package yaprnn.gui;
 
-import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
-
-import yaprnn.mlp.BadConfigException;
+import javax.swing.SpinnerNumberModel;
 import yaprnn.mlp.NeuralNetwork;
 
 class NewMLPAction implements ActionListener {
@@ -22,9 +22,104 @@ class NewMLPAction implements ActionListener {
 	private final static double DEFAULT_BIAS = 1;
 	private final static int DEFAULT_ACTIVATIONFUNCTION = 0;
 	private final static boolean DEFAULT_AUTOENCODING = false;
+	private final static int DEFAULT_MAXITERATIONS = 1000;
+	private final static double DEFAULT_UPPERBOUND = 0.01;
+	private final static double DEFAULT_ETA = 0.01;
+
 	private static int counter = 1;
 
 	private GUI gui;
+
+	/**
+	 * Input form for "New MLP"
+	 */
+	private class NewMLPForm extends JPanel {
+
+		private class AutoEncodingChange implements ItemListener {
+
+			private NewMLPForm form;
+
+			public AutoEncodingChange(NewMLPForm form) {
+				this.form = form;
+				form.optionAutoEncoding.addItemListener(this);
+			}
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				boolean enable = e.getStateChange() == ItemEvent.SELECTED;
+				form.optionMaxIterations.setEnabled(enable);
+				form.optionUpperBound.setEnabled(enable);
+				form.optionETA.setEnabled(enable);
+			}
+
+		}
+
+		private static final long serialVersionUID = -8649479219918738235L;
+
+		private JTextField optionName = new JTextField();
+		private JSpinner optionNumLayers = new JSpinner(new SpinnerNumberModel(
+				DEFAULT_NUMLAYERS, 1, Integer.MAX_VALUE, 1));
+		private JSpinner optionNumNeurons = new JSpinner(
+				new SpinnerNumberModel(DEFAULT_NUMNEURONS, 1,
+						Integer.MAX_VALUE, 1));
+		private JSpinner optionBias = new JSpinner(new SpinnerNumberModel(
+				DEFAULT_BIAS, Double.NEGATIVE_INFINITY,
+				Double.POSITIVE_INFINITY, 0.1));
+		private JCheckBox optionAutoEncoding = new JCheckBox(
+				"Use auto encoding initialization", DEFAULT_AUTOENCODING);
+		private JSpinner optionMaxIterations = new JSpinner(
+				new SpinnerNumberModel(DEFAULT_MAXITERATIONS, 1,
+						Integer.MAX_VALUE, 1));
+		private JSpinner optionUpperBound = new JSpinner(
+				new SpinnerNumberModel(DEFAULT_UPPERBOUND, 0,
+						Double.POSITIVE_INFINITY, 0.01));
+		private JSpinner optionETA = new JSpinner(new SpinnerNumberModel(
+				DEFAULT_ETA, 0, Double.POSITIVE_INFINITY, 0.01));
+
+		NewMLPForm() {
+			super();
+			setBorder(BorderFactory.createTitledBorder("Preferences"));
+
+			// Allgemeine Optionen einfuegen
+			JPanel inner = new JPanel(new GridLayout(9, 1));
+			inner.add(new JLabel("Name:"));
+			inner.add(optionName);
+			inner.add(new JLabel("Number of layers:"));
+			inner.add(optionNumLayers);
+			inner.add(new JLabel("Number of neurons per layer:"));
+			inner.add(optionNumNeurons);
+			inner.add(new JLabel("Bias:"));
+			inner.add(optionBias);
+			inner.add(optionAutoEncoding);
+			inner.validate();
+			add(inner);
+
+			// Auto-Encoding Optionen einfuegen
+			inner = new JPanel(new GridLayout(6, 1));
+			inner.setBorder(BorderFactory
+					.createTitledBorder("Auto encoding options"));
+			inner.add(new JLabel("Max iterations:"));
+			inner.add(optionMaxIterations);
+			inner.add(new JLabel("Upper bound:"));
+			inner.add(optionUpperBound);
+			inner.add(new JLabel("ETA learning rate:"));
+			inner.add(optionETA);
+			inner.validate();
+			add(inner);
+
+			validate();
+
+			// Listener anfuegen
+			new AutoEncodingChange(this);
+
+			// Initial Enabled-Status setzen, wegen optionAutoEncoding
+			optionMaxIterations.setEnabled(DEFAULT_AUTOENCODING);
+			optionUpperBound.setEnabled(DEFAULT_AUTOENCODING);
+			optionETA.setEnabled(DEFAULT_AUTOENCODING);
+
+		}
+
+	}
 
 	NewMLPAction(GUI gui) {
 		this.gui = gui;
@@ -40,107 +135,32 @@ class NewMLPAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String name = "Network " + counter++;
-		int numLayers = 0, numNeurons = 0;
-		double bias = 0;
-
-		// F�r die Eingabe-Schleife.
-		boolean notSatisfied;
-
 		// Input Dialog vorbereiten.
-		JPanel panel = new JPanel(new GridLayout(9, 1));
-		JTextField optionName = new JTextField(name);
-		JTextField optionNumLayers = new JTextField(Integer
-				.toString(DEFAULT_NUMLAYERS));
-		JTextField optionNumNeurons = new JTextField(Integer
-				.toString(DEFAULT_NUMNEURONS));
-		JTextField optionBias = new JTextField(Double.toString(DEFAULT_BIAS));
-		JCheckBox optionAutoEncoding = new JCheckBox(
-				"Use auto encoding initialization", DEFAULT_AUTOENCODING);
-		
-		KeyListener onlyDigits = new OnlyNumbersKeyAdapter();
-		optionNumLayers.addKeyListener(onlyDigits);
-		optionNumNeurons.addKeyListener(onlyDigits);
-		optionBias.addKeyListener(onlyDigits);
-		
-		optionAutoEncoding.setSelected(false);
-		
-		panel.add(new JLabel("Name"));
-		panel.add(optionName);
-		panel.add(new JLabel(
-				"How many layers do you want? (value must be greater then 0)"));
-		panel.add(optionNumLayers);
-		panel
-				.add(new JLabel(
-						"How many neurons per Layer do you want? (value must be greater then 0)"));
-		panel.add(optionNumNeurons);
-		panel.add(new JLabel("Bias (recommended value between -1 and 1)"));
-		panel.add(optionBias);
-		panel.add(optionAutoEncoding);
+		NewMLPForm form = new NewMLPForm();
+		form.optionName.setText("Network " + counter++);
 
 		// Parameter anfragen
-		notSatisfied = true;
-		while (notSatisfied) {
-			int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
-					"New MLP", JOptionPane.OK_CANCEL_OPTION);
-			if (ret == JOptionPane.CANCEL_OPTION)
-				return;
-			try {
-				name = optionName.getText();
-				numLayers = Integer.parseInt(optionNumLayers.getText());
-				numNeurons = Integer.parseInt(optionNumNeurons.getText());
-				bias = Double.parseDouble(optionBias.getText());
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(gui.getView(),
-						"Please enter valid values only.", "Parsing error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-			if (numLayers > 0 && numNeurons > 0 && name.length() > 0)
-				notSatisfied = false;
-			else {
-				// Die Felder mit ungueltigen Eingaben werden mit hellem rot
-				// unterlegt.
-				if (numLayers <= 0)
-					optionNumLayers.setBackground(new Color(255, 128, 128));
-				else
-					optionNumLayers.setBackground(SystemColor.text);
-				if (numNeurons <= 0)
-					optionNumNeurons.setBackground(new Color(255, 128, 128));
-				else
-					optionNumNeurons.setBackground(SystemColor.text);
-				if (name == null || name.length() == 0)
-					optionName.setBackground(new Color(255, 128, 128));
-				else
-					optionName.setBackground(SystemColor.text);
-			}
-		}
+		int ret = JOptionPane.showConfirmDialog(gui.getView(), form, "New MLP",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (ret != JOptionPane.OK_OPTION)
+			return;
 
-	/*
-		// Parameter ausfuellen
-		int[] layer = new int[numLayers];
-		int[] avf = new int[numLayers + 2];
-		double[] biases = new double[numLayers];
-		for (int i = 0; i < numLayers; i++) {
-			// Annahme von Standardwerten
-			layer[i] = numNeurons;
-			biases[i] = bias;
-			avf[i] = DEFAULT_ACTIVATIONFUNCTION;
-		}
-		avf[numLayers] = 0;
-		avf[numLayers + 1] = 0;
-	
-		// MLP erstellen
-		try {
-			NeuralNetwork mlp = gui.getCore().newMLP(name, layer, avf, biases,
-					optionAutoEncoding.isSelected());
-			gui.getTreeModel().add(mlp);
-		} catch (BadConfigException err) {
-			JOptionPane.showMessageDialog(gui.getView(), err.getMessage(),
-					"NewMLP: Error occured", JOptionPane.ERROR_MESSAGE);
-		}
-	*/
-		NeuralNetwork mlp = gui.getCore().newMLP(name, numLayers+2, numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias, 
-							optionAutoEncoding.isSelected());
+		// Parameter lesen
+		String name = form.optionName.getText();
+		int numLayers = ((Integer) form.optionNumLayers.getValue()).intValue();
+		int numNeurons = ((Integer) form.optionNumNeurons.getValue())
+				.intValue();
+		double bias = ((Double) form.optionBias.getValue()).doubleValue();
+		boolean autoEncoding = form.optionAutoEncoding.isSelected();
+		int maxIterations = ((Integer) form.optionMaxIterations.getValue())
+				.intValue();
+		double upperBound = ((Double) form.optionUpperBound.getValue())
+				.doubleValue();
+		double eta = ((Double) form.optionETA.getValue()).doubleValue();
+
+		NeuralNetwork mlp = gui.getCore().newMLP(name, numLayers + 2,
+				numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias, autoEncoding);
 		gui.getTreeModel().add(mlp);
 	}
+
 }
