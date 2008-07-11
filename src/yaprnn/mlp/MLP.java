@@ -15,7 +15,8 @@ public class MLP implements Serializable, NeuralNetwork {
 	 */
 	private String name;
 	private boolean isTrained = false;
-	private Layer[] layer;  
+	private Layer[] layer; 
+	int iterations = 0;
 
 	/**
 	 * Constructor; Builds the Network and sets all the variables
@@ -144,7 +145,6 @@ public class MLP implements Serializable, NeuralNetwork {
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
 		double[] errVec = new double[target.length];
-		int iterations = 0;
 		
 		for (Data theData : dataCollection) {
 			// creates target values
@@ -288,5 +288,9 @@ public class MLP implements Serializable, NeuralNetwork {
 	
 	public boolean isTrained(){
 		return isTrained;
+	}
+	
+	public void resetIterations(){
+		iterations = 0;
 	}
 }

@@ -171,6 +171,7 @@ public class Core {
 		double trainingErr = Double.MAX_VALUE;
 		double testErr;
 		run = true;
+		mlp.resetIterations();
 		
 		for(int i=0; i<maxIterations && run; i++) {
 				Collection<Data> test = dvv.getTestData();
