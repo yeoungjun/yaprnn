@@ -1,7 +1,6 @@
 package yaprnn.mlp;
 
 import java.util.*;
-import yaprnn.mlp.*;
 import yaprnn.dvv.*;
 
 public class MLPStub implements NeuralNetwork {
