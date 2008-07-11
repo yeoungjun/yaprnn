@@ -283,6 +283,11 @@ public class NetworkTreeModel implements TreeModel {
 			return network;
 		}
 
+		@Override
+		boolean isLeaf() {
+			return true;
+		}
+
 	}
 
 	/**
