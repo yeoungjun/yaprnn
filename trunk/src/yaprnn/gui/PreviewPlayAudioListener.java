@@ -45,8 +45,7 @@ class PreviewPlayAudioListener implements MouseListener {
 			return;
 
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(new File(
-					data.getFilename()));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File(data.getPath()));
 			AudioFormat format = ais.getFormat();
 			int bufferSize = (int) (ais.getFrameLength() * format
 					.getFrameSize());

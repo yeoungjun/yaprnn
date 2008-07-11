@@ -13,7 +13,8 @@ public abstract class Data {
 	public abstract String getLabel();
 	public abstract int getTarget();
 	public abstract String getFilename();
-	public abstract String getLabelFromTarget(int target);;
+	public abstract String getPath();
+	public abstract String getLabelFromTarget(int target);
 	public abstract void subsample(int resolution, double overlap, ActivationFunction function);
 	public abstract boolean isAudio();
 	public abstract boolean isPicture();
