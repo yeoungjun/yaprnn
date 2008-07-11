@@ -219,32 +219,19 @@ public class MLP implements Serializable, NeuralNetwork {
 	 */
 	public double[] classify(double[] input) {
 		layer[0].setInput(input);
-//		double[] netOutput = layer[layer.length - 1].getOutput();
-//		double[] retVal = new double[netOutput.length];
-//
-//		
-//		// Get maximum value
-//		double maxValue = 0;
-//		for(double v : netOutput)
-//			if(maxValue < v) maxValue = v;
-//
-//		for(int i = 0; i < netOutput.length; i++)
-//			retVal[i] = 100 - ((maxValue - netOutput[i]) / maxValue) * 100;
-//		
-//		for (double g : netOutput)
-//			G += g - layer[layer.length - 1].getActivationFunction().getMinimumValue();
-//
-//		if (G == 0) {
-//			double val = 100 / retVal.length;
-//			for (int i = 0; i < retVal.length; i++)
-//				retVal[i] = val;
-//			return retVal;
-//		}
-//
-//		for (int i = 0; i < retVal.length; i++)
-//			retVal[i] = (netOutput[i] - layer[layer.length - 1]	.getActivationFunction().getMinimumValue()) * 100 / G;
+		double[] netOutput = layer[layer.length - 1].getOutput();
+		double[] retVal = new double[netOutput.length];
+		
+		// Sum up
+		double sum = 0;
+		for(double v : netOutput) sum += v;
 
-		return layer[layer.length - 1].getOutput();
+		// Get percentages
+		for(int i = 0; i < netOutput.length; i++)
+			retVal[i] = netOutput[i] * 100 / sum;
+
+		// return
+		return retVal;
 	}
 
 	/**
