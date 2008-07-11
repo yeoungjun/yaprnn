@@ -96,7 +96,7 @@ public class NetworkTreeModel implements TreeModel {
 	/**
 	 * Base node class for all nodes in NetworkTreeModel
 	 */
-	class ModelNode {
+	abstract class ModelNode {
 
 		private Icon icon;
 		private String label;
