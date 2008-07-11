@@ -24,8 +24,7 @@ public class MLP implements Serializable {
        * @param bias, array with biases
 	 * @param autoencoder 
 	 */
-	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers,
-			ActivationFunction[] functions, double[] bias, boolean autoencoder)
+	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers, ActivationFunction[] functions, double[] bias)
 			throws BadConfigException {
 
 		// Tests the configuration
@@ -60,13 +59,17 @@ public class MLP implements Serializable {
 		layer[layer.length - 1] = new Layer(layer[layer.length - 2],
 				outputNeurons, functions[functions.length - 1], 0);
 
-		if (!autoencoder)
-			return;
-
-		// Trains as Autoencoder 
-		layer[layer.length - 1].makeAutoencoder(Math.random(), 250, 0.001, 0.2);
 	}
 
+	public boolean makeAutoencoder(int maxIterations, double maxError, double eta) {
+		try {
+			layer[layer.length - 1].makeAutoencoder(Math.random(), maxIterations, maxError, eta);
+			return true;
+		} catch (BadConfigException e) {
+			return false;
+		}
+	}
+	
 	/**
 	 * This function performs the online calculation with the the Network
 	 * 

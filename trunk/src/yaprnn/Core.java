@@ -79,8 +79,7 @@ public class Core {
 	 *  @param autoEncoder        true if the MLP is to be initialized with autoencoding, false otherwise
 	 *  @return an interface to the new mlp
 	 */
-	public NeuralNetwork newMLP(String name, int numLayers, int numNeurons, int activation,
-					double bias, boolean autoEncoder) {
+	public NeuralNetwork newMLP(String name, int numLayers, int numNeurons, int activation, double bias) {
 		
 	/*	if(dvv == null) throw new BadConfigException( "Datenvorverarbeitung nicht verfügbar!", BadConfigException.DVV_NOT_LOADED); 
 		
@@ -91,10 +90,16 @@ public class Core {
 	
 		mlp = new MLPStub(name, dvv.getNumInputNeurons(), dvv.getNumOutputNeurons(), layer, functions, bias, autoEncoder);
 	*/		
-		mlp = new MLPStub(name, numLayers, numNeurons, activation, bias, autoEncoder, activations);
+		mlp = new MLPStub(name, numLayers, numNeurons, activation, bias, activations);
 		return mlp;
 	}
 
+	public NeuralNetwork newMLP(String name, int numLayers, int numNeurons, int activation, double bias, int maxIterations, double maxError, double eta) {
+		mlp = new MLPStub(name, numLayers, numNeurons, activation, bias, activations);
+		mlp.setAutoencoder(maxIterations, maxError, eta);
+		return mlp;
+	}
+	
 	/** Loads a MLP from the specified file.
 	 *
 	 *  @param filename the name of the file from which to read
