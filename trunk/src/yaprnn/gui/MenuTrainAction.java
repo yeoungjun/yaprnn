@@ -185,7 +185,7 @@ class MenuTrainAction implements ActionListener {
 			if(onlineLearning)
 				ti.gui.getCore().trainOnline(eta, maxIterations,maxError, momentum);
 			else
-				ti.gui.getCore().trainBatch(eta, maxIterations,maxError, momentum);
+				ti.gui.getCore().trainBatch(eta, maxIterations,maxError, 20, momentum); //TODO: 20 ist batchSize und muss aus der GUI kommen!
 			return null;
 		}
 

@@ -3,6 +3,10 @@ package yaprnn.mlp;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ * This object represents a layer of the neural network. 
+ *
+ */
 public class Layer implements Serializable {
 	private static final long serialVersionUID = -4607204450973284028L;
 
@@ -156,11 +160,8 @@ public class Layer implements Serializable {
 	}
 
 	/**
-	 * Ajusts recursively the weights of the net.
-	 * @param eta 
-	 * @param iterations the number of iteration since the last update.
+	 * Adjusts recursively the weights of the net.
 	 * @param eta The learning rate to be used. 
-	 * @param iterations 
 	 */
 	public void update(double eta) {
 		if(prevLayer == null) return;
@@ -174,6 +175,13 @@ public class Layer implements Serializable {
 		prevLayer.update(eta);
 	}
 
+	/**
+	 * Adjusts recursively the weights of the net and uses a momentum to avoide oscillations. 
+	 * @param eta  The learning rate to be used.
+	 * @param momentum By using the momentum as a value which defines the proportion between the last
+	 * weightMatrix adjustment and the current gradient, oscillations will be avoided. The formula is
+	 * eta * ((1-momentum) * gradient + momentum * lastChange  
+	 */
 	public void update(double eta, double momentum) {
 		if(prevLayer == null) return;
 		
@@ -229,6 +237,15 @@ public class Layer implements Serializable {
 		return this.weightMatrix;
 	}
 	
+	/**
+	 * This Function makes the layer to an autoencoder.
+	 * @param value This value will be used as input to all neurons of the previous layer and as targetvector.
+	 * @param maxIterations This parameter is an break condition for the learning process of this layer.
+	 * @param upperBound This parameter is an break condition for the learning process of this layer.
+	 * @param eta The used learning rate.
+	 * @return Training values for the adjacent layer.
+	 * @throws BadConfigException
+	 */
 	public double[] makeAutoencoder(double value, double maxIterations, double upperBound, double eta) throws BadConfigException{
 
 		double[] trainingValues = new double[this.getSize()];

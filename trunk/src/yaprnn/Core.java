@@ -165,7 +165,7 @@ public class Core {
 	 *  @param maxError      training stops if the test error falls below maxError
 	 */
 	
-	public void trainBatch(Eta eta, int maxIterations, double maxError, double momentum) {
+	public void trainBatch(Eta eta, int maxIterations, double maxError, int batchSize, double momentum) {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();
 		double trainingErr = Double.MAX_VALUE;
@@ -176,7 +176,7 @@ public class Core {
 				Collection<Data> test = dvv.getTestData();
 				Collection<Data> train = dvv.getTrainingData();
 				
-				trainingErr = mlp.runBatch(train, eta.getEta(trainingErr), momentum);
+				trainingErr = mlp.runBatch(train, batchSize, eta.getEta(trainingErr), momentum);
 				testErr = mlp.runTest(test);
 				
 				trainingErrors.add(trainingErr);

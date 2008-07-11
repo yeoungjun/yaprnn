@@ -18,6 +18,10 @@ public interface ActivationFunction extends Serializable{
 	 */
 	public double derivation(double x);
 
+	/**
+	 * Returns the minimum value of the implementing activation function.
+	 * @return The minimum value. (Infinity -> Double.MAX_VALUE / Double.MIN_VALUE)
+	 */
 	public double getMinimumValue();
 
 }

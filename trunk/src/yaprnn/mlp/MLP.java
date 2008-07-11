@@ -135,8 +135,8 @@ public class MLP implements Serializable, NeuralNetwork {
 	 * @return den Testfehler. In case of an  error returns 0.
 	 */
 	
-	public double runBatch(Collection<Data> dataCollection, double eta, double momentum) {
-		if (layer == null || eta == 0)
+	public double runBatch(Collection<Data> dataCollection, int batchSize, double eta, double momentum) {
+		if (layer == null)
 			return 0;
 
 		isTrained  = true;
@@ -144,7 +144,8 @@ public class MLP implements Serializable, NeuralNetwork {
 		double[] out;
 		double[] target = new double[layer[layer.length - 1].getSize()];
 		double[] errVec = new double[target.length];
-
+		int iterations = 0;
+		
 		for (Data theData : dataCollection) {
 			// creates target values
 			Arrays.fill(target, 0);
@@ -163,14 +164,17 @@ public class MLP implements Serializable, NeuralNetwork {
 
 			// Error backpropagation 
 			layer[layer.length - 1].backPropagate(errVec);
+			iterations++;
+
+			if(iterations % batchSize == 0 ) {
+				// Adjust the weights
+				if(momentum > 0)
+					layer[layer.length - 1].update(eta, momentum);
+				else
+					layer[layer.length - 1].update(eta);
+			}
+
 		}
-		
-		// Adjust the weights
-		if(momentum > 0)
-			layer[layer.length - 1].update(eta, momentum);
-		else
-			layer[layer.length - 1].update(eta);
-		
 		return runTest(dataCollection);
 	}
 	
