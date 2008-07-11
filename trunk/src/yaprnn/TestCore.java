@@ -14,10 +14,7 @@ class TestCore {
 		core.openIdxPicture("/home/fisch/Uni/mpgi3/images/images", "/home/fisch/Uni/mpgi3/images/labels");
 		core.preprocess(14, 0.5, tanh);
 		core.chooseRandomTrainingData(0.8, 0.2);
-		int[] layers = { 20, 20, 20 };
-		int[] func = { 0, 0, 0, 0, 0 };
-		double[] bias = { 0, 0, 0 };
-		core.newMLP("test", layers, func, bias, false);
+		core.newMLP("test", 5, 20, 0, 0, false);
 		Eta eta = new NoEtaAdjustment(0.2);
 		core.trainOnline(eta, 1000, 0.1, 0.99);
 	}
@@ -37,10 +34,7 @@ class TestCore {
 		core.openAiffSound(filenames);
 		core.preprocess(250, 0.5, tanh);
 		core.chooseRandomTrainingData(0.6, 0.4);
-		int[] layers = { 20, 20, 20 };
-		int[] func = { 0, 0, 0, 0, 0 };
-		double[] bias = { 0, 0, 0 };
-		core.newMLP("test", layers, func, bias, false);
+		core.newMLP("test", 5, 20, 0, 0, false);
 		Eta eta = new NoEtaAdjustment(0.2);
 		core.trainOnline(eta, 1000, 0.1, 0.99);
 	}
