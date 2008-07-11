@@ -1,7 +1,5 @@
 package yaprnn.mlp;
 
-import yaprnn.mlp.*;
-
 /** This interface represents a Multilayer Perceptron.
  *  The general contract for all functions is as follows:
  *
