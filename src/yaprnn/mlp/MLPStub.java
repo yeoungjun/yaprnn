@@ -28,6 +28,7 @@ public class MLPStub implements NeuralNetwork {
 			activations[i] = allActivations.get(activationFunction);
 			biases[i] = bias;
 		}
+		layers[0] = 1;
 		trained = false;
 	}
 
@@ -106,16 +107,13 @@ public class MLPStub implements NeuralNetwork {
 
 	/**
 	 * Returns the size (number of neurons) of a layer.
-	 * If layer is 0 and isTrained() returns false, this function may return 0.
+	 * If layer is 0 and isTrained() returns false, this function will return 1.
 	 * 
 	 * @param layer the index of the layer
 	 * @return number of neurons in the layer
 	 */
 	public int getLayerSize(int layer) {
-		if(layer != 0)
-			return layers[layer];
-		else 
-			return 0;
+		return layers[layer];
 	}
 
 	/**
@@ -129,10 +127,13 @@ public class MLPStub implements NeuralNetwork {
 	 *         
 	 */
 	public double[][] getWeights(int layer) {
-		double[][] result = new double[layers[layer]][layers[layer-1]];
-		for(int i=0; i<result.length; i++)
-			java.util.Arrays.fill(result[i], 0.0);
-		return result;
+		if(layer != 0) {
+			double[][] result = new double[layers[layer]][layers[layer-1]];
+			for(int i=0; i<result.length; i++)
+				java.util.Arrays.fill(result[i], 0.0);
+			return result;
+		} else
+			return null;
 	}
 
 	/**
@@ -160,7 +161,7 @@ public class MLPStub implements NeuralNetwork {
 		if(layer != 0)
 			return biases[layer];
 		else
-			return 0;
+			return 0.0;
 	}
 
 	/**
