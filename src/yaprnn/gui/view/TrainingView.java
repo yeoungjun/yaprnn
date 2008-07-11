@@ -128,6 +128,7 @@ public class TrainingView extends javax.swing.JFrame {
         jSplitPane1.setDividerLocation(250);
 
         jPanel3.setMinimumSize(new java.awt.Dimension(242, 115));
+        jPanel3.setOpaque(false);
 
         jLabel1.setText("Training method:");
 
@@ -147,8 +148,10 @@ public class TrainingView extends javax.swing.JFrame {
 
         optionModifyLearningrate.setText("Modify learning rate");
         optionModifyLearningrate.setActionCommand("toggleLearn");
+        optionModifyLearningrate.setOpaque(false);
 
         optionUseMomentum.setText("Use momentum");
+        optionUseMomentum.setOpaque(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -205,8 +208,11 @@ public class TrainingView extends javax.swing.JFrame {
 
         preferencesTabs.addTab("Preferences", jPanel3);
 
+        jPanel4.setOpaque(false);
+
         buttonGroup1.add(optionDynamicAdjustment);
         optionDynamicAdjustment.setText("Dynamic adjustment");
+        optionDynamicAdjustment.setOpaque(false);
 
         jLabel6.setText("Multiplier:");
 
@@ -221,6 +227,7 @@ public class TrainingView extends javax.swing.JFrame {
         buttonGroup1.add(optionStaticAdjustment);
         optionStaticAdjustment.setSelected(true);
         optionStaticAdjustment.setText("Static adjustment");
+        optionStaticAdjustment.setOpaque(false);
 
         jLabel9.setText("Iterations:");
         jLabel9.setMaximumSize(new java.awt.Dimension(64, 15));
@@ -290,6 +297,7 @@ public class TrainingView extends javax.swing.JFrame {
         preferencesTabs.addTab("Learning rate", jPanel4);
 
         jPanel5.setMinimumSize(new java.awt.Dimension(112, 20));
+        jPanel5.setOpaque(false);
         jPanel5.setPreferredSize(new java.awt.Dimension(160, 20));
 
         jLabel7.setText("Momentum:");
@@ -323,6 +331,7 @@ public class TrainingView extends javax.swing.JFrame {
         jSplitPane1.setLeftComponent(preferencesTabs);
         preferencesTabs.getAccessibleContext().setAccessibleName("preferencesTab");
 
+        graphPanel.setPreferredSize(new java.awt.Dimension(300, 300));
         graphPanel.setLayout(new java.awt.BorderLayout());
         jSplitPane1.setRightComponent(graphPanel);
 
