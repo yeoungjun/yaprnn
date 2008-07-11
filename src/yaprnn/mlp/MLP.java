@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import yaprnn.dvv.Data;
 
-public class MLP implements Serializable, NeuralNetwork {
+public class MLP implements Serializable {
 
 	private static final long serialVersionUID = -5212835785366190139L;
 

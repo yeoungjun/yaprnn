@@ -115,6 +115,7 @@ class NewMLPAction implements ActionListener {
 			}
 		}
 
+	/*
 		// Parameter ausfuellen
 		int[] layer = new int[numLayers];
 		int[] avf = new int[numLayers + 2];
@@ -127,7 +128,7 @@ class NewMLPAction implements ActionListener {
 		}
 		avf[numLayers] = 0;
 		avf[numLayers + 1] = 0;
-
+	
 		// MLP erstellen
 		try {
 			NeuralNetwork mlp = gui.getCore().newMLP(name, layer, avf, biases,
@@ -137,5 +138,9 @@ class NewMLPAction implements ActionListener {
 			JOptionPane.showMessageDialog(gui.getView(), err.getMessage(),
 					"NewMLP: Error occured", JOptionPane.ERROR_MESSAGE);
 		}
+	*/
+		NeuralNetwork mlp = gui.getCore().newMLP(name, numLayers+2, numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias, 
+							optionAutoEncoding.isSelected());
+		gui.getTreeModel().add(mlp);
 	}
 }

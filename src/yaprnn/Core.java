@@ -11,7 +11,7 @@ import yaprnn.mlp.*;
  */
 public class Core {
 
-	private MLP mlp;
+	private MLPStub mlp;
 	private DVV dvv;
 	private GUIInterface gui;
 
@@ -40,7 +40,8 @@ public class Core {
 	public double[] classify(Data input) {
 		if(mlp == null)
 			return null;
-		
+		mlp.setNumInputNeurons(input.getData().length);
+		mlp.setNumOutputNeurons(dvv.getNumOutputNeurons());
 		return mlp.classify(input.getData());
 	}
 
@@ -78,15 +79,19 @@ public class Core {
 	 *  @param autoEncoder        true if the MLP is to be initialized with autoencoding, false otherwise
 	 *  @return an interface to the new mlp
 	 */
-	public NeuralNetwork newMLP(String name, int[] layer, int[] activationFunction, double[] bias, boolean autoEncoder) throws BadConfigException {
+	public NeuralNetwork newMLP(String name, int numLayers, int numNeurons, int activation,
+					double bias, boolean autoEncoder) {
 		
-		if(dvv == null) throw new BadConfigException( "Datenvorverarbeitung nicht verfügbar!", BadConfigException.DVV_NOT_LOADED);
+	/*	if(dvv == null) throw new BadConfigException( "Datenvorverarbeitung nicht verfügbar!", BadConfigException.DVV_NOT_LOADED); 
 		
 		ActivationFunction[] functions = new ActivationFunction[activationFunction.length];
 		for(int i=0; i<functions.length; i++)
 			functions[i] = activations.get(activationFunction[i]);
-		
-		mlp = new MLP(name, dvv.getNumInputNeurons(), dvv.getNumOutputNeurons(), layer, functions, bias, autoEncoder);
+	
+	
+		mlp = new MLPStub(name, dvv.getNumInputNeurons(), dvv.getNumOutputNeurons(), layer, functions, bias, autoEncoder);
+	*/		
+		mlp = new MLPStub(name, numLayers, numNeurons, activation, bias, autoEncoder, activations);
 		return mlp;
 	}
 
@@ -104,7 +109,7 @@ public class Core {
 		} catch(FileNotFoundException e) {
 			throw new NoSuchFileException(filename);
 		}
-		mlp = (MLP)in.readObject();
+		mlp = (MLPStub)in.readObject();
 		in.close();
 		return mlp;
 	}
@@ -138,7 +143,8 @@ public class Core {
 		double trainingErr = Double.MAX_VALUE;
 		double testErr;
 		run = true;
-		
+		mlp.setNumInputNeurons(dvv.getNumInputNeurons());	
+		mlp.setNumOutputNeurons(dvv.getNumOutputNeurons());
 		for(int i=0; i<maxIterations && run; i++) {
 				Collection<Data> test = dvv.getTestData();
 				Collection<Data> train = dvv.getTrainingData();
@@ -171,8 +177,9 @@ public class Core {
 		double trainingErr = Double.MAX_VALUE;
 		double testErr;
 		run = true;
+		mlp.setNumInputNeurons(dvv.getNumInputNeurons());	
+		mlp.setNumOutputNeurons(dvv.getNumOutputNeurons());
 		mlp.resetIterations();
-		
 		for(int i=0; i<maxIterations && run; i++) {
 				Collection<Data> test = dvv.getTestData();
 				Collection<Data> train = dvv.getTrainingData();
