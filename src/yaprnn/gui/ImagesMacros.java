@@ -150,6 +150,9 @@ class ImagesMacros {
 	 * @return a BufferedImage of the raw data
 	 */
 	private static Image createImagePreview(byte[][] data) {
+		if (data == null)
+			return null;
+
 		int height = data.length, width = data[0].length;
 
 		// BufferdImage erstellen aus data, data stellt ein Graustufen-Bild da.
