@@ -160,6 +160,7 @@ public class GUI implements GUIInterface {
 			mainView.getLabelUsedSubsamplingOptions().setText("");
 			mainView.getLabelPreview().setImage(null);
 			mainView.getLabelPreviewSubsampled().setImage(null);
+			previewPlayer.setData(null);
 		}
 
 		// Anzeigen der Gewichte
