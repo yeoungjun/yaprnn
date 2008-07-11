@@ -28,8 +28,6 @@ public class MLPStub implements NeuralNetwork {
 			activations[i] = allActivations.get(activationFunction);
 			biases[i] = bias;
 		}
-		layers[0] = 0;
-		biases[0] = 0.0;
 		trained = false;
 	}
 
@@ -114,7 +112,10 @@ public class MLPStub implements NeuralNetwork {
 	 * @return number of neurons in the layer
 	 */
 	public int getLayerSize(int layer) {
-		return layers[layer];
+		if(layer != 0)
+			return layers[layer];
+		else 
+			return 0;
 	}
 
 	/**
@@ -156,7 +157,10 @@ public class MLPStub implements NeuralNetwork {
 	 * @return the bias
 	 */
 	public double getBias(int layer) {
-		return biases[layer];
+		if(layer != 0)
+			return biases[layer];
+		else
+			return 0;
 	}
 
 	/**
