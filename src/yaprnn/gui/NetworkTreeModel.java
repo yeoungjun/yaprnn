@@ -50,32 +50,48 @@ import yaprnn.mlp.NeuralNetwork;
  */
 public class NetworkTreeModel implements TreeModel {
 
-	final static ImageIcon ICON_MLP = ImagesMacros.loadIcon(22, 22,
-			"/yaprnn/gui/view/iconMLP.png");
-	final static ImageIcon ICON_NEURON = ImagesMacros.loadIcon(22, 22,
+	final static int DEFAULT_ICONSIZE = 16;
+
+	final static ImageIcon ICON_MLP = ImagesMacros.loadIcon(DEFAULT_ICONSIZE,
+			DEFAULT_ICONSIZE, "/yaprnn/gui/view/iconMLP.png");
+	final static ImageIcon ICON_NEURON = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconNeuron.png");
-	final static ImageIcon ICON_LAYER = ImagesMacros.loadIcon(22, 22,
-			"/yaprnn/gui/view/iconLayer.png");
-	final static ImageIcon ICON_AVF = ImagesMacros.loadIcon(22, 22,
-			"/yaprnn/gui/view/iconAVF.png");
-	final static ImageIcon ICON_PROCESSED = ImagesMacros.loadIcon(22, 22,
+	final static ImageIcon ICON_LAYER = ImagesMacros.loadIcon(DEFAULT_ICONSIZE,
+			DEFAULT_ICONSIZE, "/yaprnn/gui/view/iconLayer.png");
+	final static ImageIcon ICON_AVF = ImagesMacros.loadIcon(DEFAULT_ICONSIZE,
+			DEFAULT_ICONSIZE, "/yaprnn/gui/view/iconAVF.png");
+	final static ImageIcon ICON_PROCESSED = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconProcessed.png");
-	final static ImageIcon ICON_UNPROCESSED = ImagesMacros.loadIcon(22, 22,
+	final static ImageIcon ICON_UNPROCESSED = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconUnProcessed.png");
-	final static ImageIcon ICON_TRAININGSET = ImagesMacros.loadIcon(22, 22,
+	final static ImageIcon ICON_TRAININGSET = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconFolderTraining.png");
-	final static ImageIcon ICON_TESTSET = ImagesMacros.loadIcon(22, 22,
+	final static ImageIcon ICON_TESTSET = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconFolderTest.png");
-	final static ImageIcon ICON_DATASETS = ImagesMacros.loadIcon(22, 22,
+	final static ImageIcon ICON_DATASETS = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconFolderDataSet.png");
-	final static ImageIcon ICON_AUDIO = ImagesMacros.loadIcon(22, 22,
-			"/yaprnn/gui/view/iconLoadAudio.png");
-	final static ImageIcon ICON_IMAGE = ImagesMacros.loadIcon(22, 22,
-			"/yaprnn/gui/view/iconLoadImage.png");
-	final static ImageIcon ICON_OPENED = ImagesMacros.loadIcon(22, 22,
+	final static ImageIcon ICON_AUDIO = ImagesMacros.loadIcon(DEFAULT_ICONSIZE,
+			DEFAULT_ICONSIZE, "/yaprnn/gui/view/iconLoadAudio.png");
+	final static ImageIcon ICON_IMAGE = ImagesMacros.loadIcon(DEFAULT_ICONSIZE,
+			DEFAULT_ICONSIZE, "/yaprnn/gui/view/iconLoadImage.png");
+	final static ImageIcon ICON_OPENED = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconFolderWhite.png");
-	final static ImageIcon ICON_CLOSED = ImagesMacros.loadIcon(22, 22,
+	final static ImageIcon ICON_CLOSED = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
 			"/yaprnn/gui/view/iconFolderGrey.png");
+	final static ImageIcon ICON_EDITABLE = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
+			"/yaprnn/gui/view/iconEditable.png");
+	final static ImageIcon ICON_NOTEDITABLE = ImagesMacros.loadIcon(
+			DEFAULT_ICONSIZE, DEFAULT_ICONSIZE,
+			"/yaprnn/gui/view/iconNotEditable.png");
 
 	/**
 	 * Base node class for all nodes in NetworkTreeModel
@@ -115,6 +131,14 @@ public class NetworkTreeModel implements TreeModel {
 
 		final void setIcon(Icon icon) {
 			this.icon = icon;
+		}
+
+		final String getLabel() {
+			return label;
+		}
+
+		final void setLabel(String label) {
+			this.label = label;
 		}
 
 		@Override
@@ -167,7 +191,7 @@ public class NetworkTreeModel implements TreeModel {
 
 		private List<NeuralNetwork> nets;
 		private Dictionary<NeuralNetwork, NetworkNode> netsNodes;
-		
+
 		NetworksNode(List<NeuralNetwork> nets,
 				Dictionary<NeuralNetwork, NetworkNode> netsNodes) {
 			super(null, "Networks");
@@ -201,11 +225,13 @@ public class NetworkTreeModel implements TreeModel {
 	class NetworkNode extends ModelNode {
 
 		private NeuralNetwork network;
+		private IsTrainedNode isTrainedNode;
 		private List<LayerNode> layerNodes = new Vector<LayerNode>();
 
 		NetworkNode(NeuralNetwork network) {
 			super(ICON_MLP, network.getName());
 			this.network = network;
+			isTrainedNode = new IsTrainedNode(network);
 			for (int i = 0; i < network.getNumLayers(); i++)
 				layerNodes.add(new LayerNode(network, i));
 		}
@@ -216,17 +242,45 @@ public class NetworkTreeModel implements TreeModel {
 
 		@Override
 		ModelNode getChild(int index) {
-			return layerNodes.get(index);
+			if (index == 0)
+				return isTrainedNode;
+			return layerNodes.get(index - 1);
 		}
 
 		@Override
 		int getChildsCount() {
-			return layerNodes.size();
+			return layerNodes.size() + 1;
 		}
 
 		@Override
 		int getIndexOf(ModelNode child) {
-			return layerNodes.indexOf(child);
+			if (child == isTrainedNode)
+				return 0;
+			if (child instanceof LayerNode) {
+				int i = nets.indexOf((LayerNode) child);
+				return (i == -1) ? -1 : i + 1;
+			}
+			return -1;
+		}
+
+	}
+
+	/**
+	 * IsTrainedNode is a node that displays the trained status of a
+	 * NeuralNetwork.
+	 */
+	class IsTrainedNode extends ModelNode {
+
+		private NeuralNetwork network;
+
+		IsTrainedNode(NeuralNetwork network) {
+			super(network.isTrained() ? ICON_NOTEDITABLE : ICON_EDITABLE,
+					"IsTrained: " + Boolean.toString(network.isTrained()));
+			this.network = network;
+		}
+
+		NeuralNetwork getNetwork() {
+			return network;
 		}
 
 	}
@@ -702,6 +756,7 @@ public class NetworkTreeModel implements TreeModel {
 		nsn.getTrainingSetNode().remove(d);
 		nsn.getTestSetNode().remove(d);
 		fireStructureChanged(nsn.getTrainingSetNode());
+		fireStructureChanged(nsn.getTestSetNode());
 	}
 
 	/**
@@ -786,7 +841,10 @@ public class NetworkTreeModel implements TreeModel {
 
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
-		// TODO Auto-generated method stub
+		System.out.println("Value change:");
+		System.out.println("Path: " + path.toString());
+		System.out.println("Last: " + path.getLastPathComponent().toString());
+		System.out.println(" Val: " + newValue.toString());
 	}
 
 	@Override
