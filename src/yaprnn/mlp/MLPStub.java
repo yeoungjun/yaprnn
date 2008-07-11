@@ -13,12 +13,14 @@ public class MLPStub implements NeuralNetwork {
 	private MLP mlp;
 	private boolean trained;
 	private List<ActivationFunction> allActivations;
+	private int maxIterations;
+	private double maxError;
+	private double eta;
 
 	public MLPStub(String name, int numLayers, int numNeurons, int activationFunction,
-			double bias, boolean autoEncoder, List<ActivationFunction> allActivations) {
+			double bias, List<ActivationFunction> allActivations) {
 		this.name = name;
 		this.allActivations = allActivations;
-		this.autoEncoder = autoEncoder;
 		layers = new int[numLayers];
 		activations = new ActivationFunction[numLayers];
 		biases = new double[numLayers];
@@ -232,7 +234,7 @@ public class MLPStub implements NeuralNetwork {
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setLayerSize(int layer, int size) {
-		if(!trained && layer != 0)
+		if(!trained && layer != 0 && layer < layers.length)
 			layers[layer] = size;
 		return !trained;
 	}
@@ -248,7 +250,7 @@ public class MLPStub implements NeuralNetwork {
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setActivationFunction(int layer, ActivationFunction activationFunction) {
-		if(!trained && layer != 0)
+		if(!trained && layer != 0 && layer  < activations.length)
 			activations[layer] = activationFunction;
 		return !trained;
 	}
@@ -263,7 +265,7 @@ public class MLPStub implements NeuralNetwork {
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setBias(int layer, double bias) {
-		if(!trained && layer != 0)
+		if(!trained && layer != 0 && layer < biases.length)
 			biases[layer] = bias;
 		return !trained;
 	}
@@ -278,12 +280,18 @@ public class MLPStub implements NeuralNetwork {
 				newBias[i] = biases[i+1];
 			}
 			try {
-				mlp = new MLP(layers[0], layers[layers.length-1], newLayers, activations,
-					newBias, autoEncoder);
+				mlp = new MLP(layers[0], layers[layers.length-1], newLayers, activations, newBias);
+				if(maxIterations > 0 && maxError > 0 && eta > 0)
+					mlp.makeAutoencoder(maxIterations, maxError, eta);
 			} catch(BadConfigException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
+	public void setAutoencoder(int maxIterations, double maxError, double eta) {
+		this.maxIterations = maxIterations;
+		this.maxError = maxError;
+		this.eta = eta;
+	}
 }

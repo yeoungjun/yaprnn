@@ -158,8 +158,11 @@ class NewMLPAction implements ActionListener {
 				.doubleValue();
 		double eta = ((Double) form.optionETA.getValue()).doubleValue();
 
-		NeuralNetwork mlp = gui.getCore().newMLP(name, numLayers + 2,
-				numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias, autoEncoding);
+		NeuralNetwork mlp = null;
+		if(autoEncoding)
+			mlp = gui.getCore().newMLP(name, numLayers + 2,	numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias, maxIterations, upperBound, eta);
+		else	
+			mlp = gui.getCore().newMLP(name, numLayers + 2,	numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias);
 		gui.getTreeModel().add(mlp);
 	}
 
