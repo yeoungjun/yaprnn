@@ -67,6 +67,9 @@ public class GUI implements GUIInterface {
 	private MenuEditAction editAction;
 	private MenuRemoveAction removeAction;
 
+	// Andere Listener
+	private PreviewPlayAudioListener previewPlayer;
+
 	/**
 	 * @param core
 	 *            the core controller
@@ -98,6 +101,9 @@ public class GUI implements GUIInterface {
 		addAction = new MenuAddAction(this);
 		editAction = new MenuEditAction(this);
 		removeAction = new MenuRemoveAction(this);
+
+		// Preview Handler für Audio-Daten
+		previewPlayer = new PreviewPlayAudioListener(mainView.getLabelPreview());
 
 		// Andere Handler
 		new MenuManualAction(this);
@@ -134,9 +140,11 @@ public class GUI implements GUIInterface {
 			Data data = dataNode.getData();
 			mainView.getLabelFilename().setText(data.getFilename());
 			mainView.getLabelSampleLabel().setText(data.getLabel());
-
 			// TODO : Subsampling optionen anzeigen
 			// mainView.getLabelUsedSubsamplingOptions().setText(data.getSubsamplingOptions());
+
+			// Dem PreviewPlayer-Listener das Data-Objekt geben
+			previewPlayer.setData(data);
 
 			// Preview erzeugen
 			mainView.getLabelPreview().setImage(

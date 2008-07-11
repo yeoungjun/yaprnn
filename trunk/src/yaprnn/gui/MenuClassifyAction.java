@@ -19,7 +19,7 @@ class MenuClassifyAction implements ActionListener {
 
 	private final static ImageIcon ICON_CLASSIFY = ImagesMacros.loadIcon(22,
 			22, "/yaprnn/gui/view/iconClassify.png");
-	
+
 	/**
 	 * Used to hold required parameters and view objects.
 	 */
@@ -156,7 +156,7 @@ class MenuClassifyAction implements ActionListener {
 
 		NeuralNetwork network = null;
 
-		if(gui.getTreeModel().getNetworks().size() > 1) {
+		if (gui.getTreeModel().getNetworks().size() > 1) {
 			Vector<NetworkBox> boxes = new Vector<NetworkBox>();
 			for (NeuralNetwork n : gui.getTreeModel().getNetworks())
 				boxes.add(new NetworkBox(n));
@@ -169,7 +169,7 @@ class MenuClassifyAction implements ActionListener {
 					"Please select the network with which you want to classify "
 							+ data.getName()));
 			panel.add(optionNetwork);
-	
+
 			// Parameter anfragen
 			int ret = JOptionPane.showConfirmDialog(gui.getView(), panel,
 					"Classify", JOptionPane.OK_CANCEL_OPTION);
@@ -177,16 +177,19 @@ class MenuClassifyAction implements ActionListener {
 				return;
 			if (optionNetwork.getSelectedItem() == null)
 				return;
-	
+
 			network = ((NetworkBox) optionNetwork.getSelectedItem()).network;
 		} else
 			network = gui.getTreeModel().getNetworks().get(0);
-		
+
 		// Die View oeffnen
 		ClassifyInfo ci = new ClassifyInfo(gui, new ClassifyView(), data,
 				network);
 		new ClassifyAction(ci);
 		new ZoomAction(ci);
+
+		// Preview Handler für Audio-Daten
+		new PreviewPlayAudioListener(ci.cv.getLabelPreview()).setData(data);
 
 		MenuClassifyAction.createPreview(ci);
 
