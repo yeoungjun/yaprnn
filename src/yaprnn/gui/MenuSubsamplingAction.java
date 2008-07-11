@@ -167,6 +167,9 @@ class MenuSubsamplingAction implements ActionListener {
 		new ZoomAction(si);
 		new ProcessAction(si);
 
+		// Preview Handler für Audio-Daten
+		new PreviewPlayAudioListener(si.sv.getLabelPreview()).setData(data);
+
 		si.sv.getToolProcess().setIcon(ICON_PROCESSALL);
 		si.sv.getOptionScaleFun().setModel(new DefaultComboBoxModel(scaleFuns));
 		si.sv.getOptionScaleFun().setEditable(false);

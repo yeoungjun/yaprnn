@@ -57,11 +57,14 @@ class NewMLPAction implements ActionListener {
 		JTextField optionBias = new JTextField(Double.toString(DEFAULT_BIAS));
 		JCheckBox optionAutoEncoding = new JCheckBox(
 				"Use auto encoding initialization", DEFAULT_AUTOENCODING);
+		
 		KeyListener onlyDigits = new OnlyNumbersKeyAdapter();
 		optionNumLayers.addKeyListener(onlyDigits);
 		optionNumNeurons.addKeyListener(onlyDigits);
 		optionBias.addKeyListener(onlyDigits);
+		
 		optionAutoEncoding.setSelected(false);
+		
 		panel.add(new JLabel("Name"));
 		panel.add(optionName);
 		panel.add(new JLabel(
