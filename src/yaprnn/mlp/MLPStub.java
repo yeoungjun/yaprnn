@@ -279,7 +279,7 @@ public class MLPStub implements NeuralNetwork {
 				newBias[i] = biases[i+1];
 			}
 			try {
-				mlp = new MLP(name, layers[0], layers[layers.length-1], newLayers, activations,
+				mlp = new MLP(layers[0], layers[layers.length-1], newLayers, activations,
 					newBias, autoEncoder);
 			} catch(BadConfigException e) {
 				e.printStackTrace();
