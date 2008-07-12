@@ -14,7 +14,7 @@ import yaprnn.mlp.ActivationFunction;
 public class AiffSound extends Data {
 
 	private double[] data;
-	private short[] rawData;
+	private double[] rawData;
 	private String label;
 	private int target;
 	private String filename;
@@ -26,7 +26,13 @@ public class AiffSound extends Data {
 	 *  @param filename the file this object was loaded from
 	 */
 	public AiffSound(short[] rawData, String label, String filename) {
-		this.rawData = rawData;
+		this.rawData = new double[rawData.length];
+		for (int i = 0; i < rawData.length; i++)
+			this.rawData[i] = rawData[i];
+		this.rawData = oneMorePowerOfTwo(this.rawData);
+		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(this.rawData.length/2);
+		fft.realForwardFull(this.rawData);
+		this.rawData = calcAbsolutValue(this.rawData);
 		this.label = label;
 		this.filename = filename;
 		if (label.equalsIgnoreCase("a")) this.target = 0;
@@ -34,13 +40,6 @@ public class AiffSound extends Data {
 		if (label.equalsIgnoreCase("i")) this.target = 2;
 		if (label.equalsIgnoreCase("o")) this.target = 3;
 		if (label.equalsIgnoreCase("u")) this.target = 4;
-		this.data = new double[this.rawData.length];
-		for (int i = 0; i < this.rawData.length; i++)
-			this.data[i] = this.rawData[i];
-		this.data = oneMorePowerOfTwo(this.data);
-		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
-		fft.realForwardFull(this.data);
-		this.data = calcAbsolutValue(this.data);
 	}
 
 	/** Returns the completely preprocessed data of this sound.
@@ -56,14 +55,7 @@ public class AiffSound extends Data {
 	 *  @return the frequnecy-spectrum of rawData 
 	 */
 	public Object previewRawData() {
-		double[] previewData = new double[this.rawData.length];
-		for (int i = 0; i < previewData.length; i++)
-			previewData[i] = this.rawData[i];			
-		previewData = oneMorePowerOfTwo(previewData);
-		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(previewData.length/2);
-		fft.realForwardFull(previewData);
-		previewData = calcAbsolutValue(previewData);
-		return previewData;	
+		return this.rawData;	
 	}
 
 	/** Returns the filename this sound was read from.
@@ -182,13 +174,13 @@ public class AiffSound extends Data {
 		int rightIndex = (int)Math.round(leftIndex+width);
 		if (leftIndex<0){
 			for(int i = 0; i <= rightIndex;i++){
-				average += this.data[i];
+				average += this.rawData[i];
 			}
 			average = average/ (rightIndex-leftIndex);
 			return average;
 		}
 		for(int i = leftIndex; i <= rightIndex;i++){
-			average += this.data[i];
+			average += this.rawData[i];
 		}
 		if (rightIndex-leftIndex == 0){
 			return average;
@@ -326,7 +318,7 @@ public class AiffSound extends Data {
 		double temp=0;
 		for (int i = 0; i<=resolution-2; i++)
 			temp += Math.pow(lambda,i);
-		double width = (this.data.length) / ((1-overlap)*temp + Math.pow(lambda,resolution-1));
+		double width = (this.rawData.length) / ((1-overlap)*temp + Math.pow(lambda,resolution-1));
 		return width;
 	}
 
