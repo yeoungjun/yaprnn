@@ -12,6 +12,7 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import yaprnn.dvv.Data;
+import yaprnn.mlp.ActivationFunction;
 import yaprnn.mlp.NeuralNetwork;
 
 // The structure is organized according to the following:
@@ -617,10 +618,19 @@ class NetworkTreeModel implements TreeModel {
 	private RootNode rootNode = new RootNode(netsNode, datasetsNode);
 
 	/**
+	 * Fires event to all listeners that the node has changed.
+	 */
+	private void fireNodeChanged(Object[] path) {
+		TreeModelEvent e = new TreeModelEvent(this, path);
+		for (TreeModelListener tml : listeners)
+			tml.treeNodesChanged(e);
+	}
+
+	/**
 	 * Fires event to all listeners that the tree structure has changed.
 	 */
-	private void fireStructureChanged(Object node) {
-		TreeModelEvent e = new TreeModelEvent(this, new Object[] { node });
+	private void fireStructureChanged(Object[] path) {
+		TreeModelEvent e = new TreeModelEvent(this, path);
 		for (TreeModelListener tml : listeners)
 			tml.treeStructureChanged(e);
 	}
@@ -646,8 +656,8 @@ class NetworkTreeModel implements TreeModel {
 		netsNodes.put(n, new NetworkNode(n));
 		setsNodes.put(n, new NetworkSetsNode(n, trainingSet, testSet));
 
-		fireStructureChanged(netsNode);
-		fireStructureChanged(datasetsNode);
+		fireStructureChanged(new Object[] { rootNode, netsNode });
+		fireStructureChanged(new Object[] { rootNode, datasetsNode });
 	}
 
 	/**
@@ -669,8 +679,8 @@ class NetworkTreeModel implements TreeModel {
 		netsNodes.remove(n);
 		setsNodes.remove(n);
 
-		fireStructureChanged(netsNode);
-		fireStructureChanged(datasetsNode);
+		fireStructureChanged(new Object[] { rootNode, netsNode });
+		fireStructureChanged(new Object[] { rootNode, datasetsNode });
 	}
 
 	/**
@@ -687,7 +697,7 @@ class NetworkTreeModel implements TreeModel {
 		// Dynamische Knoten erstellen
 		loadedNode.add(d);
 
-		fireStructureChanged(loadedNode);
+		fireStructureChanged(new Object[] { rootNode, datasetsNode, loadedNode });
 	}
 
 	/**
@@ -712,7 +722,7 @@ class NetworkTreeModel implements TreeModel {
 			nsn.getTestSetNode().remove(d);
 		}
 
-		fireStructureChanged(datasetsNode);
+		fireStructureChanged(new Object[] { rootNode, datasetsNode });
 	}
 
 	/**
@@ -734,12 +744,14 @@ class NetworkTreeModel implements TreeModel {
 			trainingSets.get(n).add(d);
 			// Dynamische Knoten erstellen
 			nsn.getTrainingSetNode().add(d);
-			fireStructureChanged(nsn.getTrainingSetNode());
+			fireStructureChanged(new Object[] { rootNode, datasetsNode, nsn,
+					nsn.getTrainingSetNode() });
 		} else {
 			testSets.get(n).add(d);
 			// Dynamische Knoten erstellen
 			setsNodes.get(n).getTestSetNode().add(d);
-			fireStructureChanged(nsn.getTestSetNode());
+			fireStructureChanged(new Object[] { rootNode, datasetsNode, nsn,
+					nsn.getTestSetNode() });
 		}
 	}
 
@@ -760,8 +772,7 @@ class NetworkTreeModel implements TreeModel {
 		NetworkSetsNode nsn = setsNodes.get(n);
 		nsn.getTrainingSetNode().remove(d);
 		nsn.getTestSetNode().remove(d);
-		fireStructureChanged(nsn.getTrainingSetNode());
-		fireStructureChanged(nsn.getTestSetNode());
+		fireStructureChanged(new Object[] { rootNode, datasetsNode, nsn });
 	}
 
 	/**
@@ -830,10 +841,40 @@ class NetworkTreeModel implements TreeModel {
 
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
-		System.out.println("Value change:");
-		System.out.println("Path: " + path.toString());
-		System.out.println("Last: " + path.getLastPathComponent().toString());
-		System.out.println(" Val: " + newValue.toString());
+		if (newValue == null)
+			return;
+		Object last = path.getLastPathComponent();
+		if (!(last instanceof ModelNode))
+			return;
+
+		ModelNode mn = (ModelNode) last;
+
+		if (isNetworkNode(mn)) {
+			((NetworkNode) mn).getNetwork().setName((String) newValue);
+			fireNodeChanged(path.getPath());
+		}
+
+		if (isNeuronsNode(mn)) {
+			NeuronsNode n = (NeuronsNode) mn;
+			n.getNetwork().setLayerSize(n.getLayerIndex(),
+					((Integer) newValue).intValue());
+			fireNodeChanged(path.getPath());
+		}
+
+		if (isAVFNode(mn)) {
+			AVFNode n = (AVFNode) mn;
+			n.getNetwork().setActivationFunction(n.getLayerIndex(),
+					(ActivationFunction) newValue);
+			fireNodeChanged(path.getPath());
+		}
+
+		if (isBiasNode(mn)) {
+			BiasNode n = (BiasNode) mn;
+			n.getNetwork().setBias(n.getLayerIndex(),
+					((Double) newValue).doubleValue());
+			fireNodeChanged(path.getPath());
+		}
+
 	}
 
 	@Override
@@ -850,6 +891,22 @@ class NetworkTreeModel implements TreeModel {
 	public void removeTreeModelListener(TreeModelListener l) {
 		if (listeners.contains(l))
 			listeners.remove(l);
+	}
+
+	private static boolean isNetworkNode(ModelNode n) {
+		return n instanceof NetworkNode;
+	}
+
+	private static boolean isNeuronsNode(ModelNode n) {
+		return n instanceof NeuronsNode;
+	}
+
+	private static boolean isAVFNode(ModelNode n) {
+		return n instanceof AVFNode;
+	}
+
+	private static boolean isBiasNode(ModelNode n) {
+		return n instanceof BiasNode;
 	}
 
 }

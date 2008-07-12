@@ -14,10 +14,10 @@ class OptionZoomAction implements ActionListener {
 		this.gui = gui;
 		gui.getView().getOptionZoom1().addActionListener(this);
 		gui.getView().getOptionZoom1().addKeyListener(
-				new OnlyNumbersKeyAdapter());
+				new OnlyNumbersKeyAdapter(true, false));
 		gui.getView().getOptionZoom2().addActionListener(this);
 		gui.getView().getOptionZoom2().addKeyListener(
-				new OnlyNumbersKeyAdapter());
+				new OnlyNumbersKeyAdapter(true, false));
 	}
 
 	@Override

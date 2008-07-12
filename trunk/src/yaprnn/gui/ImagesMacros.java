@@ -183,7 +183,6 @@ class ImagesMacros {
 		int width = data.length;
 		double max = 0.0;
 		final byte EDGE = 20;
-		// BufferdImage erstellen aus data, data stellt ein Graustufen-Bild da.
 		BufferedImage image = new BufferedImage(width+2*EDGE, HEIGHT+2*EDGE,
 				BufferedImage.TYPE_INT_RGB);
 		for (int i = 0; i < width; i++)
