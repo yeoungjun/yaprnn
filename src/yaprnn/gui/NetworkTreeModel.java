@@ -102,9 +102,22 @@ class NetworkTreeModel implements TreeModel {
 		private Icon icon;
 		private String label;
 
+		ModelNode() {
+			this.icon = null;
+			this.label = null;
+		}
+
+		ModelNode(Icon icon) {
+			this.icon = icon;
+			this.label = null;
+		}
+
 		ModelNode(Icon icon, String label) {
 			this.icon = icon;
 			this.label = label;
+		}
+
+		void update() {
 		}
 
 		int getIndexOf(ModelNode child) {
@@ -230,16 +243,19 @@ class NetworkTreeModel implements TreeModel {
 		private List<LayerNode> layerNodes = new Vector<LayerNode>();
 
 		NetworkNode(NeuralNetwork network) {
-			super(ICON_MLP, network.getName());
+			super(ICON_MLP);
 			this.network = network;
 			isTrainedNode = new IsTrainedNode(network);
-			for (int i = 0; i < network.getNumLayers(); i++)
-				layerNodes.add(new LayerNode(network, i));
+			update();
 		}
 
-		void update(String name) {
-			network.setName(name);
-			setLabel(name);
+		@Override
+		void update() {
+			setLabel(network.getName());
+			isTrainedNode.update();
+			layerNodes.clear();
+			for (int i = 0; i < network.getNumLayers(); i++)
+				layerNodes.add(new LayerNode(network, i));
 		}
 
 		NeuralNetwork getNetwork() {
@@ -280,9 +296,14 @@ class NetworkTreeModel implements TreeModel {
 		private NeuralNetwork network;
 
 		IsTrainedNode(NeuralNetwork network) {
-			super(network.isTrained() ? ICON_NOTEDITABLE : ICON_EDITABLE,
-					"IsTrained: " + Boolean.toString(network.isTrained()));
 			this.network = network;
+			update();
+		}
+
+		@Override
+		void update() {
+			setIcon(network.isTrained() ? ICON_NOTEDITABLE : ICON_EDITABLE);
+			setLabel("IsTrained: " + network.isTrained());
 		}
 
 		NeuralNetwork getNetwork() {
@@ -308,14 +329,23 @@ class NetworkTreeModel implements TreeModel {
 		private BiasNode biasNode;
 
 		LayerNode(NeuralNetwork network, int layerIndex) {
-			super(ICON_LAYER, (layerIndex == 0 || layerIndex + 1 == network
-					.getNumLayers()) ? (layerIndex == 0 ? "Input layer"
-					: "Output layer") : "Layer " + layerIndex);
+			super(ICON_LAYER);
 			this.network = network;
 			this.layerIndex = layerIndex;
 			neuronsNode = new NeuronsNode(network, layerIndex);
 			avfNode = new AVFNode(network, layerIndex);
 			biasNode = new BiasNode(network, layerIndex);
+			update();
+		}
+
+		@Override
+		void update() {
+			setLabel((layerIndex == 0 || layerIndex + 1 == network
+					.getNumLayers()) ? (layerIndex == 0 ? "Input layer"
+					: "Output layer") : "Layer " + layerIndex);
+			neuronsNode.update();
+			avfNode.update();
+			biasNode.update();
 		}
 
 		NeuralNetwork getNetwork() {
@@ -367,11 +397,8 @@ class NetworkTreeModel implements TreeModel {
 			this.layerIndex = layerIndex;
 		}
 
-		void update(int neuronsCount) {
-			network.setLayerSize(layerIndex, neuronsCount);
-
-			// Wir holen uns nochmal die layer-size, weil eventuell diese nicht
-			// gesetzt wurde, weil das MLP nicht mehr verändert werden darf.
+		@Override
+		void update() {
 			setLabel("Neuron count: " + network.getLayerSize(layerIndex));
 		}
 
@@ -405,12 +432,10 @@ class NetworkTreeModel implements TreeModel {
 			this.layerIndex = layerIndex;
 		}
 
-		void update(ActivationFunction avf) {
-			network.setActivationFunction(layerIndex, avf);
-
-			// Wir holen uns nochmal die AVF, weil eventuell ... siehe
-			// NeuronsNode.update
-			setLabel("AVF: " + network.getLayerSize(layerIndex));
+		@Override
+		void update() {
+			ActivationFunction avf = network.getActivationFunction(layerIndex); 
+			setLabel("AVF: " + avf);
 		}
 
 		NeuralNetwork getNetwork() {
@@ -443,11 +468,8 @@ class NetworkTreeModel implements TreeModel {
 			this.layerIndex = layerIndex;
 		}
 
-		void update(double bias) {
-			network.setBias(layerIndex, bias);
-
-			// Wir holen uns nochmal die AVF, weil eventuell ... siehe
-			// NeuronsNode.update
+		@Override
+		void update() {
 			setLabel("Bias: " + network.getBias(layerIndex));
 		}
 
@@ -585,14 +607,16 @@ class NetworkTreeModel implements TreeModel {
 
 		NetworkSetsNode(NeuralNetwork network, List<Data> trainingSet,
 				List<Data> testSet) {
-			super(ICON_MLP, "for " + network.getName());
+			super(ICON_MLP);
 			this.network = network;
 			trainingSetNode = new DataSetNode("Training set", trainingSet);
 			trainingSetNode.setIcon(ICON_TRAININGSET);
 			testSetNode = new DataSetNode("Test set", testSet);
 			testSetNode.setIcon(ICON_TESTSET);
+			update();
 		}
 
+		@Override
 		void update() {
 			setLabel("for " + network.getName());
 		}
@@ -649,23 +673,6 @@ class NetworkTreeModel implements TreeModel {
 			setsNodes);
 	private NetworksNode netsNode = new NetworksNode(nets, netsNodes);
 	private RootNode rootNode = new RootNode(netsNode, datasetsNode);
-
-	/**
-	 * Fires event to all listeners that the node has changed.
-	 */
-	private void fireNodeChanged(TreePath parentPath, Object child) {
-		// Wir müssen auch einen Index auf child übergeben
-		int[] indices = new int[1];
-		indices[0] = ((ModelNode) parentPath.getLastPathComponent())
-				.getIndexOf((ModelNode) child);
-
-		// Event-Objekt verpacken
-		TreeModelEvent e = new TreeModelEvent(this, parentPath, indices,
-				new Object[] { child });
-
-		for (TreeModelListener tml : listeners)
-			tml.treeNodesChanged(e);
-	}
 
 	/**
 	 * Fires event to all listeners that the tree structure has changed.
@@ -898,30 +905,36 @@ class NetworkTreeModel implements TreeModel {
 		ModelNode mn = (ModelNode) last;
 		if (isNetworkNode(mn)) {
 			NetworkNode n = (NetworkNode) mn;
-			n.update((String) newValue);
-			fireNodeChanged(path.getParentPath(), last);
+			n.getNetwork().setName((String) newValue);
+			n.update();
+			fireStructureChanged(path.getPath());
 
 			// Wir müssen noch die NetworkSetsNode updaten
 			NetworkSetsNode n2 = setsNodes.get(n.getNetwork());
 			n2.update();
-			fireNodeChanged(new TreePath(
-					new Object[] { rootNode, datasetsNode }), n2);
+			fireStructureChanged(new Object[] { rootNode, datasetsNode, n2 });
 
 		}
 		if (isNeuronsNode(mn)) {
 			NeuronsNode n = (NeuronsNode) mn;
-			n.update(((Integer) newValue).intValue());
-			fireNodeChanged(path.getParentPath(), last);
+			n.getNetwork().setLayerSize(n.getLayerIndex(),
+					((Integer) newValue).intValue());
+			n.update();
+			fireStructureChanged(path.getPath());
 		}
 		if (isAVFNode(mn)) {
 			AVFNode n = (AVFNode) mn;
-			n.update((ActivationFunction) newValue);
-			fireNodeChanged(path.getParentPath(), last);
+			n.getNetwork().setActivationFunction(n.getLayerIndex(),
+					(ActivationFunction) newValue);
+			n.update();
+			fireStructureChanged(path.getPath());
 		}
 		if (isBiasNode(mn)) {
 			BiasNode n = (BiasNode) mn;
-			n.update(((Double) newValue).doubleValue());
-			fireNodeChanged(path.getParentPath(), last);
+			n.getNetwork().setBias(n.getLayerIndex(),
+					((Double) newValue).doubleValue());
+			n.update();
+			fireStructureChanged(path.getPath());
 		}
 
 	}
