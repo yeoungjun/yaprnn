@@ -159,19 +159,21 @@ public class AiffSound extends Data {
 		
 		double average = 0;
 		int leftIndex = (int) Math.round(index - (width * overlap));
-		int rightIndex = (int) Math.round(leftIndex + width);
+		int rightIndex = Math.min(((int) Math.round(leftIndex + width)),this.rawData.length-1);
 		
 		if (leftIndex<0){
 			for(int i = 0; i <= rightIndex;i++)
 				average += this.rawData[i];
 		
-			return average/ width;
+			return average/ rightIndex;
 		}
 		
 		for(int i = leftIndex; i <= rightIndex;i++)
 			average += this.rawData[i];
-				
-		return average / width;
+			
+		// Es kann vorkommen, das das letzte Fenster über das Array hinausgeht
+		return average / (rightIndex-leftIndex);
+		
 	}
 
 	/** Reads several Sounds from the specified files and returns them as a collection.
