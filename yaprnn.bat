@@ -1,1 +1,1 @@
-java -Xmx256m -jar dist\yaprnn.jar
+java -Xmx512m -jar dist\yaprnn.jar
