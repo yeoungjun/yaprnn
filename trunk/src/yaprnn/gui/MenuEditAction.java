@@ -3,6 +3,8 @@ package yaprnn.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import yaprnn.gui.NetworkTreeModel.ModelNode;
+
 class MenuEditAction implements ActionListener {
 
 	private GUI gui;
@@ -12,14 +14,18 @@ class MenuEditAction implements ActionListener {
 		setEnabled(false);
 		gui.getView().getMenuEdit().addActionListener(this);
 	}
-	
+
 	void setEnabled(boolean enabled) {
 		gui.getView().getMenuEdit().setEnabled(enabled);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		ModelNode n = gui.getSelected();
+		if (n == null)
+			return;
+		gui.getView().getTreeNeuralNetwork().startEditingAtPath(
+				gui.getSelectedPath());
 	}
 
 }

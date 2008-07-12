@@ -123,14 +123,8 @@ class NewMLPAction implements ActionListener {
 
 	NewMLPAction(GUI gui) {
 		this.gui = gui;
-		setEnabled(false);
 		gui.getView().getMenuNewMLP().addActionListener(this);
 		gui.getView().getToolNewMLP().addActionListener(this);
-	}
-
-	void setEnabled(boolean enabled) {
-		gui.getView().getMenuNewMLP().setEnabled(enabled);
-		gui.getView().getToolNewMLP().setEnabled(enabled);
 	}
 
 	@Override

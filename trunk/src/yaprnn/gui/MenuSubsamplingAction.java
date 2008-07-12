@@ -128,8 +128,6 @@ class MenuSubsamplingAction implements ActionListener {
 					si.overlap,
 					(ActivationFunction) si.sv.getOptionScaleFun()
 							.getSelectedItem());
-			si.gui.getNewMLPAction().setEnabled(true);
-			si.gui.getLoadMLPAction().setEnabled(true);
 		}
 
 	}

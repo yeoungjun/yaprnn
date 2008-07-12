@@ -37,6 +37,7 @@ public class GUI implements GUIInterface {
 	private Core core;
 	private MainView mainView = new MainView();
 	private NetworkTreeModel treeModel = new NetworkTreeModel();
+	private NetworkTreeRenderer treeRenderer = new NetworkTreeRenderer();
 
 	// Informationen ueber den ausgewaehlten Knoten
 	private TreePath selectedPath = null;
@@ -50,8 +51,6 @@ public class GUI implements GUIInterface {
 	private double overlap = 0.4;
 
 	// Standard-Actions
-	private NewMLPAction newMLPAction;
-	private LoadMLPAction loadMLPAction;
 	private SaveMLPAction saveMLPAction;
 	private LoadDataSetAction loadDataSetAction;
 	private SaveDataSetAction saveDataSetAction;
@@ -79,12 +78,14 @@ public class GUI implements GUIInterface {
 		this.core.setGUI(this);
 
 		mainView.getTreeNeuralNetwork().setModel(treeModel);
-		mainView.getTreeNeuralNetwork().setCellRenderer(
-				new NetworkTreeRenderer());
+		mainView.getTreeNeuralNetwork().setCellRenderer(treeRenderer);
+		mainView.getTreeNeuralNetwork().setCellEditor(
+				new NetworkTreeCellEditor(this));
+		mainView.getTreeNeuralNetwork().setEditable(true);
 
 		// EventHandler erstellen
-		newMLPAction = new NewMLPAction(this);
-		loadMLPAction = new LoadMLPAction(this);
+		new NewMLPAction(this);
+		new LoadMLPAction(this);
 		saveMLPAction = new SaveMLPAction(this);
 		loadDataSetAction = new LoadDataSetAction(this);
 		saveDataSetAction = new SaveDataSetAction(this);
@@ -247,7 +248,7 @@ public class GUI implements GUIInterface {
 		addAction.setEnabled(isNetworkNode);
 		editAction.setEnabled(isNetworkNode || isNeuronsNode || isAVFNode
 				|| isBiasNode);
-		removeAction.setEnabled(isNetworkNode || isDataNode);
+		removeAction.setEnabled(isNetworkNode);
 
 	}
 
@@ -306,26 +307,14 @@ public class GUI implements GUIInterface {
 		updateOnSelectedNode();
 	}
 
-	double getZoom() {
-		return zoom;
-	}
-
 	void setZoom(double zoom) {
 		this.zoom = zoom;
 		updateOnSelectedNode();
 	}
 
-	int getResolution() {
-		return resolution;
-	}
-
 	void setResolution(int resolution) {
 		this.resolution = resolution;
 		updateOnSelectedNode();
-	}
-
-	double getOverlap() {
-		return overlap;
 	}
 
 	void setOverlap(double overlap) {
@@ -341,6 +330,10 @@ public class GUI implements GUIInterface {
 		return treeModel;
 	}
 
+	NetworkTreeRenderer getTreeRenderer() {
+		return treeRenderer;
+	}
+	
 	Core getCore() {
 		return core;
 	}
@@ -355,50 +348,6 @@ public class GUI implements GUIInterface {
 
 	ModelNode getSelected() {
 		return selected;
-	}
-
-	NewMLPAction getNewMLPAction() {
-		return newMLPAction;
-	}
-
-	LoadMLPAction getLoadMLPAction() {
-		return loadMLPAction;
-	}
-
-	SaveMLPAction getSaveMLPAction() {
-		return saveMLPAction;
-	}
-
-	LoadDataSetAction getLoadDataSetAction() {
-		return loadDataSetAction;
-	}
-
-	SaveDataSetAction getSaveDataSetAction() {
-		return saveDataSetAction;
-	}
-
-	MenuSubsamplingAction getSubsamplingAction() {
-		return subsamplingAction;
-	}
-
-	MenuClassifyAction getClassifyAction() {
-		return classifyAction;
-	}
-
-	MenuTrainAction getTrainAction() {
-		return trainAction;
-	}
-
-	MenuResetAction getResetAction() {
-		return resetAction;
-	}
-
-	MenuChooseRandomTrainingTestSetAction getChooseRandomTrainingTestSetAction() {
-		return chooseRandomTrainingTestSetAction;
-	}
-
-	MenuRemoveAction getRemoveAction() {
-		return removeAction;
 	}
 
 	/**

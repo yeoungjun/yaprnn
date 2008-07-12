@@ -11,14 +11,8 @@ class LoadMLPAction implements ActionListener {
 
 	LoadMLPAction(GUI gui) {
 		this.gui = gui;
-		setEnabled(false);
 		gui.getView().getMenuLoadMLP().addActionListener(this);
 		gui.getView().getToolLoadMLP().addActionListener(this);
-	}
-
-	void setEnabled(boolean enabled) {
-		gui.getView().getMenuLoadMLP().setEnabled(enabled);
-		gui.getView().getToolLoadMLP().setEnabled(enabled);
 	}
 
 	@Override
