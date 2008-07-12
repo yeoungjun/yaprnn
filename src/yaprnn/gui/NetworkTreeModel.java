@@ -237,6 +237,11 @@ class NetworkTreeModel implements TreeModel {
 				layerNodes.add(new LayerNode(network, i));
 		}
 
+		void update(String name) {
+			network.setName(name);
+			setLabel(name);
+		}
+
 		NeuralNetwork getNetwork() {
 			return network;
 		}
@@ -362,6 +367,11 @@ class NetworkTreeModel implements TreeModel {
 			this.layerIndex = layerIndex;
 		}
 
+		void update(int neuronsCount) {
+			network.setLayerSize(layerIndex, neuronsCount);
+			setLabel("Neuron count: " + neuronsCount);
+		}
+
 		NeuralNetwork getNetwork() {
 			return network;
 		}
@@ -392,6 +402,11 @@ class NetworkTreeModel implements TreeModel {
 			this.layerIndex = layerIndex;
 		}
 
+		void update(ActivationFunction avf) {
+			network.setActivationFunction(layerIndex, avf);
+			setLabel("AVF: " + avf.toString());
+		}
+
 		NeuralNetwork getNetwork() {
 			return network;
 		}
@@ -417,9 +432,14 @@ class NetworkTreeModel implements TreeModel {
 		private int layerIndex;
 
 		BiasNode(NeuralNetwork network, int layerIndex) {
-			super(ICON_AVF, "BIAS: " + network.getBias(layerIndex));
+			super(ICON_AVF, "Bias: " + network.getBias(layerIndex));
 			this.network = network;
 			this.layerIndex = layerIndex;
+		}
+
+		void update(double bias) {
+			network.setBias(layerIndex, bias);
+			setLabel("Bias: " + bias);
 		}
 
 		NeuralNetwork getNetwork() {
@@ -564,6 +584,10 @@ class NetworkTreeModel implements TreeModel {
 			testSetNode.setIcon(ICON_TESTSET);
 		}
 
+		void update() {
+			setLabel("for " + network.getName());
+		}
+
 		NeuralNetwork getNetwork() {
 			return network;
 		}
@@ -620,8 +644,16 @@ class NetworkTreeModel implements TreeModel {
 	/**
 	 * Fires event to all listeners that the node has changed.
 	 */
-	private void fireNodeChanged(Object[] path) {
-		TreeModelEvent e = new TreeModelEvent(this, path);
+	private void fireNodeChanged(TreePath parentPath, Object child) {
+		// Wir müssen auch einen Index auf child übergeben
+		int[] indices = new int[1];
+		indices[0] = ((ModelNode) parentPath.getLastPathComponent())
+				.getIndexOf((ModelNode) child);
+
+		// Event-Objekt verpacken
+		TreeModelEvent e = new TreeModelEvent(this, parentPath, indices,
+				new Object[] { child });
+
 		for (TreeModelListener tml : listeners)
 			tml.treeNodesChanged(e);
 	}
@@ -843,36 +875,40 @@ class NetworkTreeModel implements TreeModel {
 	public void valueForPathChanged(TreePath path, Object newValue) {
 		if (newValue == null)
 			return;
+
+		// Knoten aus dem Path ziehen
 		Object last = path.getLastPathComponent();
 		if (!(last instanceof ModelNode))
 			return;
 
+		// Knoten updaten
 		ModelNode mn = (ModelNode) last;
-
 		if (isNetworkNode(mn)) {
-			((NetworkNode) mn).getNetwork().setName((String) newValue);
-			fireNodeChanged(path.getPath());
-		}
+			NetworkNode n = (NetworkNode) mn;
+			n.update((String) newValue);
+			fireNodeChanged(path.getParentPath(), last);
 
+			// Wir müssen noch die NetworkSetsNode updaten
+			NetworkSetsNode n2 = setsNodes.get(n.getNetwork());
+			n2.update();
+			fireNodeChanged(new TreePath(
+					new Object[] { rootNode, datasetsNode }), n2);
+
+		}
 		if (isNeuronsNode(mn)) {
 			NeuronsNode n = (NeuronsNode) mn;
-			n.getNetwork().setLayerSize(n.getLayerIndex(),
-					((Integer) newValue).intValue());
-			fireNodeChanged(path.getPath());
+			n.update(((Integer) newValue).intValue());
+			fireNodeChanged(path.getParentPath(), last);
 		}
-
 		if (isAVFNode(mn)) {
 			AVFNode n = (AVFNode) mn;
-			n.getNetwork().setActivationFunction(n.getLayerIndex(),
-					(ActivationFunction) newValue);
-			fireNodeChanged(path.getPath());
+			n.update((ActivationFunction) newValue);
+			fireNodeChanged(path.getParentPath(), last);
 		}
-
 		if (isBiasNode(mn)) {
 			BiasNode n = (BiasNode) mn;
-			n.getNetwork().setBias(n.getLayerIndex(),
-					((Double) newValue).doubleValue());
-			fireNodeChanged(path.getPath());
+			n.update(((Double) newValue).doubleValue());
+			fireNodeChanged(path.getParentPath(), last);
 		}
 
 	}
