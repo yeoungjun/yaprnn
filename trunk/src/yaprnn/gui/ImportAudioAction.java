@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import yaprnn.dvv.InvalidFileException;
+import yaprnn.dvv.NoSuchFileException;
 
 class ImportAudioAction implements ActionListener {
 
@@ -33,9 +35,14 @@ class ImportAudioAction implements ActionListener {
 			
 			try {
 				gui.getCore().openAiffSound(filenames);
-			} catch (Exception ex) {
+			} catch (InvalidFileException ex) {
 				JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
-						+ ex.toString() + "\n" + ex.getStackTrace(),
+						+ "Unsupported audio file format in" + "\n" + ex.getFilename(), //ex.getStackTrace(),
+						"An error occured", JOptionPane.ERROR_MESSAGE);
+			}
+			  catch (NoSuchFileException ex) {
+				JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
+						+ "This file has not been found" + "\n" + ex.getFilename(), //ex.getStackTrace(),
 						"An error occured", JOptionPane.ERROR_MESSAGE);
 			}
 		}
