@@ -8,6 +8,10 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public javax.swing.JMenuItem getMenuRefresh() {
+        return menuRefresh;
+    }
+
     public yaprnn.gui.ImagePanel getLabelWeightsImage() {
         return labelWeightsImage;
     }
@@ -185,6 +189,8 @@ public class MainView extends javax.swing.JFrame {
         menuAdd = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenuItem();
         menuRemove = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JSeparator();
+        menuRefresh = new javax.swing.JMenuItem();
         jToolBar1 = new javax.swing.JToolBar();
         toolNewMLP = new javax.swing.JButton();
         toolLoadMLP = new javax.swing.JButton();
@@ -272,6 +278,10 @@ public class MainView extends javax.swing.JFrame {
 
         menuRemove.setText("Remove");
         popupNeuralNetwork.add(menuRemove);
+        popupNeuralNetwork.add(jSeparator7);
+
+        menuRefresh.setText("Refresh");
+        popupNeuralNetwork.add(menuRefresh);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("YAPRNN");
@@ -667,6 +677,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeperator1;
     private javax.swing.JSeparator jSeperator3;
     private javax.swing.JSplitPane jSplitPane1;
@@ -690,6 +701,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuLoadMLP;
     private javax.swing.JMenuItem menuManual;
     private javax.swing.JMenuItem menuNewMLP;
+    private javax.swing.JMenuItem menuRefresh;
     private javax.swing.JMenuItem menuRemove;
     private javax.swing.JMenuItem menuReset;
     private javax.swing.JMenuItem menuSaveDataSet;

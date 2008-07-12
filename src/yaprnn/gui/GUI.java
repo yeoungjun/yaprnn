@@ -102,6 +102,7 @@ public class GUI implements GUIInterface {
 		addAction = new MenuAddAction(this);
 		editAction = new MenuEditAction(this);
 		removeAction = new MenuRemoveAction(this);
+		new MenuRefresh(this);
 
 		// Preview Handler für Audio-Daten
 		previewPlayer = new PreviewPlayAudioListener(mainView.getLabelPreview());

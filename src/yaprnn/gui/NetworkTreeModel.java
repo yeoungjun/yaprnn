@@ -369,7 +369,10 @@ class NetworkTreeModel implements TreeModel {
 
 		void update(int neuronsCount) {
 			network.setLayerSize(layerIndex, neuronsCount);
-			setLabel("Neuron count: " + neuronsCount);
+
+			// Wir holen uns nochmal die layer-size, weil eventuell diese nicht
+			// gesetzt wurde, weil das MLP nicht mehr verändert werden darf.
+			setLabel("Neuron count: " + network.getLayerSize(layerIndex));
 		}
 
 		NeuralNetwork getNetwork() {
@@ -404,7 +407,10 @@ class NetworkTreeModel implements TreeModel {
 
 		void update(ActivationFunction avf) {
 			network.setActivationFunction(layerIndex, avf);
-			setLabel("AVF: " + avf.toString());
+
+			// Wir holen uns nochmal die AVF, weil eventuell ... siehe
+			// NeuronsNode.update
+			setLabel("AVF: " + network.getLayerSize(layerIndex));
 		}
 
 		NeuralNetwork getNetwork() {
@@ -439,7 +445,10 @@ class NetworkTreeModel implements TreeModel {
 
 		void update(double bias) {
 			network.setBias(layerIndex, bias);
-			setLabel("Bias: " + bias);
+
+			// Wir holen uns nochmal die AVF, weil eventuell ... siehe
+			// NeuronsNode.update
+			setLabel("Bias: " + network.getBias(layerIndex));
 		}
 
 		NeuralNetwork getNetwork() {
@@ -665,6 +674,10 @@ class NetworkTreeModel implements TreeModel {
 		TreeModelEvent e = new TreeModelEvent(this, path);
 		for (TreeModelListener tml : listeners)
 			tml.treeStructureChanged(e);
+	}
+
+	void refresh() {
+		fireStructureChanged(new Object[] { rootNode });
 	}
 
 	/**
