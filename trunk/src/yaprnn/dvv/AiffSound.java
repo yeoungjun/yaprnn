@@ -29,6 +29,7 @@ public class AiffSound extends Data {
 		this.rawData = new double[rawData.length];
 		for (int i = 0; i < rawData.length; i++)
 			this.rawData[i] = rawData[i];
+		
 		this.rawData = oneMorePowerOfTwo(this.rawData);
 		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(this.rawData.length/2);
 		fft.realForwardFull(this.rawData);
@@ -109,19 +110,12 @@ public class AiffSound extends Data {
 		final double LAMBDA = 1.02;
 		double[] newData = new double[resolution];
 		double width = getFirstWidth(resolution, overlap, LAMBDA);
-		double[] wArray = new double[resolution];
-		double[] iArray = new double[resolution];
 		double index=0.0;
-		for (int i = 0; i < resolution; i++){
-			wArray[i] = width;
-			width = LAMBDA*width;
-		}
-		for (int i = 0; i< resolution; i++){
-			iArray[i] = (index);
-			index += (1-overlap)*wArray[i];
-		}
+		
 		for (int i = 0; i<resolution; i++){
-			newData[i] = middle(wArray[i], iArray[i], overlap); 
+			newData[i] = middle(width, index, overlap);
+			index += (1-overlap) * width;
+			width = LAMBDA*width;
 		}
 		
 		return newData;
@@ -136,28 +130,19 @@ public class AiffSound extends Data {
 	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
 	 *  @param scalingFunction the function used to scale the subsampled data
 	 */
-	public void subsample(int resolution, double overlap,
-			ActivationFunction scalingFunction) {
-	final double LAMBDA = 1.02;
-	double[] newData = new double[resolution];
-	double width = getFirstWidth(resolution, overlap, LAMBDA);
-	double[] wArray = new double[resolution];
-	double[] iArray = new double[resolution];
-	double index=0.0;
-	for (int i = 0; i < resolution; i++){
-		wArray[i] = width;
-		width = LAMBDA*width;
-	}
-	for (int i = 0; i< resolution; i++){
-		iArray[i] = (index);
-		index += (1-overlap)*wArray[i];
-	}
-	for (int i = 0; i<resolution; i++){
-		newData[i] = middle(wArray[i], iArray[i], overlap); 
-	}
-	for (int i = 0; i < resolution; i++ )
-		newData[i] = scalingFunction.compute(newData[i]/500000);
-	this.data = newData;
+	public void subsample(int resolution, double overlap, 	ActivationFunction scalingFunction) {
+		final double LAMBDA = 1.02;
+		double[] newData = new double[resolution];
+		double width = getFirstWidth(resolution, overlap, LAMBDA);
+		double index=0.0;
+	
+		for (int i = 0; i < resolution; i++ ) {
+			newData[i] = scalingFunction.compute(middle(width, index, overlap)/500000);
+			width = LAMBDA*width;
+			index += (1-overlap)*width;
+		}
+		
+		this.data = newData;
 	}
 	
 	
@@ -169,24 +154,24 @@ public class AiffSound extends Data {
 	 */
 	
 	private double middle(double width, double index, double overlap){
+		
+		if(width == 0) return 0;
+		
 		double average = 0;
-		int leftIndex = (int)Math.round(index-(width*overlap));
-		int rightIndex = (int)Math.round(leftIndex+width);
+		int leftIndex = (int) Math.round(index - (width * overlap));
+		int rightIndex = (int) Math.round(leftIndex + width);
+		
 		if (leftIndex<0){
-			for(int i = 0; i <= rightIndex;i++){
+			for(int i = 0; i <= rightIndex;i++)
 				average += this.rawData[i];
-			}
-			average = average/ (rightIndex-leftIndex);
-			return average;
+		
+			return average/ width;
 		}
-		for(int i = leftIndex; i <= rightIndex;i++){
+		
+		for(int i = leftIndex; i <= rightIndex;i++)
 			average += this.rawData[i];
-		}
-		if (rightIndex-leftIndex == 0){
-			return average;
-		}
-		average = average/ (rightIndex-leftIndex);
-		return average;
+				
+		return average / width;
 	}
 
 	/** Reads several Sounds from the specified files and returns them as a collection.
@@ -256,7 +241,8 @@ public class AiffSound extends Data {
 	 private double[] oneMorePowerOfTwo(double[] data){
 			int length = data.length;
 			int minPowerOfTwo = 1;
-				for (int i = 1; i<=length; i*=2){
+
+			for (int i = 1; i<=length; i*=2){
 					if (i == length){ //schon eine 2er potenz
 						double[] newdata = new double[i*2];
 						for (int j = 0; j < i; j++) //schreibe alte daten in erte Hälfte
@@ -267,6 +253,7 @@ public class AiffSound extends Data {
 					}
 					minPowerOfTwo = i;
 				}
+
 			double[] newData = new double[minPowerOfTwo*2];
 			for (int i = ((length-minPowerOfTwo)/2)-1; i<((length-minPowerOfTwo)/2)-1+minPowerOfTwo; i++){
 				newData[i-(((length-minPowerOfTwo)/2)-1)] = data[i]; // werte ab (differenz zur kleineren 2er-potenz)/2
