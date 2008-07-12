@@ -24,8 +24,7 @@ public class MLP implements Serializable {
        * @param bias, array with biases
 	 * @param autoencoder 
 	 */
-	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers, ActivationFunction[] functions, double[] bias)
-			throws BadConfigException {
+	public MLP(int inputNeurons, int outputNeurons, int[] hiddenLayers, ActivationFunction[] functions, double[] bias) throws BadConfigException {
 
 		// Tests the configuration
 		if (inputNeurons < 1)
@@ -212,16 +211,17 @@ public class MLP implements Serializable {
 		layer[0].setInput(input);
 		double[] netOutput = layer[layer.length - 1].getOutput();
 		double[] retVal = new double[netOutput.length];
-		
+
+		for(int i = 0; i < retVal.length; i++)
+			retVal[i] = Math.exp(10 * netOutput[i]);
+
 		// Sum up
 		double sum = 0;
-		for(double v : netOutput) sum += v;
-
-		// Get percentages
+		for(double v : retVal) sum += v;
+		
 		for(int i = 0; i < netOutput.length; i++)
-			retVal[i] = netOutput[i] * 100 / sum;
+			retVal[i] = retVal[i] *  100/ sum;
 
-		// return
 		return retVal;
 	}
 
