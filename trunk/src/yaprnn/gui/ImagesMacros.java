@@ -27,7 +27,7 @@ class ImagesMacros {
 			return null;
 		int ow = image.getWidth(null);
 		int oh = image.getHeight(null);
-		// Transform wird zur skalierung benötigt.
+		// Transform wird zur skalierung benï¿½tigt.
 		BufferedImage bi = new BufferedImage(ow, oh,
 				BufferedImage.TYPE_INT_ARGB);
 		bi.getGraphics().drawImage(image, 0, 0, ow, oh, null);
@@ -72,7 +72,7 @@ class ImagesMacros {
 		if (data == null)
 			return null;
 
-		// Zu starke Verkleinerung/größerung ist nicht erlaubt
+		// Zu starke Verkleinerung/grï¿½ï¿½erung ist nicht erlaubt
 		double zoomVal = limit(zoom, 0.5, 100);
 
 		Image image = null;
@@ -84,11 +84,10 @@ class ImagesMacros {
 				image = createImagePreview((byte[][]) data
 						.previewSubsampledData(resolution, overlap));
 		} else if (data.isAudio()) {
-			// if (!subsampled)
-			// image = createAudioPreview((double[]) data.previewRawData());
-			// else
-			// image = createAudioPreview((double[]) data
-			// .previewSubsampledData(resolution, overlap));
+			if (!subsampled)
+			image = createAudioPreview((double[]) data.previewRawData());
+			else
+			image = createAudioPreview((double[]) data.previewSubsampledData(resolution, overlap));
 		}
 
 		if (image == null)
@@ -116,7 +115,7 @@ class ImagesMacros {
 		if (weights == null)
 			return null;
 
-		// Zu starke Verkleinerung/größerung ist nicht erlaubt
+		// Zu starke Verkleinerung/grï¿½ï¿½erung ist nicht erlaubt
 		double zoomVal = limit(zoom, 0.5, 100);
 
 		int height = weights.length, width = weights[0].length;
@@ -178,8 +177,27 @@ class ImagesMacros {
 	 * @return a BufferedImage of the raw data
 	 */
 	private static Image createAudioPreview(double[] data) {
-		// TODO : createAudioPreview
-		return null;
+		if (data == null)
+			return null;
+		final int HEIGHT = 255;
+		int width = data.length;
+		double max = 0.0;
+		final byte EDGE = 20;
+		// BufferdImage erstellen aus data, data stellt ein Graustufen-Bild da.
+		BufferedImage image = new BufferedImage(width+2*EDGE, HEIGHT+2*EDGE,
+				BufferedImage.TYPE_INT_RGB);
+		for (int i = 0; i < width; i++)
+			if (data[i] > max)
+				max = data[i];
+		double divisor = max / HEIGHT;
+		for (int x = 0; x < width+2*EDGE; x++)
+			for (int y = 0; y < HEIGHT+2*EDGE; y++)
+				image.setRGB(x, y, 0); //16777215
+		 for (int x = EDGE; x < width+EDGE; x++)
+			 for (int y = HEIGHT+EDGE - (int)(data[x-EDGE] / divisor); y<=HEIGHT+EDGE; y++ )
+				image.setRGB(x, y, 16765440 -(int)Math.round((256-y+EDGE) / (256.0/210.0))*256);
+
+		return image;
 	}
 
 	/**

@@ -37,6 +37,10 @@ public class AiffSound extends Data {
 		this.data = new double[this.rawData.length];
 		for (int i = 0; i < this.rawData.length; i++)
 			this.data[i] = this.rawData[i];
+		this.data = oneMorePowerOfTwo(this.data);
+		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
+		fft.realForwardFull(this.data);
+		this.data = calcAbsolutValue(this.data);
 	}
 
 	/** Returns the completely preprocessed data of this sound.
@@ -47,12 +51,19 @@ public class AiffSound extends Data {
 		return data;
 	}
 
-	/** Returns the raw data for previewing.
+	/** Creates the frequnecy-spectrum of rawData for previewing.
 	 *
-	 *  @return the raw data
+	 *  @return the frequnecy-spectrum of rawData 
 	 */
 	public Object previewRawData() {
-		return rawData;
+		double[] previewData = new double[this.rawData.length];
+		for (int i = 0; i < previewData.length; i++)
+			previewData[i] = this.rawData[i];			
+		previewData = oneMorePowerOfTwo(previewData);
+		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(previewData.length/2);
+		fft.realForwardFull(previewData);
+		previewData = calcAbsolutValue(previewData);
+		return previewData;	
 	}
 
 	/** Returns the filename this sound was read from.
@@ -96,6 +107,7 @@ public class AiffSound extends Data {
 		return "" + target;
 	}
 
+
 	/** Returns the data subsampled with the specified parameters (not yet scaled).
 	 *
 	 *  @param resolution      the desired resolution
@@ -103,10 +115,6 @@ public class AiffSound extends Data {
 	 */
 	public Object previewSubsampledData(int resolution, double overlap) {
 		final double LAMBDA = 1.02;
-		oneMorePowerOfTwo();
-		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
-		fft.realForwardFull(data);
-		calcAbsolutValue();
 		double[] newData = new double[resolution];
 		double width = getFirstWidth(resolution, overlap, LAMBDA);
 		double[] wArray = new double[resolution];
@@ -123,6 +131,7 @@ public class AiffSound extends Data {
 		for (int i = 0; i<resolution; i++){
 			newData[i] = middle(wArray[i], iArray[i], overlap); 
 		}
+		
 		return newData;
 	}
 
@@ -136,37 +145,28 @@ public class AiffSound extends Data {
 	 *  @param scalingFunction the function used to scale the subsampled data
 	 */
 	public void subsample(int resolution, double overlap,
-				ActivationFunction scalingFunction) {
-		final double LAMBDA = 1.02;
-		/*writeFile("/home/fisch/Uni/mpgi3/vokale/wave_fft/" + this.filename + "-wave.csv");*/
-		oneMorePowerOfTwo();
-		edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D fft = new edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D(data.length/2);
-		fft.realForwardFull(data);
-		calcAbsolutValue();
-		/*writeFile("/home/fisch/Uni/mpgi3/vokale/wave_fft/" + this.filename + "-fft.csv");*/
-		double[] newData = new double[resolution];
-		double width = getFirstWidth(resolution, overlap, LAMBDA);
-		double[] wArray = new double[resolution];
-		double[] iArray = new double[resolution];
-		double index=0.0;
-		for (int i = 0; i < resolution; i++){
-			wArray[i] = width;
-			width = LAMBDA*width;
-		}
-		for (int i = 0; i< resolution; i++){
-			iArray[i] = (index);
-			index += (1-overlap)*wArray[i];
-		}
-		/*System.out.println(this.data.length);*/
-		for (int i = 0; i<resolution; i++){
-			newData[i] = middle(wArray[i], iArray[i], overlap); 
-		}
-		for (int i = 0; i < resolution; i++ )
-			newData[i] = scalingFunction.compute(newData[i]/500000);
-		this.data = newData;
-		/*for (double data : this.data)
-			System.out.println(data);*/
-		}
+			ActivationFunction scalingFunction) {
+	final double LAMBDA = 1.02;
+	double[] newData = new double[resolution];
+	double width = getFirstWidth(resolution, overlap, LAMBDA);
+	double[] wArray = new double[resolution];
+	double[] iArray = new double[resolution];
+	double index=0.0;
+	for (int i = 0; i < resolution; i++){
+		wArray[i] = width;
+		width = LAMBDA*width;
+	}
+	for (int i = 0; i< resolution; i++){
+		iArray[i] = (index);
+		index += (1-overlap)*wArray[i];
+	}
+	for (int i = 0; i<resolution; i++){
+		newData[i] = middle(wArray[i], iArray[i], overlap); 
+	}
+	for (int i = 0; i < resolution; i++ )
+		newData[i] = scalingFunction.compute(newData[i]/500000);
+	this.data = newData;
+	}
 	
 	
 	/** Calculates the average of a stated sequence from data
@@ -180,10 +180,6 @@ public class AiffSound extends Data {
 		double average = 0;
 		int leftIndex = (int)Math.round(index-(width*overlap));
 		int rightIndex = (int)Math.round(leftIndex+width);
-		/*System.out.println("w: " + width);
-		System.out.println("i: " + index);
-		System.out.println("l: " + leftIndex);
-		System.out.println("r: " + rightIndex);*/
 		if (leftIndex<0){
 			for(int i = 0; i <= rightIndex;i++){
 				average += this.data[i];
@@ -261,30 +257,32 @@ public class AiffSound extends Data {
 
 	 /** Checks if the length of data is a power of two. If not it reduces the array
 	  *  by cutting some data from the front and the end of the array.
+	  *  @param data the array wich size should be a power of two
+	  *  @return the array with a length power of two
 	  */
 	 
-	private void oneMorePowerOfTwo(){
-		int length = data.length;
-		int minPowerOfTwo = 1;
-			for (int i = 1; i<=length; i*=2){
-				if (i == length){ //schon eine 2er potenz
-					double[] newdata = new double[i*2];
-					for (int j = 0; j < i; j++) //schreibe alte daten in erte Hälfte
-						newdata[j] = data[j];
-					for (int k = i; k<i*2; k++) //fülle 2te Hälfte mit Nullen
-						newdata[k] = 0.0;
-					return;
+	 private double[] oneMorePowerOfTwo(double[] data){
+			int length = data.length;
+			int minPowerOfTwo = 1;
+				for (int i = 1; i<=length; i*=2){
+					if (i == length){ //schon eine 2er potenz
+						double[] newdata = new double[i*2];
+						for (int j = 0; j < i; j++) //schreibe alte daten in erte Hälfte
+							newdata[j] = data[j];
+						for (int k = i; k<i*2; k++) //fülle 2te Hälfte mit Nullen
+							newdata[k] = 0.0;
+						return data;
+					}
+					minPowerOfTwo = i;
 				}
-				minPowerOfTwo = i;
-			}
-		double[] newData = new double[minPowerOfTwo*2];
-		for (int i = ((length-minPowerOfTwo)/2)-1; i<((length-minPowerOfTwo)/2)-1+minPowerOfTwo; i++){
-			newData[i-(((length-minPowerOfTwo)/2)-1)] = data[i]; // werte ab (differenz zur kleineren 2er-potenz)/2
-		}														 // vorn und hinten abgeschnitten vom stream
-		for (int i = minPowerOfTwo; i<minPowerOfTwo*2; i++)
-			newData[i] = 0.0;
-		data = newData;
-	}
+			double[] newData = new double[minPowerOfTwo*2];
+			for (int i = ((length-minPowerOfTwo)/2)-1; i<((length-minPowerOfTwo)/2)-1+minPowerOfTwo; i++){
+				newData[i-(((length-minPowerOfTwo)/2)-1)] = data[i]; // werte ab (differenz zur kleineren 2er-potenz)/2
+			}														 // vorn und hinten abgeschnitten vom stream
+			for (int i = minPowerOfTwo; i<minPowerOfTwo*2; i++)
+				newData[i] = 0.0;
+			return newData;
+		}
 
 	
 	/** Calculates the abolute value from data with size n.
@@ -292,14 +290,16 @@ public class AiffSound extends Data {
  	 *	a[2*k] = Re[k], 
  	 *	a[2*k+1] = Im[k], 0<=k<n
  	 *	The new size of data i n/2
+ 	 *	@param the array what will be calculated
+ 	 *	@return the absolutvalue
 	 */
 	
-	private void calcAbsolutValue(){
-		double[] newdata = new double[data.length/4];
-		for (int i = 0; i < data.length/2; i +=2)
-			newdata[i/2] = java.lang.Math.sqrt(data[i]*data[i] + data[i+1]*data[i+1]);
-		data = newdata;
-	}
+	 private double[] calcAbsolutValue(double[] data){
+			double[] newdata = new double[data.length/4];
+			for (int i = 0; i < data.length/2; i +=2)
+				newdata[i/2] = java.lang.Math.sqrt(data[i]*data[i] + data[i+1]*data[i+1]);
+			return newdata;
+		}
 
 	/** Is it a picture?
 	 * @return Returns false.
