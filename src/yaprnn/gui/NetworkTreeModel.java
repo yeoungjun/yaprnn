@@ -48,9 +48,9 @@ import yaprnn.mlp.NeuralNetwork;
  * NetworkTreeModel is used to store and reflect NeuralNetworks and datasets in
  * a JTree.
  */
-public class NetworkTreeModel implements TreeModel {
+class NetworkTreeModel implements TreeModel {
 
-	final static int DEFAULT_ICONSIZE = 16;
+	final static int DEFAULT_ICONSIZE = 22;
 
 	final static ImageIcon ICON_MLP = ImagesMacros.loadIcon(DEFAULT_ICONSIZE,
 			DEFAULT_ICONSIZE, "/yaprnn/gui/view/iconMLP.png");
@@ -798,22 +798,6 @@ public class NetworkTreeModel implements TreeModel {
 	 */
 	List<Data> getTestset(NeuralNetwork ofNetwork) {
 		return new Vector<Data>(testSets.get(ofNetwork));
-	}
-
-	DataSetNode getLoadedNode() {
-		return loadedNode;
-	}
-
-	DatasetsNode getDatasetsNode() {
-		return datasetsNode;
-	}
-
-	NetworksNode getNetsNode() {
-		return netsNode;
-	}
-
-	RootNode getRootNode() {
-		return rootNode;
 	}
 
 	@Override
