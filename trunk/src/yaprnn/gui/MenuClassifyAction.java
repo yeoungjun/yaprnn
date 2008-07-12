@@ -117,7 +117,7 @@ class MenuClassifyAction implements ActionListener {
 			Object[][] out2 = new Object[rows][cols];
 			for (int y = 0; y < rows; y++) {
 				out2[y][0] = symbols[y];
-				out2[y][1] = Math.round(out[y] * 1000) / 1000d;
+				out2[y][1] = Math.round(out[y] * 10000) / 10000d  + " %";
 			}
 
 			// Ins model packen
@@ -189,7 +189,7 @@ class MenuClassifyAction implements ActionListener {
 		new ClassifyAction(ci);
 		new ZoomAction(ci);
 
-		// Preview Handler für Audio-Daten
+		// Preview Handler fï¿½r Audio-Daten
 		new PreviewPlayAudioListener(ci.cv.getLabelPreview()).setData(data);
 
 		MenuClassifyAction.createPreview(ci);
