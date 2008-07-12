@@ -44,10 +44,12 @@ class NetworkTreeCellEditor implements TreeCellEditor {
 		// Editor-Components
 		optionNetwork = new JTextField();
 		optionNeurons = new JTextField();
+		optionNeurons.addKeyListener(new OnlyNumbersKeyAdapter(true, true));
 		optionAVF = new JComboBox(new Vector<ActivationFunction>(gui.getCore()
 				.getAllActivationFunctions()));
 		optionAVF.setEditable(false);
 		optionBias = new JTextField();
+		optionBias.addKeyListener(new OnlyNumbersKeyAdapter(false, false));
 
 		// Editoren
 		networkEditor = new DefaultTreeCellEditor(tree, ntr,
@@ -113,12 +115,23 @@ class NetworkTreeCellEditor implements TreeCellEditor {
 	public Object getCellEditorValue() {
 		if (isNetworkNode(selected))
 			return networkEditor.getCellEditorValue();
-		if (isNeuronsNode(selected))
-			return neuronsEditor.getCellEditorValue();
+		if (isNeuronsNode(selected)) {
+			try {
+				return Integer.valueOf((String) neuronsEditor
+						.getCellEditorValue());
+			} catch (Exception e) {
+				System.out.println("NeuronsNode-Edit: Failed to parse to int");
+			}
+		}
 		if (isAVFNode(selected))
 			return avfEditor.getCellEditorValue();
-		if (isBiasNode(selected))
-			return biasEditor.getCellEditorValue();
+		if (isBiasNode(selected)) {
+			try {
+				return Double.valueOf((String) biasEditor.getCellEditorValue());
+			} catch (Exception e) {
+				System.out.println("BiasNode-Edit: Failed to parse to double");
+			}
+		}
 		return null;
 	}
 

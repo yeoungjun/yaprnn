@@ -65,7 +65,8 @@ class MenuClassifyAction implements ActionListener {
 		ZoomAction(ClassifyInfo ci) {
 			this.ci = ci;
 			ci.cv.getOptionZoom().addActionListener(this);
-			ci.cv.getOptionZoom().addKeyListener(new OnlyNumbersKeyAdapter());
+			ci.cv.getOptionZoom().addKeyListener(
+					new OnlyNumbersKeyAdapter(true, false));
 		}
 
 		@Override

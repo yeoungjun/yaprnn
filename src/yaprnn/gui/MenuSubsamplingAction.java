@@ -84,7 +84,8 @@ class MenuSubsamplingAction implements ActionListener {
 		ZoomAction(SubsamplingInfo si) {
 			this.si = si;
 			si.sv.getOptionZoom().addActionListener(this);
-			si.sv.getOptionZoom().addKeyListener(new OnlyNumbersKeyAdapter());
+			si.sv.getOptionZoom().addKeyListener(
+					new OnlyNumbersKeyAdapter(true, false));
 		}
 
 		@Override
