@@ -6,7 +6,10 @@ import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
+import yaprnn.dvv.FileMismatchException;
+import yaprnn.dvv.InvalidFileException;
+import yaprnn.dvv.NoSuchFileException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,7 +31,7 @@ class ImportImagesAction implements ActionListener {
 		String labelsPKG = null;
 		String imagesPKG = null;
 
-		// Für die Eingabe-Schleife.
+		// Fï¿½r die Eingabe-Schleife.
 		boolean notSatisfied;
 
 		// Input Dialog vorbereiten.
@@ -92,7 +95,20 @@ class ImportImagesAction implements ActionListener {
 		// Importieren
 		try {
 			gui.getCore().openIdxPicture(imagesPKG, labelsPKG);
-		} catch (Exception ex) {
+		} catch (NoSuchFileException ex) {
+			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
+					+ "This file has not been found" + "\n" + ex.getFilename(),
+					"An error occured", JOptionPane.ERROR_MESSAGE);
+		} catch (InvalidFileException ex) {
+			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
+					+ "Unsupported image or label file format in" + "\n" + ex.getFilename(),
+					"An error occured", JOptionPane.ERROR_MESSAGE);
+		} catch (FileMismatchException ex) {
+			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
+					+ "No matching files" + "\n" + ex.getDataFilename() + "\n" +
+					ex.getLabelFilename(),
+					"An error occured", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
 					+ ex.toString() + "\n" + ex.getStackTrace(),
 					"An error occured", JOptionPane.ERROR_MESSAGE);
