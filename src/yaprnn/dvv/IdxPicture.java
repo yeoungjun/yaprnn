@@ -19,6 +19,7 @@ public class IdxPicture extends Data {
 	private final int target;
 	private final String filename;
 	private final int fileIndex;
+	private String subsamplingOptions;
 
 	/** Constructs an IdxPicture object from the specified data.
 	 *
@@ -33,6 +34,7 @@ public class IdxPicture extends Data {
 		this.filename = filename;
 		this.fileIndex = fileIndex;
 		target = Integer.parseInt(label);
+		this.subsamplingOptions = "Not yet subsampled";
 	}
 
 	/** Returns the completely preprocessed data of this image.
@@ -49,6 +51,14 @@ public class IdxPicture extends Data {
 	 */
 	public Object previewRawData() {
 		return rawData;
+	}
+	
+	/** Returns the used subsampling options
+	 * 
+	 *  @return the used subsampling options
+	 */
+	public String getSubsamplingOptions(){
+		return this.subsamplingOptions;
 	}
 
 	/** Returns the data subsampled with the specified parameters (not yet scaled).
@@ -82,6 +92,7 @@ public class IdxPicture extends Data {
 		for(int i=0; i<resolution; i++)
 			for(int j=0; j<resolution; j++)
 				data[i*resolution + j] = scalingFunction.compute(subData[i][j]);
+		this.subsamplingOptions = "Resolution: " + resolution + "       Overlap: " + overlap;
 	}
 
 	/** Returns the filename this image was read from.

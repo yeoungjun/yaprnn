@@ -104,7 +104,7 @@ public class GUI implements GUIInterface {
 		removeAction = new MenuRemoveAction(this);
 		new MenuRefresh(this);
 
-		// Preview Handler für Audio-Daten
+		// Preview Handler fï¿½r Audio-Daten
 		previewPlayer = new PreviewPlayAudioListener(mainView.getLabelPreview());
 
 		// Andere Handler
@@ -142,8 +142,7 @@ public class GUI implements GUIInterface {
 			Data data = dataNode.getData();
 			mainView.getLabelFilename().setText(data.getFilename());
 			mainView.getLabelSampleLabel().setText(data.getLabel());
-			// TODO : Subsampling optionen anzeigen
-			// mainView.getLabelUsedSubsamplingOptions().setText(data.getSubsamplingOptions());
+			mainView.getLabelUsedSubsamplingOptions().setText(data.getSubsamplingOptions());
 
 			// Dem PreviewPlayer-Listener das Data-Objekt geben
 			previewPlayer.setData(data);
