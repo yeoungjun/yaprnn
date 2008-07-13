@@ -16,6 +16,7 @@ public class DVV {
 	private Collection<Data> testData;
 	private int numInputNeurons;
 	private final int numOutputNeurons;
+	private final Data.Type type;
 
 	/** Constructs a DVV for holding {@link IdxPicture} data with the specified filenames.
 	 *
@@ -29,6 +30,7 @@ public class DVV {
 				throws InvalidFileException, FileMismatchException, NoSuchFileException, IOException {
 		allData = IdxPicture.readFromFile(dataFilename, labelFilename);
 		numOutputNeurons = 10;
+		type = Data.Type.PICTURE;
 	}
 	
 	/** Constructs a DVV for holding {@link AiffSound} data with the specified filenames.
@@ -40,6 +42,7 @@ public class DVV {
 	public DVV(Collection<String> filenames) throws InvalidFileException, NoSuchFileException {
 		allData = AiffSound.readFromFile(filenames);
 		numOutputNeurons = 5;
+		type = Data.Type.AUDIO;
 	}
 
 	/** Returns the whole data set.
@@ -125,6 +128,14 @@ public class DVV {
 	 */
 	public int getNumOutputNeurons() {
 		return numOutputNeurons;
+	}
+
+	/** Returns the type of the data.
+	 *
+	 *  @return the type of the data
+	 */
+	public Data.Type getDataType() {
+		return type;
 	}
 
 	/** Selects training and test data and stores them in the appropriate collections. */
