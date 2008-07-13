@@ -2,7 +2,6 @@ package yaprnn.gui;
 
 import java.util.Collection;
 import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;

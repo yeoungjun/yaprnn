@@ -60,6 +60,7 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 */
 	public double runOnline(Collection<Data> dataCollection, double eta, double momentum) {
 		initMLP();
+		trained = true;
 		return mlp.runOnline(dataCollection, eta, momentum);
 	}
 
@@ -74,6 +75,7 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 */
 	public double runBatch(Collection<Data> dataCollection, int batchSize, double eta, double momentum) {
 		initMLP();
+		trained = true;
 		return mlp.runBatch(dataCollection, batchSize, eta, momentum);
 	}
 		
