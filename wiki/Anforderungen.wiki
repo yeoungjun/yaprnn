@@ -13,7 +13,7 @@
   * Merken der Informationen über das verwendete Subsampling in den einzelnen Data-Objekten für die Ausgabe in der GUI (?)
 
 ===GUI===
-  * Audio Preview (Sascha)
+  * ~~Audio Preview (Sascha)~~
   * ~~Trainingsfenster braucht weitere Einstellungen (Sigma, roh, Momentum) (Felix)~~
   * ~~Actionhandler zu den neuen Einstellung (Falko)~~ schon erledigt
 
