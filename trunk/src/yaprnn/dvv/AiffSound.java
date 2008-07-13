@@ -18,6 +18,7 @@ public class AiffSound extends Data {
 	private String label;
 	private int target;
 	private String filename;
+	private String subsamplingOptions;
 
 	/** Constructs an AiffSound object from the specified data.
 	 *
@@ -41,6 +42,7 @@ public class AiffSound extends Data {
 		if (label.equalsIgnoreCase("i")) this.target = 2;
 		if (label.equalsIgnoreCase("o")) this.target = 3;
 		if (label.equalsIgnoreCase("u")) this.target = 4;
+		this.subsamplingOptions = "Not yet subsampled";
 	}
 
 	/** Returns the completely preprocessed data of this sound.
@@ -100,6 +102,14 @@ public class AiffSound extends Data {
 		return "" + target;
 	}
 
+	
+	/** Returns the used subsampling options
+	 * 
+	 *  @return the used subsampling options
+	 */
+	public String getSubsamplingOptions(){
+		return this.subsamplingOptions;
+	}
 
 	/** Returns the data subsampled with the specified parameters (not yet scaled).
 	 *
@@ -143,6 +153,7 @@ public class AiffSound extends Data {
 		}
 		
 		this.data = newData;
+		this.subsamplingOptions = "Resolution: " + resolution + "       Overlap: " + overlap;
 	}
 	
 	
