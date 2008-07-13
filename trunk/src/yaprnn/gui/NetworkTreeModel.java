@@ -2,6 +2,7 @@ package yaprnn.gui;
 
 import java.util.Collection;
 import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
@@ -117,8 +118,10 @@ class NetworkTreeModel implements TreeModel {
 			this.label = label;
 		}
 
-		void update() {
-		}
+		/**
+		 * This method recursively updates the properties of the tree model.
+		 */
+		abstract void update();
 
 		int getIndexOf(ModelNode child) {
 			return -1;
@@ -177,6 +180,12 @@ class NetworkTreeModel implements TreeModel {
 		}
 
 		@Override
+		void update() {
+			nln.update();
+			dn.update();
+		}
+
+		@Override
 		ModelNode getChild(int index) {
 			if (index == 0)
 				return nln;
@@ -211,6 +220,12 @@ class NetworkTreeModel implements TreeModel {
 			super(null, "Networks");
 			this.nets = nets;
 			this.netsNodes = netsNodes;
+		}
+
+		@Override
+		void update() {
+			for (NeuralNetwork n : nets)
+				netsNodes.get(n).update();
 		}
 
 		@Override
@@ -434,7 +449,7 @@ class NetworkTreeModel implements TreeModel {
 
 		@Override
 		void update() {
-			ActivationFunction avf = network.getActivationFunction(layerIndex); 
+			ActivationFunction avf = network.getActivationFunction(layerIndex);
 			setLabel("AVF: " + avf);
 		}
 
@@ -509,6 +524,13 @@ class NetworkTreeModel implements TreeModel {
 		}
 
 		@Override
+		void update() {
+			ldn.update();
+			for (NeuralNetwork n : nets)
+				setsNodes.get(n).update();
+		}
+
+		@Override
 		ModelNode getChild(int index) {
 			return (index == 0) ? ldn : setsNodes.get(nets.get(index - 1));
 		}
@@ -538,11 +560,19 @@ class NetworkTreeModel implements TreeModel {
 	class DataSetNode extends ModelNode {
 
 		private List<Data> dataset;
-		private Dictionary<Data, DataNode> dataNodes = new Hashtable<Data, DataNode>();
+		private Dictionary<Data, DataNode> dataNodes;
 
 		public DataSetNode(String label, List<Data> dataset) {
 			super(ICON_DATASETS, label);
 			this.dataset = dataset;
+			update();
+		}
+
+		@Override
+		void update() {
+			dataNodes = new Hashtable<Data, DataNode>();
+			for (Data d : dataset)
+				add(d);
 		}
 
 		void add(Data d) {
@@ -580,8 +610,14 @@ class NetworkTreeModel implements TreeModel {
 		private Data data;
 
 		public DataNode(Data data) {
-			super(data.isAudio() ? ICON_AUDIO : ICON_IMAGE, data.getName());
 			this.data = data;
+			update();
+		}
+
+		@Override
+		void update() {
+			setIcon(data.isAudio() ? ICON_AUDIO : ICON_IMAGE);
+			setLabel(data.getName());
 		}
 
 		Data getData() {
@@ -619,6 +655,8 @@ class NetworkTreeModel implements TreeModel {
 		@Override
 		void update() {
 			setLabel("for " + network.getName());
+			trainingSetNode.update();
+			testSetNode.update();
 		}
 
 		NeuralNetwork getNetwork() {
@@ -684,6 +722,7 @@ class NetworkTreeModel implements TreeModel {
 	}
 
 	void refresh() {
+		rootNode.update();
 		fireStructureChanged(new Object[] { rootNode });
 	}
 
