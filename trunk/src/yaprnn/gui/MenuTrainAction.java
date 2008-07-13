@@ -94,6 +94,8 @@ class MenuTrainAction implements ActionListener {
 				// Trainieren in einem Background-Worker arbeiten lassen
 				ti.tw = new TrainingWorker(
 						ti,
+						((Integer) ti.tv.getOptionBatchsize().getValue())
+								.intValue(),
 						((Double) ti.tv.getOptionLearningRate().getValue())
 								.doubleValue(),
 						((Integer) ti.tv.getOptionMaxIterations().getValue())
@@ -103,16 +105,16 @@ class MenuTrainAction implements ActionListener {
 						ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof OnlineTraining,
 						ti.tv.getOptionUseMomentum().isSelected(),
 						((Double) ti.tv.getOptionMomentum().getValue())
-								.doubleValue(),
-						ti.tv.getOptionModifyLearningrate().isSelected(),
+								.doubleValue(), ti.tv
+								.getOptionModifyLearningrate().isSelected(),
 						ti.tv.getOptionDynamicAdjustment().isSelected(),
 						((Double) ti.tv.getOptionDynamicReductionfactor()
-								.getValue()).doubleValue(),
-						((Double) ti.tv.getOptionDynamicMultiplier().getValue())
-								.doubleValue(),
-						((Double) ti.tv.getOptionStaticReductionfactor()
-								.getValue()).doubleValue(),
-						((Integer) ti.tv.getOptionStaticIterations().getValue())
+								.getValue()).doubleValue(), ((Double) ti.tv
+								.getOptionDynamicMultiplier().getValue())
+								.doubleValue(), ((Double) ti.tv
+								.getOptionStaticReductionfactor().getValue())
+								.doubleValue(), ((Integer) ti.tv
+								.getOptionStaticIterations().getValue())
 								.intValue());
 				ti.tw.execute();
 			}
@@ -126,6 +128,7 @@ class MenuTrainAction implements ActionListener {
 	private class TrainingWorker extends SwingWorker<Object, Object> {
 
 		private TrainingInfo ti;
+		int batchSize;
 		double maxError;
 		int maxIterations;
 		boolean onlineLearning;
@@ -139,13 +142,14 @@ class MenuTrainAction implements ActionListener {
 		double staticReductionFactor;
 		int staticIterations;
 
-		TrainingWorker(TrainingInfo ti, double learningRate, int maxIterations,
-				double maxError, boolean onlineLearning, boolean useMomentum,
-				double momentum, boolean modifyLearningrate,
-				boolean dynamicAdjustment, double dynamicReductionFactor,
-				double dynamicMultiplier, double staticReductionFactor,
-				int staticIterations) {
+		TrainingWorker(TrainingInfo ti, int batchSize, double learningRate,
+				int maxIterations, double maxError, boolean onlineLearning,
+				boolean useMomentum, double momentum,
+				boolean modifyLearningrate, boolean dynamicAdjustment,
+				double dynamicReductionFactor, double dynamicMultiplier,
+				double staticReductionFactor, int staticIterations) {
 			this.ti = ti;
+			this.batchSize = batchSize;
 			this.learningRate = learningRate;
 			this.maxError = maxError;
 			this.maxIterations = maxIterations;
@@ -171,21 +175,25 @@ class MenuTrainAction implements ActionListener {
 			if (useMomentum)
 				momentum = this.momentum;
 
-			Eta eta = null; 
-			
-			if(modifyLearningrate) {
+			Eta eta = null;
+
+			if (modifyLearningrate) {
 				if (dynamicAdjustment)
-					eta = new DynamicEtaAdjustment(learningRate, dynamicReductionFactor, dynamicMultiplier);
+					eta = new DynamicEtaAdjustment(learningRate,
+							dynamicReductionFactor, dynamicMultiplier);
 				else
-					eta = new StaticEtaAdjustment(learningRate, staticReductionFactor, staticIterations);
+					eta = new StaticEtaAdjustment(learningRate,
+							staticReductionFactor, staticIterations);
 			} else
 				eta = new NoEtaAdjustment(learningRate);
-					
-			
-			if(onlineLearning)
-				ti.gui.getCore().trainOnline(eta, maxIterations,maxError, momentum);
+
+			if (onlineLearning)
+				ti.gui.getCore().trainOnline(eta, maxIterations, maxError,
+						momentum);
 			else
-				ti.gui.getCore().trainBatch(eta, maxIterations,maxError, 20, momentum); //TODO: 20 ist batchSize und muss aus der GUI kommen!
+				ti.gui.getCore().trainBatch(eta, maxIterations, maxError,
+						batchSize, momentum); // TODO: 20 ist batchSize und
+			// muss aus der GUI kommen!
 			return null;
 		}
 
@@ -258,6 +266,20 @@ class MenuTrainAction implements ActionListener {
 			ti.tv.getOptionModifyLearningrate().addItemListener(this);
 			ti.tv.getOptionDynamicAdjustment().addItemListener(this);
 			ti.tv.getOptionStaticAdjustment().addItemListener(this);
+
+			// Optionen init-aktivieren/deaktivieren
+			ti.tv.getPreferencesTabs().setEnabledAt(2,
+					ti.tv.getOptionUseMomentum().isSelected());
+			ti.tv.getPreferencesTabs().setEnabledAt(1,
+					ti.tv.getOptionModifyLearningrate().isSelected());
+			ti.tv.getOptionDynamicMultiplier().setEnabled(
+					ti.tv.getOptionDynamicAdjustment().isSelected());
+			ti.tv.getOptionDynamicReductionfactor().setEnabled(
+					ti.tv.getOptionDynamicAdjustment().isSelected());
+			ti.tv.getOptionStaticIterations().setEnabled(
+					ti.tv.getOptionStaticAdjustment().isSelected());
+			ti.tv.getOptionStaticReductionfactor().setEnabled(
+					ti.tv.getOptionStaticAdjustment().isSelected());
 		}
 
 		@Override
@@ -288,6 +310,30 @@ class MenuTrainAction implements ActionListener {
 
 		}
 
+	}
+
+	private class OptionTrainingMethodAction implements ActionListener {
+
+		private TrainingInfo ti;
+
+		public OptionTrainingMethodAction(TrainingInfo ti) {
+			this.ti = ti;
+			ti.tv.getOptionTrainingMethod().addActionListener(this);
+
+			// Optionen init-aktivieren/deaktivieren
+			ti.tv
+					.getOptionBatchsize()
+					.setEnabled(
+							ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof BatchTraining);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ti.tv
+					.getOptionBatchsize()
+					.setEnabled(
+							ti.tv.getOptionTrainingMethod().getSelectedItem() instanceof BatchTraining);
+		}
 	}
 
 	// TODO : Zur zeit kann nur ein Netzwerk trainiert werden.
@@ -340,6 +386,7 @@ class MenuTrainAction implements ActionListener {
 		new TrainAction(ti);
 		new TrainingWindowListener(ti);
 		new OptionItemChange(ti);
+		new OptionTrainingMethodAction(ti);
 
 		// Einstellungen initialisieren
 		ti.tv.getToolTrain().setIcon(ICON_TRAIN);
@@ -349,20 +396,6 @@ class MenuTrainAction implements ActionListener {
 						new BatchTraining() }));
 		ti.tv.getOptionTrainingMethod().setEditable(false);
 		ti.tv.setTitle("Training: " + ti.network.getName());
-
-		// Options init-aktivieren/deaktivieren
-		ti.tv.getPreferencesTabs().setEnabledAt(1,
-				ti.tv.getOptionModifyLearningrate().isSelected());
-		ti.tv.getPreferencesTabs().setEnabledAt(2,
-				ti.tv.getOptionUseMomentum().isSelected());
-		ti.tv.getOptionDynamicMultiplier().setEnabled(
-				ti.tv.getOptionDynamicAdjustment().isSelected());
-		ti.tv.getOptionDynamicReductionfactor().setEnabled(
-				ti.tv.getOptionDynamicAdjustment().isSelected());
-		ti.tv.getOptionStaticIterations().setEnabled(
-				ti.tv.getOptionStaticAdjustment().isSelected());
-		ti.tv.getOptionStaticReductionfactor().setEnabled(
-				ti.tv.getOptionStaticAdjustment().isSelected());
 
 		ti.tv.setVisible(true);
 	}
