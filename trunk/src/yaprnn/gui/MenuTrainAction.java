@@ -25,6 +25,7 @@ import yaprnn.mlp.Eta;
 import yaprnn.mlp.NeuralNetwork;
 import yaprnn.mlp.NoEtaAdjustment;
 import yaprnn.mlp.StaticEtaAdjustment;
+import yaprnn.dvv.DataTypeMismatchException;
 
 class MenuTrainAction implements ActionListener {
 
@@ -187,12 +188,18 @@ class MenuTrainAction implements ActionListener {
 			} else
 				eta = new NoEtaAdjustment(learningRate);
 
-			if (onlineLearning)
-				ti.gui.getCore().trainOnline(eta, maxIterations, maxError,
-						momentum);
-			else
-				ti.gui.getCore().trainBatch(eta, maxIterations, maxError,
-						batchSize, momentum); // TODO: 20 ist batchSize und
+			try {
+				if (onlineLearning) 
+					ti.gui.getCore().trainOnline(eta, maxIterations, maxError,
+							momentum);
+				else
+					ti.gui.getCore().trainBatch(eta, maxIterations, maxError,
+							batchSize, momentum); // TODO: 20 ist batchSize und
+			} catch(DataTypeMismatchException e) {
+				JOptionPane .showMessageDialog(ti.tv,
+				"The data you selected does not have the same type as data the neural network has previously been trained with.",
+				"Training", JOptionPane.ERROR_MESSAGE);
+			}
 			// muss aus der GUI kommen!
 			return null;
 		}

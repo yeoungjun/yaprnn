@@ -6,6 +6,8 @@ public abstract class Data {
 
 	private enum Use {TRAINING, TEST, NOT_USED};
 
+	public enum Type {AUDIO, PICTURE};
+
 	private Use use;
 
 	public abstract double[] getData();

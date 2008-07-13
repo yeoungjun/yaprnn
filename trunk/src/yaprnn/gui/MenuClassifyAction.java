@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import yaprnn.dvv.Data;
+import yaprnn.dvv.DataTypeMismatchException;
 import yaprnn.gui.view.ClassifyView;
 import yaprnn.mlp.NeuralNetwork;
 
@@ -108,7 +109,15 @@ class MenuClassifyAction implements ActionListener {
 						"7", "8", "9" };
 
 			// Klassifizieren
-			double[] out = ci.gui.getCore().classify(ci.data);
+			double[] out = null;
+			try {
+				out = ci.gui.getCore().classify(ci.data);
+			} catch(DataTypeMismatchException ex) {
+				JOptionPane.showMessageDialog(ci.cv,
+						"The data you selected does not have the same type as data the neural network has previously been trained with.",
+						"Classify Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
 			// -1, da letzter Output Bias des Output-layers. (uninteressant)
 			int rows = out.length - 1, cols = 2;

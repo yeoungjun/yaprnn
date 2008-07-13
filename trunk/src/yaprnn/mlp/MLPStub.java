@@ -14,11 +14,11 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	private double[] biases;
 	private boolean autoEncoder;
 	private MLP mlp;
-	private boolean trained;
 	private List<ActivationFunction> allActivations;
 	private int maxIterations;
 	private double maxError;
 	private double eta;
+	private Data.Type type;
 
 	public MLPStub(String name, int numLayers, int numNeurons, int activationFunction,
 			double bias, List<ActivationFunction> allActivations) {
@@ -33,15 +33,27 @@ public class MLPStub implements Serializable, NeuralNetwork {
 			biases[i] = bias;
 		}
 		layers[0] = 1;
-		trained = false;
 	}
 
-	public void setNumInputNeurons(int numNeurons) {
+	public boolean setNumInputNeurons(int numNeurons) {
+		if(isTrained() && layers[0] != numNeurons)
+			return false;
 		layers[0] = numNeurons;
+		return true;
 	}
 
-	public void setNumOutputNeurons(int numNeurons) {
+	public boolean setNumOutputNeurons(int numNeurons) {
+		if(isTrained() && layers[layers.length-1] != numNeurons)
+			return false;
 		layers[layers.length-1] = numNeurons;
+		return true;
+	}
+
+	public boolean setDataType(Data.Type type) {
+		if(isTrained() && this.type != type)
+			return false;
+		this.type = type;
+		return true;
 	}
 
 	public void resetIterations() {
@@ -62,7 +74,6 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 */
 	public double runOnline(Collection<Data> dataCollection, double eta, double momentum) {
 		initMLP();
-		trained = true;
 		return mlp.runOnline(dataCollection, eta, momentum);
 	}
 
@@ -77,7 +88,6 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 */
 	public double runBatch(Collection<Data> dataCollection, int batchSize, double eta, double momentum) {
 		initMLP();
-		trained = true;
 		return mlp.runBatch(dataCollection, batchSize, eta, momentum);
 	}
 		
@@ -187,7 +197,7 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 * @return true if this network has been trained; false otherwise
 	 */
 	public boolean isTrained() {
-		return trained;
+		return mlp != null;
 	}
 
 	/**
@@ -208,7 +218,7 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setnumLayers(int numLayers) {
-		if(!trained) {
+		if(!isTrained()) {
 			int[] newLayers = new int[numLayers];
 			double[] newBias = new double[numLayers];
 			ActivationFunction[] newActivations = new ActivationFunction[numLayers];
@@ -227,7 +237,7 @@ public class MLPStub implements Serializable, NeuralNetwork {
 			biases = newBias;
 			activations = newActivations;
 		}
-		return !trained;	
+		return !isTrained();
 	}
 
 	/**
@@ -241,9 +251,9 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setLayerSize(int layer, int size) {
-		if(!trained && layer != 0 && layer < layers.length)
+		if(!isTrained() && layer != 0 && layer < layers.length)
 			layers[layer] = size;
-		return !trained;
+		return !isTrained();
 	}
 	
 	/**
@@ -257,9 +267,9 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setActivationFunction(int layer, ActivationFunction activationFunction) {
-		if(!trained && layer != 0 && layer  < activations.length)
+		if(!isTrained() && layer != 0 && layer  < activations.length)
 			activations[layer] = activationFunction;
-		return !trained;
+		return !isTrained();
 	}
 
 	/**
@@ -272,14 +282,13 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setBias(int layer, double bias) {
-		if(!trained && layer != 0 && layer < biases.length)
+		if(!isTrained() && layer != 0 && layer < biases.length)
 			biases[layer] = bias;
-		return !trained;
+		return !isTrained();
 	}
 
 	private void initMLP() {
-		if(mlp == null) {
-			trained = true;
+		if(!isTrained()) {
 			int[] newLayers = new int[layers.length-2];
 			double[] newBias = new double[layers.length-2];
 			for(int i=0; i<newLayers.length; i++) {
@@ -301,4 +310,5 @@ public class MLPStub implements Serializable, NeuralNetwork {
 		this.maxError = maxError;
 		this.eta = eta;
 	}
+
 }

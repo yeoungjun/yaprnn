@@ -37,11 +37,14 @@ public class Core {
 	 *  @param  input the input data item
 	 *  @return the vector of percentages
 	 */
-	public double[] classify(Data input) {
+	public double[] classify(Data input) throws DataTypeMismatchException {
 		if(mlp == null)
 			return null;
-		mlp.setNumInputNeurons(input.getData().length);
-		mlp.setNumOutputNeurons(dvv.getNumOutputNeurons());
+		if(		   !mlp.setNumInputNeurons(input.getData().length)
+				|| !mlp.setNumOutputNeurons(dvv.getNumOutputNeurons())
+				|| !mlp.setDataType(dvv.getDataType())) {
+			throw new DataTypeMismatchException();
+		}
 		return mlp.classify(input.getData());
 	}
 
@@ -142,14 +145,18 @@ public class Core {
 	 *  @param maxError      training stops if the test error falls below maxError
 	 */
 	
-	public void trainOnline(Eta eta, int maxIterations, double maxError, double momentum) {
+	public void trainOnline(Eta eta, int maxIterations, double maxError, double momentum)
+			throws DataTypeMismatchException {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();
 		double trainingErr = Double.MAX_VALUE;
 		double testErr;
 		run = true;
-		mlp.setNumInputNeurons(dvv.getNumInputNeurons());	
-		mlp.setNumOutputNeurons(dvv.getNumOutputNeurons());
+		if(	  	   !mlp.setNumInputNeurons(dvv.getNumInputNeurons())
+				|| !mlp.setNumOutputNeurons(dvv.getNumOutputNeurons())
+				|| !mlp.setDataType(dvv.getDataType())) {
+			throw new DataTypeMismatchException();
+		}
 		for(int i=0; i<maxIterations && run; i++) {
 				Collection<Data> test = dvv.getTestData();
 				Collection<Data> train = dvv.getTrainingData();
@@ -176,14 +183,18 @@ public class Core {
 	 *  @param maxError      training stops if the test error falls below maxError
 	 */
 	
-	public void trainBatch(Eta eta, int maxIterations, double maxError, int batchSize, double momentum) {
+	public void trainBatch(Eta eta, int maxIterations, double maxError, int batchSize, double momentum)
+			throws DataTypeMismatchException {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();
 		double trainingErr = Double.MAX_VALUE;
 		double testErr;
 		run = true;
-		mlp.setNumInputNeurons(dvv.getNumInputNeurons());	
-		mlp.setNumOutputNeurons(dvv.getNumOutputNeurons());
+		if(		   !mlp.setNumInputNeurons(dvv.getNumInputNeurons())
+				|| !mlp.setNumOutputNeurons(dvv.getNumOutputNeurons())
+				|| !mlp.setDataType(dvv.getDataType())) {
+			throw new DataTypeMismatchException();
+		}
 		mlp.resetIterations();
 		for(int i=0; i<maxIterations && run; i++) {
 				Collection<Data> test = dvv.getTestData();
