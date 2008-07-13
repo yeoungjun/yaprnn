@@ -6,6 +6,8 @@ import yaprnn.dvv.*;
 
 public class MLPStub implements Serializable, NeuralNetwork {
 
+	private static final long serialVersionUID = 315293690250102356L;
+
 	private String name;
 	private int[] layers;
 	private ActivationFunction[] activations;
