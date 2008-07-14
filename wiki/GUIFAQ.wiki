@@ -17,6 +17,6 @@ In Popupmenus funktioniert noch nicht:
 "Remove"
 
 == Noch zu korrigieren ==
-In DataSampleDetails, kann man ein Preview bis zu einer Auflösung bis 256 erstellen. Beim Subsampling jedoch nur bis 200.
+~~In DataSampleDetails, kann man ein Preview bis zu einer Auflösung bis 256 erstellen. Beim Subsampling jedoch nur bis 200.~~ fixed
 
 Bei den Sounddaten ist nur ein maximaler Zoom von 4x möglich, bei Allem was drüber geht, gibts Probleme mit dem Heap space. (Getestet bis 2048).
