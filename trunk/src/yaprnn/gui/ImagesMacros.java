@@ -185,14 +185,13 @@ class ImagesMacros {
 		final byte EDGE = 20;
 		BufferedImage image = new BufferedImage(width+2*EDGE, HEIGHT+2*EDGE,
 				BufferedImage.TYPE_INT_RGB);
+		//Skalierung bestimmen
 		for (int i = 0; i < width; i++)
 			if (data[i] > max)
 				max = data[i];
 		double divisor = max / HEIGHT;
-		for (int x = 0; x < width+2*EDGE; x++)
-			for (int y = 0; y < HEIGHT+2*EDGE; y++)
-				image.setRGB(x, y, 0); //16777215
-		 for (int x = EDGE; x < width+EDGE; x++)
+		// BufferedImage is initialized with 0x000000 (black) for all pixels
+		for (int x = EDGE; x < width+EDGE; x++)
 			 for (int y = HEIGHT+EDGE - (int)(data[x-EDGE] / divisor); y<=HEIGHT+EDGE; y++ )
 				image.setRGB(x, y, 16765440 -(int)Math.round((256-y+EDGE) / (256.0/210.0))*256);
 
