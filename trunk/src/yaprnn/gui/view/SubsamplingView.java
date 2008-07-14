@@ -139,7 +139,7 @@ public class SubsamplingView extends javax.swing.JFrame {
 
         jLabel1.setText("Resolution:");
 
-        optionResolution.setModel(new javax.swing.SpinnerNumberModel(16, 0, 200, 1));
+        optionResolution.setModel(new javax.swing.SpinnerNumberModel(16, 0, 256, 1));
 
         jLabel2.setText("Overlap:");
 
