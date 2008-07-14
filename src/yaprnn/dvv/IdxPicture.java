@@ -1,5 +1,6 @@
 package yaprnn.dvv;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.io.*;
 import yaprnn.mlp.ActivationFunction;
@@ -92,7 +93,8 @@ public class IdxPicture extends Data {
 		for(int i=0; i<resolution; i++)
 			for(int j=0; j<resolution; j++)
 				data[i*resolution + j] = scalingFunction.compute(subData[i][j]);
-		this.subsamplingOptions = "Resolution: " + resolution + "       Overlap: " + overlap;
+		DecimalFormat f = new DecimalFormat("#0.00"); 
+		this.subsamplingOptions = "Resolution: " + resolution + "       Overlap: " + f.format(overlap);
 	}
 
 	/** Returns the filename this image was read from.

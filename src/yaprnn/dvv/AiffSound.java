@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 import javax.sound.sampled.*;
 import yaprnn.mlp.ActivationFunction;
+import java.text.DecimalFormat;
 
 
 
@@ -153,7 +154,8 @@ public class AiffSound extends Data {
 		}
 		
 		this.data = newData;
-		this.subsamplingOptions = "Resolution: " + resolution + "       Overlap: " + overlap;
+		DecimalFormat f = new DecimalFormat("#0.00"); 
+		this.subsamplingOptions = "Resolution: " + resolution + "       Overlap: " + f.format(overlap);
 	}
 	
 	
