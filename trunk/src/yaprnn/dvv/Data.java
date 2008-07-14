@@ -18,7 +18,7 @@ public abstract class Data {
 	public abstract String getPath();
 	public abstract String getSubsamplingOptions();
 	public abstract String getLabelFromTarget(int target);
-	public abstract void subsample(int resolution, double overlap, ActivationFunction function);
+	public abstract void subsample(int resolution, double overlap, ActivationFunction function) throws NoSuchFileException;
 	public abstract boolean isAudio();
 	public abstract boolean isPicture();
 	public abstract Object previewRawData();

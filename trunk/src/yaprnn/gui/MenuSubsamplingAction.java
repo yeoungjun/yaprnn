@@ -12,6 +12,7 @@ import yaprnn.dvv.Data;
 import yaprnn.gui.view.SubsamplingView;
 import yaprnn.mlp.ActivationFunction;
 import yaprnn.mlp.Linear;
+import yaprnn.dvv.NoSuchFileException;
 
 /**
  * This eventhandler opens a new SubsamplingView that will ask for the
@@ -123,12 +124,17 @@ class MenuSubsamplingAction implements ActionListener {
 
 			// Vorher versuchen etwas Speicher frei zu machen
 			GUI.tryFreeMemory();
-
+			try {
 			si.gui.getCore().preprocess(
 					si.resolution,
 					si.overlap,
 					(ActivationFunction) si.sv.getOptionScaleFun()
 							.getSelectedItem());
+			} catch (NoSuchFileException ex) {
+				JOptionPane.showMessageDialog(gui.getView(), "Subsampling failed!\n"
+						+ "Resolution too large for image_" + ex.getFilename(),
+						"An error occured", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 	}
@@ -147,7 +153,7 @@ class MenuSubsamplingAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Es wird eine Skalierungsfunktion benötigt, die lineare darf nicht
+		// Es wird eine Skalierungsfunktion benï¿½tigt, die lineare darf nicht
 		// verwendet werden.
 		Vector<ActivationFunction> scaleFuns = new Vector<ActivationFunction>(
 				gui.getCore().getAllActivationFunctions());
@@ -166,7 +172,7 @@ class MenuSubsamplingAction implements ActionListener {
 		new ZoomAction(si);
 		new ProcessAction(si);
 
-		// Preview Handler für Audio-Daten
+		// Preview Handler fï¿½r Audio-Daten
 		new PreviewPlayAudioListener(si.sv.getLabelPreview()).setData(data);
 
 		si.sv.getToolProcess().setIcon(ICON_PROCESSALL);
