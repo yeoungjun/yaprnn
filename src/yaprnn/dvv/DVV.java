@@ -102,11 +102,14 @@ public class DVV {
 	 *  @param overlap         the overlap used when determining the window sizes
 	 *  @param scalingFunction the function used to scale the subsampled data
 	 */
-	public void preprocess(int resolution, double overlap, ActivationFunction scalingFunction) {
-		//TODO: error handling
+	public void preprocess(int resolution, double overlap, ActivationFunction scalingFunction) throws NoSuchFileException{
 		if (allData.size() > 0) {
+			try {
 			for(Data data : allData)
-				data.subsample(resolution, overlap, scalingFunction);
+					data.subsample(resolution, overlap, scalingFunction);
+				} catch (NoSuchFileException ex) {
+					throw new NoSuchFileException(ex.getFilename());
+				}
 			if (allData.iterator().next().isAudio())
 				numInputNeurons = resolution;
 			else 

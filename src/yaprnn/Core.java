@@ -221,9 +221,14 @@ public class Core {
 	 *  @param overlap         the window overlap used for subsampling. Must be a value between 0 and 0.95
 	 *  @param scalingFunction the function used to scale (e.g. to the range [0, 1]) the subsampled data
 	 */
-	public void preprocess(int resolution, double overlap, ActivationFunction scalingFunction) {
+	public void preprocess(int resolution, double overlap, ActivationFunction scalingFunction) throws NoSuchFileException {
 		if(dvv != null)
+			try {
 			dvv.preprocess(resolution, overlap, scalingFunction);
+			}
+		catch (NoSuchFileException ex) {
+			throw new NoSuchFileException(ex.getFilename());
+			}
 	}
 
 	/** Randomly selects data for the training or test data set, according to the specified percentages.
