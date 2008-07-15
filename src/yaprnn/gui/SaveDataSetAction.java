@@ -15,6 +15,11 @@ class SaveDataSetAction implements ActionListener {
 		setEnabled(false);
 		gui.getView().getMenuSaveDataSet().addActionListener(this);
 		gui.getView().getToolSaveDataSet().addActionListener(this);
+
+		// TODO: Das Speichern eines Datasets ist noch nicht implementiert und
+		// die entsprechenden Menus werden erstmal versteckt.
+		gui.getView().getMenuSaveDataSet().setVisible(false);
+		gui.getView().getToolSaveDataSet().setVisible(false);
 	}
 
 	void setEnabled(boolean enabled) {
