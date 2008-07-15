@@ -17,8 +17,8 @@ import yaprnn.mlp.NeuralNetwork;
 
 class NewMLPAction implements ActionListener {
 
-	private final static int DEFAULT_NUMLAYERS = 1;
-	private final static int DEFAULT_NUMNEURONS = 2;
+	private final static int DEFAULT_NUMLAYERS = 3;
+	private final static int DEFAULT_NUMNEURONS = 20;
 	private final static double DEFAULT_BIAS = 1;
 	private final static int DEFAULT_ACTIVATIONFUNCTION = 0;
 	private final static boolean DEFAULT_AUTOENCODING = false;
@@ -153,10 +153,19 @@ class NewMLPAction implements ActionListener {
 		double eta = ((Double) form.optionETA.getValue()).doubleValue();
 
 		NeuralNetwork mlp = null;
-		if(autoEncoding)
-			mlp = gui.getCore().newMLP(name, numLayers + 2,	numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias, maxIterations, upperBound, eta);
-		else	
-			mlp = gui.getCore().newMLP(name, numLayers + 2,	numNeurons, DEFAULT_ACTIVATIONFUNCTION, bias);
+		if (autoEncoding)
+			mlp = gui.getCore().newMLP(name, numLayers + 2, numNeurons,
+					DEFAULT_ACTIVATIONFUNCTION, bias, maxIterations,
+					upperBound, eta);
+		else
+			mlp = gui.getCore().newMLP(name, numLayers + 2, numNeurons,
+					DEFAULT_ACTIVATIONFUNCTION, bias);
+
+		// TODO : Da wir noch nicht mehrere MLPs unterstützen, löschen wir das
+		// gerade stehende MLP aus dem Baum!
+		if (gui.getTreeModel().getNetworks().size() > 0)
+			gui.getTreeModel().remove(gui.getTreeModel().getNetworks().get(0));
+
 		gui.getTreeModel().add(mlp);
 	}
 

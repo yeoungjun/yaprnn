@@ -210,6 +210,8 @@ class MenuTrainAction implements ActionListener {
 			ti.tv.getToolTrain().setIcon(ICON_TRAIN);
 			ti.tv.getToolTrain().setText("Train");
 			ti.tv.getToolTrain().setEnabled(true);
+			
+			ti.gui.getTreeModel().refresh();
 		}
 
 	}
