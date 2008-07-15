@@ -13,9 +13,6 @@ public class TangensHyperbolicus implements ActivationFunction {
 		return 1 - v * v;
 	}
 
-	public double getMinimumValue() {
-		return -1;
-	}
 
 	@Override
 	public String toString() {
