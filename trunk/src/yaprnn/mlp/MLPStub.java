@@ -35,6 +35,19 @@ public class MLPStub implements Serializable, NeuralNetwork {
 		layers[0] = 1;
 	}
 
+	/** Deletes the current (trained) MLP but keeps the configuration.
+	 *
+	 *  If there is no MLP, this function does nothing.
+	 **/
+	public void reset() {
+		mlp = null;
+		maxIterations = 0;
+		maxError = 0.0;
+		eta = 0.0;
+		type = null;
+		layers[0] = 1;
+	}
+
 	public boolean setNumInputNeurons(int numNeurons) {
 		if(isTrained() && layers[0] != numNeurons)
 			return false;
