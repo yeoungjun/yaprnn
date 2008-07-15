@@ -8,24 +8,27 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
+import yaprnn.dvv.DataTypeMismatchException;
 import yaprnn.gui.view.TrainingView;
 import yaprnn.mlp.DynamicEtaAdjustment;
 import yaprnn.mlp.Eta;
 import yaprnn.mlp.NeuralNetwork;
 import yaprnn.mlp.NoEtaAdjustment;
 import yaprnn.mlp.StaticEtaAdjustment;
-import yaprnn.dvv.DataTypeMismatchException;
 
 class MenuTrainAction implements ActionListener {
 

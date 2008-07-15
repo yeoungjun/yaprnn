@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+
 import yaprnn.dvv.Data;
 import yaprnn.dvv.DataTypeMismatchException;
 import yaprnn.gui.view.ClassifyView;

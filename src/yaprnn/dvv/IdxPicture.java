@@ -1,8 +1,15 @@
 package yaprnn.dvv;
 
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import yaprnn.mlp.ActivationFunction;
 
 /** IdxPicture is the class for holding a single image loaded from an IDX file.
@@ -42,6 +49,7 @@ public class IdxPicture extends Data {
 	 *
 	 *  @return the preprocessed data
 	 */
+	@Override
 	public double[] getData() {
 		return data;
 	}
@@ -50,6 +58,7 @@ public class IdxPicture extends Data {
 	 *
 	 *  @return the raw data
 	 */
+	@Override
 	public Object previewRawData() {
 		return rawData;
 	}
@@ -58,6 +67,7 @@ public class IdxPicture extends Data {
 	 * 
 	 *  @return the used subsampling options
 	 */
+	@Override
 	public String getSubsamplingOptions(){
 		return this.subsamplingOptions;
 	}
@@ -67,6 +77,7 @@ public class IdxPicture extends Data {
 	 *  @param resolution      the desired resolution
 	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
 	 */
+	@Override
 	public Object previewSubsampledData(int resolution, double overlap) {
 		if(resolution <= 0 || resolution > rawData.length || overlap < 0.0 || overlap > 0.95)
 			return null;
@@ -84,6 +95,7 @@ public class IdxPicture extends Data {
 	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
 	 *  @param scalingFunction the function used to scale the subsampled data
 	 */
+	@Override
 	public void subsample(int resolution, double overlap,
 				ActivationFunction scalingFunction) throws NoSuchFileException{
 			if(resolution <= 0 || resolution > rawData.length || overlap <= 0.0 || overlap > 0.95)
@@ -101,6 +113,7 @@ public class IdxPicture extends Data {
 	 *
 	 *  @return the filename this object was read from
 	 */
+	@Override
 	public String getFilename() {
 		return filename;
 	}
@@ -110,6 +123,7 @@ public class IdxPicture extends Data {
 	 *
 	 *  @return the name of this image
 	 */
+	@Override
 	public String getName() {
 		return (new File(filename)).getName() + "_" + fileIndex;
 	}
@@ -118,6 +132,7 @@ public class IdxPicture extends Data {
 	 *
 	 *  @return the target for this image
 	 */
+	@Override
 	public int getTarget() {
 		return target;
 	}
@@ -126,6 +141,7 @@ public class IdxPicture extends Data {
 	 *
 	 *  @return the label for this image
 	 */
+	@Override
 	public String getLabel() {
 		return label;
 	}
@@ -135,6 +151,7 @@ public class IdxPicture extends Data {
 	 *  @param target the target to be mapped to a label
 	 *  @return the label corresponding to the specified target
 	 */
+	@Override
 	public String getLabelFromTarget(int target) {
 		return "" + target;
 	}
@@ -143,6 +160,7 @@ public class IdxPicture extends Data {
 	 * @return Returns true.
 	 */
 	
+	@Override
 	public boolean isPicture() {
 		return true;
 	}
@@ -150,6 +168,7 @@ public class IdxPicture extends Data {
 	/** Is it an audio?
 	 * @return Returns false.
 	 */
+	@Override
 	public boolean isAudio() {
 		return false;
 	}
@@ -258,10 +277,11 @@ public class IdxPicture extends Data {
 	}
 
 	private int uByteToInt(byte b) {
-		final int i = (int)b;
+		final int i = b;
 		return i >= 0 ? i : 128 + (i & 0x7F);
 	}
 
+	@Override
 	public String getPath() {
 		return filename;
 	}

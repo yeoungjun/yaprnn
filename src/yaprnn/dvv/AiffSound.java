@@ -1,10 +1,16 @@
 package yaprnn.dvv;
 
-import java.util.*;
-import java.io.*;
-import javax.sound.sampled.*;
-import yaprnn.mlp.ActivationFunction;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import yaprnn.mlp.ActivationFunction;
 
 
 
@@ -50,6 +56,7 @@ public class AiffSound extends Data {
 	 *
 	 *  @return the preprocessed data
 	 */
+	@Override
 	public double[] getData() {
 		return data;
 	}
@@ -58,6 +65,7 @@ public class AiffSound extends Data {
 	 *
 	 *  @return the frequnecy-spectrum of rawData 
 	 */
+	@Override
 	public Object previewRawData() {
 		return this.rawData;	
 	}
@@ -66,6 +74,7 @@ public class AiffSound extends Data {
 	 *
 	 *  @return the filename this object was read from
 	 */
+	@Override
 	public String getFilename() {
 		return filename.substring(filename.lastIndexOf("/")+1);
 	}
@@ -74,6 +83,7 @@ public class AiffSound extends Data {
 	 *
 	 *  @return the name of this object
 	 */
+	@Override
 	public String getName() {
 		return new File(filename).getName();
 	}
@@ -82,6 +92,7 @@ public class AiffSound extends Data {
 	 *
 	 *  @return the target for this object
 	 */
+	@Override
 	public int getTarget() {
 		return target;
 	}
@@ -90,6 +101,7 @@ public class AiffSound extends Data {
 	 *
 	 *  @return the label for this object
 	 */
+	@Override
 	public String getLabel() {
 		return label;
 	}
@@ -99,6 +111,7 @@ public class AiffSound extends Data {
 	 *  @param target the target to be mapped to a label
 	 *  @return the label corresponding to the specified target
 	 */
+	@Override
 	public String getLabelFromTarget(int target) {
 		return "" + target;
 	}
@@ -108,6 +121,7 @@ public class AiffSound extends Data {
 	 * 
 	 *  @return the used subsampling options
 	 */
+	@Override
 	public String getSubsamplingOptions(){
 		return this.subsamplingOptions;
 	}
@@ -117,6 +131,7 @@ public class AiffSound extends Data {
 	 *  @param resolution      the desired resolution
 	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
 	 */
+	@Override
 	public Object previewSubsampledData(int resolution, double overlap) {
 		final double LAMBDA = 1.02;
 		double[] newData = new double[resolution];
@@ -141,6 +156,7 @@ public class AiffSound extends Data {
 	 *  @param overlap         the overlap between adjacent windows in the range [0, 0.95]
 	 *  @param scalingFunction the function used to scale the subsampled data
 	 */
+	@Override
 	public void subsample(int resolution, double overlap, 	ActivationFunction scalingFunction) {
 		final double LAMBDA = 1.02;
 		double[] newData = new double[resolution];
@@ -298,6 +314,7 @@ public class AiffSound extends Data {
 	/** Is it a picture?
 	 * @return Returns false.
 	 */
+	@Override
 	public boolean isPicture() {
 		return false;
 	}
@@ -305,6 +322,7 @@ public class AiffSound extends Data {
 	/** Is it an audio?
 	 * @return Returns true.
 	 */
+	@Override
 	public boolean isAudio() {
 		return true;
 	}
@@ -324,6 +342,7 @@ public class AiffSound extends Data {
 		return width;
 	}
 
+	@Override
 	public String getPath() {
 		return filename;
 	}

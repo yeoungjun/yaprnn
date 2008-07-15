@@ -1,8 +1,10 @@
 package yaprnn.mlp;
 
 import java.io.Serializable;
-import java.util.*;
-import yaprnn.dvv.*;
+import java.util.Collection;
+import java.util.List;
+
+import yaprnn.dvv.Data;
 
 public class MLPStub implements Serializable, NeuralNetwork {
 

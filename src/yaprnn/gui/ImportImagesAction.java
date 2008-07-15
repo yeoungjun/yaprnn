@@ -6,15 +6,18 @@ import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import yaprnn.dvv.FileMismatchException;
-import yaprnn.dvv.InvalidFileException;
-import yaprnn.dvv.NoSuchFileException;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import yaprnn.dvv.FileMismatchException;
+import yaprnn.dvv.InvalidFileException;
+import yaprnn.dvv.NoSuchFileException;
 
 class ImportImagesAction implements ActionListener {
 

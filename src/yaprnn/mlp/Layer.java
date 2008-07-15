@@ -207,6 +207,7 @@ public class Layer implements Serializable {
 	/**
 	 * String-representation of the current weights and neurons.
 	 */
+	@Override
 	public String toString() {
 		if (weightMatrix == null) return "";
 

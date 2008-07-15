@@ -43,6 +43,7 @@ public class DynamicEtaAdjustment implements Eta {
 	 * Returns a string-representation of the learning rate.
 	 * @return The learning rate as string.
 	 */
+	@Override
 	public String toString(){
 		return Double.toString(eta);
 	}
