@@ -15,6 +15,11 @@ class LoadDataSetAction implements ActionListener {
 		setEnabled(false);
 		gui.getView().getMenuLoadDataSet().addActionListener(this);
 		gui.getView().getToolLoadDataSet().addActionListener(this);
+
+		// TODO: Das Laden eines Datasets ist noch nicht implementiert und
+		// die entsprechenden Menus werden erstmal versteckt.
+		gui.getView().getMenuLoadDataSet().setVisible(false);
+		gui.getView().getToolLoadDataSet().setVisible(false);
 	}
 
 	void setEnabled(boolean enabled) {
