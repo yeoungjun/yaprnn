@@ -124,4 +124,11 @@ public interface NeuralNetwork {
 	 */
 	public boolean setBias(int layer, double bias);
 
+	/**
+	 * Deletes the current (trained) MLP, but keeps the configuration.
+	 *
+	 * If there is no MLP, this function does nothing.
+	 */
+	public void reset();
+
 }
