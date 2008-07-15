@@ -1,9 +1,10 @@
 package yaprnn.dvv;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Random;
-import java.io.IOException;
+
 import yaprnn.mlp.ActivationFunction;
 
 /** DVV is the main data managment and preprocessing class.

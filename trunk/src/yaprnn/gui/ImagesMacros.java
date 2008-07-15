@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 
 import yaprnn.dvv.Data;
@@ -219,7 +220,7 @@ class ImagesMacros {
 	 * @return
 	 */
 	private static int uByteToInt(byte b) {
-		final int i = (int) b;
+		final int i = b;
 		return i >= 0 ? i : 128 + (i & 0x7F);
 	}
 

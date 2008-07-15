@@ -1,9 +1,28 @@
 package yaprnn;
 
-import java.util.*;
-import java.io.*;
-import yaprnn.dvv.*;
-import yaprnn.mlp.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import yaprnn.dvv.DVV;
+import yaprnn.dvv.Data;
+import yaprnn.dvv.DataTypeMismatchException;
+import yaprnn.dvv.FileMismatchException;
+import yaprnn.dvv.InvalidFileException;
+import yaprnn.dvv.NoSuchFileException;
+import yaprnn.mlp.ActivationFunction;
+import yaprnn.mlp.Eta;
+import yaprnn.mlp.Linear;
+import yaprnn.mlp.MLPStub;
+import yaprnn.mlp.NeuralNetwork;
+import yaprnn.mlp.Sigmoid;
+import yaprnn.mlp.TangensHyperbolicus;
 
 /** Core is the main control class.
  *  It contains the methods for opening files, preprocessing, training and classifying,

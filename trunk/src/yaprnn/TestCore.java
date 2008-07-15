@@ -1,8 +1,12 @@
 package yaprnn;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import yaprnn.mlp.*;
+import yaprnn.mlp.ActivationFunction;
+import yaprnn.mlp.Eta;
+import yaprnn.mlp.NoEtaAdjustment;
+import yaprnn.mlp.TangensHyperbolicus;
 
 class TestCore {
 

@@ -5,12 +5,14 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
 import yaprnn.dvv.Data;
 import yaprnn.mlp.ActivationFunction;
 import yaprnn.mlp.NeuralNetwork;
@@ -293,7 +295,7 @@ class NetworkTreeModel implements TreeModel {
 			if (child == isTrainedNode)
 				return 0;
 			if (child instanceof LayerNode) {
-				int i = nets.indexOf((LayerNode) child);
+				int i = nets.indexOf(child);
 				return (i == -1) ? -1 : i + 1;
 			}
 			return -1;

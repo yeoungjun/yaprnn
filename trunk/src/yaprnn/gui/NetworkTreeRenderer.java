@@ -1,6 +1,7 @@
 package yaprnn.gui;
 
 import java.awt.Component;
+
 import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;

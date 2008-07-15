@@ -228,6 +228,7 @@ public class MLP implements Serializable {
 	/**
 	 * String-representation of the neuronal network
 	 */
+	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < layer.length; i++) {

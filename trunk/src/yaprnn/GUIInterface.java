@@ -2,6 +2,7 @@ package yaprnn;
 
 import java.util.Collection;
 import java.util.List;
+
 import yaprnn.dvv.Data;
 
 public interface GUIInterface {

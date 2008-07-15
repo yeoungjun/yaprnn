@@ -1,15 +1,17 @@
 package yaprnn.gui;
 
+import java.awt.Component;
 import java.util.EventObject;
 import java.util.Vector;
-import java.awt.Component;
-import javax.swing.event.CellEditorListener;
-import javax.swing.tree.DefaultTreeCellEditor;
-import javax.swing.tree.TreeCellEditor;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.event.CellEditorListener;
+import javax.swing.tree.DefaultTreeCellEditor;
+import javax.swing.tree.TreeCellEditor;
+
 import yaprnn.gui.NetworkTreeModel.AVFNode;
 import yaprnn.gui.NetworkTreeModel.BiasNode;
 import yaprnn.gui.NetworkTreeModel.ModelNode;

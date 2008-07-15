@@ -1,8 +1,9 @@
 package yaprnn.dvv;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import yaprnn.mlp.*;
+import yaprnn.mlp.TangensHyperbolicus;
 
 class TestDVV {
 

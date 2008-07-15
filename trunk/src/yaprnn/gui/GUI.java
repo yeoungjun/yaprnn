@@ -1,11 +1,13 @@
 package yaprnn.gui;
 
+import java.awt.EventQueue;
 import java.util.Collection;
 import java.util.List;
-import java.awt.EventQueue;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
+
 import yaprnn.Core;
 import yaprnn.GUIInterface;
 import yaprnn.dvv.Data;
