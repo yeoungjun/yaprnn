@@ -194,7 +194,7 @@ class MenuTrainAction implements ActionListener {
 							momentum);
 				else
 					ti.gui.getCore().trainBatch(eta, maxIterations, maxError,
-							batchSize, momentum); // TODO: 20 ist batchSize und
+							batchSize, momentum);
 			} catch(DataTypeMismatchException e) {
 				JOptionPane .showMessageDialog(ti.tv,
 				"The data you selected does not have the same type as data the neural network has previously been trained with.",
