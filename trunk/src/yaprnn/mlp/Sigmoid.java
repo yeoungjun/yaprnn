@@ -13,10 +13,6 @@ public class Sigmoid implements ActivationFunction{
 		return e / ((1.0 + e) * (1.0 + e));
 	}
 
-	public double getMinimumValue() {
-		return 0;
-	}
-	
 	@Override
 	public String toString() {
 		return "Sigmoid";
