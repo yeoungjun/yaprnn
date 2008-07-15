@@ -101,7 +101,6 @@ class MenuClassifyAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// Symbole festlegen
-			// TODO : sollte besser von Core.classify zurueckgegeben werden!
 			String[] symbols = (ci.data.isAudio()) ? new String[] { "a", "e",
 					"i", "o", "u" } : null;
 			if (ci.data.isPicture())
