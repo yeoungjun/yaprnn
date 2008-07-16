@@ -212,15 +212,24 @@ public class MLP implements Serializable {
 		double[] netOutput = layer[layer.length - 1].getOutput();
 		double[] retVal = new double[netOutput.length];
 
-		for(int i = 0; i < retVal.length; i++)
+		//TODO Berechnung für Linear. Vorschlag: min suchen, summme durch 
+		// Addition aller netOutput[i]+2*|min|. Dann weiter mit 2ter schleife,
+		// wobei wieder netOutput[i]+2*|min|!
+		double sum = 0;
+		for (int i = 0; i < netOutput.length-1; i++) {
+			sum += netOutput[i]+1;
+		}
+		for (int i = 0; i < netOutput.length-1; i++)
+			retVal[i] = (netOutput[i]+1) / sum*100;
+				
+		/*for(int i = 0; i < retVal.length; i++)
 			retVal[i] = Math.exp(10 * netOutput[i]);
-
 		// Sum up
 		double sum = 0;
 		for(double v : retVal) sum += v;
 		
 		for(int i = 0; i < netOutput.length; i++)
-			retVal[i] = retVal[i] *  100/ sum;
+			retVal[i] = retVal[i] *  100/ sum;*/
 
 		return retVal;
 	}
