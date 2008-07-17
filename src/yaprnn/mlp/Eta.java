@@ -4,7 +4,8 @@
 package yaprnn.mlp;
 
 /**
- * This interface enables the use of diverse learning rate modifications.
+ * This interface enables the use of diverse learning rate modifications and is implemented by {@link DynamicEtaAdjustment},
+ * {@link StaticEtaAdjustment} and {@link NoEtaAdjustment}.
  */
 public interface Eta {
 	/**

@@ -1,7 +1,7 @@
 package yaprnn.mlp;
 
 /**
- * This object adjusts the learning rate with a static factor.
+ * This object adjusts the learning rate with a static factor and implements {@link Eta}.
  */
 
 public class StaticEtaAdjustment implements Eta {
@@ -24,7 +24,7 @@ public class StaticEtaAdjustment implements Eta {
 	
 	/**
 	 * Computes the new learning rate, if necessary.
-	 * @param Not needed.
+	 * @param lastError Not needed.
 	 * @return The learning rate.
 	 */
 	

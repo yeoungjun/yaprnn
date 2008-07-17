@@ -1,5 +1,8 @@
 package yaprnn.mlp;
 
+/**
+ * This exception will be thrown by the {@link MLP} if a incorrect configuration is set.
+ */
 public class BadConfigException extends Exception {
 	private static final long serialVersionUID = 1L;
 	private static int identifer = 0;

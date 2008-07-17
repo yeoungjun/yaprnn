@@ -1,7 +1,10 @@
 package yaprnn.mlp;
 
 import java.io.Serializable;
-
+/**
+ * This interface makes the ActivationFunction modular and is implemented by {@link Linear}, {@link Sigmoid}
+ * and {@link TangensHyperbolicus}.
+ */
 public interface ActivationFunction extends Serializable{
 
 	/**

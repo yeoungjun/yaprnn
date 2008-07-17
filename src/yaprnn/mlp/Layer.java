@@ -79,7 +79,7 @@ public class Layer implements Serializable {
 
 	/**
 	 *  This function uses the reference on the last Layer to calculate the output vector of this Layer . It is recursive reverted  to the first Layer
-	 *   and multiplied  with the 	corresponding  weights  to create the output vector.
+	 *   and multiplied  with the corresponding  weights  to create the output vector.
 	 * @return The output vector of this layer.  if this layer is the output layer, this vector is the output of the network
 	 */
 	public double[] getOutput() {
@@ -121,7 +121,7 @@ public class Layer implements Serializable {
 
 	/**
 	 * 
-	 * @param error  Applies the Error of the previuos layer of the current layer .  If this layer the last one is, the output error will be used. After calculating and saving
+	 * @param error  Applies the error of the previuos layer of the current layer. If this layer the last one is, the output error will be used. After calculating and saving
 	 * of the nescesary weight modifications , the error of the previous  layer will be calculated  and  passed to the next layer.
 	 * @throws BadConfigException if the error vector wrong is.
 	 */
@@ -197,7 +197,7 @@ public class Layer implements Serializable {
 	}
 	
 	/**
-	 *  Returns the current Bias. [unnecessary]
+	 *  Returns the current Bias.
 	 * @return The current bias.
 	 */
 	public double getBias() {
@@ -227,13 +227,17 @@ public class Layer implements Serializable {
 	}
 	
 	/**
-	 * Returns the activation function.
+	 * Returns the {@link ActivationFunction activation function}.
 	 * @return The activation function, that is used in this layer.
 	 */
 	public ActivationFunction getActivationFunction(){
 		return function;
 	}
 
+	/**
+	 * Returns the WeightMatrix of the connection of this layer to the previous one.
+	 * @return the connecting WeightMatrix.
+	 */
 	public double[][] getWeightMatrix() {
 		return this.weightMatrix;
 	}
@@ -247,7 +251,7 @@ public class Layer implements Serializable {
 	 * @return Training values for the adjacent layer.
 	 * @throws BadConfigException
 	 */
-	public double[] makeAutoencoder(double value, double maxIterations, double upperBound, double eta) throws BadConfigException{
+	public double[] makeAutoencoder(double value, int maxIterations, double upperBound, double eta) throws BadConfigException{
 
 		double[] trainingValues = new double[this.getSize()];
 		Arrays.fill(trainingValues, value); 
