@@ -1,7 +1,7 @@
 package yaprnn.mlp;
 
 /**
- * This object adjusts the learning rate in against last computed error. 
+ * This object adjusts the learning rate in against last computed error and implements the interface {@link Eta}
  */
 
 public class DynamicEtaAdjustment implements Eta {
@@ -26,7 +26,7 @@ public class DynamicEtaAdjustment implements Eta {
 	 * With a smaller error, than the saved one, the learning rate will be multiplied with roh.
 	 * Otherwise the learning rate won't be touched.  
 	 * @param lastError The last computed error.
-	 * @retun The adjusted learning rate.
+	 * @return The adjusted learning rate.
 	 */
 	public double getEta(double lastError) {
 		
