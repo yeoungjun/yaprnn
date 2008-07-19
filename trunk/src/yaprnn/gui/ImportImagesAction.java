@@ -94,23 +94,26 @@ class ImportImagesAction implements ActionListener {
 
 		// Vorher versuchen etwas Speicher frei zu machen
 		GUI.tryFreeMemory();
-		
+
 		// Importieren
 		try {
 			gui.getCore().openIdxPicture(imagesPKG, labelsPKG);
+			JOptionPane.showMessageDialog(gui.getView(), "Finished.",
+					"Import images", JOptionPane.INFORMATION_MESSAGE);
 		} catch (NoSuchFileException ex) {
 			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
 					+ "This file has not been found" + "\n" + ex.getFilename(),
 					"An error occured", JOptionPane.ERROR_MESSAGE);
 		} catch (InvalidFileException ex) {
 			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
-					+ "Unsupported image or label file format in" + "\n" + ex.getFilename(),
-					"An error occured", JOptionPane.ERROR_MESSAGE);
+					+ "Unsupported image or label file format in" + "\n"
+					+ ex.getFilename(), "An error occured",
+					JOptionPane.ERROR_MESSAGE);
 		} catch (FileMismatchException ex) {
 			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
-					+ "No matching files" + "\n" + ex.getDataFilename() + "\n" +
-					ex.getLabelFilename(),
-					"An error occured", JOptionPane.ERROR_MESSAGE);
+					+ "No matching files" + "\n" + ex.getDataFilename() + "\n"
+					+ ex.getLabelFilename(), "An error occured",
+					JOptionPane.ERROR_MESSAGE);
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
 					+ ex.toString() + "\n" + ex.getStackTrace(),

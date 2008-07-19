@@ -221,7 +221,7 @@ class ImagesMacros {
 		if (data == null)
 			return null;
 		final int HEIGHT = 255;
-		final int EDGE = 0;
+		final int EDGE = 1;
 		int width = data.length;
 		double max = 0.0;
 		BufferedImage image = new BufferedImage(width + 2 * EDGE, HEIGHT + 2

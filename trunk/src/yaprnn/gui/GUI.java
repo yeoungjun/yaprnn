@@ -106,7 +106,7 @@ public class GUI implements GUIInterface {
 		removeAction = new MenuRemoveAction(this);
 		new MenuRefresh(this);
 
-		// Preview Handler f�r Audio-Daten
+		// Preview Handler fuer Audio-Daten
 		previewPlayer = new PreviewPlayAudioListener(mainView.getLabelPreview());
 
 		// Andere Handler
@@ -144,7 +144,8 @@ public class GUI implements GUIInterface {
 			Data data = dataNode.getData();
 			mainView.getLabelFilename().setText(data.getFilename());
 			mainView.getLabelSampleLabel().setText(data.getLabel());
-			mainView.getLabelUsedSubsamplingOptions().setText(data.getSubsamplingOptions());
+			mainView.getLabelUsedSubsamplingOptions().setText(
+					data.getSubsamplingOptions());
 
 			// Dem PreviewPlayer-Listener das Data-Objekt geben
 			previewPlayer.setData(data);
@@ -173,7 +174,7 @@ public class GUI implements GUIInterface {
 
 			LayerNode ln = (LayerNode) selected;
 			NeuralNetwork net = ln.getNetwork();
-			// Wir k�nnen die Eingangsschicht nicht auslesen
+			// Wir koennen die Eingangsschicht nicht auslesen
 			if (ln.getLayerIndex() > 0) {
 				double[][] weights = net.getWeights(ln.getLayerIndex());
 				int rows = weights.length, cols = weights[0].length + 1;
@@ -238,19 +239,26 @@ public class GUI implements GUIInterface {
 		boolean isDataNode = selected instanceof DataNode;
 
 		// Standard Menus
-		saveMLPAction.setEnabled(isNetworkNode);
+		saveMLPAction.setEnabled(isNetworkNode
+				&& !MenuTrainAction.areTrainingsInProgress());
 		saveDataSetAction.setEnabled(isNetworkSetsNode);
 
 		// PopupMenus
-		subsamplingAction.setEnabled(isDataNode);
-		classifyAction.setEnabled(isDataNode);
+		subsamplingAction.setEnabled(isDataNode
+				&& !MenuTrainAction.areTrainingsInProgress());
+		classifyAction.setEnabled(isDataNode
+				&& !MenuTrainAction.areTrainingsInProgress());
 		trainAction.setEnabled(isNetworkNode || isNetworkSetsNode);
-		resetAction.setEnabled(isNetworkNode);
+		resetAction.setEnabled(isNetworkNode
+				&& !MenuTrainAction.areTrainingsInProgress());
 		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode);
-		addAction.setEnabled(isNetworkNode);
-		editAction.setEnabled(isNetworkNode || isNeuronsNode || isAVFNode
-				|| isBiasNode);
-		removeAction.setEnabled(isNetworkNode);
+		addAction.setEnabled(isNetworkNode
+				&& !MenuTrainAction.areTrainingsInProgress());
+		editAction
+				.setEnabled((isNetworkNode || isNeuronsNode || isAVFNode || isBiasNode)
+						&& !MenuTrainAction.areTrainingsInProgress());
+		removeAction.setEnabled(isNetworkNode
+				&& !MenuTrainAction.areTrainingsInProgress());
 
 	}
 
@@ -335,7 +343,7 @@ public class GUI implements GUIInterface {
 	NetworkTreeRenderer getTreeRenderer() {
 		return treeRenderer;
 	}
-	
+
 	Core getCore() {
 		return core;
 	}

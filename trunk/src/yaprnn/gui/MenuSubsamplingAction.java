@@ -127,15 +127,19 @@ class MenuSubsamplingAction implements ActionListener {
 			// Vorher versuchen etwas Speicher frei zu machen
 			GUI.tryFreeMemory();
 			try {
-			si.gui.getCore().preprocess(
-					si.resolution,
-					si.overlap,
-					(ActivationFunction) si.sv.getOptionScaleFun()
-							.getSelectedItem());
+				si.gui.getCore().preprocess(
+						si.resolution,
+						si.overlap,
+						(ActivationFunction) si.sv.getOptionScaleFun()
+								.getSelectedItem());
+				JOptionPane.showMessageDialog(gui.getView(), "Finished.",
+						"Subsampling", JOptionPane.INFORMATION_MESSAGE);
 			} catch (NoSuchFileException ex) {
-				JOptionPane.showMessageDialog(gui.getView(), "Subsampling failed!\n"
-						+ "Resolution too large for image_" + ex.getFilename(),
-						"An error occured", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(gui.getView(),
+						"Subsampling failed!\n"
+								+ "Resolution too large for image_"
+								+ ex.getFilename(), "An error occured",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
