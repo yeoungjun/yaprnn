@@ -32,8 +32,21 @@
 		<javac srcdir="${src}" destdir="${build}" classpathref="classpath" debug="on"/>
 	</target>
 
+	<target name="compile_nodebug" depends="init, resources">
+		<javac srcdir="${src}" destdir="${build}" classpathref="classpath" debug="off"/>
+	</target>
+	
 	<target name="jar" depends="compile">
 	    <jar jarfile="${dist}/yaprnn.jar" basedir="${build}"
+	    	compress="false"
+    		manifest="${src}/MANIFEST.txt">
+    		<fileset dir="${build}"/>
+    	</jar>
+	</target>
+
+	<target name="jar_final" depends="compile_nodebug">
+	    <jar jarfile="${dist}/yaprnn_final.jar" basedir="${build}"
+	    	compress="true" level="9" 
     		manifest="${src}/MANIFEST.txt">
     		<fileset dir="${build}"/>
     	</jar>
