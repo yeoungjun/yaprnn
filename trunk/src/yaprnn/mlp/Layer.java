@@ -37,10 +37,10 @@ public class Layer implements Serializable {
 		
 		// Tests  configuration
 		if (neurons <= 0)
-			throw new BadConfigException("Unglültige Anzahl für Neuronen: "
+			throw new BadConfigException("Ungueltige Anzahl fuer Neuronen: "
 					+ neurons, BadConfigException.INVALID_NEURON_NUMBER);
 		if (function == null)
-			throw new BadConfigException("Keine ActivationFunction übergeben!",
+			throw new BadConfigException("Keine ActivationFunction Uebergeben!",
 					BadConfigException.INVALID_ACTIVATION_FUNCTION);
 
 		// Initializing variables
@@ -68,7 +68,8 @@ public class Layer implements Serializable {
 	 * @throws BadConfigException Is thrown in case of wrong configuration
 	 */
 	public boolean setInput(double[] input) {
-		if ((output.length - 1)!= input.length) 	return false;
+		if (output.length - 1 != input.length)
+			return false;
 	
 		this.input = input;
 
@@ -126,37 +127,31 @@ public class Layer implements Serializable {
 	 * @throws BadConfigException if the error vector wrong is.
 	 */
 	public void backPropagate(double[] error) {
-		try {
 		if(prevLayer == null) return;
-		
+
 		// init
-			double[] preLayerError = new double[prevLayer.getSize()];
-			double preLayerNetOutput = 0;
+		double[] preLayerError = new double[prevLayer.getSize()];
+		double preLayerNetOutput = 0;
 
-			// calculate previous layer's overall output
-			for (double in : prevLayer.input) preLayerNetOutput += in;
+		// calculate previous layer's overall output
+		for (double in : prevLayer.input) preLayerNetOutput += in;
 
-			// alter gradient
-			for (int i = 0; i < gradientMatrix.length; i++)
-				for (int h = 0; h < prevLayer.output.length; h++)
-					gradientMatrix[i][h] += error[i] * prevLayer.output[h];
-			
-			// generate preLayerError
-			for (int i = 0; i < prevLayer.getSize(); i++) {
-				for (int h = 0; h < error.length; h++)
-					preLayerError[i] += error[h] * weightMatrix[h][i];
-
-				preLayerError[i] *= prevLayer.function.derivation(prevLayer.layerInput[i]);
-			}
-
-			prevLayer.backPropagate(preLayerError);
+		// alter gradient
+		for (int i = 0; i < gradientMatrix.length; i++) {
+			double err = error[i];
+			for (int h = 0; h < prevLayer.output.length; h++)
+				gradientMatrix[i][h] += err * prevLayer.output[h];
+		}
 		
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-			System.exit(0);
+		// generate preLayerError
+		for (int i = 0; i < prevLayer.getSize(); i++) {
+			for (int h = 0; h < error.length; h++)
+				preLayerError[i] += error[h] * weightMatrix[h][i];
+
+			preLayerError[i] *= prevLayer.function.derivation(prevLayer.layerInput[i]);
 		}
 
+		prevLayer.backPropagate(preLayerError);
 	}
 
 	/**
@@ -168,7 +163,7 @@ public class Layer implements Serializable {
 		
 		for(int i = 0; i < output.length; i++)
 			for(int h = 0; h < prevLayer.getSize(); h++){
-				weightMatrix[i][h] -= eta * gradientMatrix[i][h]  ;
+				weightMatrix[i][h] -= eta * gradientMatrix[i][h];
 				gradientMatrix[i][h] = 0;
 			}
 		
@@ -184,11 +179,11 @@ public class Layer implements Serializable {
 	 */
 	public void update(double eta, double momentum) {
 		if(prevLayer == null) return;
+		double negMomentum = 1 - momentum;
 		
 		for(int i = 0; i < output.length; i++)
 			for(int h = 0; h < prevLayer.getSize(); h++){
-				
-				lastGradientMatrix[i][h] = eta * ( (1 - momentum )*  gradientMatrix[i][h]  + momentum * lastGradientMatrix[i][h]);
+				lastGradientMatrix[i][h] = eta * (negMomentum *  gradientMatrix[i][h] + momentum * lastGradientMatrix[i][h]);
 				weightMatrix[i][h] -= lastGradientMatrix[i][h];
 				gradientMatrix[i][h] = 0;
 			}
@@ -219,9 +214,8 @@ public class Layer implements Serializable {
 		
 		for(int i = 0; i < output.length; i++){
 			buffer.append("\nNeuron [" + i + "]");
-			for(int h = 0; h < prevLayer.getSize(); h++) {
+			for(int h = 0; h < prevLayer.getSize(); h++)
 				buffer.append("\t" + weightMatrix[i][h]);
-			}
 		}
 		return buffer.toString();
 	}

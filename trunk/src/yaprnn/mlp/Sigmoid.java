@@ -22,7 +22,8 @@ public class Sigmoid implements ActivationFunction{
 	 */
 	public double derivation(double x) {
 		double e = Math.exp(x);
-		return e / ((1.0 + e) * (1.0 + e));
+		double e2 = e + 1;
+		return e / (e2 * e2);
 	}
 
 	/**

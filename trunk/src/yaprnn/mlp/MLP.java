@@ -1,7 +1,6 @@
 package yaprnn.mlp;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 
 import yaprnn.dvv.Data;
@@ -89,34 +88,39 @@ public class MLP implements Serializable {
 		if (layer == null)
 			return 0;
 		
-		double[] out;
-		double[] target = new double[layer[layer.length - 1].getSize()];
-		double[] errVec = new double[target.length];
+		Layer outLayer = layer[layer.length - 1];
+		ActivationFunction outAVF = outLayer.getActivationFunction();
+		int outLayerSize = outLayer.getSize();
+
+		double[] errVec = new double[outLayerSize];
 
 		for (Data theData : dataCollection) {
-			// creates target values
-			Arrays.fill(target, 0);
-			target[theData.getTarget()] = 1;
+			// get the index where the target value is 1
+			int target = theData.getTarget(); 
 
 			// Sets the input data
 			if(!layer[0].setInput(theData.getData()))
 				System.out.println("Can't set input data!");
 
 			// Calculate the output
-			out = layer[layer.length - 1].getOutput();
+			double[] out = outLayer.getOutput();
 
 			// Calculates the error of the output layer
-			for (int h = 0; h < target.length; h++)
-				errVec[h] = (out[h] - target[h]) * layer[layer.length-1].getActivationFunction().derivation(layer[layer.length-1].layerInput[h]);
+			for (int h = 0; h < outLayerSize; h++)
+				if(h == target)
+					errVec[h] = (out[h] - 1) * outAVF.derivation(outLayer.layerInput[h]);
+				else
+					errVec[h] = out[h] * outAVF.derivation(outLayer.layerInput[h]);
 
 			// Error backpropagation 
-			layer[layer.length - 1].backPropagate(errVec);
+			outLayer.backPropagate(errVec);
 
 			// Adjust the weights
 			if(momentum > 0)
-				layer[layer.length - 1].update(eta, momentum);
+				outLayer.update(eta, momentum);
 			else
-				layer[layer.length - 1].update(eta);
+				outLayer.update(eta);
+
 		}
 
 		return runTest(dataCollection);
@@ -134,36 +138,40 @@ public class MLP implements Serializable {
 		if (layer == null)
 			return 0;
 
-		double[] out;
-		double[] target = new double[layer[layer.length - 1].getSize()];
-		double[] errVec = new double[target.length];
+		Layer outLayer = layer[layer.length - 1];
+		ActivationFunction outAVF = outLayer.getActivationFunction();
+		int outLayerSize = outLayer.getSize();
+
+		double[] errVec = new double[outLayerSize];
 		
 		for (Data theData : dataCollection) {
-			// creates target values
-			Arrays.fill(target, 0);
-			target[theData.getTarget()] = 1;
+			// get the index where the target value is 1
+			int target = theData.getTarget(); 
 
 			// Sets the input data
 			if(!layer[0].setInput(theData.getData()))
 				System.out.println("Can't set input data!");
 
 			// Calculate the output
-			out = layer[layer.length - 1].getOutput();
+			double[] out = outLayer.getOutput();
 
 			// Calculates the error of the output layer
-			for (int h = 0; h < target.length; h++)
-				errVec[h] = (out[h] - target[h]) * layer[layer.length-1].getActivationFunction().derivation(layer[layer.length-1].layerInput[h]);
+			for (int h = 0; h < outLayerSize; h++)
+				if(h == target)
+					errVec[h] = (out[h] - 1) * outAVF.derivation(outLayer.layerInput[h]);
+				else
+					errVec[h] = out[h] * outAVF.derivation(outLayer.layerInput[h]);
 
 			// Error backpropagation 
-			layer[layer.length - 1].backPropagate(errVec);
+			outLayer.backPropagate(errVec);
 			iterations++;
 
 			if(iterations % batchSize == 0 ) {
 				// Adjust the weights
 				if(momentum > 0)
-					layer[layer.length - 1].update(eta, momentum);
+					outLayer.update(eta, momentum);
 				else
-					layer[layer.length - 1].update(eta);
+					outLayer.update(eta);
 			}
 
 		}
@@ -178,25 +186,37 @@ public class MLP implements Serializable {
 	 * @return The test error. If an error occurse, returns 0.
 	 */
 	public double runTest(Collection<Data> dataCollection) {
-		double err = 0;
-		double[] out;
-		double[] target = new double[layer[layer.length - 1].getSize()];
+		if (layer == null)
+			return 0;
 
+		Layer outLayer = layer[layer.length - 1];
+		ActivationFunction outAVF = outLayer.getActivationFunction();
+		int outLayerSize = outLayer.getSize();
+		
+		double err = 0;
+		
 		for (Data theData : dataCollection) {
-			// Creates target values
-			Arrays.fill(target, 0);
-			target[theData.getTarget()] = 1;
+			// get the index where the target value is 1
+			int target = theData.getTarget(); 
 
 			// Sets the input data
 			if (!layer[0].setInput(theData.getData()))
 				return 0;
 
 			// Calculate the output
-			out = layer[layer.length - 1].getOutput();
+			double[] out = outLayer.getOutput();
 
 			// Calculates the error of the output layer
-			for (int h = 0; h < target.length; h++)
-				err += Math.pow(out[h] - target[h], 2);
+			for (int h = 0; h < outLayerSize; h++) {
+				double v;
+				if(h == target)
+					v = (out[h] - 1) * outAVF.derivation(outLayer.layerInput[h]);
+				else
+					v = out[h] * outAVF.derivation(outLayer.layerInput[h]);
+
+				err += v * v;
+			}
+			
 		}
 
 		return (0.5 * err) / dataCollection.size();
@@ -212,16 +232,6 @@ public class MLP implements Serializable {
 		double[] netOutput = layer[layer.length - 1].getOutput();
 		double[] retVal = new double[netOutput.length];
 
-		//TODO Berechnung für Linear. Vorschlag: min suchen, summme durch 
-		// Addition aller netOutput[i]+2*|min|. Dann weiter mit 2ter schleife,
-		// wobei wieder netOutput[i]+2*|min|!
-		/*double sum = 0;
-		for (int i = 0; i < netOutput.length-1; i++) {
-			sum += netOutput[i]+1;
-		}
-		for (int i = 0; i < netOutput.length-1; i++)
-			retVal[i] = (netOutput[i]+1) / sum*100;*/
-				
 		for(int i = 0; i < retVal.length; i++)
 			retVal[i] = Math.exp(10 * netOutput[i]);
 		// Sum up
