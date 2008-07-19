@@ -11,8 +11,12 @@ class MenuAddAction implements ActionListener {
 		this.gui = gui;
 		setEnabled(false);
 		gui.getView().getMenuAdd().addActionListener(this);
+
+		// TODO: Die Funktionen zum Hinzufügen von Layern wird zurzeit nicht
+		// unterstützt, aber auch nicht dringend gebraucht.
+		gui.getView().getMenuAdd().setVisible(false);
 	}
-	
+
 	void setEnabled(boolean enabled) {
 		gui.getView().getMenuAdd().setEnabled(enabled);
 	}
