@@ -7,16 +7,5 @@
 
 == Was funktioniert noch nicht? ==
 Folgende Features gehen noch nicht:
-"Save dataset"
+"Save dataset" - Buttons sind zur Zeit nicht sichtbar aber vorhanden
 "Load dataset"
-
-In Popupmenus funktioniert noch nicht:
-"Reset"
-"Add"
-"Edit"
-"Remove"
-
-== Noch zu korrigieren ==
-~~In DataSampleDetails, kann man ein Preview bis zu einer Auflösung bis 256 erstellen. Beim Subsampling jedoch nur bis 200.~~ fixed
-
-Bei den Sounddaten ist nur ein maximaler Zoom von 4x möglich, bei Allem was drüber geht, gibts Probleme mit dem Heap space. (Getestet bis 2048).
