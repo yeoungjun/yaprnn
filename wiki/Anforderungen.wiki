@@ -1,21 +1,10 @@
 ==Momentane Aufgaben==
 
 ===Alle===
-  * Debugging and Bugtracking
-  * Vortrag ausarbeiten für Di/Mi :( (?)
+  * Allgemeines Debugging und Bugtracking
 
 ===Core===
-  * Stub-Objekt mit Konfigurationen des MLPs, sowie Test- und Trainingsets (Leo)
-
-===MLP===
-  
-===DVV===
-  * ~~Merken der Informationen über das verwendete Subsampling in den einzelnen Data-Objekten für die Ausgabe in der GUI ~~(?)
-
-===GUI===
-  * ~~Audio Preview (Sascha)~~
-  * ~~Trainingsfenster braucht weitere Einstellungen (Sigma, roh, Momentum) (Felix)~~
-  * ~~Actionhandler zu den neuen Einstellung (Falko)~~ schon erledigt
+  * Stub-Objekt verwaltet MLP bezogene Test- und Trainingsets (?)
 
 ===DOK===
-  * Klassenmodel updaten zu dem ist-Zustand (Andreas)
+  * Klassenmodel updaten zu dem ist-Zustand (?)
