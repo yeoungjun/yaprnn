@@ -11,8 +11,12 @@ class MenuRemoveAction implements ActionListener {
 		this.gui = gui;
 		setEnabled(false);
 		gui.getView().getMenuRemove().addActionListener(this);
+
+		// TODO: Die Funktionen zum Entfernen von Layern wird zurzeit nicht
+		// unterstützt, aber auch nicht dringend gebraucht.
+		gui.getView().getMenuRemove().setVisible(false);
 	}
-	
+
 	void setEnabled(boolean enabled) {
 		gui.getView().getMenuRemove().setEnabled(enabled);
 	}
