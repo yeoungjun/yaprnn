@@ -183,7 +183,7 @@ public class GUI implements GUIInterface {
 				double min = weights[0][0], max = weights[0][0];
 				Object[][] weights2 = new Object[rows][cols];
 				for (int y = 0; y < rows; y++) {
-					weights2[y][0] = "to neur: " + (y + 1);
+					weights2[y][0] = "to " + (y + 1);
 					for (int x = 1; x < cols; x++) {
 						double val = weights[y][x - 1];
 						weights2[y][x] = Math.round(val * 1000) / 1000d;
@@ -196,7 +196,7 @@ public class GUI implements GUIInterface {
 				Object[] colNames = new Object[cols];
 				colNames[0] = "";
 				for (int i = 1; i < cols; i++)
-					colNames[i] = "from neur: " + i;
+					colNames[i] = "from " + i;
 
 				// Ins model packen
 				mainView.getTableWeights().setModel(
