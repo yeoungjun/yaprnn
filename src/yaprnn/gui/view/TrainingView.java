@@ -3,9 +3,13 @@ package yaprnn.gui.view;
 public class TrainingView extends javax.swing.JFrame {
 
     private static final long serialVersionUID = -2044374809203547515L;
-	
+
     public TrainingView() {
         initComponents();
+    }
+
+    public javax.swing.JButton getToolClearGraph() {
+        return toolClearGraph;
     }
 
     public javax.swing.JSpinner getOptionBatchsize() {
@@ -51,7 +55,7 @@ public class TrainingView extends javax.swing.JFrame {
     public javax.swing.JSpinner getOptionStaticReductionfactor() {
         return optionStaticReductionfactor;
     }
-    
+
     public javax.swing.JRadioButton getOptionStaticAdjustment() {
         return optionStaticAdjustment;
     }
@@ -88,6 +92,7 @@ public class TrainingView extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jToolBar1 = new javax.swing.JToolBar();
         toolTrain = new javax.swing.JButton();
+        toolClearGraph = new javax.swing.JButton();
         jSplitPane1 = new javax.swing.JSplitPane();
         preferencesTabs = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
@@ -128,6 +133,12 @@ public class TrainingView extends javax.swing.JFrame {
         toolTrain.setText("Train");
         toolTrain.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jToolBar1.add(toolTrain);
+
+        toolClearGraph.setText("Clear graph");
+        toolClearGraph.setFocusable(false);
+        toolClearGraph.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolClearGraph.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(toolClearGraph);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.SOUTH);
 
@@ -391,6 +402,7 @@ public class TrainingView extends javax.swing.JFrame {
     private javax.swing.JComboBox optionTrainingMethod;
     private javax.swing.JCheckBox optionUseMomentum;
     private javax.swing.JTabbedPane preferencesTabs;
+    private javax.swing.JButton toolClearGraph;
     private javax.swing.JButton toolTrain;
     // End of variables declaration//GEN-END:variables
 

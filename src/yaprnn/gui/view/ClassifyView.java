@@ -3,11 +3,11 @@ package yaprnn.gui.view;
 public class ClassifyView extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 2102200165299847152L;
-	
+
     public ClassifyView() {
         initComponents();
     }
-	
+
     public javax.swing.JComboBox getOptionZoom() {
         return optionZoom;
     }
@@ -160,5 +160,4 @@ public class ClassifyView extends javax.swing.JFrame {
     private javax.swing.JTable tableClassification;
     private javax.swing.JButton toolClassify;
     // End of variables declaration//GEN-END:variables
-
 }
