@@ -37,6 +37,8 @@ class ImportAudioAction implements ActionListener {
 			
 			try {
 				gui.getCore().openAiffSound(filenames);
+				JOptionPane.showMessageDialog(gui.getView(), "Finished.",
+						"Import audio", JOptionPane.INFORMATION_MESSAGE);
 			} catch (InvalidFileException ex) {
 				JOptionPane.showMessageDialog(gui.getView(), "Import failed!\n"
 						+ "Unsupported audio file format in" + "\n" + ex.getFilename(), //ex.getStackTrace(),

@@ -37,6 +37,9 @@ class MenuTrainAction implements ActionListener {
 	private final static ImageIcon ICON_STOP = ImagesMacros.loadIcon(22, 22,
 			"/yaprnn/gui/view/iconStop.png");
 
+	private static Object trainingsRunningLockObj = new Object();
+	private static int trainingsRunning = 0;
+
 	/**
 	 * Used to hold required parameters and view objects.
 	 */
@@ -170,6 +173,10 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		protected Object doInBackground() {
+			synchronized (trainingsRunningLockObj) {
+				trainingsRunning++;
+			}
+
 			ti.tv.getToolTrain().setIcon(ICON_STOP);
 			ti.tv.getToolTrain().setText("Stop");
 			ti.tv.getToolTrain().setEnabled(true);
@@ -192,16 +199,18 @@ class MenuTrainAction implements ActionListener {
 				eta = new NoEtaAdjustment(learningRate);
 
 			try {
-				if (onlineLearning) 
+				if (onlineLearning)
 					ti.gui.getCore().trainOnline(eta, maxIterations, maxError,
 							momentum);
 				else
 					ti.gui.getCore().trainBatch(eta, maxIterations, maxError,
 							batchSize, momentum);
-			} catch(DataTypeMismatchException e) {
-				JOptionPane .showMessageDialog(ti.tv,
-				"The data you selected does not have the same type as data the neural network has previously been trained with.",
-				"Training", JOptionPane.ERROR_MESSAGE);
+			} catch (DataTypeMismatchException e) {
+				JOptionPane
+						.showMessageDialog(
+								ti.tv,
+								"The data you selected does not have the same type as data the neural network has previously been trained with.",
+								"Training", JOptionPane.ERROR_MESSAGE);
 			}
 			// muss aus der GUI kommen!
 			return null;
@@ -209,12 +218,16 @@ class MenuTrainAction implements ActionListener {
 
 		@Override
 		protected void done() {
+			synchronized (trainingsRunningLockObj) {
+				trainingsRunning--;
+			}
+
 			ti.tw = null;
 			ti.tv.getToolTrain().setIcon(ICON_TRAIN);
 			ti.tv.getToolTrain().setText("Train");
 			ti.tv.getToolTrain().setEnabled(true);
-			
-			ti.gui.getTreeModel().refresh();
+
+			ti.gui.getTreeModel().refreshNetwork(ti.network);
 		}
 
 	}
@@ -419,6 +432,14 @@ class MenuTrainAction implements ActionListener {
 	static void setTrainingError(List<Double> errorData) {
 		ti.trainingError.add(errorData.size(), errorData
 				.get(errorData.size() - 1));
+	}
+
+	static boolean areTrainingsInProgress() {
+		int running;
+		synchronized (trainingsRunningLockObj) {
+			running = trainingsRunning;
+		}
+		return running > 0;
 	}
 
 }

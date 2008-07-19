@@ -727,6 +727,12 @@ class NetworkTreeModel implements TreeModel {
 		fireStructureChanged(new Object[] { rootNode });
 	}
 
+	void refreshNetwork(NeuralNetwork n) {
+		NetworkNode nn = netsNodes.get(n);
+		nn.update();
+		fireStructureChanged(new Object[] { rootNode, netsNode, nn });
+	}
+
 	/**
 	 * Adds a NeuralNetwork to the tree model.
 	 * 
