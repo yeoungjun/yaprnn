@@ -3,7 +3,7 @@ package yaprnn.gui.view;
 public class SubsamplingView extends javax.swing.JFrame {
 
     private static final long serialVersionUID = -625701668194648904L;
-	
+
     public SubsamplingView() {
         initComponents();
     }
@@ -139,7 +139,7 @@ public class SubsamplingView extends javax.swing.JFrame {
 
         jLabel1.setText("Resolution:");
 
-        optionResolution.setModel(new javax.swing.SpinnerNumberModel(16, 0, 256, 1));
+        optionResolution.setModel(new javax.swing.SpinnerNumberModel(16, 0, 200, 1));
 
         jLabel2.setText("Overlap:");
 
@@ -227,5 +227,4 @@ public class SubsamplingView extends javax.swing.JFrame {
     private javax.swing.JComboBox optionZoom;
     private javax.swing.JButton toolProcess;
     // End of variables declaration//GEN-END:variables
-
 }

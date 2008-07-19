@@ -1,9 +1,9 @@
 package yaprnn.gui.view;
 
 public class MainView extends javax.swing.JFrame {
-  
+
     private static final long serialVersionUID = -3378803686681357347L;
-	
+
     public MainView() {
         initComponents();
     }
@@ -725,5 +725,4 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JButton toolSaveMLP;
     private javax.swing.JTree treeNeuralNetwork;
     // End of variables declaration//GEN-END:variables
-
 }

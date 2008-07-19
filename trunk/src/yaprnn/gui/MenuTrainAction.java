@@ -128,6 +128,22 @@ class MenuTrainAction implements ActionListener {
 		}
 	}
 
+	private class ClearGraphAction implements ActionListener {
+
+		private TrainingInfo ti;
+
+		ClearGraphAction(TrainingInfo ti) {
+			this.ti = ti;
+			ti.tv.getToolClearGraph().addActionListener(this);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ti.testError.clear();
+			ti.trainingError.clear();
+		}
+	}
+
 	/**
 	 * This worker invokes the training method to not block the awt dispatcher
 	 * thread.
@@ -409,6 +425,7 @@ class MenuTrainAction implements ActionListener {
 
 		// Listener hinzufuegen
 		new TrainAction(ti);
+		new ClearGraphAction(ti);
 		new TrainingWindowListener(ti);
 		new OptionItemChange(ti);
 		new OptionTrainingMethodAction(ti);
@@ -426,11 +443,12 @@ class MenuTrainAction implements ActionListener {
 	}
 
 	static void setTestError(List<Double> errorData) {
-		ti.testError.add(errorData.size(), errorData.get(errorData.size() - 1));
+		ti.testError.add(ti.testError.getItemCount(), errorData.get(errorData
+				.size() - 1));
 	}
 
 	static void setTrainingError(List<Double> errorData) {
-		ti.trainingError.add(errorData.size(), errorData
+		ti.trainingError.add(ti.trainingError.getItemCount(), errorData
 				.get(errorData.size() - 1));
 	}
 
