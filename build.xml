@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="yaprnn" default="compile" basedir=".">
+<project name="yaprnn" default="jar" basedir=".">
     
 	<property name="src" value="src"/>
 	<property name="build" value="build"/>
