@@ -251,7 +251,8 @@ public class GUI implements GUIInterface {
 		trainAction.setEnabled(isNetworkNode || isNetworkSetsNode);
 		resetAction.setEnabled(isNetworkNode
 				&& !MenuTrainAction.areTrainingsInProgress());
-		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode);
+		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode
+				&& !MenuTrainAction.areTrainingsInProgress());
 		addAction.setEnabled(isNetworkNode
 				&& !MenuTrainAction.areTrainingsInProgress());
 		editAction
