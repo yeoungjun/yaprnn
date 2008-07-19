@@ -11,6 +11,8 @@ import yaprnn.dvv.Data;
 
 class ImagesMacros {
 
+	private final static int RESIZE_MAXSIZE = 4096;
+
 	/**
 	 * Resizes an image.
 	 * 
@@ -28,13 +30,34 @@ class ImagesMacros {
 			return null;
 		int ow = image.getWidth(null);
 		int oh = image.getHeight(null);
-		// Transform wird zur skalierung benï¿½tigt.
+		if (ow == 0 || oh == 0)
+			return null;
+		double rw = 1.0d / ow;
+		double rh = 1.0d / oh;
+
+		// Transform wird zur skalierung benoetigt.
 		BufferedImage bi = new BufferedImage(ow, oh,
 				BufferedImage.TYPE_INT_ARGB);
 		bi.getGraphics().drawImage(image, 0, 0, ow, oh, null);
 		AffineTransform tx = new AffineTransform();
-		tx.scale(width / (double) ow, height / (double) oh);
-		return new AffineTransformOp(tx, filterOp).filter(bi, null);
+
+		// Damit die Bilder auf eine maximale Groeße beschränkt sind, aber das
+		// Seitenverhaeltnis behalten, suchen wir noch einen Zoom-Korrekturwert
+		double correctionW = RESIZE_MAXSIZE / (double) width;
+		double correctionH = RESIZE_MAXSIZE / (double) height;
+		double zoomCorrection;
+		zoomCorrection = correctionW < correctionH ? correctionW : correctionH;
+		// Wir wollen nur einpassen wenn das Bild zu groß wird, nicht zu klein!
+		if (zoomCorrection > 1.0)
+			zoomCorrection = 1.0;
+
+		tx.scale(width * rw * zoomCorrection, height * rh * zoomCorrection);
+		Image ret = new AffineTransformOp(tx, filterOp).filter(bi, null);
+
+		// Speicher des Zwischenobjektes freigeben
+		bi.flush();
+
+		return ret;
 	}
 
 	/**
@@ -46,9 +69,13 @@ class ImagesMacros {
 	 * @return the icon
 	 */
 	static ImageIcon loadIcon(int hsize, int vsize, String location) {
-		return new ImageIcon(ImagesMacros.resizeImage(new ImageIcon(Class.class
-				.getResource(location)).getImage(), hsize, vsize,
-				AffineTransformOp.TYPE_BICUBIC));
+		Image iconImageSrc = new ImageIcon(Class.class.getResource(location))
+				.getImage();
+		ImageIcon ret = new ImageIcon(ImagesMacros.resizeImage(iconImageSrc,
+				hsize, vsize, AffineTransformOp.TYPE_BICUBIC));
+		// Speicher der Bild-Quelle freigeben
+		iconImageSrc.flush();
+		return ret;
 	}
 
 	/**
@@ -86,16 +113,24 @@ class ImagesMacros {
 						.previewSubsampledData(resolution, overlap));
 		} else if (data.isAudio()) {
 			if (!subsampled)
-			image = createAudioPreview((double[]) data.previewRawData());
+				image = createAudioPreview((double[]) data.previewRawData());
 			else
-			image = createAudioPreview((double[]) data.previewSubsampledData(resolution, overlap));
+				image = createAudioPreview((double[]) data
+						.previewSubsampledData(resolution, overlap));
 		}
 
 		if (image == null)
 			return null;
-		return resizeImage(image, (int) (image.getWidth(null) * zoomVal),
-				(int) (image.getHeight(null) * zoomVal),
+
+		Image resized = resizeImage(image,
+				(int) (image.getWidth(null) * zoomVal), (int) (image
+						.getHeight(null) * zoomVal),
 				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+
+		// Speicher auf das Zwischenobjekt freigeben
+		image.flush();
+
+		return resized;
 	}
 
 	/**
@@ -137,9 +172,14 @@ class ImagesMacros {
 			}
 
 		// Dann noch zoomen
-		return resizeImage(image, (int) (width * zoomVal),
+		Image resized = resizeImage(image, (int) (width * zoomVal),
 				(int) (height * zoomVal),
 				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+
+		// Speicher auf das Zwischenobjekt freigeben
+		image.flush();
+
+		return resized;
 	}
 
 	/**
@@ -181,20 +221,22 @@ class ImagesMacros {
 		if (data == null)
 			return null;
 		final int HEIGHT = 255;
+		final int EDGE = 0;
 		int width = data.length;
 		double max = 0.0;
-		final byte EDGE = 20;
-		BufferedImage image = new BufferedImage(width+2*EDGE, HEIGHT+2*EDGE,
-				BufferedImage.TYPE_INT_RGB);
-		//Skalierung bestimmen
+		BufferedImage image = new BufferedImage(width + 2 * EDGE, HEIGHT + 2
+				* EDGE, BufferedImage.TYPE_INT_RGB);
+		// Skalierung bestimmen
 		for (int i = 0; i < width; i++)
 			if (data[i] > max)
 				max = data[i];
 		double divisor = max / HEIGHT;
 		// BufferedImage is initialized with 0x000000 (black) for all pixels
-		for (int x = EDGE; x < width+EDGE; x++)
-			 for (int y = HEIGHT+EDGE - (int)(data[x-EDGE] / divisor); y<=HEIGHT+EDGE; y++ )
-				image.setRGB(x, y, 16765440 -(int)Math.round((256-y+EDGE) / (256.0/210.0))*256);
+		for (int x = EDGE; x < width + EDGE; x++)
+			for (int y = HEIGHT + EDGE - (int) (data[x - EDGE] / divisor); y <= HEIGHT
+					+ EDGE; y++)
+				image.setRGB(x, y, 16765440 - (int) Math.round((256 - y + EDGE)
+						/ (256.0 / 210.0)) * 256);
 
 		return image;
 	}
