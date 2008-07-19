@@ -94,10 +94,6 @@ class MenuTrainAction implements ActionListener {
 			if (ti.tw != null)
 				ti.gui.getCore().stopLearning();
 			else {
-				// Messpunkte loeschen
-				ti.testError.clear();
-				ti.trainingError.clear();
-
 				// Trainieren in einem Background-Worker arbeiten lassen
 				ti.tw = new TrainingWorker(
 						ti,
