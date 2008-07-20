@@ -51,6 +51,7 @@ public class GUI implements GUIInterface {
 	private double zoom = 1.0;
 	private int resolution = 16;
 	private double overlap = 0.4;
+	private double gamma = 0.5;
 
 	// Standard-Actions
 	private SaveMLPAction saveMLPAction;
@@ -117,6 +118,7 @@ public class GUI implements GUIInterface {
 		new OptionZoomAction(this);
 		new OptionResolutionChange(this);
 		new OptionOverlapChange(this);
+		new OptionGammaChange(this);
 
 		// Das Anzeigen der View sollte verzoegert geschehen.
 		EventQueue.invokeLater(new Runnable() {
@@ -213,7 +215,7 @@ public class GUI implements GUIInterface {
 				// Weights-Image erstellen lassen
 				mainView.getLabelWeightsImage().setImage(
 						ImagesMacros
-								.createWeightsImage(weights, zoom, min, max));
+								.createWeightsImage(weights, zoom, min, max, gamma));
 
 			} else {
 				mainView.getTableWeights().setModel(new DefaultTableModel());
@@ -330,6 +332,11 @@ public class GUI implements GUIInterface {
 
 	void setOverlap(double overlap) {
 		this.overlap = overlap;
+		updateOnSelectedNode();
+	}
+
+	void setGamma(double gamma) {
+		this.gamma = gamma;
 		updateOnSelectedNode();
 	}
 

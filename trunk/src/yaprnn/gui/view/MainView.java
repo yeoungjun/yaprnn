@@ -8,6 +8,10 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public javax.swing.JSlider getOptionGamma() {
+        return optionGamma;
+    }
+
     public javax.swing.JMenuItem getMenuRefresh() {
         return menuRefresh;
     }
@@ -214,6 +218,8 @@ public class MainView extends javax.swing.JFrame {
         labelWeightsImage = new yaprnn.gui.ImagePanel();
         jLabel7 = new javax.swing.JLabel();
         optionZoom1 = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
+        optionGamma = new javax.swing.JSlider();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -382,7 +388,7 @@ public class MainView extends javax.swing.JFrame {
         );
         labelWeightsImageLayout.setVerticalGroup(
             labelWeightsImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 381, Short.MAX_VALUE)
+            .addGap(0, 368, Short.MAX_VALUE)
         );
 
         jScrollPane5.setViewportView(labelWeightsImage);
@@ -392,6 +398,16 @@ public class MainView extends javax.swing.JFrame {
         optionZoom1.setEditable(true);
         optionZoom1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.5", "1.0", "2.0", "4.0", "8.0", "16.0" }));
         optionZoom1.setSelectedIndex(1);
+
+        jLabel8.setText("Gamma:");
+
+        optionGamma.setMajorTickSpacing(5000);
+        optionGamma.setMaximum(10000);
+        optionGamma.setMinorTickSpacing(1000);
+        optionGamma.setPaintTicks(true);
+        optionGamma.setValue(5000);
+        optionGamma.setOpaque(false);
+        optionGamma.setValueIsAdjusting(true);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -404,18 +420,25 @@ public class MainView extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optionZoom1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(optionZoom1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(optionGamma, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(optionZoom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(optionZoom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8))
+                    .addComponent(optionGamma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -658,6 +681,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -709,6 +733,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSubsampling;
     private javax.swing.JMenuItem menuTrain;
     private javax.swing.JMenuItem menuWebsite;
+    private javax.swing.JSlider optionGamma;
     private javax.swing.JSpinner optionOverlap;
     private javax.swing.JSpinner optionResolution;
     private javax.swing.JComboBox optionZoom1;
