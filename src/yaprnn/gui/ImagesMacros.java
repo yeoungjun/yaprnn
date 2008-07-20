@@ -144,27 +144,51 @@ class ImagesMacros {
 	 *            precalculated min value, used for scaling
 	 * @param max
 	 *            precalculated max value, used for scaling
+	 * @param gamma
+	 *            Gamma color modification
 	 * @return
 	 */
 	static Image createWeightsImage(double[][] weights, double zoom,
-			double min, double max) {
+			double min, double max, double gamma) {
 		if (weights == null)
 			return null;
 
-		// Zu starke Verkleinerung/grï¿½ï¿½erung ist nicht erlaubt
+		// Zu starke Verkleinerung/groesserung ist nicht erlaubt
 		double zoomVal = limit(zoom, 0.5, 100);
 
 		int height = weights.length, width = weights[0].length;
-		double scale = 255 / (max - min);
+		double scale = 1.0d / (max - min);
+
+		// Gammawert so skalieren, dass Werte unter oder gleich 0.5 einen
+		// eigentlichen Gammawert zwischen 0 und 1 bedeuten. Und fuer Werte
+		// goesser 0.5 auf setzen wir dass diese gegen einen undendlich grossen
+		// Gamma-Wert laufen sollen.
+		double gammaReal;
+		if (gamma <= 0.5)
+			gammaReal = gamma * 2;
+		else
+			// Wir quadrieren zur Verstärkung.
+			gammaReal = 1 / Math.pow((1 - gamma) * 2, 2);
 
 		// BufferdImage erstellen aus weights, Darstellung als Graustufen-Bild.
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_BYTE_GRAY);
 		for (int y = 0; y < height; y++)
 			for (int x = 0; x < width; x++) {
+				boolean flipped = false;
+				double color = (weights[y][x] - min) * scale;
+				if (color > 0.5) {
+					color = 1 - color;
+					flipped = true;
+				}
+
+				// Gamma anwenden
+				color = Math.pow(color * 2, gammaReal) * 0.5;
+				if (flipped)
+					color = 1 - color;
+
 				// Graufarbenes Bild erstellen
-				int pixelValue = (int) limit((weights[y][x] - min) * scale, 0,
-						255);
+				int pixelValue = (int) limit(color * 255.d, 0, 255);
 				pixelValue = pixelValue | (pixelValue << 8)
 						| (pixelValue << 16);
 
