@@ -59,6 +59,8 @@ public class Core {
 	public double[] classify(Data input) throws DataTypeMismatchException {
 		if(mlp == null)
 			return null;
+		if(input.getData() == null)
+			throw new DataTypeMismatchException();
 		if(		   !mlp.setNumInputNeurons(input.getData().length)
 				|| !mlp.setNumOutputNeurons(dvv.getNumOutputNeurons())
 				|| !mlp.setDataType(dvv.getDataType())) {
