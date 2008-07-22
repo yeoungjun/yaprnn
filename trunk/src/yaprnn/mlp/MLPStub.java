@@ -22,14 +22,15 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	private double eta;
 	private Data.Type type;
 
-	public MLPStub(String name, int numLayers, int numNeurons, int activationFunction,
-			double bias, List<ActivationFunction> allActivations) {
+	public MLPStub(String name, int numLayers, int numNeurons,
+			int activationFunction, double bias,
+			List<ActivationFunction> allActivations) {
 		this.name = name;
 		this.allActivations = allActivations;
 		layers = new int[numLayers];
 		activations = new ActivationFunction[numLayers];
 		biases = new double[numLayers];
-		for(int i=0; i<numLayers; i++) {
+		for (int i = 0; i < numLayers; i++) {
 			layers[i] = numNeurons;
 			activations[i] = allActivations.get(activationFunction);
 			biases[i] = bias;
@@ -37,10 +38,11 @@ public class MLPStub implements Serializable, NeuralNetwork {
 		layers[0] = 1;
 	}
 
-	/** Deletes the current (trained) MLP but keeps the configuration.
-	 *
-	 *  If there is no MLP, this function does nothing.
-	 **/
+	/**
+	 * Deletes the current (trained) MLP but keeps the configuration.
+	 * 
+	 * If there is no MLP, this function does nothing.
+	 */
 	public void reset() {
 		mlp = null;
 		maxIterations = 0;
@@ -51,21 +53,21 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	}
 
 	public boolean setNumInputNeurons(int numNeurons) {
-		if(isTrained() && layers[0] != numNeurons)
+		if (isTrained() && layers[0] != numNeurons)
 			return false;
 		layers[0] = numNeurons;
 		return true;
 	}
 
 	public boolean setNumOutputNeurons(int numNeurons) {
-		if(isTrained() && layers[layers.length-1] != numNeurons)
+		if (isTrained() && layers[layers.length - 1] != numNeurons)
 			return false;
-		layers[layers.length-1] = numNeurons;
+		layers[layers.length - 1] = numNeurons;
 		return true;
 	}
 
 	public boolean setDataType(Data.Type type) {
-		if(isTrained() && this.type != type)
+		if (isTrained() && this.type != type)
 			return false;
 		this.type = type;
 		return true;
@@ -81,31 +83,34 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 * 
 	 * 
 	 * @param dataCollection
-	 *            A collection of the type  dvv.Data with input- and targetvalues
-	 *            
+	 *            A collection of the type dvv.Data with input- and targetvalues
+	 * 
 	 * @param eta
 	 *            The learning rate to be used.
 	 * @throws BadConfigException
 	 */
-	public double runOnline(Collection<Data> dataCollection, double eta, double momentum) {
+	public double runOnline(Collection<Data> dataCollection, double eta,
+			double momentum) throws BadConfigException {
 		initMLP();
 		return mlp.runOnline(dataCollection, eta, momentum);
 	}
 
-	/**This function performs the batch calculation  with the Network
+	/**
+	 * This function performs the batch calculation with the Network
 	 * 
 	 * @param dataCollection
-	 *            A collection of the type  dvv.Data with input- and targetvalues
-	 *            
+	 *            A collection of the type dvv.Data with input- and targetvalues
+	 * 
 	 * @param eta
 	 *            The learning rate to be used.
-	 * @return den Testfehler. In case of an  error returns 0.
+	 * @return den Testfehler. In case of an error returns 0.
 	 */
-	public double runBatch(Collection<Data> dataCollection, int batchSize, double eta, double momentum) {
+	public double runBatch(Collection<Data> dataCollection, int batchSize,
+			double eta, double momentum) {
 		initMLP();
 		return mlp.runBatch(dataCollection, batchSize, eta, momentum);
 	}
-		
+
 	/**
 	 * This method performs the test using delivered data.
 	 * 
@@ -114,13 +119,13 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	 * @return The test error. If an error occurse, returns 0.
 	 */
 	public double runTest(Collection<Data> dataCollection) {
-		return mlp.runTest(dataCollection);	
+		return mlp.runTest(dataCollection);
 	}
 
 	/**
 	 * This method starts a testrun.
 	 * 
-	 * @return the output of neurons in  percents.
+	 * @return the output of neurons in percents.
 	 */
 	public double[] classify(double[] input) {
 		initMLP();
@@ -128,7 +133,8 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Returns the number of layers in the neuronal network, including input and output layers.
+	 * Returns the number of layers in the neuronal network, including input and
+	 * output layers.
 	 * 
 	 * @return Number of layers.
 	 */
@@ -137,10 +143,11 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Returns the size (number of neurons) of a layer.
-	 * If layer is 0 and isTrained() returns false, this function will return 1.
+	 * Returns the size (number of neurons) of a layer. If layer is 0 and
+	 * isTrained() returns false, this function will return 1.
 	 * 
-	 * @param layer the index of the layer
+	 * @param layer
+	 *            the index of the layer
 	 * @return number of neurons in the layer
 	 */
 	public int getLayerSize(int layer) {
@@ -148,21 +155,23 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Returns the weight matrix between two layers.
-	 * If layer is 1 and isTrained returns false, this function will return null.
-	 * If layer is 0, this function will return null.
+	 * Returns the weight matrix between two layers. If layer is 1 and isTrained
+	 * returns false, this function will return null. If layer is 0, this
+	 * function will return null.
 	 * 
-	 * @param layer the index of the second layer (must be >= 1)
-	 * @return the weight matrix of type double[][], where the first dimension represents
-	 *         the number of neurons in the second layer and the second- in the first one.
-	 *         
+	 * @param layer
+	 *            the index of the second layer (must be >= 1)
+	 * @return the weight matrix of type double[][], where the first dimension
+	 *         represents the number of neurons in the second layer and the
+	 *         second- in the first one.
+	 * 
 	 */
 	public double[][] getWeights(int layer) {
-		if(mlp != null)
+		if (mlp != null)
 			return mlp.getWeights(layer);
-		if(layer != 0) {
-			double[][] result = new double[layers[layer]][layers[layer-1]];
-			for(int i=0; i<result.length; i++)
+		if (layer != 0) {
+			double[][] result = new double[layers[layer]][layers[layer - 1]];
+			for (int i = 0; i < result.length; i++)
 				java.util.Arrays.fill(result[i], 0.0);
 			return result;
 		} else
@@ -170,28 +179,29 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Returns the activation function of the layer.
-	 * If layer is 0, this function will return null.
+	 * Returns the activation function of the layer. If layer is 0, this
+	 * function will return null.
 	 * 
-	 * @param layer the index of the layer
+	 * @param layer
+	 *            the index of the layer
 	 * @return the activation function of the layer
 	 */
 	public ActivationFunction getActivationFunction(int layer) {
-		if(layer != 0)
+		if (layer != 0)
 			return activations[layer];
 		else
 			return null;
 	}
 
 	/**
-	 * Returns the bias.
-	 * If layer is 0, this function will return 0.0 .
+	 * Returns the bias. If layer is 0, this function will return 0.0 .
 	 * 
-	 * @param layer the index of the layer
+	 * @param layer
+	 *            the index of the layer
 	 * @return the bias
 	 */
 	public double getBias(int layer) {
-		if(layer != 0)
+		if (layer != 0)
 			return biases[layer];
 		else
 			return 0.0;
@@ -218,35 +228,38 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	/**
 	 * Sets a readable name for the NeuralNetwork
 	 * 
-	 * @param name new name of the NeuralNetwork
+	 * @param name
+	 *            new name of the NeuralNetwork
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Sets the number of layers, including input and output layers.
-	 * If this.isTrained() returns true, this function does nothing.
-	 * If numLayers <= 0, behavior is undefined.
-	 *  
-	 * @param numLayers the number of layers
+	 * Sets the number of layers, including input and output layers. If
+	 * this.isTrained() returns true, this function does nothing. If numLayers <=
+	 * 0, behavior is undefined.
+	 * 
+	 * @param numLayers
+	 *            the number of layers
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setnumLayers(int numLayers) {
-		if(!isTrained()) {
+		if (!isTrained()) {
 			int[] newLayers = new int[numLayers];
 			double[] newBias = new double[numLayers];
 			ActivationFunction[] newActivations = new ActivationFunction[numLayers];
-			final int min = numLayers < layers.length ? numLayers : layers.length;
-			for(int i=0; i<min; i++) {
+			final int min = numLayers < layers.length ? numLayers
+					: layers.length;
+			for (int i = 0; i < min; i++) {
 				newLayers[i] = layers[i];
 				newBias[i] = biases[i];
 				newActivations[i] = activations[i];
 			}
-			for(int i=min; i<newLayers.length; i++) {
-				newLayers[i] = newLayers[min-1];
-				newBias[i] = newBias[min-1];
-				newActivations[i] = newActivations[min-1];
+			for (int i = min; i < newLayers.length; i++) {
+				newLayers[i] = newLayers[min - 1];
+				newBias[i] = newBias[min - 1];
+				newActivations[i] = newActivations[min - 1];
 			}
 			layers = newLayers;
 			biases = newBias;
@@ -256,65 +269,70 @@ public class MLPStub implements Serializable, NeuralNetwork {
 	}
 
 	/**
-	 * Sets the size of a layer.
-	 * If this.isTrained() returns true, this function does nothing.
-	 * If layer is 0, this function does nothing.
-	 * If size <= 0, behavior is undefined.
+	 * Sets the size of a layer. If this.isTrained() returns true, this function
+	 * does nothing. If layer is 0, this function does nothing. If size <= 0,
+	 * behavior is undefined.
 	 * 
-	 * @param layer the index of the layer
-	 * @param size the number of neurons
+	 * @param layer
+	 *            the index of the layer
+	 * @param size
+	 *            the number of neurons
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setLayerSize(int layer, int size) {
-		if(!isTrained() && layer != 0 && layer < layers.length)
+		if (!isTrained() && layer != 0 && layer < layers.length)
 			layers[layer] = size;
 		return !isTrained();
 	}
-	
+
 	/**
-	 * Sets the activation function of a layer.
-	 * If this.isTrained() returns true, this function does nothing.
-	 * If layer is 0, this function does nothing.
-	 * If activationFunction == null, behavior is undefined.
-	 *
-	 * @param layer the index of the layer
-	 * @param activationFunction the activation function
+	 * Sets the activation function of a layer. If this.isTrained() returns
+	 * true, this function does nothing. If layer is 0, this function does
+	 * nothing. If activationFunction == null, behavior is undefined.
+	 * 
+	 * @param layer
+	 *            the index of the layer
+	 * @param activationFunction
+	 *            the activation function
 	 * @return the same as !this.isTrained()
 	 */
-	public boolean setActivationFunction(int layer, ActivationFunction activationFunction) {
-		if(!isTrained() && layer != 0 && layer  < activations.length)
+	public boolean setActivationFunction(int layer,
+			ActivationFunction activationFunction) {
+		if (!isTrained() && layer != 0 && layer < activations.length)
 			activations[layer] = activationFunction;
 		return !isTrained();
 	}
 
 	/**
-	 * Sets the bias of a layer.
-	 * If this.isTrained() returns true, this function does nothing.
-	 * If layer is 0, this function does nothing.
-	 *
-	 * @param layer the index of the layer
-	 * @param bias the bias
+	 * Sets the bias of a layer. If this.isTrained() returns true, this function
+	 * does nothing. If layer is 0, this function does nothing.
+	 * 
+	 * @param layer
+	 *            the index of the layer
+	 * @param bias
+	 *            the bias
 	 * @return the same as !this.isTrained()
 	 */
 	public boolean setBias(int layer, double bias) {
-		if(!isTrained() && layer != 0 && layer < biases.length)
+		if (!isTrained() && layer != 0 && layer < biases.length)
 			biases[layer] = bias;
 		return !isTrained();
 	}
 
 	private void initMLP() {
-		if(!isTrained()) {
-			int[] newLayers = new int[layers.length-2];
-			double[] newBias = new double[layers.length-2];
-			for(int i=0; i<newLayers.length; i++) {
-				newLayers[i] = layers[i+1];
-				newBias[i] = biases[i+1];
+		if (!isTrained()) {
+			int[] newLayers = new int[layers.length - 2];
+			double[] newBias = new double[layers.length - 2];
+			for (int i = 0; i < newLayers.length; i++) {
+				newLayers[i] = layers[i + 1];
+				newBias[i] = biases[i + 1];
 			}
 			try {
-				mlp = new MLP(layers[0], layers[layers.length-1], newLayers, activations, newBias);
-				if(maxIterations > 0 && maxError > 0 && eta > 0)
+				mlp = new MLP(layers[0], layers[layers.length - 1], newLayers,
+						activations, newBias);
+				if (maxIterations > 0 && maxError > 0 && eta > 0)
 					mlp.makeAutoencoder(maxIterations, maxError, eta);
-			} catch(BadConfigException e) {
+			} catch (BadConfigException e) {
 				e.printStackTrace();
 			}
 		}

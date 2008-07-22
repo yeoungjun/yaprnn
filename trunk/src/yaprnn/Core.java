@@ -17,6 +17,7 @@ import yaprnn.dvv.FileMismatchException;
 import yaprnn.dvv.InvalidFileException;
 import yaprnn.dvv.NoSuchFileException;
 import yaprnn.mlp.ActivationFunction;
+import yaprnn.mlp.BadConfigException;
 import yaprnn.mlp.Eta;
 import yaprnn.mlp.Linear;
 import yaprnn.mlp.MLPStub;
@@ -167,7 +168,7 @@ public class Core {
 	 */
 	
 	public void trainOnline(Eta eta, int maxIterations, double maxError, double momentum)
-			throws DataTypeMismatchException {
+			throws DataTypeMismatchException, BadConfigException {
 		trainingErrors = new LinkedList<Double>();	
 		testErrors = new LinkedList<Double>();
 		double trainingErr = Double.MAX_VALUE;

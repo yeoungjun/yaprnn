@@ -8,6 +8,18 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public javax.swing.JMenuItem getMenuSetAsNotUsed() {
+        return menuSetAsNotUsed;
+    }
+
+    public javax.swing.JMenuItem getMenuSetAsTestData() {
+        return menuSetAsTestData;
+    }
+
+    public javax.swing.JMenuItem getMenuSetAsTrainingData() {
+        return menuSetAsTrainingData;
+    }
+
     public javax.swing.JSlider getOptionGamma() {
         return optionGamma;
     }
@@ -189,6 +201,9 @@ public class MainView extends javax.swing.JFrame {
         menuReset = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JSeparator();
         menuChooseRandomTrainingTestData = new javax.swing.JMenuItem();
+        menuSetAsNotUsed = new javax.swing.JMenuItem();
+        menuSetAsTrainingData = new javax.swing.JMenuItem();
+        menuSetAsTestData = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JSeparator();
         menuAdd = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenuItem();
@@ -274,6 +289,15 @@ public class MainView extends javax.swing.JFrame {
 
         menuChooseRandomTrainingTestData.setText("Choose random training/test sets");
         popupNeuralNetwork.add(menuChooseRandomTrainingTestData);
+
+        menuSetAsNotUsed.setText("Set as not used");
+        popupNeuralNetwork.add(menuSetAsNotUsed);
+
+        menuSetAsTrainingData.setText("Set as training data");
+        popupNeuralNetwork.add(menuSetAsTrainingData);
+
+        menuSetAsTestData.setText("Set as test data");
+        popupNeuralNetwork.add(menuSetAsTestData);
         popupNeuralNetwork.add(jSeparator6);
 
         menuAdd.setText("Add");
@@ -730,6 +754,9 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuReset;
     private javax.swing.JMenuItem menuSaveDataSet;
     private javax.swing.JMenuItem menuSaveMLP;
+    private javax.swing.JMenuItem menuSetAsNotUsed;
+    private javax.swing.JMenuItem menuSetAsTestData;
+    private javax.swing.JMenuItem menuSetAsTrainingData;
     private javax.swing.JMenuItem menuSubsampling;
     private javax.swing.JMenuItem menuTrain;
     private javax.swing.JMenuItem menuWebsite;

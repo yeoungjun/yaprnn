@@ -2,6 +2,7 @@ package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -41,8 +42,9 @@ class LoadMLPAction implements ActionListener {
 
 		// TODO : Da wir noch nicht mehrere MLPs unterstützen, löschen wir das
 		// gerade stehende MLP aus dem Baum!
-		if (gui.getTreeModel().getNetworks().size() > 0)
-			gui.getTreeModel().remove(gui.getTreeModel().getNetworks().get(0));
+		List<NeuralNetwork> networks = gui.getTreeModel().getNetworks();
+		if (networks.size() > 0)
+			gui.getTreeModel().remove(networks.get(0));
 
 		gui.getTreeModel().add(n);
 	}

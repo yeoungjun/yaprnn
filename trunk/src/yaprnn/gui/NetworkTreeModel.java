@@ -879,7 +879,7 @@ class NetworkTreeModel implements TreeModel {
 	 * @return copy of the list nets
 	 */
 	List<NeuralNetwork> getNetworks() {
-		return new Vector<NeuralNetwork>(nets);
+		return nets;
 	}
 
 	/**
