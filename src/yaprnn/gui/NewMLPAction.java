@@ -21,7 +21,7 @@ class NewMLPAction implements ActionListener {
 
 	private final static int DEFAULT_NUMLAYERS = 3;
 	private final static int DEFAULT_NUMNEURONS = 20;
-	private final static double DEFAULT_BIAS = 1;
+	private final static double DEFAULT_BIAS = 0;
 	private final static int DEFAULT_ACTIVATIONFUNCTION = 0;
 	private final static boolean DEFAULT_AUTOENCODING = false;
 	private final static int DEFAULT_MAXITERATIONS = 1000;

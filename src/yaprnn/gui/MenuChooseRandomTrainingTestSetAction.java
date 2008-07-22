@@ -87,6 +87,9 @@ class MenuChooseRandomTrainingTestSetAction implements ActionListener {
 			}
 		}
 
+		JOptionPane.showMessageDialog(gui.getView(), "Finished.",
+				"Choosing random sets", JOptionPane.INFORMATION_MESSAGE);
+
 	}
 
 }

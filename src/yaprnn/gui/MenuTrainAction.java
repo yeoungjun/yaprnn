@@ -24,6 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import yaprnn.dvv.DataTypeMismatchException;
 import yaprnn.gui.view.TrainingView;
+import yaprnn.mlp.BadConfigException;
 import yaprnn.mlp.DynamicEtaAdjustment;
 import yaprnn.mlp.Eta;
 import yaprnn.mlp.NeuralNetwork;
@@ -217,6 +218,13 @@ class MenuTrainAction implements ActionListener {
 				else
 					ti.gui.getCore().trainBatch(eta, maxIterations, maxError,
 							batchSize, momentum);
+			} catch (BadConfigException e) {
+				JOptionPane
+						.showMessageDialog(
+								ti.tv,
+								"A BadConfigExceptions occured. You probably forgot to run the subsampling! If this is not the case, you might try to reset the MLP according to incompatible subsampling parameters.\nDetails:\n"
+										+ e.getMessage(), "Training",
+								JOptionPane.ERROR_MESSAGE);
 			} catch (DataTypeMismatchException e) {
 				JOptionPane
 						.showMessageDialog(

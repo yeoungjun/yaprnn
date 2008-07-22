@@ -29,19 +29,19 @@ public class MLP implements Serializable {
 		// Tests the configuration
 		if (inputNeurons < 1)
 			throw new BadConfigException(
-					"Ungueltige Anzahl fuer Neuronen in der Eingabeschicht!",
+					"Invalid number of neurons in the input layer!",
 					BadConfigException.INVALID_INPUT_LAYER_DIMENSION);
 		if (outputNeurons < 1)
 			throw new BadConfigException(
-					"Ungueltige Anzahl fuer Neuronen in der Ausgabeschicht!",
+					"Invalid number of neurons in the output layer!",
 					BadConfigException.INVALID_OUTPUT_LAYER_DIMENSION);
 		if (functions.length != hiddenLayers.length + 2)
 			throw new BadConfigException(
-					"Anzahl der Aktivierungsfunktionen stimmt nicht mit den Layern überein!",
+					"The number of activiation functions is not equal to the number of layers!",
 					BadConfigException.INVALID_NUMBER_OF_FUNCTIONS);
 		if (bias.length != hiddenLayers.length)
 			throw new BadConfigException(
-					"Anzahl der Bias(se?) stimmt nicht mit den Layern Ueberein!",
+					"The number of bias values is not equal to the number of layers!",
 					BadConfigException.INVALID_NUMBER_OF_BIAS);
 
 		// Creates the input layer

@@ -38,6 +38,21 @@
             <Property name="text" type="java.lang.String" value="Choose random training/test sets"/>
           </Properties>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="menuSetAsNotUsed">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Set as not used"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="menuSetAsTrainingData">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Set as training data"/>
+          </Properties>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="menuSetAsTestData">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Set as test data"/>
+          </Properties>
+        </MenuItem>
         <Component class="javax.swing.JSeparator" name="jSeparator6">
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="menuAdd">

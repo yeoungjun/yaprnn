@@ -65,6 +65,9 @@ public class GUI implements GUIInterface {
 	private MenuTrainAction trainAction;
 	private MenuResetAction resetAction;
 	private MenuChooseRandomTrainingTestSetAction chooseRandomTrainingTestSetAction;
+	private MenuSetAsNotUsedAction setAsNotUsedAction;
+	private MenuSetAsTrainingDataAction setAsTrainingDataAction;
+	private MenuSetAsTestDataAction setAsTestDataAction;
 	private MenuAddAction addAction;
 	private MenuEditAction editAction;
 	private MenuRemoveAction removeAction;
@@ -102,6 +105,9 @@ public class GUI implements GUIInterface {
 		resetAction = new MenuResetAction(this);
 		chooseRandomTrainingTestSetAction = new MenuChooseRandomTrainingTestSetAction(
 				this);
+		setAsNotUsedAction = new MenuSetAsNotUsedAction(this);
+		setAsTrainingDataAction = new MenuSetAsTrainingDataAction(this);
+		setAsTestDataAction = new MenuSetAsTestDataAction(this);
 		addAction = new MenuAddAction(this);
 		editAction = new MenuEditAction(this);
 		removeAction = new MenuRemoveAction(this);
@@ -214,8 +220,8 @@ public class GUI implements GUIInterface {
 
 				// Weights-Image erstellen lassen
 				mainView.getLabelWeightsImage().setImage(
-						ImagesMacros
-								.createWeightsImage(weights, zoom, min, max, gamma));
+						ImagesMacros.createWeightsImage(weights, zoom, min,
+								max, gamma));
 
 			} else {
 				mainView.getTableWeights().setModel(new DefaultTableModel());
@@ -254,6 +260,15 @@ public class GUI implements GUIInterface {
 		resetAction.setEnabled(isNetworkNode
 				&& !MenuTrainAction.areTrainingsInProgress());
 		chooseRandomTrainingTestSetAction.setEnabled(isNetworkSetsNode
+				&& !MenuTrainAction.areTrainingsInProgress());
+		setAsNotUsedAction.setEnabled(isDataNode
+				&& treeModel.getNetworks().size() > 0
+				&& !MenuTrainAction.areTrainingsInProgress());
+		setAsTrainingDataAction.setEnabled(isDataNode
+				&& treeModel.getNetworks().size() > 0
+				&& !MenuTrainAction.areTrainingsInProgress());
+		setAsTestDataAction.setEnabled(isDataNode
+				&& treeModel.getNetworks().size() > 0
 				&& !MenuTrainAction.areTrainingsInProgress());
 		addAction.setEnabled(isNetworkNode
 				&& !MenuTrainAction.areTrainingsInProgress());
