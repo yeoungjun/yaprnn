@@ -113,8 +113,10 @@ public class MLP implements Serializable {
 					errVec[h] = out[h] * outAVF.derivation(outLayer.layerInput[h]);
 
 			// Error backpropagation 
-			outLayer.backPropagate(errVec);
-
+			/*System.out.println("Mittlerer Gadient: " + */
+			outLayer.backPropagate(errVec)
+			/* / layer.length)*/;
+			
 			// Adjust the weights
 			if(momentum > 0)
 				outLayer.update(eta, momentum);
@@ -163,7 +165,7 @@ public class MLP implements Serializable {
 					errVec[h] = out[h] * outAVF.derivation(outLayer.layerInput[h]);
 
 			// Error backpropagation 
-			outLayer.backPropagate(errVec);
+			System.out.println("Mittlerer Gadient: " + outLayer.backPropagate(errVec) / layer.length);
 			iterations++;
 
 			if(iterations % batchSize == 0 ) {

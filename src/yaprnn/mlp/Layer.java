@@ -126,22 +126,20 @@ public class Layer implements Serializable {
 	 * of the nescesary weight modifications , the error of the previous  layer will be calculated  and  passed to the next layer.
 	 * @throws BadConfigException if the error vector wrong is.
 	 */
-	public void backPropagate(double[] error) {
-		if(prevLayer == null) return;
+	public double backPropagate(double[] error) {
+		if(prevLayer == null) return 0;
 
+		double retVal = 0;
 		// init
 		double[] preLayerError = new double[prevLayer.getSize()];
-		double preLayerNetOutput = 0;
-
-		// calculate previous layer's overall output
-		for (double in : prevLayer.input) preLayerNetOutput += in;
 
 		// alter gradient
-		for (int i = 0; i < gradientMatrix.length; i++) {
-			double err = error[i];
-			for (int h = 0; h < prevLayer.output.length; h++)
-				gradientMatrix[i][h] += err * prevLayer.output[h];
-		}
+		for (int i = 0; i < gradientMatrix.length; i++) 
+			for (int h = 0; h < prevLayer.output.length; h++){
+				gradientMatrix[i][h] += error[i] * prevLayer.output[h];
+				retVal += error[i] * prevLayer.output[h];
+			}
+		
 		
 		// generate preLayerError
 		for (int i = 0; i < prevLayer.getSize(); i++) {
@@ -151,7 +149,8 @@ public class Layer implements Serializable {
 			preLayerError[i] *= prevLayer.function.derivation(prevLayer.layerInput[i]);
 		}
 
-		prevLayer.backPropagate(preLayerError);
+		retVal /= gradientMatrix.length;
+		return retVal += prevLayer.backPropagate(preLayerError);
 	}
 
 	/**
