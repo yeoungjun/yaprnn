@@ -154,6 +154,9 @@ public class GUI implements GUIInterface {
 			mainView.getLabelSampleLabel().setText(data.getLabel());
 			mainView.getLabelUsedSubsamplingOptions().setText(
 					data.getSubsamplingOptions());
+			mainView.getLabelUsedFor().setText(
+					data.isNotUsed() ? "Not used" : (data.isTest() ? "Test"
+							: "Training"));
 
 			// Dem PreviewPlayer-Listener das Data-Objekt geben
 			previewPlayer.setData(data);
@@ -170,6 +173,7 @@ public class GUI implements GUIInterface {
 			mainView.getLabelFilename().setText("");
 			mainView.getLabelSampleLabel().setText("");
 			mainView.getLabelUsedSubsamplingOptions().setText("");
+			mainView.getLabelUsedFor().setText("");
 			mainView.getLabelPreview().setImage(null);
 			mainView.getLabelPreviewSubsampled().setImage(null);
 			previewPlayer.setData(null);

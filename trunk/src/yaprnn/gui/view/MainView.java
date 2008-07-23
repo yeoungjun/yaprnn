@@ -8,6 +8,10 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public javax.swing.JTextField getLabelUsedFor() {
+        return labelUsedFor;
+    }
+
     public javax.swing.JMenuItem getMenuSetAsNotUsed() {
         return menuSetAsNotUsed;
     }
@@ -240,9 +244,11 @@ public class MainView extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         labelFilename = new javax.swing.JTextField();
         labelUsedSubsamplingOptions = new javax.swing.JTextField();
         labelSampleLabel = new javax.swing.JTextField();
+        labelUsedFor = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -481,6 +487,8 @@ public class MainView extends javax.swing.JFrame {
 
         jLabel3.setText("Used subsampling options:");
 
+        jLabel9.setText("Used for:");
+
         labelFilename.setEditable(false);
         labelFilename.setText("...");
         labelFilename.setBorder(null);
@@ -496,17 +504,24 @@ public class MainView extends javax.swing.JFrame {
         labelSampleLabel.setBorder(null);
         labelSampleLabel.setOpaque(false);
 
+        labelUsedFor.setEditable(false);
+        labelUsedFor.setText("...");
+        labelUsedFor.setBorder(null);
+        labelUsedFor.setOpaque(false);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelUsedFor, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                     .addComponent(labelFilename, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                     .addComponent(labelSampleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                     .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)))
@@ -524,7 +539,11 @@ public class MainView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(labelUsedSubsamplingOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(labelUsedFor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
@@ -540,7 +559,7 @@ public class MainView extends javax.swing.JFrame {
         );
         labelPreviewLayout.setVerticalGroup(
             labelPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
+            .addGap(0, 267, Short.MAX_VALUE)
         );
 
         jScrollPane3.setViewportView(labelPreview);
@@ -555,7 +574,7 @@ public class MainView extends javax.swing.JFrame {
         );
         labelPreviewSubsampledLayout.setVerticalGroup(
             labelPreviewSubsampledLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
+            .addGap(0, 267, Short.MAX_VALUE)
         );
 
         jScrollPane4.setViewportView(labelPreviewSubsampled);
@@ -605,7 +624,7 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(optionOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -706,6 +725,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -736,6 +756,7 @@ public class MainView extends javax.swing.JFrame {
     private yaprnn.gui.ImagePanel labelPreview;
     private yaprnn.gui.ImagePanel labelPreviewSubsampled;
     private javax.swing.JTextField labelSampleLabel;
+    private javax.swing.JTextField labelUsedFor;
     private javax.swing.JTextField labelUsedSubsamplingOptions;
     private yaprnn.gui.ImagePanel labelWeightsImage;
     private javax.swing.JMenuItem menuAdd;
