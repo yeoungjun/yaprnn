@@ -2,9 +2,10 @@ package yaprnn.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import yaprnn.dvv.Data;
+import yaprnn.mlp.NeuralNetwork;
 
 class LoadDataSetAction implements ActionListener {
 
@@ -15,11 +16,6 @@ class LoadDataSetAction implements ActionListener {
 		setEnabled(false);
 		gui.getView().getMenuLoadDataSet().addActionListener(this);
 		gui.getView().getToolLoadDataSet().addActionListener(this);
-
-		// TODO: Das Laden eines Datasets ist noch nicht implementiert und
-		// die entsprechenden Menus werden erstmal versteckt.
-		gui.getView().getMenuLoadDataSet().setVisible(false);
-		gui.getView().getToolLoadDataSet().setVisible(false);
 	}
 
 	void setEnabled(boolean enabled) {
@@ -29,13 +25,33 @@ class LoadDataSetAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		NeuralNetwork n = gui.getSelectedNetwork();
+		if (n == null)
+			return;
 		JFileChooser chooser = new JFileChooser();
 		chooser.setMultiSelectionEnabled(false);
-		chooser.setFileFilter(GUI.FILEFILTER_YDS);
+		chooser.setFileFilter(GUI.FILEFILTER_SETLIST);
 		if (chooser.showOpenDialog(gui.getView()) == JFileChooser.APPROVE_OPTION)
-			// TODO : Laderoutine für DataSets
-			JOptionPane.showMessageDialog(null, chooser.getSelectedFile()
-					.getPath());
+			try {
+				gui.getCore().loadDataSet(chooser.getSelectedFile().getPath());
+
+				// Wir schauen nur noch nach welche wo gelandet sind.
+				for (Data d : gui.getTreeModel().getDatasets()) {
+					gui.getTreeModel().remove(d, n);
+					if (d.isTraining())
+						gui.getTreeModel().add(d, n, true);
+					else if (d.isTest())
+						gui.getTreeModel().add(d, n, false);
+				}
+
+				JOptionPane.showMessageDialog(gui.getView(), "Finished.",
+						"Load dataset", JOptionPane.INFORMATION_MESSAGE);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(gui.getView(),
+						"An error occured while loading the dataset.\nDetails:\n"
+								+ ex.getMessage(), "Load dataset",
+						JOptionPane.ERROR_MESSAGE);
+			}
 	}
 
 }

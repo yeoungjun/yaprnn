@@ -870,6 +870,7 @@ class NetworkTreeModel implements TreeModel {
 		NetworkSetsNode nsn = setsNodes.get(n);
 		nsn.getTrainingSetNode().remove(d);
 		nsn.getTestSetNode().remove(d);
+		nsn.update();
 		fireStructureChanged(new Object[] { rootNode, datasetsNode, nsn });
 	}
 
@@ -888,7 +889,7 @@ class NetworkTreeModel implements TreeModel {
 	 * @return copy of the list
 	 */
 	List<Data> getDatasets() {
-		return new Vector<Data>(loadedData);
+		return loadedData;
 	}
 
 	/**

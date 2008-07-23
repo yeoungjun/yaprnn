@@ -3,14 +3,11 @@ package yaprnn.gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
 import yaprnn.dvv.Data;
 import yaprnn.mlp.NeuralNetwork;
 
@@ -66,25 +63,16 @@ class MenuChooseRandomTrainingTestSetAction implements ActionListener {
 						"Error", JOptionPane.ERROR_MESSAGE);
 		}
 
-		List<Data> dataList = gui.getTreeModel().getDatasets();
-
-		// Zuerst setzen wir alle wieder auf NotUsed
-		for (Data d : dataList) {
-			gui.getTreeModel().remove(d, n);
-			d.setNotUsed();
-		}
-
-		// Der Core wählt die Sets aus.
-		gui.getCore().chooseRandomTrainingData(trainPerc / 100d,
-				testPerc / 100d);
+		gui.getCore().chooseRandomTrainingData(trainPerc / 100.0d,
+				testPerc / 100.0d);
 
 		// Wir schauen nur noch nach welche wo gelandet sind.
 		for (Data d : gui.getTreeModel().getDatasets()) {
-			if (d.isTraining()) {
+			gui.getTreeModel().remove(d, n);
+			if (d.isTraining())
 				gui.getTreeModel().add(d, n, true);
-			} else if (d.isTest()) {
+			else if (d.isTest())
 				gui.getTreeModel().add(d, n, false);
-			}
 		}
 
 		JOptionPane.showMessageDialog(gui.getView(), "Finished.",

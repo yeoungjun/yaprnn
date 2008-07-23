@@ -24,7 +24,7 @@ class MenuSetAsTestDataAction implements ActionListener {
 		// TODO : Wir sind zurzeit begrenzt auf eine MLP!
 		NeuralNetwork n = gui.getTreeModel().getNetworks().get(0);
 		Data d = gui.getSelectedData();
-		if (d.isTraining()) {
+		if (!d.isTest()) {
 			gui.getTreeModel().remove(d, n);
 			gui.getTreeModel().add(d, n, false);
 		}
