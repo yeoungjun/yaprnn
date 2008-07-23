@@ -246,6 +246,7 @@ public class DVV {
 	 * @param fileName
 	 *            the file that contains the training and the test set
 	 */
+	@SuppressWarnings("unchecked")
 	public void loadDataSet(String fileName) throws Exception {
 		List<String> trainingSet;
 		List<String> testSet;
