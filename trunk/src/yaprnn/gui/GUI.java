@@ -25,8 +25,6 @@ import yaprnn.mlp.NeuralNetwork;
 public class GUI implements GUIInterface {
 
 	// Package Globs
-	final static FileNameExtensionFilter FILEFILTER_YDS = new FileNameExtensionFilter(
-			"YAPRNN DataSet", "yds");
 	final static FileNameExtensionFilter FILEFILTER_MLP = new FileNameExtensionFilter(
 			"Neural Network", "mlp");
 	final static FileNameExtensionFilter FILEFILTER_AIFF = new FileNameExtensionFilter(
@@ -35,6 +33,8 @@ public class GUI implements GUIInterface {
 			"Image package", "idx3-ubyte");
 	final static FileNameExtensionFilter FILEFILTER_LBLPKG = new FileNameExtensionFilter(
 			"Label package", "idx1-ubyte");
+	final static FileNameExtensionFilter FILEFILTER_SETLIST = new FileNameExtensionFilter(
+			"Training and test set list", "setlist");
 
 	private Core core;
 	private MainView mainView = new MainView();
@@ -248,6 +248,8 @@ public class GUI implements GUIInterface {
 
 		// Standard Menus
 		saveMLPAction.setEnabled(isNetworkNode
+				&& !MenuTrainAction.areTrainingsInProgress());
+		loadDataSetAction.setEnabled(isNetworkSetsNode
 				&& !MenuTrainAction.areTrainingsInProgress());
 		saveDataSetAction.setEnabled(isNetworkSetsNode);
 

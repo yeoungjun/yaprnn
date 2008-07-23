@@ -15,11 +15,6 @@ class SaveDataSetAction implements ActionListener {
 		setEnabled(false);
 		gui.getView().getMenuSaveDataSet().addActionListener(this);
 		gui.getView().getToolSaveDataSet().addActionListener(this);
-
-		// TODO: Das Speichern eines Datasets ist noch nicht implementiert und
-		// die entsprechenden Menus werden erstmal versteckt.
-		gui.getView().getMenuSaveDataSet().setVisible(false);
-		gui.getView().getToolSaveDataSet().setVisible(false);
 	}
 
 	void setEnabled(boolean enabled) {
@@ -31,12 +26,22 @@ class SaveDataSetAction implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setMultiSelectionEnabled(false);
-		chooser.setFileFilter(GUI.FILEFILTER_YDS);
-		if (chooser.showSaveDialog(gui.getView()) == JFileChooser.APPROVE_OPTION) {
-			// TODO : Speicherroutine für DataSets
-			JOptionPane.showMessageDialog(null, chooser.getSelectedFile()
-					.getPath());
-		}
+		chooser.setFileFilter(GUI.FILEFILTER_SETLIST);
+		if (chooser.showSaveDialog(gui.getView()) == JFileChooser.APPROVE_OPTION)
+			try {
+				String path = chooser.getSelectedFile().getPath();
+				if (path.toLowerCase().lastIndexOf(".setlist") != (path
+						.length() - 8))
+					path += ".setlist";
+				gui.getCore().saveDataSet(path);
+				JOptionPane.showMessageDialog(gui.getView(), "Finished.",
+						"Save dataset", JOptionPane.INFORMATION_MESSAGE);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(gui.getView(),
+						"An error occured while saving the dataset.\nDetails:\n"
+								+ ex.getMessage(), "Save dataset",
+						JOptionPane.ERROR_MESSAGE);
+			}
 	}
 
 }
