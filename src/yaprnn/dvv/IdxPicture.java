@@ -98,7 +98,7 @@ public class IdxPicture extends Data {
 	@Override
 	public void subsample(int resolution, double overlap,
 				ActivationFunction scalingFunction) throws NoSuchFileException{
-			if(resolution <= 0 || resolution > rawData.length || overlap <= 0.0 || overlap > 0.95)
+			if(resolution <= 0 || resolution > rawData.length || overlap < 0.0 || overlap > 0.95)
 				throw new NoSuchFileException(Integer.toString(this.fileIndex));
 		final int[][] subData = subsample(resolution, overlap);
 		data = new double[resolution*resolution];
