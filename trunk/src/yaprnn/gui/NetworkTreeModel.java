@@ -870,7 +870,6 @@ class NetworkTreeModel implements TreeModel {
 		NetworkSetsNode nsn = setsNodes.get(n);
 		nsn.getTrainingSetNode().remove(d);
 		nsn.getTestSetNode().remove(d);
-		nsn.update();
 		fireStructureChanged(new Object[] { rootNode, datasetsNode, nsn });
 	}
 
