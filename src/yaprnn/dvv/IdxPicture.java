@@ -254,30 +254,31 @@ public class IdxPicture extends Data {
 	}
 
 	private int[][] subsample(int resolution, double overlap) {
-		final int[][] subData = new int[resolution][resolution];
-		final double scaling = rawData.length / (double)resolution;
-		final int windowSize = (int)Math.round(scaling * (1+overlap));
-		for(int i=0; i<resolution; i++) {
+		int[][] subData = new int[resolution][resolution];
+		double scaling = rawData.length / (double)resolution;
+		int windowSize = (int)Math.round(scaling * (1+overlap));
+		for(int i=0; i<resolution; i++) 
 			for(int j=0; j<resolution; j++) {
-				final int x0 = (int)(j * scaling);
-				final int y0 = (int)(i * scaling);
-				final int xsize = x0 + windowSize < rawData[0].length
-							? windowSize : rawData[0].length - x0;
-				final int ysize = y0 + windowSize < rawData.length
+				int x0 = (int)(j * scaling);
+				int y0 = (int)(i * scaling);
+				int xsize = x0 + windowSize < rawData[0].length
+					? windowSize : rawData[0].length - x0;
+				int ysize = y0 + windowSize < rawData.length
 							? windowSize : rawData.length - y0;
-				final int size = xsize < ysize ? xsize : ysize;
+				int size = xsize < ysize ? xsize : ysize;
 				subData[i][j] = 0;
 				for(int k=y0; k<y0+size; k++)
 					for(int l=x0; l<x0+size; l++)
 						subData[i][j] += uByteToInt(rawData[k][l]);
 				subData[i][j] /= size*size;
 			}
-		}
+		
+		
 		return subData;
 	}
 
 	private int uByteToInt(byte b) {
-		final int i = b;
+		int i = b;
 		return i >= 0 ? i : 128 + (i & 0x7F);
 	}
 
